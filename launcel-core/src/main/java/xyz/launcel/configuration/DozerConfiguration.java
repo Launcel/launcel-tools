@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Lazy;
 import xyz.launcel.prop.DozerProperties;
 
 import javax.inject.Inject;
+import java.util.Objects;
 
 @ConditionalOnProperty(prefix = "launcel.dozer", value = "enabled", havingValue = "true")
 @Configuration
@@ -23,7 +24,7 @@ public class DozerConfiguration {
     @Bean(name = "dozer")
     public Mapper mapper() {
         DozerBeanMapper mapper = new DozerBeanMapper();
-        if (!dozerProperties.getList().isEmpty())
+        if (!Objects.requireNonNull(dozerProperties.getList()).isEmpty())
             mapper.setMappingFiles(dozerProperties.getList());
         return mapper;
     }

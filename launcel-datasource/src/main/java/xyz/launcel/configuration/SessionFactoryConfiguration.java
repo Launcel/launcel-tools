@@ -3,8 +3,14 @@ package xyz.launcel.configuration;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +32,7 @@ import java.io.IOException;
 @Configuration
 //@EnableTransactionManagement
 @EnableConfigurationProperties(value = {DataSourceProperties.class, MybatisProperties.class})
-public class SessionFactoryConfiguration {
+public class SessionFactoryConfiguration implements BeanDefinitionRegistryPostProcessor {
 
     @Inject
     private DataSourceProperties config;
@@ -55,6 +61,18 @@ public class SessionFactoryConfiguration {
             System.exit(-1);
         }
         return sqlSessionFactoryBean;
+    }
+
+    @Override
+    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+
+    }
+
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        BeanDefinition bd = beanFactory.getBeanDefinition("sqlSessionFactory");
+        MutablePropertyValues mutablePropertyValues = bd.getPropertyValues();
+        mutablePropertyValues.addPropertyValue();
     }
 
 //    @Primary

@@ -7,7 +7,8 @@ import java.util.stream.Stream;
 
 public final class StringUtils {
 
-    private StringUtils(){ }
+    private StringUtils() {
+    }
 
     public static int indexOf(final CharSequence cs, final CharSequence searchChar, final int start) {
         return cs.toString().indexOf(searchChar.toString(), start);
@@ -161,7 +162,7 @@ public final class StringUtils {
 
     @SuppressWarnings("rawtypes")
     public static Stream spiltStream(String strings, String split) {
-        return Arrays.stream(strings.split(split)).filter(name -> isNotBlank(name.trim()));
+        return Arrays.stream(strings.split(split)).filter(StringUtils::isNotBlank);
     }
 
 }
