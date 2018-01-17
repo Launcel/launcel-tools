@@ -17,7 +17,7 @@
         <module>launcel-security</module>
         <module>launcel-test</module>
         <module>launcel-tools</module>
-        <module>launcel-customdatasource</module>
+        <module>launcel-custom-datasource</module>
     </modules>
 
     <developers>

@@ -1,7 +1,6 @@
 package xyz.launcel.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefinition;
