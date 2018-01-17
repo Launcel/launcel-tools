@@ -41,7 +41,6 @@ public class RoleInterceptor extends BaseLogger implements HandlerInterceptor {
         if (uri.matches("/login")) {
             HttpSession session = request.getSession(false);
             if (session != null) {
-                @SuppressWarnings("unchecked")
                 Set<String> userRoles = new HashSet<>();
                 // find the user role000
                 JdbcRole jdbcRole = SimpleJdbcRole.getJdbcRole();

@@ -13,7 +13,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.interceptor.PageInterceptor;
-import xyz.launcel.prop.DataSourceConfigProp;
+import xyz.launcel.prop.DataSourceProperties;
+import xyz.launcel.prop.MybatisProperties;
 
 import javax.inject.Inject;
 import javax.sql.DataSource;
@@ -24,18 +25,14 @@ import java.io.IOException;
  */
 @Configuration
 //@EnableTransactionManagement
-@EnableConfigurationProperties(value = DataSourceConfigProp.class)
-public class DataSourceConfiguration {
+@EnableConfigurationProperties(value = {DataSourceProperties.class, MybatisProperties.class})
+public class SessionFactoryConfiguration {
 
     @Inject
-    private DataSourceConfigProp config;
+    private DataSourceProperties config;
 
-    @Value("${mybatis.mapperLocations}")
-    private String mapperLocations;
-    @Value("${mybatis.configLocation}")
-    private String configLocation;
-    @Value("${mybatis.typeAliasesPackage}")
-    private String typeAliasesPackage;
+    @Inject
+    private MybatisProperties mybatisProperties;
 
     @Primary
     @Bean(name = "dataSource")
@@ -47,12 +44,12 @@ public class DataSourceConfiguration {
     @Bean(name = "sqlSessionFactory")
     public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier(value = "dataSource") DataSource dataSource) {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        sqlSessionFactoryBean.setConfigLocation(new ClassPathResource(configLocation));
-        sqlSessionFactoryBean.setTypeAliasesPackage(typeAliasesPackage);
+        sqlSessionFactoryBean.setConfigLocation(new ClassPathResource(mybatisProperties.getConfig()));
+        sqlSessionFactoryBean.setTypeAliasesPackage(mybatisProperties.getAliasesPackage());
         sqlSessionFactoryBean.setPlugins(new Interceptor[]{new PageInterceptor()});
         sqlSessionFactoryBean.setDataSource(dataSource);
         try {
-            sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(mapperLocations));
+            sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(mybatisProperties.getMapperResource()));
         } catch (IOException x) {
             ExceptionFactory.error("_DEFINE_ERROR_CODE_002");
             System.exit(-1);

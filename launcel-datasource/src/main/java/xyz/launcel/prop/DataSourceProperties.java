@@ -12,7 +12,7 @@ import java.util.Properties;
  * Created by xuyang in 2017/9/19
  */
 @ConfigurationProperties(prefix = "db.jdbc")
-public class DataSourceConfigProp extends BaseLogger {
+public class DataSourceProperties extends BaseLogger {
 
     private String driverClassName;
 

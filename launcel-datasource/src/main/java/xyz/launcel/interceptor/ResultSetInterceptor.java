@@ -80,7 +80,7 @@ public class ResultSetInterceptor extends BaseLogger implements Interceptor, Ser
     @SuppressWarnings("unused")
 	private Object handleResultSet(Statement stmt, Class<?> javaClass) throws SQLException {
         ResultSet rs = null;
-        List<Object> list = new ArrayList<Object>();
+        List<Object> list = new ArrayList<>();
         try {
             rs = stmt.getResultSet();
 //                if (rs != null && javaClass != null) {

@@ -4,9 +4,14 @@
       "name": "db.jdbc",
       "type": "xyz.launcel.prop.DataSourceConfigProp",
       "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
+    },
+    {
+      "name": "mybatis",
+      "type": "xyz.launcel.prop.MybatisProperties",
+      "sourceType": "xyz.launcel.prop.MybatisProperties"
     }
   ],
-    "properties" : [
+  "properties": [
     {
       "name": "db.jdbc.driver-class-name",
       "type": "java.lang.String",
@@ -73,6 +78,21 @@
       "type": "java.util.Properties",
       "description": "JDBC dataSourceProperties of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
+    },
+    {
+      "name": "mybatis.config",
+      "type": "java.lang.String",
+      "sourceType": "xyz.launcel.prop.MybatisProperties"
+    },
+    {
+      "name": "mybatis.aliases-package",
+      "type": "java.lang.String",
+      "sourceType": "xyz.launcel.prop.MybatisProperties"
+    },
+    {
+      "name": "mybatis.mapper-resource",
+      "type": "java.lang.String",
+      "sourceType": "xyz.launcel.prop.MybatisProperties"
     }
   ]
 }

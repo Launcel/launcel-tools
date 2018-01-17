@@ -1,2 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=xyz.launcel.configuration.DataSourceConfiguration,\
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=xyz.launcel.configuration.SessionFactoryConfiguration,\
 xyz.launcel.validator.ServerAspejct

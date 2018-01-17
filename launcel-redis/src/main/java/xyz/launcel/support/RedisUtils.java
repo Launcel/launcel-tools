@@ -3,7 +3,7 @@ package xyz.launcel.support;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import redis.clients.jedis.JedisCommands;
-import xyz.launcel.prop.RedisConfigProp;
+import xyz.launcel.prop.RedisProperties;
 import xyz.launcel.ensure.Me;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.hook.ApplicationContextHook;
@@ -19,7 +19,7 @@ public class RedisUtils {
     @SuppressWarnings("unchecked")
     private static RedisTemplate<String, Object> template = (RedisTemplate<String, Object>) ApplicationContextHook.getBean("redisTemplate");
 
-    private static Long expTime = ((RedisConfigProp) ApplicationContextHook.getBean(RedisConfigProp.class)).getExpTime();
+    private static Long expTime = ((RedisProperties) ApplicationContextHook.getBean(RedisProperties.class)).getExpTime();
 
     public static RedisTemplate<String, Object> getTemplate() {
         return template;

@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.Map;
 
 @ConfigurationProperties(prefix = "launcel.security")
-public class SecurityUriConfigProp {
+public class SecurityListProperties {
     private Map<String, String[]> list;
 
     public Map<String, String[]> getList() {

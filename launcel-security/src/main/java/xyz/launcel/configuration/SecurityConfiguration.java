@@ -5,21 +5,21 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import xyz.launcel.config.SecurityConfig;
-import xyz.launcel.prop.SecurityUriConfigProp;
+import xyz.launcel.prop.SecurityListProperties;
 import xyz.launcel.interceptor.RoleInterceptor;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 @Configuration
-@EnableConfigurationProperties(SecurityUriConfigProp.class)
+@EnableConfigurationProperties(SecurityListProperties.class)
 public class SecurityConfiguration extends WebMvcConfigurerAdapter {
     @Inject
-    private SecurityUriConfigProp securityUriAutoConfig;
+    private SecurityListProperties securityListProperties;
 
     @PostConstruct
     protected void initSecurityConfig() {
-        SecurityConfig.setUris(securityUriAutoConfig.getList());
+        SecurityConfig.setUris(securityListProperties.getList());
     }
 
 
