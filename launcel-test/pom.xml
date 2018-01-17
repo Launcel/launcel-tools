@@ -26,7 +26,7 @@
 
         <dependency>
             <groupId>xyz.launcel</groupId>
-            <artifactId>javax.persistence</artifactId>
+            <artifactId>launcel-annotation</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>

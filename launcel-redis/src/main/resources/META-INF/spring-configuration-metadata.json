@@ -4,67 +4,66 @@
       "name": "db.redis",
       "type": "xyz.launcel.prop.RedisConfigProp",
       "sourceType": "xyz.launcel.prop.RedisConfigProp"
-    }],
-    "properties" : [
+    }
+  ],
+  "properties": [
     {
       "name": "db.redis.host",
       "type": "java.lang.String",
       "defaultValue": "127.0.0.1",
-      "description": "JDBC driverClassName of the database.",
       "sourceType": "xyz.launcel.prop.RedisConfigProp"
     },
     {
       "name": "db.redis.password",
       "type": "java.lang.String",
-      "description": "redis username of the database.",
       "sourceType": "xyz.launcel.prop.RedisConfigProp"
     },
     {
       "name": "db.redis.port",
       "type": "java.lang.Integer",
-      "description": 6379,
       "defaultValue": 6379,
       "sourceType": "xyz.launcel.prop.RedisConfigProp"
     },
     {
       "name": "db.redis.database",
       "type": "java.lang.Integer",
-      "description": "JDBC maxPoolSize of the database.",
+      "description": "redis database.",
       "defaultValue": 0,
       "sourceType": "xyz.launcel.prop.RedisConfigProp"
     },
     {
       "name": "db.redis.min-idle",
-      "type": "java.lang.String",
-      "description": "JDBC idleTimeout of the database.",
-      "defaultValue": 600000,
+      "type": "java.lang.Integer",
+      "description": "redis min-idle",
+      "defaultValue": 1,
       "sourceType": "xyz.launcel.prop.RedisConfigProp"
     },
     {
       "name": "db.redis.max-idle",
-      "type": "java.lang.String",
-      "defaultValue": 1800000,
-      "description": "JDBC maxLifetime of the database.",
+      "type": "java.lang.Integer",
+      "defaultValue": 8,
+      "description": "redis max-idle.",
       "sourceType": "xyz.launcel.prop.RedisConfigProp"
     },
     {
       "name": "db.redis.max-active",
-      "type": "java.lang.String",
-      "description": "JDBC connectionTimeout of the database.",
-      "defaultValue": 30000,
+      "type": "java.lang.Integer",
+      "description": "redis max-active.",
+      "defaultValue": 8,
       "sourceType": "xyz.launcel.prop.RedisConfigProp"
     },
     {
       "name": "db.redis.max-wait",
-      "type": "java.lang.String",
-      "description": "JDBC connectionTestQuery of the database.",
-      "defaultValue": "select 'x'",
+      "type": "java.lang.Integer",
+      "description": "redis max-wait.",
+      "defaultValue": 30000,
       "sourceType": "xyz.launcel.prop.RedisConfigProp"
     },
     {
       "name": "db.redis.exp-time",
-      "type": "java.util.Properties",
-      "description": "JDBC dataSourceProperties of the database.",
+      "type": "java.lang.Integer",
+      "description": "redis exp-time.",
+      "defaultValue": 600,
       "sourceType": "xyz.launcel.prop.RedisConfigProp"
     }
   ]
