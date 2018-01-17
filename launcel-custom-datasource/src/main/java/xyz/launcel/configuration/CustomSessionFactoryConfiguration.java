@@ -34,7 +34,7 @@ import java.util.Objects;
 public class CustomSessionFactoryConfiguration extends BaseLogger implements BeanDefinitionRegistryPostProcessor, EnvironmentAware {
 
 
-    Map<String, CustomDataSourceProperties.CustomHikariDataSource> customDataSources = new HashMap<>();
+    private Map<String, CustomDataSourceProperties.CustomHikariDataSource> customDataSources = new HashMap<>();
 
 
     @Override

@@ -11,6 +11,8 @@ public class MybatisProperties {
 
     private String mapperResource;
 
+    private String mapperPackage;
+
     public String getConfig() {
         return config;
     }
@@ -21,5 +23,9 @@ public class MybatisProperties {
 
     public String getMapperResource() {
         return mapperResource;
+    }
+
+    public String getMapperPackage() {
+        return mapperPackage;
     }
 }

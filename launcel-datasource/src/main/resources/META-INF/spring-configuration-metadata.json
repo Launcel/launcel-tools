@@ -93,6 +93,11 @@
       "name": "mybatis.mapper-resource",
       "type": "java.lang.String",
       "sourceType": "xyz.launcel.prop.MybatisProperties"
+    },
+    {
+      "name": "mybatis.mapper-package",
+      "type": "java.lang.String",
+      "sourceType": "xyz.launcel.prop.MybatisProperties"
     }
   ]
 }
