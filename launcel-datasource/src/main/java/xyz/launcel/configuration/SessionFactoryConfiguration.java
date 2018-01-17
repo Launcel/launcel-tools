@@ -26,7 +26,7 @@ import java.io.IOException;
 @Configuration
 //@EnableTransactionManagement
 @EnableConfigurationProperties(value = {DataSourceProperties.class, MybatisProperties.class})
-public class SessionFactoryConfiguration {// implements BeanDefinitionRegistryPostProcessor {
+public class SessionFactoryConfiguration {
 
     @Inject
     private DataSourceProperties config;

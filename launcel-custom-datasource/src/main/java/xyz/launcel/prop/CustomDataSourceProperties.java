@@ -13,7 +13,7 @@ import java.util.Properties;
  * Created by xuyang in 2017/9/19
  */
 @ConfigurationProperties(prefix = "db.custom.jdbc")
-public class CustomDataSourceProperties extends BaseLogger {
+public class CustomDataSourceProperties {
 
 
     private Map<String, CustomHikariDataSource> list;
@@ -27,6 +27,9 @@ public class CustomDataSourceProperties extends BaseLogger {
     }
 
     public static class CustomHikariDataSource extends BaseLogger {
+
+        private String name;
+
         private String driverClassName;
 
         private String jdbcUrl;
@@ -48,6 +51,14 @@ public class CustomDataSourceProperties extends BaseLogger {
         private String connectionTestQuery;
 
         private Properties dataSourceProperties;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
 
         public String getDriverClassName() {
             return driverClassName;
