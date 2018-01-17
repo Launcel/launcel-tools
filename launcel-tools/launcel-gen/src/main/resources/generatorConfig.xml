@@ -15,7 +15,7 @@
         <plugin type="xyz.launcel.generator.RenameJavaMapperPlugin">
             <property name="searchString" value="Mapper$"/>
             <property name="replaceString" value="DAO"/>
-            <property name="baseDAOPackage" value="xyz.launcel.base.dao.BaseDAO"/>
+            <property name="baseDAOPackage" value="xyz.launcel.dao.BaseDAO"/>
         </plugin>
 
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
