@@ -6,7 +6,7 @@
       "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
     },
     {
-      "name": "mybatis",
+      "name": "db.mybatis",
       "type": "xyz.launcel.prop.MybatisProperties",
       "sourceType": "xyz.launcel.prop.MybatisProperties"
     }
@@ -80,22 +80,22 @@
       "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
     },
     {
-      "name": "mybatis.config",
+      "name": "db.mybatis.config",
       "type": "java.lang.String",
       "sourceType": "xyz.launcel.prop.MybatisProperties"
     },
     {
-      "name": "mybatis.aliases-package",
+      "name": "db.mybatis.aliases-package",
       "type": "java.lang.String",
       "sourceType": "xyz.launcel.prop.MybatisProperties"
     },
     {
-      "name": "mybatis.mapper-resource",
+      "name": "db.mybatis.mapper-resource",
       "type": "java.lang.String",
       "sourceType": "xyz.launcel.prop.MybatisProperties"
     },
     {
-      "name": "mybatis.mapper-package",
+      "name": "db.mybatis.mapper-package",
       "type": "java.lang.String",
       "sourceType": "xyz.launcel.prop.MybatisProperties"
     }

@@ -2,7 +2,7 @@ package xyz.launcel.prop;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "mybatis.custom")
+@ConfigurationProperties(prefix = "db.custom.mybatis")
 public class CustomMybatisProperties {
 
     private String config;
