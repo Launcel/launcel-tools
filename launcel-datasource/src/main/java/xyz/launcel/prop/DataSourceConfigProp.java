@@ -1,4 +1,4 @@
-package xyz.launcel.configuration;
+package xyz.launcel.prop;
 
 import com.zaxxer.hikari.HikariConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -12,7 +12,7 @@ import java.util.Properties;
  * Created by xuyang in 2017/9/19
  */
 @ConfigurationProperties(prefix = "db.jdbc")
-public class DataSourceConfig extends BaseLogger {
+public class DataSourceConfigProp extends BaseLogger {
 
     private String driverClassName;
 
@@ -124,7 +124,7 @@ public class DataSourceConfig extends BaseLogger {
         this.dataSourceProperties = dataSourceProperties;
     }
 
-    protected HikariConfig getHikariConfig() {
+    public HikariConfig getHikariConfig() {
         HikariConfig config = new HikariConfig();
         config.setDriverClassName(getDriverClassName());
         config.setPassword(Base64.decode(getPassword()));

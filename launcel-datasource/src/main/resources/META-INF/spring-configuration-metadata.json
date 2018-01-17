@@ -1,73 +1,77 @@
 {
   "groups": [
     {
-      "name": "db.jdbc.jdbcUrl",
-      "type": "java.lang.String",
-      "description": "JDBC url of the database.",
-      "sourceType": "xyz.launcel.db"
-    },
+      "name": "db.jdbc",
+      "type": "xyz.launcel.prop.DataSourceConfigProp",
+      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
+    }],
+    "properties" : [
     {
-      "name": "db.jdbc.driverClassName",
+      "name": "db.jdbc.driver-class-name",
       "type": "java.lang.String",
+      "defaultValue": "com.mysql.jdbc.Driver",
       "description": "JDBC driverClassName of the database.",
-      "sourceType": "xyz.launcel.db"
+      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
     },
     {
       "name": "db.jdbc.username",
       "type": "java.lang.String",
       "description": "JDBC username of the database.",
-      "sourceType": "xyz.launcel.db"
+      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
     },
     {
       "name": "db.jdbc.password",
       "type": "java.lang.String",
       "description": "JDBC password of the database.",
-      "sourceType": "xyz.launcel.db"
+      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
     },
     {
-      "name": "db.jdbc.minIdle",
+      "name": "db.jdbc.min-idle",
       "type": "java.lang.String",
       "description": "JDBC minIdle of the database.",
-      "sourceType": "xyz.launcel.db",
-      "defaultValue": 1
+      "defaultValue": 1,
+      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
     },
     {
-      "name": "db.jdbc.maxPoolSize",
+      "name": "db.jdbc.max-pool-size",
       "type": "java.lang.String",
       "description": "JDBC maxPoolSize of the database.",
-      "sourceType": "xyz.launcel.db",
-      "defaultValue": 20
+      "defaultValue": 20,
+      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
     },
     {
-      "name": "db.jdbc.idleTimeout",
+      "name": "db.jdbc.idle-timeout",
       "type": "java.lang.String",
       "description": "JDBC idleTimeout of the database.",
-      "sourceType": "xyz.launcel.db"
+      "defaultValue": 600000,
+      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
     },
     {
-      "name": "db.jdbc.maxLifetime",
+      "name": "db.jdbc.max-life-time",
       "type": "java.lang.String",
+      "defaultValue": 1800000,
       "description": "JDBC maxLifetime of the database.",
-      "sourceType": "xyz.launcel.db"
+      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
     },
     {
-      "name": "db.jdbc.connectionTimeout",
+      "name": "db.jdbc.connection-timeout",
       "type": "java.lang.String",
       "description": "JDBC connectionTimeout of the database.",
-      "sourceType": "xyz.launcel.db",
-      "defaultValue": 3000
+      "defaultValue": 30000,
+      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
     },
     {
-      "name": "db.jdbc.connectionTestQuery",
+      "name": "db.jdbc.connection-test-query",
       "type": "java.lang.String",
       "description": "JDBC connectionTestQuery of the database.",
-      "sourceType": "xyz.launcel.db"
+      "defaultValue": "select 'x'",
+      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
     },
     {
-      "name": "db.jdbc.dataSourceProperties",
+      "name": "db.jdbc.data-source-properties",
       "type": "java.util.Properties",
       "description": "JDBC dataSourceProperties of the database.",
-      "sourceType": "xyz.launcel.db"
+      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
     }
   ]
 }

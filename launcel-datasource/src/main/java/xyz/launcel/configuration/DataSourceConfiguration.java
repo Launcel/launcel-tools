@@ -13,6 +13,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.interceptor.PageInterceptor;
+import xyz.launcel.prop.DataSourceConfigProp;
 
 import javax.inject.Inject;
 import javax.sql.DataSource;
@@ -23,11 +24,11 @@ import java.io.IOException;
  */
 @Configuration
 //@EnableTransactionManagement
-@EnableConfigurationProperties(value = DataSourceConfig.class)
+@EnableConfigurationProperties(value = DataSourceConfigProp.class)
 public class DataSourceConfiguration {
 
     @Inject
-    private DataSourceConfig config;
+    private DataSourceConfigProp config;
 
     @Value("${mybatis.mapperLocations}")
     private String mapperLocations;

@@ -1,17 +1,14 @@
 package xyz.launcel.support;
 
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import redis.clients.jedis.JedisCommands;
-import xyz.launcel.configuration.RedisConf;
+import xyz.launcel.prop.RedisConfigProp;
 import xyz.launcel.ensure.Me;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.hook.ApplicationContextHook;
 import xyz.launcel.lang.StringUtils;
 
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class RedisUtils {
@@ -22,7 +19,7 @@ public class RedisUtils {
     @SuppressWarnings("unchecked")
     private static RedisTemplate<String, Object> template = (RedisTemplate<String, Object>) ApplicationContextHook.getBean("redisTemplate");
 
-    private static Long expTime = ((RedisConf) ApplicationContextHook.getBean(RedisConf.class)).getExpTime();
+    private static Long expTime = ((RedisConfigProp) ApplicationContextHook.getBean(RedisConfigProp.class)).getExpTime();
 
     public static RedisTemplate<String, Object> getTemplate() {
         return template;
