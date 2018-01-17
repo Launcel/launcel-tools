@@ -24,8 +24,8 @@
         </commentGenerator>
         <!--数据库链接URL，用户名、密码 -->
         <jdbcConnection driverClass="org.mariadb.jdbc.Driver"
-                        connectionURL="jdbc:mariadb://dev.mysql.xkeshi.so:3306/xkeshi_business_refactor_0721"
-                        userId="user_developer" password="xkeshi_2015">
+                        connectionURL="jdbc:mariadb:///test"
+                        userId="test" password="123456">
         </jdbcConnection>
 
         <javaTypeResolver type="xyz.launcel.generator.internal.types.JavaTypeResolverDefaultImpl">
@@ -59,9 +59,9 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
-        <!-- 要生成哪些表 -->
+        <!-- 要生成哪些表 % 表示当前库下全部表 -->
 
-        <table tableName="score_activity_distribution"
+        <table tableName="%"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
