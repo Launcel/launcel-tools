@@ -32,6 +32,7 @@ public abstract class AbstractMvcTest extends AbstractTest {
 
     protected String getting(String uri, Map<String, String> params) {
         try {
+            //noinspection ConstantConditions
             return getReturn(getMockMvc().perform(builder(uri, params, "get")));
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,6 +42,7 @@ public abstract class AbstractMvcTest extends AbstractTest {
 
     protected String deleting(String uri, Map<String, String> params) {
         try {
+            //noinspection ConstantConditions
             return getReturn(getMockMvc().perform(builder(uri, params, "delete")));
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,6 +52,7 @@ public abstract class AbstractMvcTest extends AbstractTest {
 
     protected String posting(String uri, Map<String, String> params) {
         try {
+            //noinspection ConstantConditions
             return getReturn(getMockMvc().perform(builder(uri, params, "post")));
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,6 +62,7 @@ public abstract class AbstractMvcTest extends AbstractTest {
 
     protected String puting(String uri, Map<String, String> params) {
         try {
+            //noinspection ConstantConditions
             return getReturn(getMockMvc().perform(builder(uri, params, "put")));
         } catch (Exception e) {
             e.printStackTrace();

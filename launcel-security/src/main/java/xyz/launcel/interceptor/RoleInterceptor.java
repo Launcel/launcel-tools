@@ -7,6 +7,7 @@ import xyz.launcel.config.SecurityConfig;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.hook.ApplicationContextHook;
 import xyz.launcel.jdbc.JdbcRole;
+import xyz.launcel.jdbc.SimpleJdbcRole;
 import xyz.launcel.lang.Json;
 import xyz.launcel.log.BaseLogger;
 
@@ -42,9 +43,9 @@ public class RoleInterceptor extends BaseLogger implements HandlerInterceptor {
             if (session != null) {
                 @SuppressWarnings("unchecked")
                 Set<String> userRoles = new HashSet<>();
-                // find the user role
-                if (ApplicationContextHook.hasBean("jdbcRole")) {
-                    JdbcRole jdbcRole = (JdbcRole) ApplicationContextHook.getBean("jdbcRole");
+                // find the user role000
+                JdbcRole jdbcRole = SimpleJdbcRole.getJdbcRole();
+                if (jdbcRole != null) {
                     userRoles = jdbcRole.getRoles(session.getAttribute("username").toString());
                 }
                 userRoles.add("user");
@@ -56,4 +57,5 @@ public class RoleInterceptor extends BaseLogger implements HandlerInterceptor {
             }
         }
     }
+
 }

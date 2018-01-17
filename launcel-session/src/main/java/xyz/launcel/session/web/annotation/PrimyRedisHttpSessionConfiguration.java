@@ -17,7 +17,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.session.config.annotation.web.http.SpringHttpSessionConfiguration;
 import org.springframework.session.data.redis.RedisFlushMode;
 import org.springframework.session.data.redis.config.ConfigureNotifyKeyspaceEventsAction;
@@ -28,6 +27,7 @@ import org.springframework.util.StringValueResolver;
 import xyz.launcel.session.redis.PrimyRedisOperationsSessionRepository;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
@@ -40,8 +40,6 @@ public class PrimyRedisHttpSessionConfiguration extends SpringHttpSessionConfigu
     private String redisNamespace = "";
 
     private RedisFlushMode redisFlushMode = RedisFlushMode.ON_SAVE;
-
-    private RedisSerializer<Object> defaultRedisSerializer;
 
     private Executor redisTaskExecutor;
 
@@ -62,7 +60,7 @@ public class PrimyRedisHttpSessionConfiguration extends SpringHttpSessionConfigu
             container.setSubscriptionExecutor(this.redisSubscriptionExecutor);
         }
         container.addMessageListener(messageListener, Arrays.asList(new PatternTopic("__keyevent@*:del"), new PatternTopic("__keyevent@*:expired")));
-        container.addMessageListener(messageListener, Arrays.asList(new PatternTopic(messageListener.getSessionCreatedChannelPrefix() + "*")));
+        container.addMessageListener(messageListener, Collections.singletonList(new PatternTopic(messageListener.getSessionCreatedChannelPrefix() + "*")));
         return container;
     }
 
@@ -126,9 +124,8 @@ public class PrimyRedisHttpSessionConfiguration extends SpringHttpSessionConfigu
 
 //    @Autowired(required = false)
 //    @Qualifier("springSessionDefaultRedisSerializer")
-    public void setDefaultRedisSerializer(RedisSerializer<Object> defaultRedisSerializer) {
-        this.defaultRedisSerializer = defaultRedisSerializer;
-    }
+//    public void setDefaultRedisSerializer(RedisSerializer<Object> defaultRedisSerializer) {
+//    }
 
     @Autowired(required = false)
     @Qualifier("springSessionRedisTaskExecutor")
@@ -161,7 +158,7 @@ public class PrimyRedisHttpSessionConfiguration extends SpringHttpSessionConfigu
             this.configure = configure;
         }
 
-        public void afterPropertiesSet() throws Exception {
+        public void afterPropertiesSet() {
             if (this.configure == ConfigureRedisAction.NO_OP) {
                 return;
             }

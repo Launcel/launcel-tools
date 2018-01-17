@@ -36,8 +36,7 @@ public class MapSession implements ExpiringSession, Serializable {
             throw new IllegalArgumentException("session cannot be null");
         }
         this.id = session.getId();
-        this.sessionAttrs = new HashMap<>(
-                session.getAttributeNames().size());
+        this.sessionAttrs = new HashMap<>(session.getAttributeNames().size());
         for (String attrName : session.getAttributeNames()) {
             Object attrValue = session.getAttribute(attrName);
             this.sessionAttrs.put(attrName, attrValue);
@@ -79,8 +78,8 @@ public class MapSession implements ExpiringSession, Serializable {
         return this.maxInactiveInterval >= 0 && now - TimeUnit.SECONDS.toMillis(this.maxInactiveInterval) >= this.lastAccessedTime;
     }
 
-    @SuppressWarnings("unchecked")
     public <T> T getAttribute(String attributeName) {
+        //noinspection unchecked
         return (T) this.sessionAttrs.get(attributeName);
     }
 

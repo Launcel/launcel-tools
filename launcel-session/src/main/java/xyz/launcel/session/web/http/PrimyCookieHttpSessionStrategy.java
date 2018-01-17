@@ -97,8 +97,8 @@ public class PrimyCookieHttpSessionStrategy implements MultiHttpSessionStrategy,
         this.cookieSerializer.writeCookieValue(new CookieSerializer.CookieValue(request, response, cookieValue));
     }
 
-    @SuppressWarnings("unchecked")
     private Set<String> getSessionIdsWritten(HttpServletRequest request) {
+        @SuppressWarnings("unchecked")
         Set<String> sessionsWritten = (Set<String>) request.getAttribute(SESSION_IDS_WRITTEN_ATTR);
         if (sessionsWritten == null) {
             sessionsWritten = new HashSet<>();

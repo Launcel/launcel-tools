@@ -1,7 +1,5 @@
 package xyz.launcel.exception;
 
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import xyz.launcel.lang.Json;
@@ -15,16 +13,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 
-public class ExceptionHelp extends BaseLogger implements ApplicationListener<ContextRefreshedEvent> {
+public class ExceptionHelp extends BaseLogger {
 
     private static Properties props = null;
 
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
-        initProperties();
-    }
-
-    private void initProperties() {
+    public static void initProperties() {
         try {
             if (Objects.isNull(props)) {
                 PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();

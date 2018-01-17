@@ -1,0 +1,16 @@
+{
+  "groups": [
+    {
+      "name": "launcel.security",
+      "type": "xyz.launcel.prop.SecurityUriConfigProp",
+      "sourceType": "xyz.launcel.prop.SecurityUriConfigProp"
+    }
+  ],
+    "properties" : [
+    {
+      "name": "launcel.security.list",
+      "type": "java.util.Map<java.lang.String,java.lang.String[]>",
+      "sourceType": "xyz.launcel.prop.SecurityUriConfigProp"
+    }
+  ]
+}

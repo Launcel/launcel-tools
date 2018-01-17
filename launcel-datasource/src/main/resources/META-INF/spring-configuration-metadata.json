@@ -4,7 +4,8 @@
       "name": "db.jdbc",
       "type": "xyz.launcel.prop.DataSourceConfigProp",
       "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
-    }],
+    }
+  ],
     "properties" : [
     {
       "name": "db.jdbc.driver-class-name",

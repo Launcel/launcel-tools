@@ -1,9 +1,7 @@
-/*
- *
- */
 package xyz.launcel.configuration;
 
 import com.google.gson.GsonBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -13,7 +11,9 @@ import org.springframework.web.servlet.config.annotation.ContentNegotiationConfi
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import xyz.launcel.handle.GlobalExceptionHandle;
 import xyz.launcel.lang.PrimyGsonBuilder;
+import xyz.launcel.validator.ControllerParamValidateAspejct;
 
 import java.util.List;
 
@@ -27,10 +27,6 @@ public class WebKitConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
-//        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
-//        FastJsonConfig fastJsonConfig = new FastJsonConfig();
-//        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
-//        converter.setFastJsonConfig(fastJsonConfig);
         GsonHttpMessageConverter converter = new GsonHttpMessageConverter();
         GsonBuilder gsonBuilder = new PrimyGsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").getGsonBuilder();
         converter.setGson(gsonBuilder.create());
@@ -48,5 +44,15 @@ public class WebKitConfiguration extends WebMvcConfigurerAdapter {
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer.defaultContentType(MediaType.APPLICATION_JSON_UTF8);
         super.configureContentNegotiation(configurer);
+    }
+
+    @Bean
+    public GlobalExceptionHandle globalExceptionHandle() {
+        return new GlobalExceptionHandle();
+    }
+
+    @Bean
+    public ControllerParamValidateAspejct controllerParamValidateAspejct() {
+        return new ControllerParamValidateAspejct();
     }
 }

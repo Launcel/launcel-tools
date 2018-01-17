@@ -145,9 +145,8 @@ public class UpSDK {
     }
 
     private String getNewFileName(String ext) {
-        StringBuilder dateFormat = new StringBuilder("yyyy").append(File.separator).append("MM").append(File.separator).append("dd");
-        return new StringBuilder(new SimpleDateFormat(dateFormat.toString()).format(new Date())).append(File.separator).
-                append(StringUtils.getUUID()).append(".").append(ext).toString();
+        return new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd").format(new Date()) +
+                File.separator + StringUtils.getUUID() + "." + ext;
     }
 
     public static void main(String[] args) {

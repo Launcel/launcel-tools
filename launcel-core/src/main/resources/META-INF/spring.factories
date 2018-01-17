@@ -1,2 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=xyz.launcel.configuration.CommonConfiguration
-org.springframework.context.ApplicationListener=xyz.launcel.exception.ExceptionHelp
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=xyz.launcel.configuration.DozerConfiguration
+org.springframework.context.ApplicationListener=xyz.launcel.Listener.CommonListener

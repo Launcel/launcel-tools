@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C), 2017
  * Author: Launcel
  * Date: 17.12.12
