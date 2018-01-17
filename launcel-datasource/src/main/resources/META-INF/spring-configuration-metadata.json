@@ -1,0 +1,73 @@
+{
+  "groups": [
+    {
+      "name": "db.jdbc.jdbcUrl",
+      "type": "java.lang.String",
+      "description": "JDBC url of the database.",
+      "sourceType": "xyz.launcel.db"
+    },
+    {
+      "name": "db.jdbc.driverClassName",
+      "type": "java.lang.String",
+      "description": "JDBC driverClassName of the database.",
+      "sourceType": "xyz.launcel.db"
+    },
+    {
+      "name": "db.jdbc.username",
+      "type": "java.lang.String",
+      "description": "JDBC username of the database.",
+      "sourceType": "xyz.launcel.db"
+    },
+    {
+      "name": "db.jdbc.password",
+      "type": "java.lang.String",
+      "description": "JDBC password of the database.",
+      "sourceType": "xyz.launcel.db"
+    },
+    {
+      "name": "db.jdbc.minIdle",
+      "type": "java.lang.String",
+      "description": "JDBC minIdle of the database.",
+      "sourceType": "xyz.launcel.db",
+      "defaultValue": 1
+    },
+    {
+      "name": "db.jdbc.maxPoolSize",
+      "type": "java.lang.String",
+      "description": "JDBC maxPoolSize of the database.",
+      "sourceType": "xyz.launcel.db",
+      "defaultValue": 20
+    },
+    {
+      "name": "db.jdbc.idleTimeout",
+      "type": "java.lang.String",
+      "description": "JDBC idleTimeout of the database.",
+      "sourceType": "xyz.launcel.db"
+    },
+    {
+      "name": "db.jdbc.maxLifetime",
+      "type": "java.lang.String",
+      "description": "JDBC maxLifetime of the database.",
+      "sourceType": "xyz.launcel.db"
+    },
+    {
+      "name": "db.jdbc.connectionTimeout",
+      "type": "java.lang.String",
+      "description": "JDBC connectionTimeout of the database.",
+      "sourceType": "xyz.launcel.db",
+      "defaultValue": 3000
+    },
+    {
+      "name": "db.jdbc.connectionTestQuery",
+      "type": "java.lang.String",
+      "description": "JDBC connectionTestQuery of the database.",
+      "sourceType": "xyz.launcel.db"
+    },
+    {
+      "name": "db.jdbc.dataSourceProperties",
+      "type": "java.util.Properties",
+      "description": "JDBC dataSourceProperties of the database.",
+      "sourceType": "xyz.launcel.db"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=xyz.launcel.configuration.WebKitConfiguration,\
+xyz.launcel.handle.GlobalExceptionHandle,xyz.launcel.validator.ControllerParamValidateAspejct
