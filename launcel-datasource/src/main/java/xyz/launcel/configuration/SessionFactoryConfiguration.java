@@ -18,17 +18,15 @@ import xyz.launcel.prop.DataSourceProperties;
 import xyz.launcel.prop.MybatisProperties;
 
 import javax.inject.Inject;
-import javax.sql.DataSource;
 import java.io.IOException;
 
 /**
  * Created by Launcel in 2017/9/19
  */
-//@EnableTransactionManagement
 @Configuration
-@EnableConfigurationProperties({DataSourceProperties.class, MybatisProperties.class})
+@EnableConfigurationProperties(value = {DataSourceProperties.class, MybatisProperties.class})
+//@EnableTransactionManagement
 public class SessionFactoryConfiguration {
-
 
     @Inject
     private DataSourceProperties dataSourcePropertie;
@@ -38,24 +36,28 @@ public class SessionFactoryConfiguration {
 
     @Primary
     @Bean(name = "dataSource")
-    public DataSource dataSource() {
+    public HikariDataSource dataSource() {
+        System.out.println("\n--------------------");
+        System.out.println(dataSourcePropertie == null);
+        System.out.println("--------------------");
         return new HikariDataSource(dataSourcePropertie.getHikariConfig());
     }
 
     @ConditionalOnBean(name = "dataSource")
     @Primary
     @Bean(name = "sqlSessionFactory")
-    public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier(value = "dataSource") DataSource dataSource) {
+    public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier(value = "dataSource") HikariDataSource dataSource) {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("mybatis/mybatis-config.xml"));
-        System.out.println("\n---------------------------------\t" + mybatisPropertie.getAliasesPackage() + "\n---------------------------------");
         sqlSessionFactoryBean.setTypeAliasesPackage(mybatisPropertie.getAliasesPackage());
+//        sqlSessionFactoryBean.setTypeAliasesPackage("team.uncle.model");
         sqlSessionFactoryBean.setPlugins(new Interceptor[]{new PageInterceptor()});
         sqlSessionFactoryBean.setDataSource(dataSource);
         try {
             sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(mybatisPropertie.getMapperResource()));
+//            sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("team/uncle/mapper/*.xml"));
         } catch (IOException x) {
-            ExceptionFactory.error("_DEFINE_ERROR_CODE_002");
+            ExceptionFactory.error("-1", "xml文件加载失败");
             System.exit(-1);
         }
         return sqlSessionFactoryBean;
@@ -67,6 +69,7 @@ public class SessionFactoryConfiguration {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
         mapperScannerConfigurer.setBasePackage(mybatisPropertie.getMapperPackage());
+//        mapperScannerConfigurer.setBasePackage("team.uncle.dao");
         return mapperScannerConfigurer;
     }
 

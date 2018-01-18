@@ -1,4 +1,4 @@
-package xyz.launcel.validator;
+package xyz.launcel.aspejct;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -9,11 +9,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
-public class ServerAspejct extends ValidateAspejct {
+public class ControllerParamValidateAspejct extends ValidateAspejct {
 
-    private final String point = "execution(public * team.uncle.service.*.*(..))";
 
-    //    @Pointcut("execution(public * team.uncle.service.*.*(..))")
+    private final String point = "execution(public * team.uncle.controller.*.*(..))";
+//    private final String point = "@annotation(xyz.launcel.annotation.Validate)";
+
     @Pointcut(point)
     public void init() {
     }
@@ -27,4 +28,5 @@ public class ServerAspejct extends ValidateAspejct {
     public void after(JoinPoint joinPoint, Object object) {
         doReturn(joinPoint, object);
     }
+
 }

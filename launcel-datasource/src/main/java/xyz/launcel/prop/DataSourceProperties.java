@@ -1,6 +1,8 @@
 package xyz.launcel.prop;
 
 import com.zaxxer.hikari.HikariConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import xyz.launcel.lang.Base64;
 
@@ -11,10 +13,10 @@ import java.util.Properties;
  */
 @ConfigurationProperties(prefix = "db.jdbc")
 public class DataSourceProperties {
-    
-    private String driverName = "net.sf.log4jdbc.DriverSpy";
 
-    private String jdbcUrl = "jdbc:log4jdbc:mysql://localhost:3306/test";
+    private String driverName;
+
+    private String jdbcUrl;
 
     private String username;
 
@@ -122,9 +124,27 @@ public class DataSourceProperties {
         this.dataSourceProperties = dataSourceProperties;
     }
 
+    @Override
+    public String toString() {
+        return "DataSourceProperties[" +
+                "driverName='" + driverName + '\'' +
+                ", jdbcUrl='" + jdbcUrl + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", minIdle=" + minIdle +
+                ", maxPoolSize=" + maxPoolSize +
+                ", idleTimeout=" + idleTimeout +
+                ", maxLifeTime=" + maxLifeTime +
+                ", connectionTimeout=" + connectionTimeout +
+                ", connectionTestQuery='" + connectionTestQuery + '\'' +
+                ", dataSourceProperties=" + dataSourceProperties +
+                ']';
+    }
+
     public HikariConfig getHikariConfig() {
         HikariConfig config = new HikariConfig();
-        System.out.println("\n---------------------------------\tdriver class name is : " + getDriverName());
+        Logger log = LoggerFactory.getLogger(this.getClass());
+        log.info(toString());
         config.setDriverClassName(getDriverName());
         config.setPassword(Base64.decode(getPassword()));
         config.setJdbcUrl(getJdbcUrl());
@@ -135,7 +155,7 @@ public class DataSourceProperties {
         config.setIdleTimeout(getIdleTimeout());
         config.setConnectionTimeout(getConnectionTimeout());
         config.setConnectionTestQuery(getConnectionTestQuery());
-        if (!getDataSourceProperties().isEmpty())
+        if (dataSourceProperties != null && !getDataSourceProperties().isEmpty())
             config.setDataSourceProperties(getDataSourceProperties());
         return config;
     }

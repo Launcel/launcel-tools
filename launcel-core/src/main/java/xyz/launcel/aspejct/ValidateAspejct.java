@@ -1,4 +1,4 @@
-package xyz.launcel.validator;
+package xyz.launcel.aspejct;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -17,9 +17,7 @@ class ValidateAspejct extends BaseLogger {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
 //        if (log.isDebugEnabled())
-        info("\n--------------------------------------------------------------------\n" +
-                "调用了：{}.{} 方法 ：参数 \n{}", signature.getDeclaringTypeName(), method.getName(), Json.toJson(joinPoint.getArgs()) +
-                "\n--------------------------------------------------------------------");
+        info("调用了：" + signature.getDeclaringTypeName() + "." + method.getName() + " 方法 ：参数 \n" + Json.toJson(joinPoint.getArgs()));
         Parameter[] params = method.getParameters();
         String group = ValidateUtils.getMethodGroupAnnotation(joinPoint.getSignature().getName());
         for (int i = 0; i < params.length; i++) {
@@ -39,8 +37,6 @@ class ValidateAspejct extends BaseLogger {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
 //        if (log.isDebugEnabled())
-        info("\n--------------------------------------------------------------------\n" +
-                "调用：{}.{} 方法结束 ：结果 \n{}", signature.getDeclaringTypeName(), method.getName(), Json.toJson(object) +
-                "\n--------------------------------------------------------------------");
+        info("调用：" + signature.getDeclaringTypeName() + "." + method.getName() + " 方法结束 ：结果 \n" + Json.toJson(object));
     }
 }

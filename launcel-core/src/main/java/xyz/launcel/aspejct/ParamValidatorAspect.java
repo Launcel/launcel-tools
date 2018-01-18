@@ -1,4 +1,4 @@
-package xyz.launcel.validator;
+package xyz.launcel.aspejct;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Before;

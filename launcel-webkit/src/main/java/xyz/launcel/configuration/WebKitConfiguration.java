@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import xyz.launcel.handle.GlobalExceptionHandle;
 import xyz.launcel.lang.PrimyGsonBuilder;
-import xyz.launcel.validator.ControllerParamValidateAspejct;
+import xyz.launcel.aspejct.ControllerParamValidateAspejct;
 
 import java.util.List;
 

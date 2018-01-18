@@ -1,4 +1,4 @@
-package xyz.launcel.validator;
+package xyz.launcel.aspejct;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -6,18 +6,14 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
-import xyz.launcel.lang.Json;
-
-import java.util.Arrays;
 
 @Component
 @Aspect
-public class ControllerParamValidateAspejct extends ValidateAspejct {
+public class ServerAspejct extends ValidateAspejct {
 
+    private final String point = "execution(public * team.uncle.service.*.*(..))";
 
-    private final String point = "execution(public * team.uncle.controller.*.*(..))";
-//    private final String point = "@annotation(xyz.launcel.annotation.Validate)";
-
+    //    @Pointcut("execution(public * team.uncle.service.*.*(..))")
     @Pointcut(point)
     public void init() {
     }
@@ -31,5 +27,4 @@ public class ControllerParamValidateAspejct extends ValidateAspejct {
     public void after(JoinPoint joinPoint, Object object) {
         doReturn(joinPoint, object);
     }
-
 }
