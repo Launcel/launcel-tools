@@ -28,4 +28,20 @@ public class MybatisProperties {
     public String getMapperPackage() {
         return mapperPackage;
     }
+
+    public void setConfig(String config) {
+        this.config = config;
+    }
+
+    public void setAliasesPackage(String aliasesPackage) {
+        this.aliasesPackage = aliasesPackage;
+    }
+
+    public void setMapperResource(String mapperResource) {
+        this.mapperResource = mapperResource;
+    }
+
+    public void setMapperPackage(String mapperPackage) {
+        this.mapperPackage = mapperPackage;
+    }
 }

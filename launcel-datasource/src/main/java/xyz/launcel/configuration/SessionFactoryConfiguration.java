@@ -15,7 +15,6 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.interceptor.PageInterceptor;
 import xyz.launcel.lang.Json;
-import xyz.launcel.log.BaseLogger;
 import xyz.launcel.prop.DataSourceProperties;
 import xyz.launcel.prop.MybatisProperties;
 
@@ -29,7 +28,7 @@ import java.io.IOException;
 @Configuration
 //@EnableTransactionManagement
 @EnableConfigurationProperties(value = {DataSourceProperties.class, MybatisProperties.class})
-public class SessionFactoryConfiguration extends BaseLogger {
+public class SessionFactoryConfiguration {
 
     @Inject
     private DataSourceProperties config;
@@ -45,6 +44,7 @@ public class SessionFactoryConfiguration extends BaseLogger {
 
     @Primary
     @Bean(name = "sqlSessionFactory")
+    @ConditionalOnBean(name = "dataSource")
     public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier(value = "dataSource") DataSource dataSource) {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setConfigLocation(new ClassPathResource(mybatisProperties.getConfig()));
@@ -60,10 +60,10 @@ public class SessionFactoryConfiguration extends BaseLogger {
         return sqlSessionFactoryBean;
     }
 
-    @ConditionalOnBean(name = "sqlSessionFactory")
+    @ConditionalOnBean(name = {"sqlSessionFactory", "mybatisProperties"})
     @Bean
     MapperScannerConfigurer mapperScannerConfigurer() {
-        info("mybatisProperties : " + Json.toJson(mybatisProperties));
+        System.out.println("\n----------------------------"+ Json.toJson(mybatisProperties.getMapperResource()));
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
         mapperScannerConfigurer.setBasePackage(mybatisProperties.getMapperPackage());

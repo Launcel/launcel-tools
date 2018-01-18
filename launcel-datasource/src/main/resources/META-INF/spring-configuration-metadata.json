@@ -2,8 +2,8 @@
   "groups": [
     {
       "name": "db.jdbc",
-      "type": "xyz.launcel.prop.DataSourceConfigProp",
-      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
+      "type": "xyz.launcel.prop.DataSourceProperties",
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.mybatis",
@@ -17,74 +17,74 @@
       "type": "java.lang.String",
       "defaultValue": "com.mysql.jdbc.Driver",
       "description": "JDBC driverClassName of the database.",
-      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.jdbc-url",
       "type": "java.lang.String",
       "defaultValue": "jdbc:log4jdbc:mysql://localhost:3306/test",
       "description": "JDBC driverClassName of the database.",
-      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.username",
       "type": "java.lang.String",
       "description": "JDBC username of the database.",
-      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.password",
       "type": "java.lang.String",
       "description": "JDBC password of the database.",
-      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.min-idle",
       "type": "java.lang.String",
       "description": "JDBC minIdle of the database.",
       "defaultValue": 1,
-      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.max-pool-size",
       "type": "java.lang.String",
       "description": "JDBC maxPoolSize of the database.",
       "defaultValue": 20,
-      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.idle-timeout",
       "type": "java.lang.String",
       "description": "JDBC idleTimeout of the database.",
       "defaultValue": 600000,
-      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.max-life-time",
       "type": "java.lang.String",
       "defaultValue": 1800000,
       "description": "JDBC maxLifetime of the database.",
-      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.connection-timeout",
       "type": "java.lang.String",
       "description": "JDBC connectionTimeout of the database.",
       "defaultValue": 30000,
-      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.connection-test-query",
       "type": "java.lang.String",
       "description": "JDBC connectionTestQuery of the database.",
       "defaultValue": "select 'x'",
-      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.data-source-properties",
       "type": "java.util.Properties",
       "description": "JDBC dataSourceProperties of the database.",
-      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.mybatis.config",

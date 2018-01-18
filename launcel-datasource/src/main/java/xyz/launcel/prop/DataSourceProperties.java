@@ -3,8 +3,6 @@ package xyz.launcel.prop;
 import com.zaxxer.hikari.HikariConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import xyz.launcel.lang.Base64;
-import xyz.launcel.lang.Json;
-import xyz.launcel.log.BaseLogger;
 
 import java.util.Properties;
 
@@ -12,7 +10,7 @@ import java.util.Properties;
  * Created by xuyang in 2017/9/19
  */
 @ConfigurationProperties(prefix = "db.jdbc")
-public class DataSourceProperties extends BaseLogger {
+public class DataSourceProperties {
 
     private String driverClassName;
 
@@ -137,8 +135,8 @@ public class DataSourceProperties extends BaseLogger {
         config.setConnectionTimeout(getConnectionTimeout());
         config.setConnectionTestQuery(getConnectionTestQuery());
         config.setDataSourceProperties(getDataSourceProperties());
-        if (isDebugEnabled())
-            debug("\n---------------------------------------------------------------\thikariConfig is : {}", Json.toJson(config) + "\n---------------------------------------------------------------");
+//        if (isDebugEnabled())
+//        debug("\n---------------------------------------------------------------\thikariConfig is : {}", Json.toJson(config) + "\n---------------------------------------------------------------");
         return config;
     }
 
