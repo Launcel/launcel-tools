@@ -15,11 +15,8 @@ import static xyz.launcel.generator.api.dom.OutputUtilities.xmlIndent;
  */
 public class DeleteByKeyElementGenerator extends AbstractXmlElementGenerator {
 
-    private boolean isSimple;
-
     public DeleteByKeyElementGenerator(boolean isSimple) {
         super();
-        this.isSimple = isSimple;
     }
 
     @Override
@@ -48,7 +45,8 @@ public class DeleteByKeyElementGenerator extends AbstractXmlElementGenerator {
         }
     }
 
-    private void addUpdateElements(LXmlElement answer) {
+    @SuppressWarnings("unused")
+	private void addUpdateElements(LXmlElement answer) {
         answer.addElement(new LTextElement("UPDATE"));
         StringBuilder sb = new StringBuilder();
         xmlIndent(sb, 2);
@@ -82,7 +80,8 @@ public class DeleteByKeyElementGenerator extends AbstractXmlElementGenerator {
         }
     }
 
-    private void addDeleteElements(LXmlElement answer) {
+    @SuppressWarnings("unused")
+	private void addDeleteElements(LXmlElement answer) {
 
         answer.addElement(new LTextElement("DELETE FROM "));
         StringBuilder sb = new StringBuilder();

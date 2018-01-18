@@ -110,7 +110,7 @@ public class PrimyGsonBuilder {
         }
     }
 
-    static class PrimyJsonDeserializer implements JsonDeserializer {
+    static class PrimyJsonDeserializer implements JsonDeserializer<Object> {
         @Override
         public Map<String, Object> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             Map<String, Object> treeMap = new HashMap<>();

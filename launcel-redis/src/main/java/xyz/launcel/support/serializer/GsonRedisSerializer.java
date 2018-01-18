@@ -41,7 +41,8 @@ public class GsonRedisSerializer<T> implements RedisSerializer<T> {
         String str;
         try {
             str = new String(bytes, "UTF-8");
-            JsonReader reader = new JsonReader(new StringReader(str));
+            @SuppressWarnings("resource")
+			JsonReader reader = new JsonReader(new StringReader(str));
             reader.setLenient(true);
             return gsonBuilder.create().fromJson(str, type);
         } catch (UnsupportedEncodingException e) {

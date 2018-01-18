@@ -23,7 +23,7 @@ public class BaseSqlElementGenerator extends AbstractXmlElementGenerator {
         this.context.getCommentGenerator().addComment(answer);
         StringBuilder sb = new StringBuilder();
         boolean and = false;
-        Iterator var5 = this.introspectedTable.getPrimaryKeyColumns().iterator();
+        Iterator<IntrospectedColumn> var5 = this.introspectedTable.getPrimaryKeyColumns().iterator();
 
         IntrospectedColumn introspectedColumn;
         while (var5.hasNext()) {

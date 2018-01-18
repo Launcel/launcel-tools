@@ -20,6 +20,13 @@
       "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
     },
     {
+      "name": "db.jdbc.jdbc-url",
+      "type": "java.lang.String",
+      "defaultValue": "jdbc:log4jdbc:mysql://localhost:3306/test",
+      "description": "JDBC driverClassName of the database.",
+      "sourceType": "xyz.launcel.prop.DataSourceConfigProp"
+    },
+    {
       "name": "db.jdbc.username",
       "type": "java.lang.String",
       "description": "JDBC username of the database.",

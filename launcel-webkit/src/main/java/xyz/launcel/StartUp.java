@@ -18,7 +18,8 @@ public class StartUp extends BaseLogger {
         SpringApplication app = new SpringApplication(appClass);
         app.setBannerMode(Banner.Mode.OFF);
         ConfigurableEnvironment env = app.run(args).getEnvironment();
-        Warn("app port is : {}", env.getProperty("server.port"));
+        Warn("\n------------------------------------\n\t\tapp port is : \t{}",
+                env.getProperty("server.port") + "\n------------------------------------");
     }
 
 }

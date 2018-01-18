@@ -78,8 +78,8 @@ public class MapSession implements ExpiringSession, Serializable {
         return this.maxInactiveInterval >= 0 && now - TimeUnit.SECONDS.toMillis(this.maxInactiveInterval) >= this.lastAccessedTime;
     }
 
-    public <T> T getAttribute(String attributeName) {
-        //noinspection unchecked
+    @SuppressWarnings("unchecked")
+	public <T> T getAttribute(String attributeName) {
         return (T) this.sessionAttrs.get(attributeName);
     }
 

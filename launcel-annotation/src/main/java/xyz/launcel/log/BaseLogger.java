@@ -15,7 +15,8 @@ public class BaseLogger {
     }
 
     protected void info(String msg) {
-        log.info(msg);
+        log.info("\n------------------------------------------------------------------------\n\t{}",
+                msg + "\n------------------------------------------------------------------------");
     }
 
     protected void debug(String format, Object... arguments) {
@@ -87,7 +88,8 @@ public class BaseLogger {
         }
 
         protected static void info(String msg) {
-            staticLog.info(msg);
+            staticLog.info("\n------------------------------------------------------------------------\n\t{}",
+                    msg + "\n------------------------------------------------------------------------");
         }
 
         protected static void debug(String format, Object... arguments) {

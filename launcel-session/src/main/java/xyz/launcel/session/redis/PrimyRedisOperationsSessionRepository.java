@@ -208,7 +208,7 @@ public class PrimyRedisOperationsSessionRepository implements FindByIndexNameSes
 
         if (channel.startsWith(getSessionCreatedChannelPrefix())) {
             // TODO: is this thread safe?
-            Map<String, Object> loaded = (Map<String, Object>) this.defaultSerializer.deserialize(message.getBody());
+            Map<String, Object> loaded = this.defaultSerializer.deserialize(message.getBody());
             handleCreated(loaded, channel);
             return;
         }

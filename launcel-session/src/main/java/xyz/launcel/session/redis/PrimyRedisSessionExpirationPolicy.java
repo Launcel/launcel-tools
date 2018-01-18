@@ -53,7 +53,8 @@ public class PrimyRedisSessionExpirationPolicy {
 //        BoundSetOperations<String, Object> expireOperations = this.redis.boundSetOps(expireKey);
 //        expireOperations.add(keyToExpire);
 
-        long fiveMinutesAfterExpires = sessionExpireInSeconds + TimeUnit.MINUTES.toSeconds(5);
+        @SuppressWarnings("unused")
+		long fiveMinutesAfterExpires = sessionExpireInSeconds + TimeUnit.MINUTES.toSeconds(5);
 
 //        expireOperations.expire(fiveMinutesAfterExpires, TimeUnit.SECONDS);
         if (sessionExpireInSeconds == 0) {
