@@ -20,7 +20,7 @@
       "sourceType": "xyz.launcel.prop.CustomDataSourceProperties$CustomHikariDataSource"
     },
     {
-      "name": "db.custom.jdbc.driver-class-name",
+      "name": "db.custom.jdbc.driver-name",
       "type": "java.lang.String",
       "defaultValue": "com.mysql.jdbc.Driver",
       "description": "JDBC driverClassName of the database.",
@@ -95,11 +95,6 @@
     },
     {
       "name": "db.custom.mybatis.ref-name",
-      "type": "java.lang.String",
-      "sourceType": "xyz.launcel.prop.CustomMybatisProperties$CustomMybatisPropertie"
-    },
-    {
-      "name": "db.custom.mybatis.config",
       "type": "java.lang.String",
       "sourceType": "xyz.launcel.prop.CustomMybatisProperties$CustomMybatisPropertie"
     },

@@ -12,7 +12,7 @@ import java.util.Properties;
 @ConfigurationProperties(prefix = "db.jdbc")
 public class DataSourceProperties {
 
-    private String driverClassName;
+    private String driverName;
 
     private String jdbcUrl;
 
@@ -26,7 +26,7 @@ public class DataSourceProperties {
 
     private Long idleTimeout;
 
-    private Long maxLifetime;
+    private Long maxLifeTime;
 
     private Long connectionTimeout;
 
@@ -34,12 +34,12 @@ public class DataSourceProperties {
 
     private Properties dataSourceProperties;
 
-    public String getDriverClassName() {
-        return driverClassName;
+    public String getDriverName() {
+        return driverName;
     }
 
-    public void setDriverClassName(String driverClassName) {
-        this.driverClassName = driverClassName;
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
     }
 
     public String getJdbcUrl() {
@@ -90,12 +90,12 @@ public class DataSourceProperties {
         this.idleTimeout = idleTimeout;
     }
 
-    public Long getMaxLifetime() {
-        return maxLifetime;
+    public Long getMaxLifeTime() {
+        return maxLifeTime;
     }
 
-    public void setMaxLifetime(Long maxLifetime) {
-        this.maxLifetime = maxLifetime;
+    public void setMaxLifeTime(Long maxLifeTime) {
+        this.maxLifeTime = maxLifeTime;
     }
 
     public Long getConnectionTimeout() {
@@ -124,19 +124,18 @@ public class DataSourceProperties {
 
     public HikariConfig getHikariConfig() {
         HikariConfig config = new HikariConfig();
-        config.setDriverClassName(getDriverClassName());
+        System.out.println("\n---------------------------------\tdriver class name is : " + getDriverName());
+        config.setDriverClassName(getDriverName());
         config.setPassword(Base64.decode(getPassword()));
         config.setJdbcUrl(getJdbcUrl());
         config.setUsername(getUsername());
         config.setMinimumIdle(getMinIdle());
         config.setMaximumPoolSize(getMaxPoolSize());
-        config.setMaxLifetime(getMaxLifetime());
+        config.setMaxLifetime(getMaxLifeTime());
         config.setIdleTimeout(getIdleTimeout());
         config.setConnectionTimeout(getConnectionTimeout());
         config.setConnectionTestQuery(getConnectionTestQuery());
         config.setDataSourceProperties(getDataSourceProperties());
-//        if (isDebugEnabled())
-//        debug("\n---------------------------------------------------------------\thikariConfig is : {}", Json.toJson(config) + "\n---------------------------------------------------------------");
         return config;
     }
 

@@ -3,8 +3,6 @@ package xyz.launcel.prop;
 import com.zaxxer.hikari.HikariConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import xyz.launcel.lang.Base64;
-import xyz.launcel.lang.Json;
-import xyz.launcel.log.BaseLogger;
 
 import java.util.Map;
 import java.util.Properties;
@@ -26,11 +24,11 @@ public class CustomDataSourceProperties {
         this.list = list;
     }
 
-    public static class CustomHikariDataSource extends BaseLogger {
+    public static class CustomHikariDataSource {
 
         private String name;
 
-        private String driverClassName;
+        private String driverName;
 
         private String jdbcUrl;
 
@@ -60,12 +58,12 @@ public class CustomDataSourceProperties {
             this.name = name;
         }
 
-        public String getDriverClassName() {
-            return driverClassName;
+        public String getDriverName() {
+            return driverName;
         }
 
-        public void setDriverClassName(String driverClassName) {
-            this.driverClassName = driverClassName;
+        public void setDriverName(String driverName) {
+            this.driverName = driverName;
         }
 
         public String getJdbcUrl() {
@@ -150,7 +148,7 @@ public class CustomDataSourceProperties {
 
         public HikariConfig getHikariConfig() {
             HikariConfig config = new HikariConfig();
-            config.setDriverClassName(getDriverClassName());
+            config.setDriverClassName(getDriverName());
             config.setPassword(Base64.decode(getPassword()));
             config.setJdbcUrl(getJdbcUrl());
             config.setUsername(getUsername());
@@ -161,8 +159,6 @@ public class CustomDataSourceProperties {
             config.setConnectionTimeout(getConnectionTimeout());
             config.setConnectionTestQuery(getConnectionTestQuery());
             config.setDataSourceProperties(getDataSourceProperties());
-            if (isDebugEnabled())
-                debug("\n---------------------------------------------------------------\thikariConfig is : {}", Json.toJson(config) + "\n---------------------------------------------------------------");
             return config;
         }
     }

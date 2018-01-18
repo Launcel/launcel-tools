@@ -20,8 +20,6 @@ public class CustomMybatisProperties {
     public static class CustomMybatisPropertie {
         private String refName;
 
-        private String config;
-
         private String aliasesPackage;
 
         private String mapperResource;
@@ -34,14 +32,6 @@ public class CustomMybatisProperties {
 
         public void setRefName(String refName) {
             this.refName = refName;
-        }
-
-        public String getConfig() {
-            return config;
-        }
-
-        public void setConfig(String config) {
-            this.config = config;
         }
 
         public String getAliasesPackage() {

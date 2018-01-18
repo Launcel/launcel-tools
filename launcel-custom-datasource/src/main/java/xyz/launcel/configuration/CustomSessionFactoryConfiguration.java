@@ -30,7 +30,9 @@ import xyz.launcel.lang.Json;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.BaseLogger;
 import xyz.launcel.prop.CustomDataSourceProperties;
+import xyz.launcel.prop.CustomDataSourceProperties.CustomHikariDataSource;
 import xyz.launcel.prop.CustomMybatisProperties;
+import xyz.launcel.prop.CustomMybatisProperties.CustomMybatisPropertie;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -40,9 +42,9 @@ import java.util.Map;
 @EnableConfigurationProperties(value = {CustomDataSourceProperties.class, CustomMybatisProperties.class})
 public class CustomSessionFactoryConfiguration extends BaseLogger implements BeanDefinitionRegistryPostProcessor, EnvironmentAware {
 
-    private Map<String, CustomDataSourceProperties.CustomHikariDataSource> customDataSources = new HashMap<>();
+    private Map<String, CustomHikariDataSource> customDataSources = new HashMap<>();
 
-    private Map<String, CustomMybatisProperties.CustomMybatisPropertie> customMybatis = new HashMap<>();
+    private Map<String, CustomMybatisPropertie> customMybatis = new HashMap<>();
 
 
     @Override
@@ -67,7 +69,7 @@ public class CustomSessionFactoryConfiguration extends BaseLogger implements Bea
                 CustomMybatisProperties.CustomMybatisPropertie temp = customMybatis.get(key + "Mybatis");
                 MutablePropertyValues sqlSession = beanFactory.getBeanDefinition(key + "SqlSessionFactory").getPropertyValues();
                 sqlSession.addPropertyValue("dataSource", new HikariDataSource(value.getHikariConfig()));
-                sqlSession.addPropertyValue("configLocation", temp.getConfig());
+                sqlSession.addPropertyValue("configLocation", "mybatis/mybatis-config.xml");
                 sqlSession.addPropertyValue("typeAliasesPackage", temp.getAliasesPackage());
                 sqlSession.addPropertyValue("plugins", new Interceptor[]{new PageInterceptor()});
                 try {
@@ -93,22 +95,22 @@ public class CustomSessionFactoryConfiguration extends BaseLogger implements Bea
     }
 
     private void dataBinderDataSource(Map<String, Object> map) {
-        RelaxedDataBinder dataBinder = new RelaxedDataBinder(CustomDataSourceProperties.class);
         CustomDataSourceProperties customDataSourceProperties = new CustomDataSourceProperties();
+        RelaxedDataBinder dataBinder = new RelaxedDataBinder(customDataSourceProperties);
         dataBinder(dataBinder, map);
         if (customDataSourceProperties.getList() != null) {
-            for (CustomDataSourceProperties.CustomHikariDataSource hikariDataSource : customDataSourceProperties.getList().values()) {
+            for (CustomHikariDataSource hikariDataSource : customDataSourceProperties.getList().values()) {
                 customDataSources.put(hikariDataSource.getName(), hikariDataSource);
             }
         }
     }
 
     private void dataBinderMapper(Map<String, Object> map) {
-        RelaxedDataBinder dataBinder = new RelaxedDataBinder(CustomMybatisProperties.class);
         CustomMybatisProperties customMybatisProperties = new CustomMybatisProperties();
+        RelaxedDataBinder dataBinder = new RelaxedDataBinder(customMybatisProperties);
         dataBinder(dataBinder, map);
         if (customMybatisProperties.getList() != null) {
-            for (CustomMybatisProperties.CustomMybatisPropertie customMybatisPropertie : customMybatisProperties.getList().values()) {
+            for (CustomMybatisPropertie customMybatisPropertie : customMybatisProperties.getList().values()) {
                 customMybatis.put(customMybatisPropertie.getRefName(), customMybatisPropertie);
             }
 

@@ -13,7 +13,7 @@
   ],
   "properties": [
     {
-      "name": "db.jdbc.driver-class-name",
+      "name": "db.jdbc.driver-name",
       "type": "java.lang.String",
       "defaultValue": "com.mysql.jdbc.Driver",
       "description": "JDBC driverClassName of the database.",
@@ -85,12 +85,6 @@
       "type": "java.util.Properties",
       "description": "JDBC dataSourceProperties of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties"
-    },
-    {
-      "name": "db.mybatis.config",
-      "type": "java.lang.String",
-      "description": "Mybatis config",
-      "sourceType": "xyz.launcel.prop.MybatisProperties"
     },
     {
       "name": "db.mybatis.aliases-package",
