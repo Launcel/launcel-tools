@@ -15,7 +15,7 @@
     {
       "name": "db.jdbc.driver-name",
       "type": "java.lang.String",
-      "defaultValue": "com.mysql.jdbc.Driver",
+      "defaultValue": "net.sf.log4jdbc.DriverSpy",
       "description": "JDBC driverClassName of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },

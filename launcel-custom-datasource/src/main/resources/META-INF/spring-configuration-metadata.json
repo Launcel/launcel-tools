@@ -15,7 +15,6 @@
     {
       "name": "db.custom.jdbc.name",
       "type": "java.lang.String",
-      "defaultValue": "com.mysql.jdbc.Driver",
       "description": "JDBC driverClassName of the database.",
       "sourceType": "xyz.launcel.prop.CustomDataSourceProperties$CustomHikariDataSource"
     },

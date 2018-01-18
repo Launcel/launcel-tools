@@ -3,6 +3,7 @@ package xyz.launcel.prop;
 import com.zaxxer.hikari.HikariConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import xyz.launcel.lang.Base64;
+import xyz.launcel.lang.StringUtils;
 
 import java.util.Map;
 import java.util.Properties;
@@ -26,27 +27,27 @@ public class CustomDataSourceProperties {
 
     public static class CustomHikariDataSource {
 
-        private String name;
+        private String name = "custom" + StringUtils.random(3);
 
-        private String driverName;
+        private String driverName = "com.mysql.jdbc.Driver";
 
-        private String jdbcUrl;
+        private String jdbcUrl = "jdbc:mysql://localhost:3306/test";
 
-        private String username;
+        private String username = "root";
 
-        private String password;
+        private String password = "123456";
 
-        private Integer minIdle;
+        private Integer minIdle = 1;
 
-        private Integer maxPoolSize;
+        private Integer maxPoolSize = 5;
 
-        private Long idleTimeout;
+        private Long idleTimeout = 600000L;
 
-        private Long maxLifetime;
+        private Long maxLifetime = 1800000L;
 
-        private Long connectionTimeout;
+        private Long connectionTimeout = 30000L;
 
-        private String connectionTestQuery;
+        private String connectionTestQuery = "select 'x'";
 
         private Properties dataSourceProperties;
 
@@ -158,7 +159,8 @@ public class CustomDataSourceProperties {
             config.setIdleTimeout(getIdleTimeout());
             config.setConnectionTimeout(getConnectionTimeout());
             config.setConnectionTestQuery(getConnectionTestQuery());
-            config.setDataSourceProperties(getDataSourceProperties());
+            if (!getDataSourceProperties().isEmpty())
+                config.setDataSourceProperties(getDataSourceProperties());
             return config;
         }
     }

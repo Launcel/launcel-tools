@@ -11,10 +11,10 @@ import java.util.Properties;
  */
 @ConfigurationProperties(prefix = "db.jdbc")
 public class DataSourceProperties {
+    
+    private String driverName = "net.sf.log4jdbc.DriverSpy";
 
-    private String driverName;
-
-    private String jdbcUrl;
+    private String jdbcUrl = "jdbc:log4jdbc:mysql://localhost:3306/test";
 
     private String username;
 
@@ -135,7 +135,8 @@ public class DataSourceProperties {
         config.setIdleTimeout(getIdleTimeout());
         config.setConnectionTimeout(getConnectionTimeout());
         config.setConnectionTestQuery(getConnectionTestQuery());
-        config.setDataSourceProperties(getDataSourceProperties());
+        if (!getDataSourceProperties().isEmpty())
+            config.setDataSourceProperties(getDataSourceProperties());
         return config;
     }
 
