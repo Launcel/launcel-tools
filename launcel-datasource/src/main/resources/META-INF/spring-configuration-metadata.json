@@ -89,21 +89,25 @@
     {
       "name": "db.mybatis.config",
       "type": "java.lang.String",
+      "description": "Mybatis config",
       "sourceType": "xyz.launcel.prop.MybatisProperties"
     },
     {
       "name": "db.mybatis.aliases-package",
       "type": "java.lang.String",
+      "description": "mybatis entity aliase",
       "sourceType": "xyz.launcel.prop.MybatisProperties"
     },
     {
       "name": "db.mybatis.mapper-resource",
       "type": "java.lang.String",
+      "description": "mybatis xml mappers package",
       "sourceType": "xyz.launcel.prop.MybatisProperties"
     },
     {
       "name": "db.mybatis.mapper-package",
       "type": "java.lang.String",
+      "description": "mybatis dao package",
       "sourceType": "xyz.launcel.prop.MybatisProperties"
     }
   ]

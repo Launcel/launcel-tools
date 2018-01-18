@@ -36,6 +36,7 @@ public class SessionFactoryConfiguration {
     @Inject
     private MybatisProperties mybatisProperties;
 
+
     @Primary
     @Bean(name = "dataSource")
     public DataSource dataSource() {
@@ -45,7 +46,7 @@ public class SessionFactoryConfiguration {
     @Primary
     @Bean(name = "sqlSessionFactory")
     @ConditionalOnBean(name = "dataSource")
-    public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier(value = "dataSource") DataSource dataSource) {
+    public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier(value = "dataSource") final DataSource dataSource) {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setConfigLocation(new ClassPathResource(mybatisProperties.getConfig()));
         sqlSessionFactoryBean.setTypeAliasesPackage(mybatisProperties.getAliasesPackage());
@@ -60,10 +61,10 @@ public class SessionFactoryConfiguration {
         return sqlSessionFactoryBean;
     }
 
-    @ConditionalOnBean(name = {"sqlSessionFactory", "mybatisProperties"})
+    @ConditionalOnBean(name = "sqlSessionFactory")
     @Bean
-    MapperScannerConfigurer mapperScannerConfigurer() {
-        System.out.println("\n----------------------------"+ Json.toJson(mybatisProperties.getMapperResource()));
+    public MapperScannerConfigurer mapperScannerConfigurer() {
+        System.out.println("\n----------------------------" + Json.toJson(mybatisProperties.getMapperResource()));
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
         mapperScannerConfigurer.setBasePackage(mybatisProperties.getMapperPackage());
