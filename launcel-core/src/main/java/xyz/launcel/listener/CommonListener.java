@@ -1,4 +1,4 @@
-package xyz.launcel.Listener;
+package xyz.launcel.listener;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

@@ -4,12 +4,9 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -17,7 +14,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.interceptor.PageInterceptor;
-import xyz.launcel.log.BaseLogger;
 import xyz.launcel.prop.DataSourceProperties;
 import xyz.launcel.prop.MybatisProperties;
 
@@ -31,18 +27,18 @@ import java.io.IOException;
 //@EnableTransactionManagement
 @Configuration
 @EnableConfigurationProperties({DataSourceProperties.class, MybatisProperties.class})
-public class SessionFactoryConfiguration implements ApplicationContextAware {
+public class SessionFactoryConfiguration {
+
+
+    @Inject
+    private DataSourceProperties dataSourcePropertie;
 
     @Inject
     private MybatisProperties mybatisPropertie;
 
-    private ApplicationContext applicationContext;
-
-
     @Primary
     @Bean(name = "dataSource")
     public DataSource dataSource() {
-        DataSourceProperties dataSourcePropertie = applicationContext.getBean(DataSourceProperties.class);
         return new HikariDataSource(dataSourcePropertie.getHikariConfig());
     }
 
@@ -51,7 +47,6 @@ public class SessionFactoryConfiguration implements ApplicationContextAware {
     @Bean(name = "sqlSessionFactory")
     public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier(value = "dataSource") final DataSource dataSource) {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        mybatisPropertie = applicationContext.getBean(MybatisProperties.class);
         sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("mybatis/mybatis-config.xml"));
         System.out.println("\n---------------------------------\t" + mybatisPropertie.getAliasesPackage() + "\n---------------------------------");
         sqlSessionFactoryBean.setTypeAliasesPackage(mybatisPropertie.getAliasesPackage());
@@ -73,11 +68,6 @@ public class SessionFactoryConfiguration implements ApplicationContextAware {
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
         mapperScannerConfigurer.setBasePackage(mybatisPropertie.getMapperPackage());
         return mapperScannerConfigurer;
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
     }
 
     /**
