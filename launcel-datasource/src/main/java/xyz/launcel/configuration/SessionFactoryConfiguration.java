@@ -37,9 +37,6 @@ public class SessionFactoryConfiguration {
     @Primary
     @Bean(name = "dataSource")
     public HikariDataSource dataSource() {
-        System.out.println("\n--------------------");
-        System.out.println(dataSourcePropertie == null);
-        System.out.println("--------------------");
         return new HikariDataSource(dataSourcePropertie.getHikariConfig());
     }
 
@@ -50,12 +47,10 @@ public class SessionFactoryConfiguration {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("mybatis/mybatis-config.xml"));
         sqlSessionFactoryBean.setTypeAliasesPackage(mybatisPropertie.getAliasesPackage());
-//        sqlSessionFactoryBean.setTypeAliasesPackage("team.uncle.model");
         sqlSessionFactoryBean.setPlugins(new Interceptor[]{new PageInterceptor()});
         sqlSessionFactoryBean.setDataSource(dataSource);
         try {
             sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(mybatisPropertie.getMapperResource()));
-//            sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("team/uncle/mapper/*.xml"));
         } catch (IOException x) {
             ExceptionFactory.error("-1", "xml文件加载失败");
             System.exit(-1);
@@ -65,11 +60,10 @@ public class SessionFactoryConfiguration {
 
     @ConditionalOnBean(name = "sqlSessionFactory")
     @Bean
-    public MapperScannerConfigurer mapperScannerConfigurer(@Qualifier(value = "sqlSessionFactory") SqlSessionFactoryBean sqlSessionFactory) {
+    public MapperScannerConfigurer mapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
         mapperScannerConfigurer.setBasePackage(mybatisPropertie.getMapperPackage());
-//        mapperScannerConfigurer.setBasePackage("team.uncle.dao");
         return mapperScannerConfigurer;
     }
 

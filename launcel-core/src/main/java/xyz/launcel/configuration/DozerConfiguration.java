@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import xyz.launcel.lang.Json;
 import xyz.launcel.prop.DozerProperties;
 
 import javax.inject.Inject;
@@ -21,7 +20,6 @@ public class DozerConfiguration {
 
     @Bean(name = "dozer")
     public Mapper mapper() {
-        System.out.println("\n------------\n" + Json.toJson(dozerProperties) + "\n------------");
         DozerBeanMapper mapper = new DozerBeanMapper();
         if (dozerProperties.getList() != null && !dozerProperties.getList().isEmpty()) {
             mapper.setMappingFiles(dozerProperties.getList());

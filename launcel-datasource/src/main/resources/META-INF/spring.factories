@@ -1,1 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=xyz.launcel.configuration.SessionFactoryConfiguration,xyz.launcel.aspejct.ServerAspejct
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+xyz.launcel.configuration.SessionFactoryConfiguration,xyz.launcel.aspejct.ServerAspejct

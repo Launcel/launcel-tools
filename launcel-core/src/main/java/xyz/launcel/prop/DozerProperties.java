@@ -7,7 +7,6 @@ import java.util.List;
 @ConfigurationProperties(prefix = "launcel.dozer")
 public class DozerProperties {
 
-    @SuppressWarnings("unchecked")
     private List<String> list;
 
     public List<String> getList() {
