@@ -3,7 +3,7 @@ package xyz.launcel.prop;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "db.mybatis")
-public class MybatisPropertie {
+public class MybatisProps {
     private String aliasesPackage;
     private String mapperResource;
     private String mapperPackage;

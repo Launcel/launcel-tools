@@ -1,6 +1,5 @@
 package xyz.launcel.dao;
 
-import java.util.Collections;
 import java.util.List;
 
 public class Paging<T> {
@@ -9,8 +8,7 @@ public class Paging<T> {
 
     private boolean count = true;
 
-    @SuppressWarnings("unchecked")
-    private List<T> data = Collections.EMPTY_LIST;
+    private List<T> data;
 
     private int maxRow = _DEFAULT_ROW;
 

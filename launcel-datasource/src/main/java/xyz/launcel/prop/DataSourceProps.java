@@ -13,7 +13,7 @@ import java.util.Properties;
  * Created by xuyang in 2017/9/19
  */
 @ConfigurationProperties(prefix = "db.jdbc")
-public class DataSourcePropertie {
+public class DataSourceProps {
 
     private String driverClassName;
     private String url;
@@ -25,7 +25,7 @@ public class DataSourcePropertie {
     private Long maxLifeTime;
     private Long connectionTimeout;
     private String connectionTestQuery;
-    private Properties dataSourceProp;
+    private Properties dataSourceProperties;
 
     public String getDriverClassName() {
         return driverClassName;
@@ -107,47 +107,30 @@ public class DataSourcePropertie {
         this.connectionTestQuery = connectionTestQuery;
     }
 
-    public Properties getDataSourceProp() {
-        return dataSourceProp;
+    public Properties getDataSourceProperties() {
+        return dataSourceProperties;
     }
 
-    public void setDataSourceProp(Properties dataSourceProp) {
-        this.dataSourceProp = dataSourceProp;
-    }
-
-    @Override
-    public String toString() {
-        return "DataSourcePropertie : [\n" +
-                "\t'driverName' : '" + driverClassName + '\'' +
-                "\n\t, 'jdbcUrl' : '" + url + '\'' +
-                "\n\t, 'username' : '" + username + '\'' +
-                "\n\t, 'password' : '" + password + '\'' +
-                "\n\t, 'minIdle' : '" + minIdle + '\'' +
-                "\n\t, 'maxPoolSize' : '" + maxPoolSize + '\'' +
-                "\n\t, 'idleTimeout' : '" + idleTimeout + '\'' +
-                "\n\t, 'maxLifeTime' : '" + maxLifeTime + '\'' +
-                "\n\t, 'connectionTimeout' : '" + connectionTimeout + '\'' +
-                "\n\t, 'connectionTestQuery' : '" + connectionTestQuery + '\'' +
-                "\n\t, 'dataSourceProp' : '" + dataSourceProp + '\'' +
-                ']';
+    public void setDataSourceProperties(Properties dataSourceProperties) {
+        this.dataSourceProperties = dataSourceProperties;
     }
 
     public HikariConfig getHikariConfig() {
         HikariConfig config = new HikariConfig();
         Logger log = LoggerFactory.getLogger(this.getClass());
-        log.info(Json.toJson(toString()));
-        config.setDriverClassName(getDriverClassName());
-        config.setPassword(Base64.decode(getPassword()));
-        config.setJdbcUrl(getUrl());
-        config.setUsername(getUsername());
-        config.setMinimumIdle(getMinIdle());
-        config.setMaximumPoolSize(getMaxPoolSize());
-        config.setMaxLifetime(getMaxLifeTime());
-        config.setIdleTimeout(getIdleTimeout());
-        config.setConnectionTimeout(getConnectionTimeout());
-        config.setConnectionTestQuery(getConnectionTestQuery());
-        if (dataSourceProp != null && !getDataSourceProp().isEmpty())
-            config.setDataSourceProperties(getDataSourceProp());
+        log.info(Json.toJson(toString()).replaceAll("\\{", "[").replaceAll("\\}", "]"));
+        config.setDriverClassName(driverClassName);
+        config.setPassword(Base64.decode(password));
+        config.setJdbcUrl(url);
+        config.setUsername(username);
+        config.setMinimumIdle(minIdle);
+        config.setMaximumPoolSize(maxPoolSize);
+        config.setMaxLifetime(maxLifeTime);
+        config.setIdleTimeout(idleTimeout);
+        config.setConnectionTimeout(connectionTimeout);
+        config.setConnectionTestQuery(connectionTestQuery);
+        if (dataSourceProperties != null && !dataSourceProperties.isEmpty())
+            config.setDataSourceProperties(dataSourceProperties);
         return config;
     }
 
