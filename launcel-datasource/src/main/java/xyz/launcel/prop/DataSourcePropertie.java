@@ -1,15 +1,17 @@
 package xyz.launcel.prop;
 
 import com.zaxxer.hikari.HikariConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import xyz.launcel.lang.Base64;
+import xyz.launcel.lang.Json;
 
 import java.util.Properties;
 
 /**
  * Created by xuyang in 2017/9/19
  */
-//@Configuration
 @ConfigurationProperties(prefix = "db.jdbc")
 public class DataSourcePropertie {
 
@@ -115,26 +117,25 @@ public class DataSourcePropertie {
 
     @Override
     public String toString() {
-        return "DataSourcePropertie{\n" +
-                "\tdriverName='" + driverClassName + '\'' +
-                "\t, jdbcUrl='" + url + '\'' +
-                "\t, username='" + username + '\'' +
-                "\t, password='" + password + '\'' +
-                "\t, minIdle=" + minIdle +
-                "\t, maxPoolSize=" + maxPoolSize +
-                "\t, idleTimeout=" + idleTimeout +
-                "\t, maxLifeTime=" + maxLifeTime +
-                "\t, connectionTimeout=" + connectionTimeout +
-                "\t, connectionTestQuery='" + connectionTestQuery + '\'' +
-                "\t, dataSourceProp=" + dataSourceProp +
-                '}';
+        return "DataSourcePropertie : [\n" +
+                "\t'driverName' : '" + driverClassName + '\'' +
+                "\n\t, 'jdbcUrl' : '" + url + '\'' +
+                "\n\t, 'username' : '" + username + '\'' +
+                "\n\t, 'password' : '" + password + '\'' +
+                "\n\t, 'minIdle' : '" + minIdle + '\'' +
+                "\n\t, 'maxPoolSize' : '" + maxPoolSize + '\'' +
+                "\n\t, 'idleTimeout' : '" + idleTimeout + '\'' +
+                "\n\t, 'maxLifeTime' : '" + maxLifeTime + '\'' +
+                "\n\t, 'connectionTimeout' : '" + connectionTimeout + '\'' +
+                "\n\t, 'connectionTestQuery' : '" + connectionTestQuery + '\'' +
+                "\n\t, 'dataSourceProp' : '" + dataSourceProp + '\'' +
+                ']';
     }
 
     public HikariConfig getHikariConfig() {
         HikariConfig config = new HikariConfig();
-//        Logger log = LoggerFactory.getLogger(this.getClass());
-//        log.info(toString());
-        System.out.println("------------------\ntoString : " + toString() + "\n------------------");
+        Logger log = LoggerFactory.getLogger(this.getClass());
+        log.info(Json.toJson(toString()));
         config.setDriverClassName(getDriverClassName());
         config.setPassword(Base64.decode(getPassword()));
         config.setJdbcUrl(getUrl());

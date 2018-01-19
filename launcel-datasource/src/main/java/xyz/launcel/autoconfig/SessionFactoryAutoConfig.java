@@ -76,7 +76,7 @@ public class SessionFactoryAutoConfig {
         return mapperScannerConfigurer;
     }
 
-    @ConditionalOnProperty(prefix = "aspejct.service", value = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "aspejct.service", value = "enabled", havingValue = "true", matchIfMissing = true)
     @Bean
     ServerAspejct serverAspejct() {
         return new ServerAspejct();

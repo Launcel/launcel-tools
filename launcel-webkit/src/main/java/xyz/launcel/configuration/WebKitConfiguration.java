@@ -1,6 +1,7 @@
 package xyz.launcel.configuration;
 
 import com.google.gson.GsonBuilder;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -51,6 +52,7 @@ public class WebKitConfiguration extends WebMvcConfigurerAdapter {
         return new GlobalExceptionHandle();
     }
 
+    @ConditionalOnProperty(prefix = "aspejct.mvc", value = "enabled", havingValue = "true", matchIfMissing = true)
     @Bean
     public ControllerParamValidateAspejct controllerParamValidateAspejct() {
         return new ControllerParamValidateAspejct();
