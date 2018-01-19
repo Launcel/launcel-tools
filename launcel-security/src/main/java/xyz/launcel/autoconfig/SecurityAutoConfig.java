@@ -1,21 +1,21 @@
-package xyz.launcel.datasource.configuration;
+package xyz.launcel.autoconfig;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import xyz.launcel.config.SecurityConfig;
-import xyz.launcel.datasource.prop.SecurityListProperties;
 import xyz.launcel.interceptor.RoleInterceptor;
+import xyz.launcel.prop.SecurityListPropertie;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 @Configuration
-@EnableConfigurationProperties(SecurityListProperties.class)
-public class SecurityConfiguration extends WebMvcConfigurerAdapter {
+@EnableConfigurationProperties(SecurityListPropertie.class)
+public class SecurityAutoConfig extends WebMvcConfigurerAdapter {
     @Inject
-    private SecurityListProperties securityListProperties;
+    private SecurityListPropertie securityListProperties;
 
     @PostConstruct
     protected void initSecurityConfig() {

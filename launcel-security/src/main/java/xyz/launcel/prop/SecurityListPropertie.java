@@ -1,11 +1,11 @@
-package xyz.launcel.datasource.prop;
+package xyz.launcel.prop;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Map;
 
-@ConfigurationProperties(prefix = "launcel.security")
-public class SecurityListProperties {
+@ConfigurationProperties(prefix = "web.security")
+public class SecurityListPropertie {
     private Map<String, String[]> list;
 
     public Map<String, String[]> getList() {

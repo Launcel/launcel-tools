@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 //@Configuration
 @ConfigurationProperties(prefix = "db.mybatis")
-public class MybatisProperties {
+public class MybatisPropertie {
 //    @Value("${db.mybatis.aliases-package}")
     private String aliasesPackage;
 //    @Value("${db.mybatis.mapper-resource}")

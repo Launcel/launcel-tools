@@ -1,4 +1,4 @@
-package xyz.launcel.configuration;
+package xyz.launcel.autoconfig;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.plugin.Interceptor;
@@ -15,8 +15,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.interceptor.PageInterceptor;
-import xyz.launcel.prop.DataSourceProperties;
-import xyz.launcel.prop.MybatisProperties;
+import xyz.launcel.prop.DataSourcePropertie;
+import xyz.launcel.prop.MybatisPropertie;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -25,16 +25,15 @@ import java.io.IOException;
  * Created by Launcel in 2017/9/19
  */
 @Configuration
-//@AutoConfigureAfter(value = {DataSourceProperties.class, MybatisProperties.class})
-@EnableConfigurationProperties(value = {DataSourceProperties.class, MybatisProperties.class})
+@EnableConfigurationProperties(value = {DataSourcePropertie.class, MybatisPropertie.class})
 //@EnableTransactionManagement
-public class SessionFactoryConfiguration {
+public class SessionFactoryAutoConfig {
 
     @Inject
-    private DataSourceProperties dataSourcePropertie;
+    private DataSourcePropertie dataSourcePropertie;
 
     @Inject
-    private MybatisProperties mybatisPropertie;
+    private MybatisPropertie mybatisPropertie;
 
     @Primary
     @Bean(name = "dataSource")

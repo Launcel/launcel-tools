@@ -1,4 +1,4 @@
-package xyz.launcel.datasource.configuration;
+package xyz.launcel.configuration;
 
 import com.google.gson.GsonBuilder;
 import org.springframework.context.annotation.Bean;

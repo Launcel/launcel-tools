@@ -1,4 +1,4 @@
-package xyz.launcel.datasource.prop;
+package xyz.launcel.prop;
 
 import com.zaxxer.hikari.HikariConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -11,27 +11,27 @@ import java.util.Properties;
 /**
  * Created by xuyang in 2017/9/19
  */
-@ConfigurationProperties(prefix = "db.custom.jdbc")
-public class CustomDataSourceProperties {
+@ConfigurationProperties(prefix = "custom.jdbc")
+public class CustomDataSourcePropertie {
 
 
-    private Map<String, CustomHikariDataSource> list;
+    private Map<String, PrimyHikariDataSource> list;
 
-    public Map<String, CustomHikariDataSource> getList() {
+    public Map<String, PrimyHikariDataSource> getList() {
         return list;
     }
 
-    public void setList(Map<String, CustomHikariDataSource> list) {
+    public void setList(Map<String, PrimyHikariDataSource> list) {
         this.list = list;
     }
 
-    public static class CustomHikariDataSource {
+    public static class PrimyHikariDataSource {
 
         private String name = "custom" + StringUtils.random(3);
 
-        private String driverName = "com.mysql.jdbc.Driver";
+        private String driverClassName = "com.mysql.jdbc.Driver";
 
-        private String jdbcUrl = "jdbc:mysql://localhost:3306/test";
+        private String url = "jdbc:mysql://localhost:3306/test";
 
         private String username = "root";
 
@@ -49,7 +49,7 @@ public class CustomDataSourceProperties {
 
         private String connectionTestQuery = "select 'x'";
 
-        private Properties dataSourceProperties;
+        private Properties dataSourceProp;
 
         public String getName() {
             return name;
@@ -59,20 +59,20 @@ public class CustomDataSourceProperties {
             this.name = name;
         }
 
-        public String getDriverName() {
-            return driverName;
+        public String getDriverClassName() {
+            return driverClassName;
         }
 
-        public void setDriverName(String driverName) {
-            this.driverName = driverName;
+        public void setDriverClassName(String driverClassName) {
+            this.driverClassName = driverClassName;
         }
 
-        public String getJdbcUrl() {
-            return jdbcUrl;
+        public String getUrl() {
+            return url;
         }
 
-        public void setJdbcUrl(String jdbcUrl) {
-            this.jdbcUrl = jdbcUrl;
+        public void setUrl(String url) {
+            this.url = url;
         }
 
         public String getUsername() {
@@ -139,19 +139,19 @@ public class CustomDataSourceProperties {
             this.connectionTestQuery = connectionTestQuery;
         }
 
-        public Properties getDataSourceProperties() {
-            return dataSourceProperties;
+        public Properties getDataSourceProp() {
+            return dataSourceProp;
         }
 
-        public void setDataSourceProperties(Properties dataSourceProperties) {
-            this.dataSourceProperties = dataSourceProperties;
+        public void setDataSourceProp(Properties dataSourceProp) {
+            this.dataSourceProp = dataSourceProp;
         }
 
         public HikariConfig getHikariConfig() {
             HikariConfig config = new HikariConfig();
-            config.setDriverClassName(getDriverName());
+            config.setDriverClassName(getDriverClassName());
             config.setPassword(Base64.decode(getPassword()));
-            config.setJdbcUrl(getJdbcUrl());
+            config.setJdbcUrl(getUrl());
             config.setUsername(getUsername());
             config.setMinimumIdle(getMinIdle());
             config.setMaximumPoolSize(getMaxPoolSize());
@@ -159,8 +159,8 @@ public class CustomDataSourceProperties {
             config.setIdleTimeout(getIdleTimeout());
             config.setConnectionTimeout(getConnectionTimeout());
             config.setConnectionTestQuery(getConnectionTestQuery());
-            if (!getDataSourceProperties().isEmpty())
-                config.setDataSourceProperties(getDataSourceProperties());
+            if (!getDataSourceProp().isEmpty())
+                config.setDataSourceProperties(getDataSourceProp());
             return config;
         }
     }

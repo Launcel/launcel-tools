@@ -1,4 +1,4 @@
-package xyz.launcel.datasource.configuration;
+package xyz.launcel.autoconfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,7 @@ import xyz.launcel.session.web.http.PrimyCookieHttpSessionStrategy;
 
 @Configuration
 @PrimyEnableRedisHttpSession
-public class SessionConfiguration {
+public class SessionAutoConfig {
 
     @Primary
     @Bean

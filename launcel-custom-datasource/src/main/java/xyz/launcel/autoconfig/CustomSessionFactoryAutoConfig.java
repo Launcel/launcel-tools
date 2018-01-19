@@ -1,4 +1,4 @@
-package xyz.launcel.datasource.configuration;
+package xyz.launcel.autoconfig;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.plugin.Interceptor;
@@ -24,49 +24,47 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.validation.BindingResult;
+import xyz.launcel.prop.CustomDataSourcePropertie;
+import xyz.launcel.prop.CustomDataSourcePropertie.PrimyHikariDataSource;
+import xyz.launcel.prop.CustomMybatisPropertie;
+import xyz.launcel.prop.CustomMybatisPropertie.PrimyMybatisPropertie;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.interceptor.PageInterceptor;
 import xyz.launcel.lang.Json;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.BaseLogger;
-import xyz.launcel.datasource.prop.CustomDataSourceProperties;
-import xyz.launcel.datasource.prop.CustomDataSourceProperties.CustomHikariDataSource;
-import xyz.launcel.datasource.prop.CustomMybatisProperties;
-import xyz.launcel.datasource.prop.CustomMybatisProperties.CustomMybatisPropertie;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@EnableConfigurationProperties(value = {CustomDataSourceProperties.class, CustomMybatisProperties.class})
-public class CustomSessionFactoryConfiguration extends BaseLogger implements BeanDefinitionRegistryPostProcessor, EnvironmentAware {
+@EnableConfigurationProperties(value = {CustomDataSourcePropertie.class, CustomMybatisPropertie.class})
+public class CustomSessionFactoryAutoConfig extends BaseLogger implements BeanDefinitionRegistryPostProcessor, EnvironmentAware {
 
-    private Map<String, CustomHikariDataSource> customDataSources = new HashMap<>();
+    private Map<String, PrimyHikariDataSource> customDataSources = new HashMap<>();
 
-    private Map<String, CustomMybatisPropertie> customMybatis = new HashMap<>();
+    private Map<String, PrimyMybatisPropertie> customMybatis = new HashMap<>();
 
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-        info("---------------------------------------------\n\tCustomHikariDataSource : {}",
-                Json.toJson(customDataSources) + "\n---------------------------------------------");
-        info("---------------------------------------------\n\tCustomMybatisPropertie : {}",
-                Json.toJson(customMybatis) + "\n---------------------------------------------");
+        info("CustomHikariDataSource : " + Json.toJson(customDataSources));
+        info("CustomMybatisPropertie : " + Json.toJson(customMybatis));
         customDataSources.keySet().stream().filter(StringUtils::isNotBlank).forEach(name -> {
-//            registryBean(name + "DataSource", registry, CustomDataSourceProperties.CustomHikariDataSource.class);
+//            registryBean(name + "DataSource", registry, CustomDataSourcePropertie.CustomHikariDataSource.class);
             registryBean(name + "SqlSessionFactory", registry, SqlSessionFactoryBean.class);
             registryBean(name + "MapperSacnner", registry, MapperScannerConfigurer.class);
         });
 //        customMybatis.keySet().stream().filter(StringUtils::isNotBlank).forEach(name ->
-//                registryBean(name + "Mybatis", registry, CustomMybatisProperties.CustomMybatisPropertie.class));
+//                registryBean(name + "Mybatis", registry, CustomMybatisPropertie.CustomMybatisPropertie.class));
     }
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         if (!customDataSources.isEmpty() && !customMybatis.isEmpty()) {
             customDataSources.forEach((key, value) -> {
-                CustomMybatisProperties.CustomMybatisPropertie temp = customMybatis.get(key + "Mybatis");
+                PrimyMybatisPropertie temp = customMybatis.get(key + "Mybatis");
                 MutablePropertyValues sqlSession = beanFactory.getBeanDefinition(key + "SqlSessionFactory").getPropertyValues();
                 sqlSession.addPropertyValue("dataSource", new HikariDataSource(value.getHikariConfig()));
                 sqlSession.addPropertyValue("configLocation", "mybatis/mybatis-config.xml");
@@ -95,22 +93,22 @@ public class CustomSessionFactoryConfiguration extends BaseLogger implements Bea
     }
 
     private void dataBinderDataSource(Map<String, Object> map) {
-        CustomDataSourceProperties customDataSourceProperties = new CustomDataSourceProperties();
+        CustomDataSourcePropertie customDataSourceProperties = new CustomDataSourcePropertie();
         RelaxedDataBinder dataBinder = new RelaxedDataBinder(customDataSourceProperties);
         dataBinder(dataBinder, map);
         if (customDataSourceProperties.getList() != null) {
-            for (CustomHikariDataSource hikariDataSource : customDataSourceProperties.getList().values()) {
+            for (PrimyHikariDataSource hikariDataSource : customDataSourceProperties.getList().values()) {
                 customDataSources.put(hikariDataSource.getName(), hikariDataSource);
             }
         }
     }
 
     private void dataBinderMapper(Map<String, Object> map) {
-        CustomMybatisProperties customMybatisProperties = new CustomMybatisProperties();
+        CustomMybatisPropertie customMybatisProperties = new CustomMybatisPropertie();
         RelaxedDataBinder dataBinder = new RelaxedDataBinder(customMybatisProperties);
         dataBinder(dataBinder, map);
         if (customMybatisProperties.getList() != null) {
-            for (CustomMybatisPropertie customMybatisPropertie : customMybatisProperties.getList().values()) {
+            for (PrimyMybatisPropertie customMybatisPropertie : customMybatisProperties.getList().values()) {
                 customMybatis.put(customMybatisPropertie.getRefName(), customMybatisPropertie);
             }
 

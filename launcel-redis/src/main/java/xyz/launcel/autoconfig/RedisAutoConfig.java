@@ -1,4 +1,4 @@
-package xyz.launcel.datasource.configuration;
+package xyz.launcel.autoconfig;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,20 +17,20 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import redis.clients.jedis.JedisPoolConfig;
 import xyz.launcel.lang.Base64;
-import xyz.launcel.datasource.prop.RedisProperties;
+import xyz.launcel.prop.RedisPropertie;
 import xyz.launcel.support.serializer.GsonRedisSerializer;
 
 import javax.inject.Inject;
 
 @EnableCaching
 @Configuration
-@EnableConfigurationProperties(value = RedisProperties.class)
-public class RedisConfiguration extends CachingConfigurerSupport {
+@EnableConfigurationProperties(value = RedisPropertie.class)
+public class RedisAutoConfig extends CachingConfigurerSupport {
 
-    private Logger logger = LoggerFactory.getLogger(RedisConfiguration.class);
+    private Logger logger = LoggerFactory.getLogger(RedisAutoConfig.class);
 
     @Inject
-    private RedisProperties redisConf;
+    private RedisPropertie redisConf;
 
     @Primary
     @Bean(name = "redisPool")

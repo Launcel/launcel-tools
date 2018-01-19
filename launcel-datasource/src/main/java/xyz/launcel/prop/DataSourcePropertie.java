@@ -11,10 +11,10 @@ import java.util.Properties;
  */
 //@Configuration
 @ConfigurationProperties(prefix = "db.jdbc")
-public class DataSourceProperties {
+public class DataSourcePropertie {
 
-    private String driverName;
-    private String jdbcUrl;
+    private String driverClassName;
+    private String url;
     private String username;
     private String password;
     private Integer minIdle;
@@ -23,22 +23,22 @@ public class DataSourceProperties {
     private Long maxLifeTime;
     private Long connectionTimeout;
     private String connectionTestQuery;
-    private Properties dataSourceProperties;
+    private Properties dataSourceProp;
 
-    public String getDriverName() {
-        return driverName;
+    public String getDriverClassName() {
+        return driverClassName;
     }
 
-    public void setDriverName(String driverName) {
-        this.driverName = driverName;
+    public void setDriverClassName(String driverClassName) {
+        this.driverClassName = driverClassName;
     }
 
-    public String getJdbcUrl() {
-        return jdbcUrl;
+    public String getUrl() {
+        return url;
     }
 
-    public void setJdbcUrl(String jdbcUrl) {
-        this.jdbcUrl = jdbcUrl;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getUsername() {
@@ -105,29 +105,29 @@ public class DataSourceProperties {
         this.connectionTestQuery = connectionTestQuery;
     }
 
-    public Properties getDataSourceProperties() {
-        return dataSourceProperties;
+    public Properties getDataSourceProp() {
+        return dataSourceProp;
     }
 
-    public void setDataSourceProperties(Properties dataSourceProperties) {
-        this.dataSourceProperties = dataSourceProperties;
+    public void setDataSourceProp(Properties dataSourceProp) {
+        this.dataSourceProp = dataSourceProp;
     }
 
     @Override
     public String toString() {
-        return "DataSourceProperties[" +
-                "driverName='" + driverName + '\'' +
-                ", jdbcUrl='" + jdbcUrl + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", minIdle=" + minIdle +
-                ", maxPoolSize=" + maxPoolSize +
-                ", idleTimeout=" + idleTimeout +
-                ", maxLifeTime=" + maxLifeTime +
-                ", connectionTimeout=" + connectionTimeout +
-                ", connectionTestQuery='" + connectionTestQuery + '\'' +
-                ", dataSourceProperties=" + dataSourceProperties +
-                ']';
+        return "DataSourcePropertie{\n" +
+                "\tdriverName='" + driverClassName + '\'' +
+                "\t, jdbcUrl='" + url + '\'' +
+                "\t, username='" + username + '\'' +
+                "\t, password='" + password + '\'' +
+                "\t, minIdle=" + minIdle +
+                "\t, maxPoolSize=" + maxPoolSize +
+                "\t, idleTimeout=" + idleTimeout +
+                "\t, maxLifeTime=" + maxLifeTime +
+                "\t, connectionTimeout=" + connectionTimeout +
+                "\t, connectionTestQuery='" + connectionTestQuery + '\'' +
+                "\t, dataSourceProp=" + dataSourceProp +
+                '}';
     }
 
     public HikariConfig getHikariConfig() {
@@ -135,9 +135,9 @@ public class DataSourceProperties {
 //        Logger log = LoggerFactory.getLogger(this.getClass());
 //        log.info(toString());
         System.out.println("------------------\ntoString : " + toString() + "\n------------------");
-        config.setDriverClassName(getDriverName());
+        config.setDriverClassName(getDriverClassName());
         config.setPassword(Base64.decode(getPassword()));
-        config.setJdbcUrl(getJdbcUrl());
+        config.setJdbcUrl(getUrl());
         config.setUsername(getUsername());
         config.setMinimumIdle(getMinIdle());
         config.setMaximumPoolSize(getMaxPoolSize());
@@ -145,8 +145,8 @@ public class DataSourceProperties {
         config.setIdleTimeout(getIdleTimeout());
         config.setConnectionTimeout(getConnectionTimeout());
         config.setConnectionTestQuery(getConnectionTestQuery());
-        if (dataSourceProperties != null && !getDataSourceProperties().isEmpty())
-            config.setDataSourceProperties(getDataSourceProperties());
+        if (dataSourceProp != null && !getDataSourceProp().isEmpty())
+            config.setDataSourceProperties(getDataSourceProp());
         return config;
     }
 

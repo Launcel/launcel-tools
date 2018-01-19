@@ -1,23 +1,23 @@
-package xyz.launcel.datasource.prop;
+package xyz.launcel.prop;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Map;
 
-@ConfigurationProperties(prefix = "db.custom.mybatis")
-public class CustomMybatisProperties {
+@ConfigurationProperties(prefix = "custom.mybatis")
+public class CustomMybatisPropertie {
 
-    private Map<String, CustomMybatisPropertie> list;
+    private Map<String, PrimyMybatisPropertie> list;
 
-    public Map<String, CustomMybatisPropertie> getList() {
+    public Map<String, PrimyMybatisPropertie> getList() {
         return list;
     }
 
-    public void setList(Map<String, CustomMybatisPropertie> list) {
+    public void setList(Map<String, PrimyMybatisPropertie> list) {
         this.list = list;
     }
 
-    public static class CustomMybatisPropertie {
+    public static class PrimyMybatisPropertie {
         private String refName;
 
         private String aliasesPackage;

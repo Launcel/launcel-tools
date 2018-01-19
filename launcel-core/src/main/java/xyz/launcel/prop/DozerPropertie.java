@@ -4,8 +4,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.List;
 
-@ConfigurationProperties(prefix = "launcel.dozer")
-public class DozerProperties {
+@ConfigurationProperties(prefix = "common.dozer")
+public class DozerPropertie {
 
     private List<String> list;
 
