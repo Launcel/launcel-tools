@@ -2,9 +2,7 @@ package xyz.launcel.autoconfig;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -17,9 +15,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import xyz.launcel.aspejct.ServerAspejct;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.interceptor.PageInterceptor;
-import xyz.launcel.lang.Json;
-import xyz.launcel.prop.DataSourceProps;
-import xyz.launcel.prop.MybatisProps;
+import xyz.launcel.prop.DataSourceProperties;
+import xyz.launcel.prop.MybatisProperties;
 
 import java.io.IOException;
 
@@ -27,27 +24,23 @@ import java.io.IOException;
  * Created by Launcel in 2017/9/19
  */
 @Configuration
-@EnableConfigurationProperties(value = {DataSourceProps.class, MybatisProps.class})
+@EnableConfigurationProperties(value = {DataSourceProperties.class, MybatisProperties.class})
 //@EnableTransactionManagement
 public class SessionFactoryAutoConfiguration {
 
-    private final DataSourceProps dataSourceProps;
+    private final DataSourceProperties dataSourceProperties;
 
-    private final MybatisProps mybatisProps;
+    private final MybatisProperties mybatisProperties;
 
-    public SessionFactoryAutoConfiguration(DataSourceProps dataSourceProps, MybatisProps mybatisProps) {
-        this.dataSourceProps = dataSourceProps;
-        this.mybatisProps = mybatisProps;
+    public SessionFactoryAutoConfiguration(DataSourceProperties dataSourceProperties, MybatisProperties mybatisProperties) {
+        this.dataSourceProperties = dataSourceProperties;
+        this.mybatisProperties = mybatisProperties;
     }
 
     @Primary
     @Bean(name = "dataSource")
     public HikariDataSource dataSource() {
-        System.out.println("-------------------------");
-        System.out.println(Json.toJson(mybatisProps));
-        System.out.println(Json.toJson(dataSourceProps));
-        System.out.println("-------------------------");
-        return new HikariDataSource(dataSourceProps.getHikariConfig());
+        return new HikariDataSource(dataSourceProperties.getHikariConfig());
     }
 
     @ConditionalOnBean(name = "dataSource")
@@ -56,26 +49,16 @@ public class SessionFactoryAutoConfiguration {
     public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier(value = "dataSource") HikariDataSource dataSource) {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("mybatis/mybatis-config.xml"));
-        sqlSessionFactoryBean.setTypeAliasesPackage(mybatisProps.getAliasesPackage());
+        sqlSessionFactoryBean.setTypeAliasesPackage(mybatisProperties.getAliasesPackage());
         sqlSessionFactoryBean.setPlugins(new Interceptor[]{new PageInterceptor()});
         sqlSessionFactoryBean.setDataSource(dataSource);
         try {
-            sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(mybatisProps.getMapperResource()));
+            sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(mybatisProperties.getMapperResource()));
         } catch (IOException x) {
             ExceptionFactory.error("-1", "xml文件加载失败");
             System.exit(-1);
         }
         return sqlSessionFactoryBean;
-    }
-
-    @ConditionalOnBean(name = "sqlSessionFactory")
-    @Bean
-    public MapperScannerConfigurer mapperScannerConfigurer(@Qualifier(value = "sqlSessionFactory") SqlSessionFactory sqlSessionFactoryBean) {
-        MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-//        mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
-        mapperScannerConfigurer.setSqlSessionFactory(sqlSessionFactoryBean);
-        mapperScannerConfigurer.setBasePackage(mybatisProps.getMapperPackage());
-        return mapperScannerConfigurer;
     }
 
     @ConditionalOnProperty(prefix = "aspejct.service", value = "enabled", havingValue = "true", matchIfMissing = true)

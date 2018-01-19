@@ -10,7 +10,7 @@ package xyz.launcel.prop;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "db.redis")
-public class RedisPropertie {
+public class RedisProperties {
     private String host;
     private String password;
     private Integer port;

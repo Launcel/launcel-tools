@@ -2,107 +2,112 @@
   "groups": [
     {
       "name": "db.jdbc",
-      "type": "xyz.launcel.prop.DataSourceProps",
-      "sourceType": "xyz.launcel.prop.DataSourceProps"
+      "type": "xyz.launcel.prop.DataSourceProperties",
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.mybatis",
-      "type": "xyz.launcel.prop.MybatisProps",
-      "sourceType": "xyz.launcel.prop.MybatisProps"
+      "type": "xyz.launcel.prop.MybatisProperties",
+      "sourceType": "xyz.launcel.prop.MybatisProperties"
     }
   ],
   "properties": [
+    {
+      "name": "service.aspejct.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true
+    },
     {
       "name": "db.jdbc.driver-class-name",
       "type": "java.lang.String",
       "defaultValue": "org.mariadb.jdbc.Driver",
       "description": "JDBC driverClassName of the database.",
-      "sourceType": "xyz.launcel.prop.DataSourceProps"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.url",
       "type": "java.lang.String",
       "defaultValue": "jdbc:mariadb://localhost:3306/test",
       "description": "JDBC driverClassName of the database.",
-      "sourceType": "xyz.launcel.prop.DataSourceProps"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.username",
       "type": "java.lang.String",
       "description": "JDBC username of the database.",
-      "sourceType": "xyz.launcel.prop.DataSourceProps"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.password",
       "type": "java.lang.String",
       "description": "JDBC password of the database.",
-      "sourceType": "xyz.launcel.prop.DataSourceProps"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.min-idle",
       "type": "java.lang.String",
       "description": "JDBC minIdle of the database.",
       "defaultValue": 1,
-      "sourceType": "xyz.launcel.prop.DataSourceProps"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.max-pool-size",
       "type": "java.lang.String",
       "description": "JDBC maxPoolSize of the database.",
       "defaultValue": 20,
-      "sourceType": "xyz.launcel.prop.DataSourceProps"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.idle-timeout",
       "type": "java.lang.String",
       "description": "JDBC idleTimeout of the database.",
       "defaultValue": 600000,
-      "sourceType": "xyz.launcel.prop.DataSourceProps"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.max-life-time",
       "type": "java.lang.String",
       "defaultValue": 1800000,
       "description": "JDBC maxLifetime of the database.",
-      "sourceType": "xyz.launcel.prop.DataSourceProps"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.connection-timeout",
       "type": "java.lang.String",
       "description": "JDBC connectionTimeout of the database.",
       "defaultValue": 30000,
-      "sourceType": "xyz.launcel.prop.DataSourceProps"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.connection-test-query",
       "type": "java.lang.String",
       "description": "JDBC connectionTestQuery of the database.",
       "defaultValue": "select 'x'",
-      "sourceType": "xyz.launcel.prop.DataSourceProps"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
-      "name": "db.jdbc.data-source-prop",
+      "name": "db.jdbc.data-sourc-property",
       "type": "java.util.Properties",
       "description": "JDBC dataSourceProperties of the database.",
-      "sourceType": "xyz.launcel.prop.DataSourceProps"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.mybatis.aliases-package",
       "type": "java.lang.String",
       "description": "mybatis entity aliase",
-      "sourceType": "xyz.launcel.prop.MybatisProps"
+      "sourceType": "xyz.launcel.prop.MybatisProperties"
     },
     {
       "name": "db.mybatis.mapper-resource",
       "type": "java.lang.String",
       "description": "mybatis xml mappers package",
-      "sourceType": "xyz.launcel.prop.MybatisProps"
+      "sourceType": "xyz.launcel.prop.MybatisProperties"
     },
     {
       "name": "db.mybatis.mapper-package",
       "type": "java.lang.String",
       "description": "mybatis dao package",
-      "sourceType": "xyz.launcel.prop.MybatisProps"
+      "sourceType": "xyz.launcel.prop.MybatisProperties"
     }
   ]
 }

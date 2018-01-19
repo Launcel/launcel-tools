@@ -2,15 +2,15 @@
   "groups": [
     {
       "name": "web.security",
-      "type": "xyz.launcel.prop.SecurityListPropertie",
-      "sourceType": "xyz.launcel.prop.SecurityListPropertie"
+      "type": "xyz.launcel.prop.SecurityListProperties",
+      "sourceType": "xyz.launcel.prop.SecurityListProperties"
     }
   ],
     "properties" : [
     {
       "name": "web.security.list",
       "type": "java.util.Map<java.lang.String,java.lang.String[]>",
-      "sourceType": "xyz.launcel.prop.SecurityListPropertie"
+      "sourceType": "xyz.launcel.prop.SecurityListProperties"
     }
   ]
 }

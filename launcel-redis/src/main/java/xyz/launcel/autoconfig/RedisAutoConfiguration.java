@@ -17,20 +17,20 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import redis.clients.jedis.JedisPoolConfig;
 import xyz.launcel.lang.Base64;
-import xyz.launcel.prop.RedisPropertie;
+import xyz.launcel.prop.RedisProperties;
 import xyz.launcel.support.serializer.GsonRedisSerializer;
 
 import javax.inject.Inject;
 
 @EnableCaching
 @Configuration
-@EnableConfigurationProperties(value = RedisPropertie.class)
-public class RedisAutoConfig extends CachingConfigurerSupport {
+@EnableConfigurationProperties(value = RedisProperties.class)
+public class RedisAutoConfiguration extends CachingConfigurerSupport {
 
-    private Logger logger = LoggerFactory.getLogger(RedisAutoConfig.class);
+    private Logger logger = LoggerFactory.getLogger(RedisAutoConfiguration.class);
 
     @Inject
-    private RedisPropertie redisConf;
+    private RedisProperties redisConf;
 
     @Primary
     @Bean(name = "redisPool")

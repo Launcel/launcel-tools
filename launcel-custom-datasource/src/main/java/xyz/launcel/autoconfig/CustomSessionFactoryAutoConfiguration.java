@@ -24,10 +24,10 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.validation.BindingResult;
-import xyz.launcel.prop.CustomDataSourcePropertie;
-import xyz.launcel.prop.CustomDataSourcePropertie.PrimyHikariDataSource;
-import xyz.launcel.prop.CustomMybatisPropertie;
-import xyz.launcel.prop.CustomMybatisPropertie.PrimyMybatisPropertie;
+import xyz.launcel.prop.CustomDataSourceProperties;
+import xyz.launcel.prop.CustomDataSourceProperties.PrimyHikariDataSource;
+import xyz.launcel.prop.CustomMybatisProperties;
+import xyz.launcel.prop.CustomMybatisProperties.PrimyMybatisPropertie;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.interceptor.PageInterceptor;
 import xyz.launcel.lang.Json;
@@ -39,8 +39,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@EnableConfigurationProperties(value = {CustomDataSourcePropertie.class, CustomMybatisPropertie.class})
-public class CustomSessionFactoryAutoConfig extends BaseLogger implements BeanDefinitionRegistryPostProcessor, EnvironmentAware {
+@EnableConfigurationProperties(value = {CustomDataSourceProperties.class, CustomMybatisProperties.class})
+public class CustomSessionFactoryAutoConfiguration extends BaseLogger implements BeanDefinitionRegistryPostProcessor, EnvironmentAware {
 
     private Map<String, PrimyHikariDataSource> customDataSources = new HashMap<>();
 
@@ -86,14 +86,14 @@ public class CustomSessionFactoryAutoConfig extends BaseLogger implements BeanDe
     @Override
     public void setEnvironment(Environment environment) {
         ConfigurableEnvironment env = (ConfigurableEnvironment) environment;
-        Map<String, Object> customDate = PropertySourceUtils.getSubProperties(env.getPropertySources(), "db.custom.jdbc");
-        Map<String, Object> customMapper = PropertySourceUtils.getSubProperties(env.getPropertySources(), "db.custom.mybatis");
+        Map<String, Object> customDate = PropertySourceUtils.getSubProperties(env.getPropertySources(), "custom.jdbc");
+        Map<String, Object> customMapper = PropertySourceUtils.getSubProperties(env.getPropertySources(), "custom.mybatis");
         dataBinderDataSource(customDate);
         dataBinderMapper(customMapper);
     }
 
     private void dataBinderDataSource(Map<String, Object> map) {
-        CustomDataSourcePropertie customDataSourceProperties = new CustomDataSourcePropertie();
+        CustomDataSourceProperties customDataSourceProperties = new CustomDataSourceProperties();
         RelaxedDataBinder dataBinder = new RelaxedDataBinder(customDataSourceProperties);
         dataBinder(dataBinder, map);
         if (customDataSourceProperties.getList() != null) {
@@ -104,7 +104,7 @@ public class CustomSessionFactoryAutoConfig extends BaseLogger implements BeanDe
     }
 
     private void dataBinderMapper(Map<String, Object> map) {
-        CustomMybatisPropertie customMybatisProperties = new CustomMybatisPropertie();
+        CustomMybatisProperties customMybatisProperties = new CustomMybatisProperties();
         RelaxedDataBinder dataBinder = new RelaxedDataBinder(customMybatisProperties);
         dataBinder(dataBinder, map);
         if (customMybatisProperties.getList() != null) {

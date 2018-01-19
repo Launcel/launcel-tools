@@ -1,140 +1,145 @@
 {
   "groups": [
     {
-      "sourceType": "xyz.launcel.prop.CustomDataSourcePropertie",
+      "sourceType": "xyz.launcel.prop.CustomDataSourceProperties",
       "name": "custom.jdbc",
-      "type": "xyz.launcel.prop.CustomDataSourcePropertie"
+      "type": "xyz.launcel.prop.CustomDataSourceProperties"
     },
     {
-      "sourceType": "xyz.launcel.prop.CustomDataSourcePropertie",
+      "sourceType": "xyz.launcel.prop.CustomDataSourceProperties",
       "name": "custom.jdbc.list",
       "sourceMethod": "getList()",
-      "type": "xyz.launcel.prop.CustomDataSourcePropertie$PrimyHikariDataSource"
+      "type": "xyz.launcel.prop.CustomDataSourceProperties$PrimyHikariDataSource"
     },
     {
       "name": "custom.mybatis",
-      "type": "xyz.launcel.prop.CustomMybatisPropertie",
-      "sourceType": "xyz.launcel.prop.CustomMybatisPropertie"
+      "type": "xyz.launcel.prop.CustomMybatisProperties",
+      "sourceType": "xyz.launcel.prop.CustomMybatisProperties"
     },
     {
-      "sourceType": "xyz.launcel.prop.CustomMybatisPropertie",
+      "sourceType": "xyz.launcel.prop.CustomMybatisProperties",
       "name": "custom.mybatis.list",
-      "type": "xyz.launcel.prop.CustomMybatisPropertie$PrimyMybatisPropertie",
+      "type": "xyz.launcel.prop.CustomMybatisProperties$PrimyMybatisPropertie",
       "sourceMethod": "getList()"
     }
   ],
   "properties": [
     {
+      "name": "service.aspejct.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true
+    },
+    {
       "name": "custom.jdbc.list",
-      "type": "java.util.List<xyz.launcel.prop.CustomDataSourcePropertie.PrimyHikariDataSource>",
+      "type": "java.util.List<xyz.launcel.prop.CustomDataSourceProperties.PrimyHikariDataSource>",
       "description": "JDBC driverClassName of the database.",
-      "sourceType": "xyz.launcel.prop.CustomDataSourcePropertie"
+      "sourceType": "xyz.launcel.prop.CustomDataSourceProperties"
     },
     {
       "name": "custom.jdbc.list.name",
       "type": "java.lang.String",
       "description": "JDBC driverClassName of the database.",
-      "sourceType": "xyz.launcel.prop.CustomDataSourcePropertie$PrimyHikariDataSource"
+      "sourceType": "xyz.launcel.prop.CustomDataSourceProperties$PrimyHikariDataSource"
     },
     {
       "name": "custom.jdbc.list.driver-class-name",
       "type": "java.lang.String",
       "defaultValue": "com.mysql.jdbc.Driver",
       "description": "JDBC driverClassName of the database.",
-      "sourceType": "xyz.launcel.prop.CustomDataSourcePropertie$PrimyHikariDataSource"
+      "sourceType": "xyz.launcel.prop.CustomDataSourceProperties$PrimyHikariDataSource"
     },
     {
       "name": "custom.jdbc.list.url",
       "type": "java.lang.String",
       "defaultValue": "jdbc:log4jdbc:mysql://localhost:3306/test",
       "description": "JDBC driverClassName of the database.",
-      "sourceType": "xyz.launcel.prop.CustomDataSourcePropertie$PrimyHikariDataSource"
+      "sourceType": "xyz.launcel.prop.CustomDataSourceProperties$PrimyHikariDataSource"
     },
     {
       "name": "custom.jdbc.list.username",
       "type": "java.lang.String",
       "description": "JDBC username of the database.",
-      "sourceType": "xyz.launcel.prop.CustomDataSourcePropertie$PrimyHikariDataSource"
+      "sourceType": "xyz.launcel.prop.CustomDataSourceProperties$PrimyHikariDataSource"
     },
     {
       "name": "custom.jdbc.list.password",
       "type": "java.lang.String",
       "description": "JDBC password of the database.",
-      "sourceType": "xyz.launcel.prop.CustomDataSourcePropertie$PrimyHikariDataSource"
+      "sourceType": "xyz.launcel.prop.CustomDataSourceProperties$PrimyHikariDataSource"
     },
     {
       "name": "custom.jdbc.list.min-idle",
       "type": "java.lang.String",
       "description": "JDBC minIdle of the database.",
       "defaultValue": 1,
-      "sourceType": "xyz.launcel.prop.CustomDataSourcePropertie$PrimyHikariDataSource"
+      "sourceType": "xyz.launcel.prop.CustomDataSourceProperties$PrimyHikariDataSource"
     },
     {
       "name": "custom.jdbc.list.max-pool-size",
       "type": "java.lang.String",
       "description": "JDBC maxPoolSize of the database.",
       "defaultValue": 20,
-      "sourceType": "xyz.launcel.prop.CustomDataSourcePropertie$PrimyHikariDataSource"
+      "sourceType": "xyz.launcel.prop.CustomDataSourceProperties$PrimyHikariDataSource"
     },
     {
       "name": "custom.jdbc.list.idle-timeout",
       "type": "java.lang.String",
       "description": "JDBC idleTimeout of the database.",
       "defaultValue": 600000,
-      "sourceType": "xyz.launcel.prop.CustomDataSourcePropertie$PrimyHikariDataSource"
+      "sourceType": "xyz.launcel.prop.CustomDataSourceProperties$PrimyHikariDataSource"
     },
     {
       "name": "custom.jdbc.list.max-life-time",
       "type": "java.lang.String",
       "defaultValue": 1800000,
       "description": "JDBC maxLifetime of the database.",
-      "sourceType": "xyz.launcel.prop.CustomDataSourcePropertie$PrimyHikariDataSource"
+      "sourceType": "xyz.launcel.prop.CustomDataSourceProperties$PrimyHikariDataSource"
     },
     {
       "name": "custom.jdbc.list.connection-timeout",
       "type": "java.lang.String",
       "description": "JDBC connectionTimeout of the database.",
       "defaultValue": 30000,
-      "sourceType": "xyz.launcel.prop.CustomDataSourcePropertie$PrimyHikariDataSource"
+      "sourceType": "xyz.launcel.prop.CustomDataSourceProperties$PrimyHikariDataSource"
     },
     {
       "name": "custom.jdbc.list.connection-test-query",
       "type": "java.lang.String",
       "description": "JDBC connectionTestQuery of the database.",
       "defaultValue": "select 'x'",
-      "sourceType": "xyz.launcel.prop.CustomDataSourcePropertie$PrimyHikariDataSource"
+      "sourceType": "xyz.launcel.prop.CustomDataSourceProperties$PrimyHikariDataSource"
     },
     {
       "name": "custom.jdbc.list.data-source-prop",
       "type": "java.util.Properties",
       "description": "JDBC dataSourceProperties of the database.",
-      "sourceType": "xyz.launcel.prop.CustomDataSourcePropertie$PrimyHikariDataSource"
+      "sourceType": "xyz.launcel.prop.CustomDataSourceProperties$PrimyHikariDataSource"
     },
     {
       "name": "custom.jdbc.list",
-      "type": "java.util.List<xyz.launcel.prop.CustomMybatisPropertie.PrimyMybatisPropertie>",
+      "type": "java.util.List<xyz.launcel.prop.CustomMybatisProperties.PrimyMybatisPropertie>",
       "description": "JDBC driverClassName of the database.",
       "sourceType": "xyz.launcel.prop.CustomMybatisPropertie"
     },
     {
       "name": "custom.mybatis.list.ref-name",
       "type": "java.lang.String",
-      "sourceType": "xyz.launcel.prop.CustomMybatisPropertie$PrimyMybatisPropertie"
+      "sourceType": "xyz.launcel.prop.CustomMybatisProperties$PrimyMybatisPropertie"
     },
     {
       "name": "custom.mybatis.list.aliases-package",
       "type": "java.lang.String",
-      "sourceType": "xyz.launcel.prop.CustomMybatisPropertie$PrimyMybatisPropertie"
+      "sourceType": "xyz.launcel.prop.CustomMybatisProperties$PrimyMybatisPropertie"
     },
     {
       "name": "custom.mybatis.list.mapper-resource",
       "type": "java.lang.String",
-      "sourceType": "xyz.launcel.prop.CustomMybatisPropertie$PrimyMybatisPropertie"
+      "sourceType": "xyz.launcel.prop.CustomMybatisProperties$PrimyMybatisPropertie"
     },
     {
       "name": "custom.mybatis.list.mapper-package",
       "type": "java.lang.String",
-      "sourceType": "xyz.launcel.prop.CustomMybatisPropertie$PrimyMybatisPropertie"
+      "sourceType": "xyz.launcel.prop.CustomMybatisProperties$PrimyMybatisPropertie"
     }
   ]
 }

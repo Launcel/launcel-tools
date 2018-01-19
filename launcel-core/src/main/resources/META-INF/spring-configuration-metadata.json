@@ -2,15 +2,20 @@
   "groups": [
     {
       "name": "common.dozer",
-      "type": "xyz.launcel.prop.DozerPropertie",
-      "sourceType": "xyz.launcel.prop.DozerPropertie"
+      "type": "xyz.launcel.prop.DozerProperties",
+      "sourceType": "xyz.launcel.prop.DozerProperties"
     }
   ],
   "properties": [
     {
       "name": "common.dozer.list",
       "type": "java.util.List<java.lang.String>",
-      "sourceType": "xyz.launcel.prop.DozerPropertie"
+      "sourceType": "xyz.launcel.prop.DozerProperties"
+    },
+    {
+      "name": "common.dozer.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": false
     }
   ]
 }

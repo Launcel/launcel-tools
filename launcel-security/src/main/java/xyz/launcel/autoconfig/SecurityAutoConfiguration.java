@@ -6,16 +6,16 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import xyz.launcel.config.SecurityConfig;
 import xyz.launcel.interceptor.RoleInterceptor;
-import xyz.launcel.prop.SecurityListPropertie;
+import xyz.launcel.prop.SecurityListProperties;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 @Configuration
-@EnableConfigurationProperties(SecurityListPropertie.class)
-public class SecurityAutoConfig extends WebMvcConfigurerAdapter {
+@EnableConfigurationProperties(SecurityListProperties.class)
+public class SecurityAutoConfiguration extends WebMvcConfigurerAdapter {
     @Inject
-    private SecurityListPropertie securityListProperties;
+    private SecurityListProperties securityListProperties;
 
     @PostConstruct
     protected void initSecurityConfig() {

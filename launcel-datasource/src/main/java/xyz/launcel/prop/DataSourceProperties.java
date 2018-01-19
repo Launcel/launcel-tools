@@ -1,11 +1,8 @@
 package xyz.launcel.prop;
 
 import com.zaxxer.hikari.HikariConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import xyz.launcel.lang.Base64;
-import xyz.launcel.lang.Json;
 
 import java.util.Properties;
 
@@ -13,7 +10,7 @@ import java.util.Properties;
  * Created by xuyang in 2017/9/19
  */
 @ConfigurationProperties(prefix = "db.jdbc")
-public class DataSourceProps {
+public class DataSourceProperties {
 
     private String driverClassName;
     private String url;
@@ -25,7 +22,7 @@ public class DataSourceProps {
     private Long maxLifeTime;
     private Long connectionTimeout;
     private String connectionTestQuery;
-    private Properties dataSourceProperties;
+    private Properties dataSourceProperty;
 
     public String getDriverClassName() {
         return driverClassName;
@@ -107,18 +104,16 @@ public class DataSourceProps {
         this.connectionTestQuery = connectionTestQuery;
     }
 
-    public Properties getDataSourceProperties() {
-        return dataSourceProperties;
+    public Properties getDataSourceProperty() {
+        return dataSourceProperty;
     }
 
-    public void setDataSourceProperties(Properties dataSourceProperties) {
-        this.dataSourceProperties = dataSourceProperties;
+    public void setDataSourceProperty(Properties dataSourceProperty) {
+        this.dataSourceProperty = dataSourceProperty;
     }
 
     public HikariConfig getHikariConfig() {
         HikariConfig config = new HikariConfig();
-        Logger log = LoggerFactory.getLogger(this.getClass());
-        log.info(Json.toJson(toString()).replaceAll("\\{", "[").replaceAll("\\}", "]"));
         config.setDriverClassName(driverClassName);
         config.setPassword(Base64.decode(password));
         config.setJdbcUrl(url);
@@ -129,8 +124,8 @@ public class DataSourceProps {
         config.setIdleTimeout(idleTimeout);
         config.setConnectionTimeout(connectionTimeout);
         config.setConnectionTestQuery(connectionTestQuery);
-        if (dataSourceProperties != null && !dataSourceProperties.isEmpty())
-            config.setDataSourceProperties(dataSourceProperties);
+        if (dataSourceProperty != null && !dataSourceProperty.isEmpty())
+            config.setDataSourceProperties(dataSourceProperty);
         return config;
     }
 

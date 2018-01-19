@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.Map;
 
 @ConfigurationProperties(prefix = "custom.mybatis")
-public class CustomMybatisPropertie {
+public class CustomMybatisProperties {
 
     private Map<String, PrimyMybatisPropertie> list;
 

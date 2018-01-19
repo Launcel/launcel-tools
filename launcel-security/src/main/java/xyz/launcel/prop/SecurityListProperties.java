@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.Map;
 
 @ConfigurationProperties(prefix = "web.security")
-public class SecurityListPropertie {
+public class SecurityListProperties {
     private Map<String, String[]> list;
 
     public Map<String, String[]> getList() {

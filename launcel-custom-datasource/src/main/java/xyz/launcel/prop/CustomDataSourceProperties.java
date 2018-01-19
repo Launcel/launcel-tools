@@ -12,7 +12,7 @@ import java.util.Properties;
  * Created by xuyang in 2017/9/19
  */
 @ConfigurationProperties(prefix = "custom.jdbc")
-public class CustomDataSourcePropertie {
+public class CustomDataSourceProperties {
 
 
     private Map<String, PrimyHikariDataSource> list;

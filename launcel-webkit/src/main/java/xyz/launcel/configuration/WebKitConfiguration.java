@@ -25,6 +25,7 @@ public class WebKitConfiguration extends WebMvcConfigurerAdapter {
     /**
      * 用 gson 替换 jackson
      */
+    @ConditionalOnProperty(prefix = "mvc.gson-converter", value = "enabled", havingValue = "true", matchIfMissing = true)
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
@@ -35,6 +36,7 @@ public class WebKitConfiguration extends WebMvcConfigurerAdapter {
         super.configureMessageConverters(converters);
     }
 
+    @ConditionalOnProperty(prefix = "mvc.cors", value = "enabled", havingValue = "true", matchIfMissing = false)
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**").allowedOrigins("*").allowCredentials(true).allowedMethods("GET", "POST", "DELETE", "PUT").maxAge(3600);
@@ -47,12 +49,13 @@ public class WebKitConfiguration extends WebMvcConfigurerAdapter {
         super.configureContentNegotiation(configurer);
     }
 
+    @ConditionalOnProperty(prefix = "mvc.global-exception", value = "enabled", havingValue = "true", matchIfMissing = true)
     @Bean
     public GlobalExceptionHandle globalExceptionHandle() {
         return new GlobalExceptionHandle();
     }
 
-    @ConditionalOnProperty(prefix = "aspejct.mvc", value = "enabled", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "mvc.aspejct", value = "enabled", havingValue = "true", matchIfMissing = true)
     @Bean
     public ControllerParamValidateAspejct controllerParamValidateAspejct() {
         return new ControllerParamValidateAspejct();

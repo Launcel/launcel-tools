@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.List;
 
 @ConfigurationProperties(prefix = "common.dozer")
-public class DozerPropertie {
+public class DozerProperties {
 
     private List<String> list;
 

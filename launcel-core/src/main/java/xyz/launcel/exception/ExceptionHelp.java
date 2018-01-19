@@ -1,9 +1,10 @@
 package xyz.launcel.exception;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import xyz.launcel.lang.Json;
-import xyz.launcel.log.BaseLogger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +14,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 
-public class ExceptionHelp extends BaseLogger {
+public class ExceptionHelp {
+
+    private static final Logger log = LoggerFactory.getLogger(ExceptionHelp.class);
 
     private static Properties props = null;
 
@@ -35,8 +38,8 @@ public class ExceptionHelp extends BaseLogger {
                     if (inr != null) inr.close();
                     if (in != null) in.close();
                 }
-                if (debugEnabled())
-                    Debug("错误信息加载完毕！");
+                if (log.isDebugEnabled())
+                    log.info("  >>>   错误信息加载完毕！");
             }
         } catch (IOException e) {
             throw new SystemError("错误信息文件加载失败!");
