@@ -1,14 +1,16 @@
 package xyz.launcel.prop;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 
-@ConfigurationProperties(prefix = "launcel.mybatis")
+@Configuration
+//@ConfigurationProperties(prefix = "launcel.mybatis")
 public class MybatisProperties {
-
+    @Value("${db.mybatis.aliases-package}")
     private String aliasesPackage;
-
+    @Value("${db.mybatis.mapper-resource}")
     private String mapperResource;
-
+    @Value("${db.mybatis.mapper-package}")
     private String mapperPackage;
 
     public String getAliasesPackage() {

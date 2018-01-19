@@ -5,8 +5,8 @@ import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -24,7 +24,8 @@ import java.io.IOException;
  * Created by Launcel in 2017/9/19
  */
 @Configuration
-@EnableConfigurationProperties(value = {DataSourceProperties.class, MybatisProperties.class})
+//@EnableConfigurationProperties(value = {MybatisProperties.class})
+@AutoConfigureAfter(value = {DataSourceProperties.class, MybatisProperties.class})
 //@EnableTransactionManagement
 public class SessionFactoryConfiguration {
 
