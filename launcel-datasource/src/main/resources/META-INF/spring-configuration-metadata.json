@@ -15,14 +15,14 @@
     {
       "name": "db.jdbc.driver-class-name",
       "type": "java.lang.String",
-      "defaultValue": "com.mysql.jdbc.Driver",
+      "defaultValue": "org.mariadb.jdbc.Driver",
       "description": "JDBC driverClassName of the database.",
       "sourceType": "xyz.launcel.prop.DataSourcePropertie"
     },
     {
       "name": "db.jdbc.url",
       "type": "java.lang.String",
-      "defaultValue": "jdbc:mysql://localhost:3306/test",
+      "defaultValue": "jdbc:mariadb://localhost:3306/test",
       "description": "JDBC driverClassName of the database.",
       "sourceType": "xyz.launcel.prop.DataSourcePropertie"
     },
