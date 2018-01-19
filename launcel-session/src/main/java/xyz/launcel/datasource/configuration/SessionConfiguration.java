@@ -1,4 +1,4 @@
-package xyz.launcel.configuration;
+package xyz.launcel.datasource.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

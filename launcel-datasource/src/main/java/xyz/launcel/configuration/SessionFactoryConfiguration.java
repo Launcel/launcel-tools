@@ -2,11 +2,12 @@ package xyz.launcel.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.plugin.Interceptor;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -24,8 +25,8 @@ import java.io.IOException;
  * Created by Launcel in 2017/9/19
  */
 @Configuration
-//@EnableConfigurationProperties(value = {MybatisProperties.class})
-@AutoConfigureAfter(value = {DataSourceProperties.class, MybatisProperties.class})
+//@AutoConfigureAfter(value = {DataSourceProperties.class, MybatisProperties.class})
+@EnableConfigurationProperties(value = {DataSourceProperties.class, MybatisProperties.class})
 //@EnableTransactionManagement
 public class SessionFactoryConfiguration {
 
@@ -61,9 +62,10 @@ public class SessionFactoryConfiguration {
 
     @ConditionalOnBean(name = "sqlSessionFactory")
     @Bean
-    public MapperScannerConfigurer mapperScannerConfigurer() {
+    public MapperScannerConfigurer mapperScannerConfigurer(@Qualifier(value = "sqlSessionFactory") SqlSessionFactory sqlSessionFactoryBean) {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-        mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
+//        mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
+        mapperScannerConfigurer.setSqlSessionFactory(sqlSessionFactoryBean);
         mapperScannerConfigurer.setBasePackage(mybatisPropertie.getMapperPackage());
         return mapperScannerConfigurer;
     }

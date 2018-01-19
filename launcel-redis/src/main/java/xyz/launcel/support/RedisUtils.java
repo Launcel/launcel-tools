@@ -3,7 +3,7 @@ package xyz.launcel.support;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import redis.clients.jedis.JedisCommands;
-import xyz.launcel.prop.RedisProperties;
+import xyz.launcel.datasource.prop.RedisProperties;
 import xyz.launcel.ensure.Me;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.hook.ApplicationContextHook;

@@ -1,10 +1,7 @@
 package xyz.launcel.prop;
 
 import com.zaxxer.hikari.HikariConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import xyz.launcel.lang.Base64;
 
 import java.util.Properties;
@@ -12,31 +9,20 @@ import java.util.Properties;
 /**
  * Created by xuyang in 2017/9/19
  */
-@Configuration
-//@ConfigurationProperties(prefix = "db.jdbc")
+//@Configuration
+@ConfigurationProperties(prefix = "db.jdbc")
 public class DataSourceProperties {
 
-    @Value("${db.jdbc.driver-name}")
     private String driverName;
-    @Value("${db.jdbc.jdbc-url}")
     private String jdbcUrl;
-    @Value("${db.jdbc.driver-name}")
     private String username;
-    @Value("${db.jdbc.driver-name}")
     private String password;
-    @Value("${db.jdbc.min-idle}")
     private Integer minIdle;
-    @Value("${db.jdbc.max-pool-size}")
     private Integer maxPoolSize;
-    @Value("${db.jdbc.idle-timeout}")
     private Long idleTimeout;
-    @Value("${db.jdbc.max-life-time}")
     private Long maxLifeTime;
-    @Value("${db.jdbc.connection-timeout")
     private Long connectionTimeout;
-    @Value("${db.jdbc.connection-test-query}")
     private String connectionTestQuery;
-    @Value("${db.jdbc.data-source-properties}")
     private Properties dataSourceProperties;
 
     public String getDriverName() {
@@ -146,8 +132,9 @@ public class DataSourceProperties {
 
     public HikariConfig getHikariConfig() {
         HikariConfig config = new HikariConfig();
-        Logger log = LoggerFactory.getLogger(this.getClass());
-        log.info(toString());
+//        Logger log = LoggerFactory.getLogger(this.getClass());
+//        log.info(toString());
+        System.out.println("------------------\ntoString : " + toString() + "\n------------------");
         config.setDriverClassName(getDriverName());
         config.setPassword(Base64.decode(getPassword()));
         config.setJdbcUrl(getJdbcUrl());

@@ -1,4 +1,4 @@
-package xyz.launcel.prop;
+package xyz.launcel.datasource.prop;
 
 import com.zaxxer.hikari.HikariConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;

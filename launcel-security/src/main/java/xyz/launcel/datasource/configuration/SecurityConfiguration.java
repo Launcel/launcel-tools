@@ -1,11 +1,11 @@
-package xyz.launcel.configuration;
+package xyz.launcel.datasource.configuration;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import xyz.launcel.config.SecurityConfig;
-import xyz.launcel.prop.SecurityListProperties;
+import xyz.launcel.datasource.prop.SecurityListProperties;
 import xyz.launcel.interceptor.RoleInterceptor;
 
 import javax.annotation.PostConstruct;

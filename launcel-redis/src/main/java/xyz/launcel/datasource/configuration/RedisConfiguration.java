@@ -1,4 +1,4 @@
-package xyz.launcel.configuration;
+package xyz.launcel.datasource.configuration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import redis.clients.jedis.JedisPoolConfig;
 import xyz.launcel.lang.Base64;
-import xyz.launcel.prop.RedisProperties;
+import xyz.launcel.datasource.prop.RedisProperties;
 import xyz.launcel.support.serializer.GsonRedisSerializer;
 
 import javax.inject.Inject;

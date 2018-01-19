@@ -5,7 +5,7 @@
  * Version: 1.0
  */
 
-package xyz.launcel.prop;
+package xyz.launcel.datasource.prop;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

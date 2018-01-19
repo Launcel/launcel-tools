@@ -1,4 +1,4 @@
-package xyz.launcel.configuration;
+package xyz.launcel.datasource.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.plugin.Interceptor;
@@ -29,10 +29,10 @@ import xyz.launcel.interceptor.PageInterceptor;
 import xyz.launcel.lang.Json;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.BaseLogger;
-import xyz.launcel.prop.CustomDataSourceProperties;
-import xyz.launcel.prop.CustomDataSourceProperties.CustomHikariDataSource;
-import xyz.launcel.prop.CustomMybatisProperties;
-import xyz.launcel.prop.CustomMybatisProperties.CustomMybatisPropertie;
+import xyz.launcel.datasource.prop.CustomDataSourceProperties;
+import xyz.launcel.datasource.prop.CustomDataSourceProperties.CustomHikariDataSource;
+import xyz.launcel.datasource.prop.CustomMybatisProperties;
+import xyz.launcel.datasource.prop.CustomMybatisProperties.CustomMybatisPropertie;
 
 import java.io.IOException;
 import java.util.HashMap;
