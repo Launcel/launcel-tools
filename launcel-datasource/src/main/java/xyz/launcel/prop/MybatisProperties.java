@@ -2,11 +2,13 @@ package xyz.launcel.prop;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.List;
+
 @ConfigurationProperties(prefix = "db.mybatis")
 public class MybatisProperties {
     private String aliasesPackage;
     private String mapperResource;
-    private String mapperPackage;
+    private List<String> mapperPackage;
 
     public String getAliasesPackage() {
         return aliasesPackage;
@@ -24,11 +26,11 @@ public class MybatisProperties {
         this.mapperResource = mapperResource;
     }
 
-    public String getMapperPackage() {
+    public List<String> getMapperPackage() {
         return mapperPackage;
     }
 
-    public void setMapperPackage(String mapperPackage) {
+    public void setMapperPackage(List<String> mapperPackage) {
         this.mapperPackage = mapperPackage;
     }
 }

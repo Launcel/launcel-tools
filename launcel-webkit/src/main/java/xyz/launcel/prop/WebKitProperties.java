@@ -7,6 +7,5 @@
 
 package xyz.launcel.prop;
 
-public class EnableProperties {
-    private Boolean enabled;
+public class WebKitProperties {
 }

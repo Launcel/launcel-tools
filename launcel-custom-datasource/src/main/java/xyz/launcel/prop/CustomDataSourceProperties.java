@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import xyz.launcel.lang.Base64;
 import xyz.launcel.lang.StringUtils;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -15,13 +15,13 @@ import java.util.Properties;
 public class CustomDataSourceProperties {
 
 
-    private Map<String, PrimyHikariDataSource> list;
+    private List<PrimyHikariDataSource> list;
 
-    public Map<String, PrimyHikariDataSource> getList() {
+    public List<PrimyHikariDataSource> getList() {
         return list;
     }
 
-    public void setList(Map<String, PrimyHikariDataSource> list) {
+    public void setList(List<PrimyHikariDataSource> list) {
         this.list = list;
     }
 

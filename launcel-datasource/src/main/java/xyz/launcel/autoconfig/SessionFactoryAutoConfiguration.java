@@ -46,7 +46,7 @@ public class SessionFactoryAutoConfiguration {
     @ConditionalOnBean(name = "dataSource")
     @Primary
     @Bean(name = "sqlSessionFactory")
-    public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier(value = "dataSource") HikariDataSource dataSource) {
+    public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier(value = "dataSource") HikariDataSource dataSource) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("mybatis/mybatis-config.xml"));
         sqlSessionFactoryBean.setTypeAliasesPackage(mybatisProperties.getAliasesPackage());
@@ -58,7 +58,15 @@ public class SessionFactoryAutoConfiguration {
             ExceptionFactory.error("-1", "xml文件加载失败");
             System.exit(-1);
         }
+//        new MapperScannerRegistrar(sqlSessionFactoryBean.getObject(), mybatisProperties.getMapperPackage()).registryBean(registry);
         return sqlSessionFactoryBean;
+    }
+
+    @Bean
+    @ConditionalOnBean(name = "sqlSessionFactory")
+    void registryMapper() {
+        System.out.println("------------------------");
+        System.out.println("------------------------");
     }
 
     @ConditionalOnProperty(prefix = "aspejct.service", value = "enabled", havingValue = "true", matchIfMissing = true)
@@ -66,6 +74,7 @@ public class SessionFactoryAutoConfiguration {
     public ServerAspejct serverAspejct() {
         return new ServerAspejct();
     }
+
 
     /**
      * 基于mapper代理则不需要注入

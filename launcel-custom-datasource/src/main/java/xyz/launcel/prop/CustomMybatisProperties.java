@@ -2,18 +2,18 @@ package xyz.launcel.prop;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.Map;
+import java.util.List;
 
 @ConfigurationProperties(prefix = "custom.mybatis")
 public class CustomMybatisProperties {
 
-    private Map<String, PrimyMybatisPropertie> list;
+    private List<PrimyMybatisPropertie> list;
 
-    public Map<String, PrimyMybatisPropertie> getList() {
+    public List<PrimyMybatisPropertie> getList() {
         return list;
     }
 
-    public void setList(Map<String, PrimyMybatisPropertie> list) {
+    public void setList(List<PrimyMybatisPropertie> list) {
         this.list = list;
     }
 
@@ -24,7 +24,7 @@ public class CustomMybatisProperties {
 
         private String mapperResource;
 
-        private String mapperPackage;
+        private List<String> mapperPackage;
 
         public String getRefName() {
             return refName;
@@ -50,11 +50,11 @@ public class CustomMybatisProperties {
             this.mapperResource = mapperResource;
         }
 
-        public String getMapperPackage() {
+        public List<String> getMapperPackage() {
             return mapperPackage;
         }
 
-        public void setMapperPackage(String mapperPackage) {
+        public void setMapperPackage(List<String> mapperPackage) {
             this.mapperPackage = mapperPackage;
         }
     }

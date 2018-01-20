@@ -23,9 +23,9 @@
       "sourceMethod": "getList()"
     },
     {
-      "sourceType": "xyz.launcel.prop.EnableProperties",
+      "sourceType": "xyz.launcel.prop.PrimyHikariDataSource",
       "name": "service.aspejct",
-      "type": "xyz.launcel.prop.EnableProperties"
+      "type": "xyz.launcel.prop.PrimyHikariDataSource"
     }
   ],
   "properties": [
@@ -33,7 +33,7 @@
       "name": "service.aspejct.enabled",
       "type": "java.lang.Boolean",
       "defaultValue": true,
-      "sourceType": "xyz.launcel.prop.EnableProperties"
+      "sourceType": "xyz.launcel.prop.PrimyHikariDataSource"
     },
     {
       "name": "custom.jdbc.list",
@@ -122,10 +122,9 @@
       "sourceType": "xyz.launcel.prop.CustomDataSourceProperties$PrimyHikariDataSource"
     },
     {
-      "name": "custom.jdbc.list",
+      "name": "custom.mybatis.list",
       "type": "java.util.List<xyz.launcel.prop.CustomMybatisProperties.PrimyMybatisPropertie>",
-      "description": "JDBC driverClassName of the database.",
-      "sourceType": "xyz.launcel.prop.CustomMybatisPropertie"
+      "sourceType": "xyz.launcel.prop.CustomMybatisProperties"
     },
     {
       "name": "custom.mybatis.list.ref-name",
@@ -144,7 +143,7 @@
     },
     {
       "name": "custom.mybatis.list.mapper-package",
-      "type": "java.lang.String",
+      "type": "java.util.List<java.lang.String>",
       "sourceType": "xyz.launcel.prop.CustomMybatisProperties$PrimyMybatisPropertie"
     }
   ]

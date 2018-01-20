@@ -25,6 +25,12 @@
         </dependency>
 
         <dependency>
+            <groupId>xyz.launcel</groupId>
+            <artifactId>launcel-mybatis-mapperscanner</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
         </dependency>
@@ -50,6 +56,6 @@
             <artifactId>spring-jdbc</artifactId>
         </dependency>
 
-        
+
     </dependencies>
 </project>

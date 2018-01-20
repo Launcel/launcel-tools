@@ -11,9 +11,9 @@
       "sourceType": "xyz.launcel.prop.MybatisProperties"
     },
     {
-      "sourceType": "xyz.launcel.prop.EnableProperties",
+      "sourceType": "xyz.launcel.prop.DataSourceProperties",
       "name": "service.aspejct",
-      "type": "xyz.launcel.prop.EnableProperties"
+      "type": "xyz.launcel.prop.DataSourceProperties"
     }
   ],
   "properties": [
@@ -21,7 +21,7 @@
       "name": "service.aspejct.enabled",
       "type": "java.lang.Boolean",
       "defaultValue": true,
-      "sourceType": "xyz.launcel.prop.EnableProperties"
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.driver-class-name",
@@ -117,7 +117,7 @@
     },
     {
       "name": "db.mybatis.mapper-package",
-      "type": "java.lang.String",
+      "type": "java.util.List<java.lang.String>",
       "description": "mybatis dao package",
       "sourceType": "xyz.launcel.prop.MybatisProperties"
     }

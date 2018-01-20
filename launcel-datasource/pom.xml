@@ -51,8 +51,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
+            <groupId>xyz.launcel</groupId>
+            <artifactId>launcel-mybatis-mapperscanner</artifactId>
+            <version>1.0</version>
         </dependency>
 
         <dependency>
