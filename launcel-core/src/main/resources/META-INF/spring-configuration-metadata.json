@@ -15,7 +15,8 @@
     {
       "name": "common.dozer.enabled",
       "type": "java.lang.Boolean",
-      "defaultValue": false
+      "defaultValue": false,
+      "sourceType": "xyz.launcel.prop.DozerProperties"
     }
   ]
 }

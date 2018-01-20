@@ -9,13 +9,19 @@
       "name": "db.mybatis",
       "type": "xyz.launcel.prop.MybatisProperties",
       "sourceType": "xyz.launcel.prop.MybatisProperties"
+    },
+    {
+      "sourceType": "xyz.launcel.prop.EnableProperties",
+      "name": "service.aspejct",
+      "type": "xyz.launcel.prop.EnableProperties"
     }
   ],
   "properties": [
     {
       "name": "service.aspejct.enabled",
       "type": "java.lang.Boolean",
-      "defaultValue": true
+      "defaultValue": true,
+      "sourceType": "xyz.launcel.prop.EnableProperties"
     },
     {
       "name": "db.jdbc.driver-class-name",
@@ -89,6 +95,12 @@
       "name": "db.jdbc.data-sourc-property",
       "type": "java.util.Properties",
       "description": "JDBC dataSourceProperties of the database.",
+      "sourceType": "xyz.launcel.prop.DataSourceProperties"
+    },
+    {
+      "name": "db.jdbc.is-read",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
       "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {

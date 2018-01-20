@@ -1,5 +1,6 @@
 package xyz.launcel.autoconfig;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -7,6 +8,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import xyz.launcel.lang.Json;
 import xyz.launcel.log.BaseLogger;
 import xyz.launcel.prop.DozerProperties;
 
@@ -24,10 +26,12 @@ public class DozerAutoConfiguration extends BaseLogger {
     @Bean(name = "dozer")
     public Mapper mapper() {
         DozerBeanMapper mapper = new DozerBeanMapper();
-        if (dozerProperties.getList() != null && !dozerProperties.getList().isEmpty()) {
-            mapper.setMappingFiles(dozerProperties.getList());
+        if (CollectionUtils.isEmpty(dozerProperties.getList())) {
+            if (isDebugEnabled())
+                info(">>>  dozer mapper list is : " + Json.toJson(dozerProperties.getList()));
+            return mapper;
         }
-        info(">>>  dozer mapper list is null!");
+        mapper.setMappingFiles(dozerProperties.getList());
         return mapper;
     }
 }

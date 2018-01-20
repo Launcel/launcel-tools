@@ -18,11 +18,13 @@ public class DataSourceProperties {
     private String password;
     private Integer minIdle;
     private Integer maxPoolSize;
-    private Long idleTimeout;
-    private Long maxLifeTime;
+    private Long idleTimeout = 600000L;
+    private Long maxLifeTime = 1800000L;
     private Long connectionTimeout;
     private String connectionTestQuery;
     private Properties dataSourceProperty;
+
+    private Boolean isRead = false;
 
     public String getDriverClassName() {
         return driverClassName;
@@ -112,6 +114,14 @@ public class DataSourceProperties {
         this.dataSourceProperty = dataSourceProperty;
     }
 
+    public Boolean getRead() {
+        return isRead;
+    }
+
+    public void setRead(Boolean read) {
+        isRead = read;
+    }
+
     public HikariConfig getHikariConfig() {
         HikariConfig config = new HikariConfig();
         config.setDriverClassName(driverClassName);
@@ -124,6 +134,7 @@ public class DataSourceProperties {
         config.setIdleTimeout(idleTimeout);
         config.setConnectionTimeout(connectionTimeout);
         config.setConnectionTestQuery(connectionTestQuery);
+        config.setReadOnly(isRead);
         if (dataSourceProperty != null && !dataSourceProperty.isEmpty())
             config.setDataSourceProperties(dataSourceProperty);
         return config;

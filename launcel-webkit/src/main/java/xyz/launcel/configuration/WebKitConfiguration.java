@@ -36,7 +36,7 @@ public class WebKitConfiguration extends WebMvcConfigurerAdapter {
         super.configureMessageConverters(converters);
     }
 
-    @ConditionalOnProperty(prefix = "mvc.cors", value = "enabled", havingValue = "true", matchIfMissing = false)
+    @ConditionalOnProperty(prefix = "mvc.cors", value = "enabled", havingValue = "true")
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**").allowedOrigins("*").allowCredentials(true).allowedMethods("GET", "POST", "DELETE", "PUT").maxAge(3600);

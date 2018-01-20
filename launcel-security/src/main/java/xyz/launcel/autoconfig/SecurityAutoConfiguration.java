@@ -8,17 +8,17 @@ import xyz.launcel.config.SecurityConfig;
 import xyz.launcel.interceptor.RoleInterceptor;
 import xyz.launcel.prop.SecurityListProperties;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-
 @Configuration
 @EnableConfigurationProperties(SecurityListProperties.class)
 public class SecurityAutoConfiguration extends WebMvcConfigurerAdapter {
-    @Inject
-    private SecurityListProperties securityListProperties;
+    private final SecurityListProperties securityListProperties;
 
-    @PostConstruct
-    protected void initSecurityConfig() {
+    public SecurityAutoConfiguration(SecurityListProperties securityListProperties) {
+        this.securityListProperties = securityListProperties;
+        initSecurityConfig();
+    }
+
+    private void initSecurityConfig() {
         SecurityConfig.setUris(securityListProperties.getList());
     }
 

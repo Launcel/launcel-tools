@@ -21,13 +21,19 @@
       "name": "custom.mybatis.list",
       "type": "xyz.launcel.prop.CustomMybatisProperties$PrimyMybatisPropertie",
       "sourceMethod": "getList()"
+    },
+    {
+      "sourceType": "xyz.launcel.prop.EnableProperties",
+      "name": "service.aspejct",
+      "type": "xyz.launcel.prop.EnableProperties"
     }
   ],
   "properties": [
     {
       "name": "service.aspejct.enabled",
       "type": "java.lang.Boolean",
-      "defaultValue": true
+      "defaultValue": true,
+      "sourceType": "xyz.launcel.prop.EnableProperties"
     },
     {
       "name": "custom.jdbc.list",

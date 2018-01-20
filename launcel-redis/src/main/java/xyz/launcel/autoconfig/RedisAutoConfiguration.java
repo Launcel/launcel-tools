@@ -20,8 +20,6 @@ import xyz.launcel.lang.Base64;
 import xyz.launcel.prop.RedisProperties;
 import xyz.launcel.support.serializer.GsonRedisSerializer;
 
-import javax.inject.Inject;
-
 @EnableCaching
 @Configuration
 @EnableConfigurationProperties(value = RedisProperties.class)
@@ -29,8 +27,11 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
 
     private Logger logger = LoggerFactory.getLogger(RedisAutoConfiguration.class);
 
-    @Inject
-    private RedisProperties redisConf;
+    private final RedisProperties redisConf;
+
+    public RedisAutoConfiguration(RedisProperties redisConf) {
+        this.redisConf = redisConf;
+    }
 
     @Primary
     @Bean(name = "redisPool")

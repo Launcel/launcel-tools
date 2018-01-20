@@ -1,1 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=xyz.launcel.autoconfig.SessionFactoryAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=xyz.launcel.autoconfig.SessionFactoryAutoConfiguration,\
+xyz.launcel.autoconfig.MybatisMapperScannerAutoConfiguration
