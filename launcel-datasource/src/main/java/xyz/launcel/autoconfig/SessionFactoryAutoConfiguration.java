@@ -58,7 +58,6 @@ public class SessionFactoryAutoConfiguration {
             ExceptionFactory.error("-1", "xml文件加载失败");
             System.exit(-1);
         }
-//        new MapperScannerRegistrar(sqlSessionFactoryBean.getObject(), mybatisProperties.getMapperPackage()).registryBean(registry);
         return sqlSessionFactoryBean;
     }
 

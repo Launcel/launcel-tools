@@ -143,7 +143,7 @@
     },
     {
       "name": "custom.mybatis.list.mapper-package",
-      "type": "java.util.List<java.lang.String>",
+      "type": "java.lang.String",
       "sourceType": "xyz.launcel.prop.CustomMybatisProperties$PrimyMybatisPropertie"
     }
   ]

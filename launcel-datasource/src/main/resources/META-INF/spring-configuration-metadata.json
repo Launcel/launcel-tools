@@ -117,7 +117,7 @@
     },
     {
       "name": "db.mybatis.mapper-package",
-      "type": "java.util.List<java.lang.String>",
+      "type": "java.lang.String",
       "description": "mybatis dao package",
       "sourceType": "xyz.launcel.prop.MybatisProperties"
     }

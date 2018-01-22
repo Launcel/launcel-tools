@@ -8,7 +8,7 @@ import java.util.List;
 public class MybatisProperties {
     private String aliasesPackage;
     private String mapperResource;
-    private List<String> mapperPackage;
+    private String mapperPackage;
 
     public String getAliasesPackage() {
         return aliasesPackage;
@@ -26,11 +26,11 @@ public class MybatisProperties {
         this.mapperResource = mapperResource;
     }
 
-    public List<String> getMapperPackage() {
+    public String getMapperPackage() {
         return mapperPackage;
     }
 
-    public void setMapperPackage(List<String> mapperPackage) {
+    public void setMapperPackage(String mapperPackage) {
         this.mapperPackage = mapperPackage;
     }
 }

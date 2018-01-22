@@ -24,7 +24,7 @@ public class CustomMybatisProperties {
 
         private String mapperResource;
 
-        private List<String> mapperPackage;
+        private String mapperPackage;
 
         public String getRefName() {
             return refName;
@@ -50,11 +50,11 @@ public class CustomMybatisProperties {
             this.mapperResource = mapperResource;
         }
 
-        public List<String> getMapperPackage() {
+        public String getMapperPackage() {
             return mapperPackage;
         }
 
-        public void setMapperPackage(List<String> mapperPackage) {
+        public void setMapperPackage(String mapperPackage) {
             this.mapperPackage = mapperPackage;
         }
     }
