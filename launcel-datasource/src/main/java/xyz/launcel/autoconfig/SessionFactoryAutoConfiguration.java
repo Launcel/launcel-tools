@@ -3,7 +3,12 @@ package xyz.launcel.autoconfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.beans.MutablePropertyValues;
+import org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefinition;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -14,6 +19,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import xyz.launcel.aspejct.ServerAspejct;
 import xyz.launcel.exception.ExceptionFactory;
+import xyz.launcel.hook.BeanDefinitionRegistryTool;
 import xyz.launcel.interceptor.PageInterceptor;
 import xyz.launcel.prop.DataSourceProperties;
 import xyz.launcel.prop.MybatisProperties;
@@ -46,7 +52,7 @@ public class SessionFactoryAutoConfiguration {
     @ConditionalOnBean(name = "dataSource")
     @Primary
     @Bean(name = "sqlSessionFactory")
-    public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier(value = "dataSource") HikariDataSource dataSource) throws Exception {
+    public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier(value = "dataSource") HikariDataSource dataSource) {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("mybatis/mybatis-config.xml"));
         sqlSessionFactoryBean.setTypeAliasesPackage(mybatisProperties.getAliasesPackage());
@@ -64,9 +70,14 @@ public class SessionFactoryAutoConfiguration {
 
     @Bean
     @ConditionalOnBean(name = "sqlSessionFactory")
-    void registryMapper() {
-        System.out.println("------------------------");
-        System.out.println("------------------------");
+    String registryMapper() {
+        BeanDefinitionRegistry registry = new DefaultListableBeanFactory();
+        AnnotatedGenericBeanDefinition abd = BeanDefinitionRegistryTool.decorateAbd(MapperScannerConfigurer.class);
+        MutablePropertyValues mapperScannerConfigurer = abd.getPropertyValues();
+        mapperScannerConfigurer.addPropertyValue("sqlSessionFactoryBeanName", "sqlSessionFactory");
+        mapperScannerConfigurer.addPropertyValue("basePackage", mybatisProperties.getMapperPackage());
+        BeanDefinitionRegistryTool.registryBean("mapperScannerConfigurer", registry, abd);
+        return "init-mapper-scanner";
     }
 
     @ConditionalOnProperty(prefix = "aspejct.service", value = "enabled", havingValue = "true", matchIfMissing = true)
