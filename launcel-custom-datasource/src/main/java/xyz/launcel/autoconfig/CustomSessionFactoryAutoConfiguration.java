@@ -3,9 +3,12 @@ package xyz.launcel.autoconfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.MutablePropertyValues;
+import org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.boot.bind.PropertySourceUtils;
@@ -26,10 +29,12 @@ import xyz.launcel.prop.CustomDataSourceProperties;
 import xyz.launcel.prop.CustomDataSourceProperties.PrimyHikariDataSource;
 import xyz.launcel.prop.CustomMybatisProperties;
 import xyz.launcel.prop.CustomMybatisProperties.PrimyMybatisPropertie;
-import xyz.launcel.registrar.MapperScannerRegistrar;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Configuration
 @EnableConfigurationProperties(value = {CustomDataSourceProperties.class, CustomMybatisProperties.class})
@@ -44,24 +49,50 @@ public class CustomSessionFactoryAutoConfiguration extends BaseLogger implements
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
         info("CustomHikariDataSource : " + Json.toJson(customDataSources));
         info("CustomMybatisPropertie : " + Json.toJson(customMybatis));
-        customDataSources.forEach(key -> {
-//            registryBean(name + "DataSource", registry, CustomDataSourcePropertie.CustomHikariDataSource.class);
-            BeanDefinitionRegistryTool.registryBean(key + "SqlSessionFactory", registry, SqlSessionFactoryBean.class);
-//            BeanDefinitionRegistryTool.registryBean(key + "MapperScannerConfigurer", registry, MapperScannerConfigurer.class);
-        });
-
-        customMybatis.forEach((key, value) -> {
-            BeanDefinitionRegistryTool.registryBean(key + "Mybatis", registry, PrimyMybatisPropertie.class);
-            new MapperScannerRegistrar(key + "SqlSessionFactory", value.getMapperPackage()).registryBean(registry);
-        });
+        addMybatisEvcironment(registry);
+//        customDataSources.forEach(key -> {
+//            BeanDefinitionRegistryTool.registryBean(key + "SqlSessionFactory", registry, SqlSessionFactoryBean.class);
+//        });
+//
+//        customMybatis.forEach((key, value) -> {
+//            BeanDefinitionRegistryTool.registryBean(key + "Mybatis", registry, PrimyMybatisPropertie.class);
+//            new MapperScannerRegistrar(key + "SqlSessionFactory", value.getMapperPackage()).registryBean(registry);
+//        });
     }
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+//        if (!customDataSources.isEmpty() && !customMybatis.isEmpty()) {
+//            customDataSources.forEach(dataSource -> {
+//                PrimyMybatisPropertie temp = customMybatis.get(dataSource.getName() + "Mybatis");
+//                MutablePropertyValues sqlSession = beanFactory.getBeanDefinition(dataSource.getName() + "SqlSessionFactory").getPropertyValues();
+//                sqlSession.addPropertyValue("dataSource", new HikariDataSource(dataSource.getHikariConfig()));
+//                sqlSession.addPropertyValue("configLocation", "mybatis/mybatis-config.xml");
+//                sqlSession.addPropertyValue("typeAliasesPackage", temp.getAliasesPackage());
+//                sqlSession.addPropertyValue("plugins", new Interceptor[]{new PageInterceptor()});
+//                try {
+//                    sqlSession.addPropertyValue("mapperLocations", new PathMatchingResourcePatternResolver().getResources(temp.getMapperResource()));
+//                } catch (IOException x) {
+//                    ExceptionFactory.error("_DEFINE_ERROR_CODE_002");
+//                    System.exit(-1);
+//                }
+//                MutablePropertyValues mapperScannerConfigurer = beanFactory.getBeanDefinition(dataSource.getName() + "MapperScannerConfigurer").
+//                        getPropertyValues();
+//                mapperScannerConfigurer.addPropertyValue("sqlSessionFactoryBeanName", dataSource.getName() + "SqlSessionFactory");
+//                info(temp.getMapperPackage().get(0));
+//                mapperScannerConfigurer.addPropertyValue("basePackage", "team.uncle.dao");
+//
+//            });
+//        }
+    }
+
+
+    private void addMybatisEvcironment(BeanDefinitionRegistry registry) {
         if (!customDataSources.isEmpty() && !customMybatis.isEmpty()) {
             customDataSources.forEach(dataSource -> {
                 PrimyMybatisPropertie temp = customMybatis.get(dataSource.getName() + "Mybatis");
-                MutablePropertyValues sqlSession = beanFactory.getBeanDefinition(dataSource.getName() + "SqlSessionFactory").getPropertyValues();
+                AnnotatedGenericBeanDefinition sqlSessionAbd = BeanDefinitionRegistryTool.decorateAbd(SqlSessionFactoryBean.class);
+                MutablePropertyValues sqlSession = sqlSessionAbd.getPropertyValues();
                 sqlSession.addPropertyValue("dataSource", new HikariDataSource(dataSource.getHikariConfig()));
                 sqlSession.addPropertyValue("configLocation", "mybatis/mybatis-config.xml");
                 sqlSession.addPropertyValue("typeAliasesPackage", temp.getAliasesPackage());
@@ -72,12 +103,12 @@ public class CustomSessionFactoryAutoConfiguration extends BaseLogger implements
                     ExceptionFactory.error("_DEFINE_ERROR_CODE_002");
                     System.exit(-1);
                 }
-                MutablePropertyValues mapperScannerConfigurer = beanFactory.getBeanDefinition(dataSource.getName() + "MapperScannerConfigurer").
-                        getPropertyValues();
-                mapperScannerConfigurer.addPropertyValue("sqlSessionFactoryBeanName", dataSource.getName() + "SqlSessionFactory");
+                AnnotatedGenericBeanDefinition abd = BeanDefinitionRegistryTool.decorateAbd(MapperScannerConfigurer.class);
+                MutablePropertyValues mapperScannerConfigurer = abd.getPropertyValues();
+                mapperScannerConfigurer.addPropertyValue("sqlSessionFactoryBeanName", new RuntimeBeanReference(dataSource.getName() + "SqlSessionFactory"));
                 info(temp.getMapperPackage().get(0));
                 mapperScannerConfigurer.addPropertyValue("basePackage", "team.uncle.dao");
-
+                BeanDefinitionRegistryTool.registryBean(dataSource.getName() + "MapperScannerConfigurer", registry, abd);
             });
         }
     }
@@ -94,6 +125,7 @@ public class CustomSessionFactoryAutoConfiguration extends BaseLogger implements
     private void dataBinderDataSource(Map<String, Object> map) {
         CustomDataSourceProperties customDataSourceProperties = new CustomDataSourceProperties();
         RelaxedDataBinder dataBinder = new RelaxedDataBinder(customDataSourceProperties);
+        // 设置数据源属性
         dataBinder(dataBinder, map);
         if (customDataSourceProperties.getList() != null) {
             customDataSources.addAll(customDataSourceProperties.getList());
