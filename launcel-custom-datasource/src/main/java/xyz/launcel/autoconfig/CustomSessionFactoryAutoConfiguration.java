@@ -8,7 +8,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.boot.bind.PropertySourceUtils;
@@ -90,11 +89,11 @@ public class CustomSessionFactoryAutoConfiguration extends BaseLogger implements
     private void addMybatisEvcironment(BeanDefinitionRegistry registry) {
         if (!customDataSources.isEmpty() && !customMybatis.isEmpty()) {
             customDataSources.forEach(dataSource -> {
-                PrimyMybatisPropertie temp = customMybatis.get(dataSource.getName() + "Mybatis");
+                PrimyMybatisPropertie temp = customMybatis.get(dataSource.getName());
                 AnnotatedGenericBeanDefinition sqlSessionAbd = BeanDefinitionRegistryTool.decorateAbd(SqlSessionFactoryBean.class);
                 MutablePropertyValues sqlSession = sqlSessionAbd.getPropertyValues();
                 sqlSession.addPropertyValue("dataSource", new HikariDataSource(dataSource.getHikariConfig()));
-                sqlSession.addPropertyValue("configLocation", "mybatis/mybatis-config.xml");
+                sqlSession.addPropertyValue("configLocation", "classpath:mybatis/mybatis-config.xml");
                 sqlSession.addPropertyValue("typeAliasesPackage", temp.getAliasesPackage());
                 sqlSession.addPropertyValue("plugins", new Interceptor[]{new PageInterceptor()});
                 try {
@@ -103,9 +102,10 @@ public class CustomSessionFactoryAutoConfiguration extends BaseLogger implements
                     ExceptionFactory.error("_DEFINE_ERROR_CODE_002");
                     System.exit(-1);
                 }
+                BeanDefinitionRegistryTool.registryBean(dataSource.getName() + "SqlSessionFactory", registry, sqlSessionAbd);
                 AnnotatedGenericBeanDefinition abd = BeanDefinitionRegistryTool.decorateAbd(MapperScannerConfigurer.class);
                 MutablePropertyValues mapperScannerConfigurer = abd.getPropertyValues();
-                mapperScannerConfigurer.addPropertyValue("sqlSessionFactoryBeanName", new RuntimeBeanReference(dataSource.getName() + "SqlSessionFactory"));
+                mapperScannerConfigurer.addPropertyValue("sqlSessionFactoryBeanName", dataSource.getName() + "SqlSessionFactory");
                 info(temp.getMapperPackage().get(0));
                 mapperScannerConfigurer.addPropertyValue("basePackage", "team.uncle.dao");
                 BeanDefinitionRegistryTool.registryBean(dataSource.getName() + "MapperScannerConfigurer", registry, abd);
