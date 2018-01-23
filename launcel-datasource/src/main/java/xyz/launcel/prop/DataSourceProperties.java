@@ -47,7 +47,7 @@ public class DataSourceProperties {
         private Long maxLifeTime = 1800000L;
         private Long connectionTimeout = 30000L;
         private String connectionTestQuery = "select 'x'";
-        private Boolean enabledTransactal = false;
+        private Boolean enableTransactal = false;
         private Properties dataSourceProperty = new Properties() {{
             put("dataSource.cachePrepStmts", true);
             put("dataSource.prepStmtCacheSize", 250);
@@ -153,12 +153,12 @@ public class DataSourceProperties {
             this.dataSourceProperty = dataSourceProperty;
         }
 
-        public Boolean getEnabledTransactal() {
-            return enabledTransactal;
+        public Boolean getEnableTransactal() {
+            return enableTransactal;
         }
 
-        public void setEnabledTransactal(Boolean enabledTransactal) {
-            this.enabledTransactal = enabledTransactal;
+        public void setEnableTransactal(Boolean enableTransactal) {
+            this.enableTransactal = enableTransactal;
         }
 
         public Boolean getRead() {

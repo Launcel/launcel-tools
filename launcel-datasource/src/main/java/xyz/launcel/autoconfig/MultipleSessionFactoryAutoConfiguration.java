@@ -80,7 +80,7 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
             ExceptionFactory.error("-1", ">>>  connot load resource:" + mybatisPropertie.getMapperResource() + " !!");
         }
         BeanDefinitionRegistryTool.registryBean(sqlSessionFactoryBeanName, registry, sqlSessionAbd);
-        if (dataSourcePropertie.getEnabledTransactal())
+        if (dataSourcePropertie.getEnableTransactal())
             registTransactal(dataSourcePropertie.getName(), registry, hikariDataSource);
     }
 

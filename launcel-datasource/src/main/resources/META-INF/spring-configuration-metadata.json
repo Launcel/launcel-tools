@@ -35,14 +35,9 @@
       "sourceType": "xyz.launcel.prop.MybatisProperties"
     },
     {
-      "sourceType": "xyz.launcel.prop.ServiceProperties",
       "name": "service.aspejct",
+      "sourceType": "xyz.launcel.prop.ServiceProperties",
       "type": "xyz.launcel.prop.ServiceProperties"
-    },
-    {
-      "sourceType": "xyz.launcel.prop.TransactionProperties",
-      "name": "db.transaction",
-      "type": "xyz.launcel.prop.TransactionProperties"
     }
   ],
   "properties": [
@@ -228,7 +223,7 @@
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
-      "name": "db.jdbc.others.enabled-transactal",
+      "name": "db.jdbc.others.enable-transactal",
       "type": "java.lang.Boolean",
       "defaultValue": false,
       "description": "JDBC transactal of the database.",
