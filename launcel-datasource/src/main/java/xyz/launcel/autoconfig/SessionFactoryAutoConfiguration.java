@@ -12,12 +12,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import xyz.launcel.aspejct.ServerAspejct;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.interceptor.PageInterceptor;
 import xyz.launcel.prop.DataSourceProperties;
 import xyz.launcel.prop.MybatisProperties;
 
+import javax.inject.Named;
+import javax.sql.DataSource;
 import java.io.IOException;
 
 /**
@@ -25,7 +30,7 @@ import java.io.IOException;
  */
 @Configuration
 @EnableConfigurationProperties(value = {DataSourceProperties.class, MybatisProperties.class})
-//@EnableTransactionManagement
+@EnableTransactionManagement
 public class SessionFactoryAutoConfiguration {
 
     private final DataSourceProperties dataSourceProperties;
@@ -46,7 +51,7 @@ public class SessionFactoryAutoConfiguration {
     @ConditionalOnBean(name = "dataSource")
     @Primary
     @Bean(name = "sqlSessionFactory")
-    public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier(value = "dataSource") HikariDataSource dataSource) {
+    public SqlSessionFactoryBean sqlSessionFactoryBean(@Named(value = "dataSource") HikariDataSource dataSource) {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("mybatis/mybatis-config.xml"));
         sqlSessionFactoryBean.setTypeAliasesPackage(mybatisProperties.getAliasesPackage());
@@ -77,6 +82,12 @@ public class SessionFactoryAutoConfiguration {
     @Bean
     public ServerAspejct serverAspejct() {
         return new ServerAspejct();
+    }
+
+    @ConditionalOnProperty(prefix = "db.transaction", value = "enabled", havingValue = "true")
+    @Bean
+    public PlatformTransactionManager prodTransactionManager(@Named(value = "dataSource") HikariDataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 
 
