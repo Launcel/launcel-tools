@@ -2,15 +2,16 @@ package xyz.launcel.prop;
 
 import com.zaxxer.hikari.HikariConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import xyz.launcel.constant.SessionConstant;
 import xyz.launcel.lang.Base64;
 
 import java.util.List;
 import java.util.Properties;
 
 /**
- * Created by xuyang in 2017/9/19
+ * Created by Launcel in 2017/9/19
  */
-@ConfigurationProperties(prefix = "db.jdbc")
+@ConfigurationProperties(prefix = SessionConstant.dataSourceConfigPrefix)
 public class DataSourceProperties {
 
     private DataSourcePropertie main;

@@ -10,15 +10,19 @@ import org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefiniti
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.bind.PropertySourceUtils;
 import org.springframework.boot.bind.RelaxedDataBinder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.EnvironmentAware;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.validation.BindingResult;
+import xyz.launcel.aspejct.ServerAspejct;
+import xyz.launcel.constant.SessionConstant;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.hook.BeanDefinitionRegistryTool;
 import xyz.launcel.interceptor.PageInterceptor;
@@ -47,41 +51,31 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
         if (!multipleDataSource.isEmpty())
             multipleDataSource.forEach(dataSourcePropertie -> registSessionFactory(dataSourcePropertie, registry));
-//        AnnotatedGenericBeanDefinition sqlSessionAbd = BeanDefinitionRegistryTool.decorateAbd(SqlSessionFactoryBean.class);
-//        MutablePropertyValues sqlSession = sqlSessionAbd.getPropertyValues();
-//        sqlSession.addPropertyValue("dataSource", new HikariDataSource(multipleDataSource.getHikariConfig()));
-//        sqlSession.addPropertyValue("configLocation", "classpath:mybatis/mybatis-config.xml");
-//        sqlSession.addPropertyValue("typeAliasesPackage", mybatisPropertie.getAliasesPackage());
-//        sqlSession.addPropertyValue("plugins", new Interceptor[]{new PageInterceptor()});
-//        try {
-//            sqlSession.addPropertyValue("mapperLocations", new PathMatchingResourcePatternResolver().getResources(mybatisPropertie.getMapperResource()));
-//        } catch (IOException x) {
-//            ExceptionFactory.error("_DEFINE_ERROR_CODE_002");
-//            System.exit(-1);
-//        }
-//        BeanDefinitionRegistryTool.registryBean(dataSource.getName() + "SqlSessionFactory", registry, sqlSessionAbd);
     }
 
     private void registSessionFactory(DataSourcePropertie dataSourcePropertie, BeanDefinitionRegistry registry) {
+        // 注册 sessionFactory
         AnnotatedGenericBeanDefinition sqlSessionAbd = BeanDefinitionRegistryTool.decorateAbd(SqlSessionFactoryBean.class);
         MutablePropertyValues sqlSession = sqlSessionAbd.getPropertyValues();
-        sqlSession.addPropertyValue(dataSourcePropertie.getName() + "DataSource", new HikariDataSource(dataSourcePropertie.getHikariConfig()));
-        sqlSession.addPropertyValue("configLocation", "classpath:mybatis/mybatis-config.xml");
+        sqlSession.addPropertyValue(dataSourcePropertie.getName() + SessionConstant.dataSourceName, new HikariDataSource(dataSourcePropertie.getHikariConfig()));
+        sqlSession.addPropertyValue(SessionConstant.configLocationName, SessionConstant.configLocationValue);
         MybatisPropertie mybatisPropertie = multipleMybatis.get(dataSourcePropertie.getName());
-        sqlSession.addPropertyValue("typeAliasesPackage", mybatisPropertie.getAliasesPackage());
-        sqlSession.addPropertyValue("plugins", new Interceptor[]{new PageInterceptor()});
+        sqlSession.addPropertyValue(SessionConstant.typeAliasesPackageName, mybatisPropertie.getAliasesPackage());
+        sqlSession.addPropertyValue(SessionConstant.pluginName, new Interceptor[]{new PageInterceptor()});
         try {
-            sqlSession.addPropertyValue("mapperLocations", new PathMatchingResourcePatternResolver().getResources(mybatisPropertie.getMapperResource()));
+            sqlSession.addPropertyValue(SessionConstant.mapperLocationName, new PathMatchingResourcePatternResolver().getResources(mybatisPropertie.getMapperResource()));
         } catch (IOException e) {
             System.exit(-1);
         }
-        BeanDefinitionRegistryTool.registryBean(dataSourcePropertie.getName() + "SqlSessionFactory", registry, sqlSessionAbd);
-
+        String sqlSessionFactoryBeanName = dataSourcePropertie.getName() + SessionConstant.sessionFactoryName;
+        BeanDefinitionRegistryTool.registryBean(sqlSessionFactoryBeanName, registry, sqlSessionAbd);
+        // 注册 MapperScannerConfigurer
         AnnotatedGenericBeanDefinition abd = BeanDefinitionRegistryTool.decorateAbd(MapperScannerConfigurer.class);
         MutablePropertyValues mapperScannerConfigurer = abd.getPropertyValues();
-        mapperScannerConfigurer.addPropertyValue("sqlSessionFactoryBeanName", dataSourcePropertie.getName() + "SqlSessionFactory");
-        mapperScannerConfigurer.addPropertyValue("basePackage", mybatisPropertie.getMapperPackage());
-        BeanDefinitionRegistryTool.registryBean(dataSourcePropertie.getName() + "MapperScannerConfigurer", registry, abd);
+        mapperScannerConfigurer.addPropertyValue(SessionConstant.sqlSessionFactoryName, sqlSessionFactoryBeanName);
+        mapperScannerConfigurer.addPropertyValue(SessionConstant.basePackageName, mybatisPropertie.getMapperPackage());
+        String mybatisBeanName = dataSourcePropertie.getName() + SessionConstant.mybatisName;
+        BeanDefinitionRegistryTool.registryBean(mybatisBeanName, registry, abd);
     }
 
     @Override
@@ -92,10 +86,10 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
     @Override
     public void setEnvironment(Environment environment) {
         ConfigurableEnvironment env = (ConfigurableEnvironment) environment;
-        Map<String, Object> customDate = PropertySourceUtils.getSubProperties(env.getPropertySources(), "db.jdbc.");
-        Map<String, Object> customMapper = PropertySourceUtils.getSubProperties(env.getPropertySources(), "db.mybatis.");
-        dataBinderDataSource(customDate);
-        dataBinderMapper(customMapper);
+        Map<String, Object> multipleDataSourceMap = PropertySourceUtils.getSubProperties(env.getPropertySources(), SessionConstant.dataSourceConfigPrefix);
+        Map<String, Object> multipleMybatisMap = PropertySourceUtils.getSubProperties(env.getPropertySources(), SessionConstant.mybatisConfigPrefix);
+        dataBinderDataSource(multipleDataSourceMap);
+        dataBinderMapper(multipleMybatisMap);
     }
 
     private void dataBinderDataSource(Map<String, Object> map) {
@@ -126,4 +120,27 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
             System.exit(-1);
         }
     }
+
+    @ConditionalOnProperty(prefix = "aspejct.service", value = "enabled", havingValue = "true", matchIfMissing = true)
+    @Bean
+    public ServerAspejct serverAspejct() {
+        return new ServerAspejct();
+    }
+
+//    @ConditionalOnProperty(prefix = "db.transaction", value = "enabled", havingValue = "true")
+//    @Bean
+//    public PlatformTransactionManager prodTransactionManager(@Named(value = "dataSource") HikariDataSource dataSource) {
+//        return new DataSourceTransactionManager(dataSource);
+//    }
+
+
+    /**
+     * 基于mapper代理则不需要注入
+     *
+     * @return
+     */
+//    @Bean
+//    public SqlSessionTemplate sqlSessionTemplate(@Qualifier(value = "sqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
+//        return new SqlSessionTemplate(sqlSessionFactory);
+//    }
 }
