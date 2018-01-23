@@ -57,7 +57,7 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
         // 注册 sessionFactory
         AnnotatedGenericBeanDefinition sqlSessionAbd = BeanDefinitionRegistryTool.decorateAbd(SqlSessionFactoryBean.class);
         MutablePropertyValues sqlSession = sqlSessionAbd.getPropertyValues();
-        sqlSession.addPropertyValue(dataSourcePropertie.getName() + SessionConstant.dataSourceName, new HikariDataSource(dataSourcePropertie.getHikariConfig()));
+        sqlSession.addPropertyValue(SessionConstant.dataSourceName, new HikariDataSource(dataSourcePropertie.getHikariConfig()));
         sqlSession.addPropertyValue(SessionConstant.configLocationName, SessionConstant.configLocationValue);
         MybatisPropertie mybatisPropertie = multipleMybatis.get(dataSourcePropertie.getName());
         sqlSession.addPropertyValue(SessionConstant.typeAliasesPackageName, mybatisPropertie.getAliasesPackage());
