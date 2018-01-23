@@ -36,7 +36,7 @@ import java.util.Map;
 
 @Configuration
 @EnableConfigurationProperties(value = {CustomDataSourceProperties.class, CustomMybatisProperties.class})
-public class CustomSessionFactoryAutoConfiguration extends BaseLogger implements BeanDefinitionRegistryPostProcessor, EnvironmentAware {
+public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implements BeanDefinitionRegistryPostProcessor, EnvironmentAware {
 
     private List<PrimyHikariDataSource> customDataSources = new ArrayList<>();
 

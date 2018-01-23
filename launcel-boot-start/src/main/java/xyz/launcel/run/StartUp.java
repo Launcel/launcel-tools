@@ -17,12 +17,13 @@ public class StartUp {
 
     private static final Logger log = LoggerFactory.getLogger(StartUp.class);
 
-    public static void run(String[] args, Class<?> appClass) {
+    public static ConfigurableEnvironment run(String[] args, Class<?> appClass) {
         SpringApplication app = new SpringApplication(appClass);
         app.setBannerMode(Banner.Mode.OFF);
         ConfigurableEnvironment env = app.run(args).getEnvironment();
         log.warn("\n------------------------------------\n\t\tapp port is : \t{}",
                 env.getProperty("server.port") + "\n------------------------------------");
+        return env;
     }
 
 }

@@ -10,8 +10,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Column
-{
+public @interface Column {
     String name() default "";
 
     boolean unique() default false;
@@ -22,6 +21,10 @@ public @interface Column
 
     boolean updatable() default true;
 
+    /**
+     * @Column(columnDefinition = "tinyint(1) not null default '0'")
+     * @return
+     */
     String columnDefinition() default "";
 
     String table() default "";
