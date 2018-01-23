@@ -28,7 +28,6 @@ public class BeanDefinitionRegistryTool {
         BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, registry);
     }
 
-    // 装饰获取abd
     public static AnnotatedGenericBeanDefinition decorateAbd(Class clazz) {
         ScopeMetadataResolver scopeMetadataResolver = new AnnotationScopeMetadataResolver();
         AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(clazz);

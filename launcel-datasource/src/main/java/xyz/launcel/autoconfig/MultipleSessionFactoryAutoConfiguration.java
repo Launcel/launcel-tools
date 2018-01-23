@@ -20,10 +20,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.validation.BindingResult;
 import xyz.launcel.aspejct.ServerAspejct;
 import xyz.launcel.constant.SessionConstant;
-import xyz.launcel.ensure.Me;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.hook.BeanDefinitionRegistryTool;
 import xyz.launcel.interceptor.PageInterceptor;
@@ -63,14 +63,14 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
         String sqlSessionFactoryBeanName = dataSourcePropertie.getName() + SessionConstant.sessionFactoryName;
         registSessionFactory(registry, dataSourcePropertie, mybatisPropertie, sqlSessionFactoryBeanName);
         registMapperScannerConfigurer(registry, mybatisPropertie, sqlSessionFactoryBeanName);
-
     }
 
     // 注册 sessionFactory
     private void registSessionFactory(BeanDefinitionRegistry registry, DataSourcePropertie dataSourcePropertie, MybatisPropertie mybatisPropertie, String sqlSessionFactoryBeanName) {
         AnnotatedGenericBeanDefinition sqlSessionAbd = BeanDefinitionRegistryTool.decorateAbd(SqlSessionFactoryBean.class);
         MutablePropertyValues sqlSession = sqlSessionAbd.getPropertyValues();
-        sqlSession.addPropertyValue(SessionConstant.dataSourceName, new HikariDataSource(dataSourcePropertie.getHikariConfig()));
+        HikariDataSource hikariDataSource = new HikariDataSource(dataSourcePropertie.getHikariConfig());
+        sqlSession.addPropertyValue(SessionConstant.dataSourceName, hikariDataSource);
         sqlSession.addPropertyValue(SessionConstant.configLocationName, SessionConstant.configLocationValue);
         sqlSession.addPropertyValue(SessionConstant.typeAliasesPackageName, mybatisPropertie.getAliasesPackage());
         sqlSession.addPropertyValue(SessionConstant.pluginName, new Interceptor[]{new PageInterceptor()});
@@ -80,6 +80,8 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
             ExceptionFactory.error("-1", ">>>  connot load resource:" + mybatisPropertie.getMapperResource() + " !!");
         }
         BeanDefinitionRegistryTool.registryBean(sqlSessionFactoryBeanName, registry, sqlSessionAbd);
+        if (dataSourcePropertie.getEnabledTransactal())
+            registTransactal(dataSourcePropertie.getName(), registry, hikariDataSource);
     }
 
     // 注册 MapperScannerConfigurer
@@ -92,8 +94,16 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
         BeanDefinitionRegistryTool.registryBean(mybatisBeanName, registry, abd);
     }
 
+    private void registTransactal(String key, BeanDefinitionRegistry registry, HikariDataSource hikariDataSource) {
+        AnnotatedGenericBeanDefinition transactalAbd = BeanDefinitionRegistryTool.decorateAbd(DataSourceTransactionManager.class);
+        MutablePropertyValues abdPropertyValues = transactalAbd.getPropertyValues();
+        abdPropertyValues.addPropertyValue(SessionConstant.dataSourceName, hikariDataSource);
+        BeanDefinitionRegistryTool.registryBean(key + "PlatformTransactionManager", registry, transactalAbd);
+    }
+
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException { }
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    }
 
     @Override
     public void setEnvironment(Environment environment) {
@@ -139,20 +149,13 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
         return new ServerAspejct();
     }
 
-//    @ConditionalOnProperty(prefix = "db.transaction", value = "enabled", havingValue = "true")
-//    @Bean
-//    public PlatformTransactionManager prodTransactionManager(@Named(value = "dataSource") HikariDataSource dataSource) {
-//        return new DataSourceTransactionManager(dataSource);
-//    }
-
-
     /**
      * 基于mapper代理则不需要注入
      *
      * @return
      */
 //    @Bean
-//    public SqlSessionTemplate sqlSessionTemplate(@Qualifier(value = "sqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
+//    public SqlSessionTemplate sqlSessionTemplate(@Named(value = "sqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
 //        return new SqlSessionTemplate(sqlSessionFactory);
 //    }
 }

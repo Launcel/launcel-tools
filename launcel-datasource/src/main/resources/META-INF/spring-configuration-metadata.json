@@ -50,13 +50,8 @@
       "name": "service.aspejct.enabled",
       "type": "java.lang.Boolean",
       "defaultValue": true,
+      "description": "is open service param validate",
       "sourceType": "xyz.launcel.prop.ServiceProperties"
-    },
-    {
-      "name": "db.transaction.enabled",
-      "type": "java.lang.Boolean",
-      "defaultValue": false,
-      "sourceType": "xyz.launcel.prop.MybatisProperties"
     },
     {
       "description": "jdbc config start",
@@ -66,26 +61,27 @@
       "name": "db.jdbc.main",
       "type": "xyz.launcel.prop.DataSourceProperties.DataSourcePropertie",
       "defaultValue": "org.mariadb.jdbc.Driver",
+      "description": "main datasource",
       "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.main.name",
       "type": "java.lang.String",
-      "defaultValue": "org.mariadb.jdbc.Driver",
-      "description": "JDBC driverClassName of the database.",
+      "defaultValue": "main",
+      "description": "main datasource name is mainDataSource",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.driver-class-name",
       "type": "java.lang.String",
-      "defaultValue": "org.mariadb.jdbc.Driver",
+      "defaultValue": "net.sf.log4jdbc.DriverSpy",
       "description": "JDBC driverClassName of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.url",
       "type": "java.lang.String",
-      "defaultValue": "jdbc:mariadb://localhost:3306/test",
+      "defaultValue": "jdbc:log4jdbc:mysql://localhost:3306/test",
       "description": "JDBC driverClassName of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
@@ -98,7 +94,7 @@
     {
       "name": "db.jdbc.main.password",
       "type": "java.lang.String",
-      "description": "JDBC password of the database.",
+      "description": "JDBC password of the database. must be use Base64",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
@@ -112,7 +108,7 @@
       "name": "db.jdbc.main.max-pool-size",
       "type": "java.lang.String",
       "description": "JDBC maxPoolSize of the database.",
-      "defaultValue": 20,
+      "defaultValue": 5,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
@@ -127,6 +123,13 @@
       "type": "java.lang.String",
       "defaultValue": 1800000,
       "description": "JDBC maxLifetime of the database.",
+      "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
+    },
+    {
+      "name": "db.jdbc.main.enabled-transactal",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "JDBC transactal of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
@@ -161,26 +164,26 @@
     {
       "name": "db.jdbc.others",
       "type": "java.util.List<xyz.launcel.prop.DataSourceProperties.DataSourcePropertie>",
+      "defaultValue": "other dataSource list",
       "sourceType": "xyz.launcel.prop.DataSourceProperties"
     },
     {
       "name": "db.jdbc.others.name",
       "type": "java.lang.String",
-      "defaultValue": "org.mariadb.jdbc.Driver",
       "description": "JDBC driverClassName of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.others.driver-class-name",
       "type": "java.lang.String",
-      "defaultValue": "org.mariadb.jdbc.Driver",
+      "defaultValue": "net.sf.log4jdbc.DriverSpy",
       "description": "JDBC driverClassName of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.others.url",
       "type": "java.lang.String",
-      "defaultValue": "jdbc:mariadb://localhost:3306/test",
+      "defaultValue": "jdbc:log4jdbc:mysql://localhost:3306/test",
       "description": "JDBC driverClassName of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
@@ -193,7 +196,7 @@
     {
       "name": "db.jdbc.others.password",
       "type": "java.lang.String",
-      "description": "JDBC password of the database.",
+      "description": "JDBC password of the database. must be use Base64",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
@@ -222,6 +225,13 @@
       "type": "java.lang.String",
       "defaultValue": 1800000,
       "description": "JDBC maxLifetime of the database.",
+      "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
+    },
+    {
+      "name": "db.jdbc.others.enabled-transactal",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "JDBC transactal of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
