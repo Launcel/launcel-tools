@@ -2,14 +2,10 @@ package xyz.launcel.prop;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.List;
-
-@ConfigurationProperties(prefix = "common.dozer")
-public class DozerProperties {
+@ConfigurationProperties(prefix = "db.transaction")
+public class TransactionProperties {
 
     private Boolean enabled;
-
-    private List<String> list;
 
     public Boolean getEnabled() {
         return enabled;
@@ -17,13 +13,5 @@ public class DozerProperties {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public List<String> getList() {
-        return list;
-    }
-
-    public void setList(List<String> list) {
-        this.list = list;
     }
 }

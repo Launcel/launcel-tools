@@ -35,14 +35,14 @@
       "sourceType": "xyz.launcel.prop.MybatisProperties"
     },
     {
-      "sourceType": "xyz.launcel.prop.DataSourceProperties",
+      "sourceType": "xyz.launcel.prop.ServiceProperties",
       "name": "service.aspejct",
-      "type": "xyz.launcel.prop.DataSourceProperties"
+      "type": "xyz.launcel.prop.ServiceProperties"
     },
     {
-      "sourceType": "xyz.launcel.prop.MybatisProperties",
+      "sourceType": "xyz.launcel.prop.TransactionProperties",
       "name": "db.transaction",
-      "type": "xyz.launcel.prop.MybatisProperties"
+      "type": "xyz.launcel.prop.TransactionProperties"
     }
   ],
   "properties": [
@@ -50,7 +50,7 @@
       "name": "service.aspejct.enabled",
       "type": "java.lang.Boolean",
       "defaultValue": true,
-      "sourceType": "xyz.launcel.prop.DataSourceProperties"
+      "sourceType": "xyz.launcel.prop.ServiceProperties"
     },
     {
       "name": "db.transaction.enabled",

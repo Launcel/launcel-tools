@@ -31,8 +31,11 @@ public class MybatisProperties {
     public static class MybatisPropertie {
 
         private String refName;
+
         private String aliasesPackage;
+
         private String mapperResource;
+
         private String mapperPackage;
 
         public String getRefName() {

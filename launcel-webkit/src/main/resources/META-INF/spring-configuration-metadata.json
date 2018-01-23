@@ -1,0 +1,51 @@
+{
+  "groups": [
+    {
+      "name": "web.aspejct",
+      "sourceType": "xyz.launcel.prop.WebAspejctProperties",
+      "type": "xyz.launcel.prop.WebAspejctProperties"
+    },
+    {
+      "name": "web.gson-converter",
+      "sourceType": "xyz.launcel.prop.GsonConverterProperties",
+      "type": "xyz.launcel.prop.GsonConverterProperties"
+    },
+    {
+      "name": "web.global-exception",
+      "sourceType": "xyz.launcel.prop.GlobalExceptionProperties",
+      "type": "xyz.launcel.prop.GlobalExceptionProperties"
+    },
+    {
+      "name": "web.cors",
+      "sourceType": "xyz.launcel.prop.CorsProperties",
+      "type": "xyz.launcel.prop.CorsProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "web.aspejct.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "sourceType": "xyz.launcel.prop.WebAspejctProperties"
+    },
+    {
+      "name": "web.gson-converter.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "sourceType": "xyz.launcel.prop.GsonConverterProperties"
+    },
+    {
+      "name": "web.cors.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "sourceType": "xyz.launcel.prop.CorsProperties"
+    },
+    {
+      "name": "web.global-exception.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "sourceType": "xyz.launcel.prop.GlobalExceptionProperties"
+    }
+  ]
+}
+

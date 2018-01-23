@@ -2,6 +2,8 @@ package xyz.launcel.constant;
 
 public interface SessionConstant {
 
+    String serviceaAspejctPrefix = "aspejct.service";
+
     String dataSourceConfigPrefix = "db.jdbc";
 
     String mybatisConfigPrefix = "db.mybatis";
@@ -13,6 +15,7 @@ public interface SessionConstant {
     String sessionFactoryDataSourceName = "dataSource";
 
     String configLocationName = "configLocation";
+
     String configLocationValue = "classpath:mybatis/mybatis-config.xml";
 
     String typeAliasesPackageName = "typeAliasesPackage";
@@ -26,4 +29,5 @@ public interface SessionConstant {
     String sqlSessionFactoryName = "sqlSessionFactoryBeanName";
 
     String basePackageName = "basePackage";
+
 }

@@ -17,12 +17,12 @@ public class ExceptionFactory {
     }
 
     public static void error(String msg, String msgInfo) {
-        String sb = "[" + msg + " : " + msgInfo + "]";
+        String sb = "\t[" + msg + " : " + msgInfo + "]";
         throw new SystemError(sb);
     }
 
     public static void create(String msg, String msgInfo) {
-        String sb = "[" + msg + " : " + msgInfo + "]";
+        String sb = "\t[" + msg + " : " + msgInfo + "]";
         throw new SystemError(sb);
     }
 }

@@ -23,6 +23,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.validation.BindingResult;
 import xyz.launcel.aspejct.ServerAspejct;
 import xyz.launcel.constant.SessionConstant;
+import xyz.launcel.ensure.Me;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.hook.BeanDefinitionRegistryTool;
 import xyz.launcel.interceptor.PageInterceptor;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Configuration
 @EnableConfigurationProperties(value = {DataSourceProperties.class, MybatisProperties.class})
@@ -47,41 +49,51 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
     private Map<String, MybatisPropertie> multipleMybatis = new HashMap<>();
 
     @Override
-
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-        if (!multipleDataSource.isEmpty())
-            multipleDataSource.forEach(dataSourcePropertie -> registSessionFactory(dataSourcePropertie, registry));
+        if (!multipleDataSource.isEmpty() && !multipleMybatis.isEmpty())
+            multipleDataSource.forEach(dataSourcePropertie -> registBeans(dataSourcePropertie, registry));
+        else if (!multipleDataSource.isEmpty())
+            ExceptionFactory.error("-1", ">>>  mybatis propertie config is null !!");
     }
 
-    private void registSessionFactory(DataSourcePropertie dataSourcePropertie, BeanDefinitionRegistry registry) {
-        // 注册 sessionFactory
+    private void registBeans(DataSourcePropertie dataSourcePropertie, BeanDefinitionRegistry registry) {
+        MybatisPropertie mybatisPropertie = multipleMybatis.get(dataSourcePropertie.getName());
+        if (Objects.isNull(mybatisPropertie))
+            ExceptionFactory.error("-1", ">>>  mybatis propertie config not find ref-name :" + dataSourcePropertie.getName() + " !!");
+        String sqlSessionFactoryBeanName = dataSourcePropertie.getName() + SessionConstant.sessionFactoryName;
+        registSessionFactory(registry, dataSourcePropertie, mybatisPropertie, sqlSessionFactoryBeanName);
+        registMapperScannerConfigurer(registry, mybatisPropertie, sqlSessionFactoryBeanName);
+
+    }
+
+    // 注册 sessionFactory
+    private void registSessionFactory(BeanDefinitionRegistry registry, DataSourcePropertie dataSourcePropertie, MybatisPropertie mybatisPropertie, String sqlSessionFactoryBeanName) {
         AnnotatedGenericBeanDefinition sqlSessionAbd = BeanDefinitionRegistryTool.decorateAbd(SqlSessionFactoryBean.class);
         MutablePropertyValues sqlSession = sqlSessionAbd.getPropertyValues();
         sqlSession.addPropertyValue(SessionConstant.dataSourceName, new HikariDataSource(dataSourcePropertie.getHikariConfig()));
         sqlSession.addPropertyValue(SessionConstant.configLocationName, SessionConstant.configLocationValue);
-        MybatisPropertie mybatisPropertie = multipleMybatis.get(dataSourcePropertie.getName());
         sqlSession.addPropertyValue(SessionConstant.typeAliasesPackageName, mybatisPropertie.getAliasesPackage());
         sqlSession.addPropertyValue(SessionConstant.pluginName, new Interceptor[]{new PageInterceptor()});
         try {
             sqlSession.addPropertyValue(SessionConstant.mapperLocationName, new PathMatchingResourcePatternResolver().getResources(mybatisPropertie.getMapperResource()));
         } catch (IOException e) {
-            System.exit(-1);
+            ExceptionFactory.error("-1", ">>>  connot load resource:" + mybatisPropertie.getMapperResource() + " !!");
         }
-        String sqlSessionFactoryBeanName = dataSourcePropertie.getName() + SessionConstant.sessionFactoryName;
         BeanDefinitionRegistryTool.registryBean(sqlSessionFactoryBeanName, registry, sqlSessionAbd);
-        // 注册 MapperScannerConfigurer
+    }
+
+    // 注册 MapperScannerConfigurer
+    private void registMapperScannerConfigurer(BeanDefinitionRegistry registry, MybatisPropertie mybatisPropertie, String sqlSessionFactoryBeanName) {
         AnnotatedGenericBeanDefinition abd = BeanDefinitionRegistryTool.decorateAbd(MapperScannerConfigurer.class);
         MutablePropertyValues mapperScannerConfigurer = abd.getPropertyValues();
         mapperScannerConfigurer.addPropertyValue(SessionConstant.sqlSessionFactoryName, sqlSessionFactoryBeanName);
         mapperScannerConfigurer.addPropertyValue(SessionConstant.basePackageName, mybatisPropertie.getMapperPackage());
-        String mybatisBeanName = dataSourcePropertie.getName() + SessionConstant.mybatisName;
+        String mybatisBeanName = mybatisPropertie.getRefName() + SessionConstant.mybatisName;
         BeanDefinitionRegistryTool.registryBean(mybatisBeanName, registry, abd);
     }
 
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-
-    }
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException { }
 
     @Override
     public void setEnvironment(Environment environment) {
@@ -121,7 +133,7 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
         }
     }
 
-    @ConditionalOnProperty(prefix = "aspejct.service", value = "enabled", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "service.aspejct", value = "enabled", havingValue = "true", matchIfMissing = true)
     @Bean
     public ServerAspejct serverAspejct() {
         return new ServerAspejct();
