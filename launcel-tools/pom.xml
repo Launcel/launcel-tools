@@ -19,7 +19,6 @@
     </developers>
     <modules>
         <module>launcel-gen</module>
-        <module>launcel-mybatis-mapperscanner</module>
     </modules>
 
 
