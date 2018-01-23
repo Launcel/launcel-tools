@@ -36,18 +36,23 @@ public class DataSourceProperties {
     }
 
     public static class DataSourcePropertie {
-        private String name;
-        private String driverClassName;
-        private String url;
-        private String username;
-        private String password;
-        private Integer minIdle;
-        private Integer maxPoolSize;
+        private String name = "main";
+        private String driverClassName = "net.sf.log4jdbc.DriverSpy";
+        private String url = "jdbc:log4jdbc:mysql://localhost:3306/test";
+        private String username = "root";
+        private String password = "MTIzNDU2";
+        private Integer minIdle = 1;
+        private Integer maxPoolSize = 5;
         private Long idleTimeout = 600000L;
         private Long maxLifeTime = 1800000L;
-        private Long connectionTimeout;
-        private String connectionTestQuery;
-        private Properties dataSourceProperty;
+        private Long connectionTimeout = 30000L;
+        private String connectionTestQuery = "select 'x'";
+        private Properties dataSourceProperty = new Properties() {{
+            put("dataSource.cachePrepStmts", true);
+            put("dataSource.prepStmtCacheSize", 250);
+            put("dataSource.prepStmtCacheSqlLimit", 2048);
+            put("dataSource.useServerPrepStmts", true);
+        }};
 
         private Boolean isRead = false;
 
