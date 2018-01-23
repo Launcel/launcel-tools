@@ -2,6 +2,7 @@ package xyz.launcel.session.web.http;
 
 import org.springframework.session.web.http.DefaultCookieSerializer;
 import xyz.launcel.lang.Base64;
+import xyz.launcel.lang.StringUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
@@ -40,7 +41,7 @@ public class PrimyDefaultCookieSerializer extends DefaultCookieSerializer {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (this.cookieName.equals(cookie.getName())) {
-                    String sessionId = this.useBase64Encoding ? base64Decode(cookie.getValue()) : cookie.getValue();
+                    String sessionId = this.useBase64Encoding ? Base64.decode(cookie.getValue()) : cookie.getValue();
                     if (sessionId == null) {
                         continue;
                     }
@@ -61,7 +62,7 @@ public class PrimyDefaultCookieSerializer extends DefaultCookieSerializer {
         String requestedCookieValue = cookieValue.getCookieValue();
         String actualCookieValue = this.jvmRoute == null ? requestedCookieValue : requestedCookieValue + this.jvmRoute;
 
-        Cookie sessionCookie = new Cookie(this.cookieName, this.useBase64Encoding ? base64Encode(actualCookieValue) : actualCookieValue);
+        Cookie sessionCookie = new Cookie(this.cookieName, this.useBase64Encoding ? Base64.encode(actualCookieValue) : actualCookieValue);
         sessionCookie.setSecure(isSecureCookie(request));
         sessionCookie.setPath(getCookiePath());
         String domainName = getDomainName(request);
@@ -82,22 +83,6 @@ public class PrimyDefaultCookieSerializer extends DefaultCookieSerializer {
         }
 
         response.addCookie(sessionCookie);
-    }
-
-    private String base64Decode(String base64Value) {
-//        try {
-//            byte[] decodedCookieBytes = Base64.decode(base64Value.getBytes());
-//            return new String(decodedCookieBytes);
-//        } catch (Exception e) {
-//            return null;
-//        }
-        return Base64.decode(base64Value);
-    }
-
-    private String base64Encode(String value) {
-//        byte[] encodedCookieBytes = Base64.encode(value.getBytes());
-//        return new String(encodedCookieBytes);
-        return Base64.encode(value);
     }
 
     public void setUseSecureCookie(boolean useSecureCookie) {
@@ -185,9 +170,8 @@ public class PrimyDefaultCookieSerializer extends DefaultCookieSerializer {
     }
 
     private String getCookiePath() {
-        if (this.cookiePath == null) {
+        if (StringUtils.isBlank(cookiePath))
             return "/";
-        }
         return this.cookiePath;
     }
 }
