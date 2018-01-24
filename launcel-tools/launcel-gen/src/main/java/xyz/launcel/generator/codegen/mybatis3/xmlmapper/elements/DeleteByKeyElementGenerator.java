@@ -22,13 +22,13 @@ public class DeleteByKeyElementGenerator extends AbstractXmlElementGenerator {
     @Override
     public void addElements(XmlElement parentElement) {
 
-        LXmlElement answer = new LXmlElement("UPDATE");
+        LXmlElement answer = new LXmlElement("update");
         answer.addAttribute(new Attribute("id", "delete"));
         answer.addAttribute(new Attribute("parameterType", getParamType()));
         context.getCommentGenerator().addComment(answer);
         StringBuilder sb = new StringBuilder();
         answer.addElement(new LTextElement("UPDATE "));
-        xmlIndent(sb,3);
+        xmlIndent(sb, 3);
         sb.append(introspectedTable.getFullyQualifiedTableNameAtRuntime());
         answer.addElement(new LTextElement(sb.toString()));
         sb.setLength(0);
@@ -39,14 +39,13 @@ public class DeleteByKeyElementGenerator extends AbstractXmlElementGenerator {
         answer.addElement(new LTextElement(sb.toString()));
 
 
-
         if (context.getPlugins().sqlMapDeleteByPrimaryKeyElementGenerated(answer, introspectedTable)) {
             parentElement.addElement(answer);
         }
     }
 
     @SuppressWarnings("unused")
-	private void addUpdateElements(LXmlElement answer) {
+    private void addUpdateElements(LXmlElement answer) {
         answer.addElement(new LTextElement("UPDATE"));
         StringBuilder sb = new StringBuilder();
         xmlIndent(sb, 2);
@@ -81,7 +80,7 @@ public class DeleteByKeyElementGenerator extends AbstractXmlElementGenerator {
     }
 
     @SuppressWarnings("unused")
-	private void addDeleteElements(LXmlElement answer) {
+    private void addDeleteElements(LXmlElement answer) {
 
         answer.addElement(new LTextElement("DELETE FROM "));
         StringBuilder sb = new StringBuilder();

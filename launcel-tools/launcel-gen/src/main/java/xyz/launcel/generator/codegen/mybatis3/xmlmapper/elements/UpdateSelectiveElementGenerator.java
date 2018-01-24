@@ -14,7 +14,7 @@ public class UpdateSelectiveElementGenerator extends AbstractXmlElementGenerator
 
     @Override
     public void addElements(XmlElement parentElement) {
-        LXmlElement answer = new LXmlElement("UPDATE");
+        LXmlElement answer = new LXmlElement("update");
 
         answer.addAttribute(new Attribute("id", "UPDATE"));
 
