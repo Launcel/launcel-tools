@@ -16,7 +16,7 @@ public class UpdateSelectiveElementGenerator extends AbstractXmlElementGenerator
     public void addElements(XmlElement parentElement) {
         LXmlElement answer = new LXmlElement("update");
 
-        answer.addAttribute(new Attribute("id", "UPDATE"));
+        answer.addAttribute(new Attribute("id", "update"));
 
         String parameterType = introspectedTable.getBaseRecordType();
 

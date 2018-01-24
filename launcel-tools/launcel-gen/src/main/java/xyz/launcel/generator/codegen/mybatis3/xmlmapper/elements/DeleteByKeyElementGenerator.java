@@ -28,7 +28,7 @@ public class DeleteByKeyElementGenerator extends AbstractXmlElementGenerator {
         context.getCommentGenerator().addComment(answer);
         StringBuilder sb = new StringBuilder();
         answer.addElement(new LTextElement("UPDATE "));
-        xmlIndent(sb, 3);
+        xmlIndent(sb, 1);
         sb.append(introspectedTable.getFullyQualifiedTableNameAtRuntime());
         answer.addElement(new LTextElement(sb.toString()));
         sb.setLength(0);
