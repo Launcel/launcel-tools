@@ -21,7 +21,4 @@ public interface BaseDAO<T> {
 
     T get(Integer id);
 
-
-
-
 }
