@@ -21,7 +21,7 @@ public class RenameJavaMapperPlugin extends PluginAdapter {
     private Pattern pattern;
     private boolean reName = true;
     private boolean noMethod = true;
-    private String baseDAOPackage = "xyz.launcel.base.dao.BaseDAO";
+    private String baseDAOPackage = "xyz.launcel.dao.BaseDAO";
 
 
     public RenameJavaMapperPlugin() {
@@ -36,6 +36,9 @@ public class RenameJavaMapperPlugin extends PluginAdapter {
         } else {
             this.searchString = this.properties.getProperty("searchString");
             this.replaceString = this.properties.getProperty("replaceString");
+            String temp = properties.getProperty("baseDAOPackage");
+            if (StringUtility.stringHasValue(temp))
+                baseDAOPackage = temp;
             boolean valid = StringUtility.stringHasValue(this.searchString) && StringUtility.stringHasValue(this.replaceString);
             if (valid) {
                 this.pattern = Pattern.compile(this.searchString);

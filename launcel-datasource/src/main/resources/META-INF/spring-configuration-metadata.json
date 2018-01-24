@@ -49,10 +49,6 @@
       "sourceType": "xyz.launcel.prop.ServiceProperties"
     },
     {
-      "description": "jdbc config start",
-      "description-1": "jdbc main config start"
-    },
-    {
       "name": "db.jdbc.main",
       "type": "xyz.launcel.prop.DataSourceProperties.DataSourcePropertie",
       "defaultValue": "org.mariadb.jdbc.Driver",
@@ -154,9 +150,6 @@
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
-      "description-2": "jdbc others config start"
-    },
-    {
       "name": "db.jdbc.others",
       "type": "java.util.List<xyz.launcel.prop.DataSourceProperties.DataSourcePropertie>",
       "defaultValue": "other dataSource list",
@@ -256,10 +249,6 @@
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
-      "description": "mybatis config start",
-      "description-1": "mybatis main config start"
-    },
-    {
       "name": "db.mybatis.main",
       "type": "xyz.launcel.prop.MybatisProperties.MybatisPropertie",
       "description": "mybatis entity aliase",
@@ -290,9 +279,6 @@
       "sourceType": "xyz.launcel.prop.MybatisProperties$MybatisPropertie"
     },
     {
-      "description-2": "mybatis others config start"
-    },
-    {
       "name": "db.mybatis.others",
       "type": "java.util.List<xyz.launcel.prop.MybatisProperties.MybatisPropertie>",
       "description": "mybatis entity aliase",
@@ -301,7 +287,7 @@
     {
       "name": "db.mybatis.others.ref-name",
       "type": "java.lang.String",
-      "description": "mybatis entity aliase",
+      "description": "mybatis entity used datasource name",
       "sourceType": "xyz.launcel.prop.MybatisProperties$MybatisPropertie"
     },
     {
