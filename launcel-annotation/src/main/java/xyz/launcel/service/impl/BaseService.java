@@ -12,7 +12,7 @@ public abstract class BaseService<T> extends BaseLogger implements IBaseService<
     protected abstract BaseDAO<T> getDAO();
 
     @Override
-    public int add(T t) {
+    public int insert(T t) {
         return getDAO().insert(t);
     }
 
@@ -27,13 +27,13 @@ public abstract class BaseService<T> extends BaseLogger implements IBaseService<
     }
 
     @Override
-    public T get(T t) {
+    public T select(T t) {
         return getDAO().select(t);
     }
 
     @Override
-    public T getKey(Integer id) {
-        return getDAO().selectKey(id);
+    public T get(Integer id) {
+        return getDAO().get(id);
     }
 
     @Override

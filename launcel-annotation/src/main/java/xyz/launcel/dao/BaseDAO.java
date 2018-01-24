@@ -7,18 +7,21 @@ import java.util.List;
 
 public interface BaseDAO<T> {
 
-    int insert(T t);
-
-    int delete(Integer t);
-
     T select(@Param("param") T t);
 
-    T selectKey(Integer id);
+    int insert(T t);
 
     int update(T t);
 
     Integer count(@Param("param") T t);
 
     List<T> queryPaging(@Param("param") T t, @Param("page") Paging<T> page);
+
+    int delete(Integer t);
+
+    T get(Integer id);
+
+
+
 
 }
