@@ -6,10 +6,15 @@
       "sourceType": "xyz.launcel.prop.SecurityListProperties"
     }
   ],
-    "properties" : [
+  "properties": [
     {
       "name": "web.security.list",
       "type": "java.util.Map<java.lang.String,java.lang.String[]>",
+      "sourceType": "xyz.launcel.prop.SecurityListProperties"
+    },
+    {
+      "name": "web.security.exclude-paths",
+      "type": "java.lang.String[]",
       "sourceType": "xyz.launcel.prop.SecurityListProperties"
     }
   ]

@@ -4,15 +4,12 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import redis.clients.jedis.JedisCommands;
-import redis.clients.util.SafeEncoder;
-import xyz.launcel.ensure.Me;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.hook.ApplicationContextHook;
-import xyz.launcel.lang.Json;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.prop.RedisProperties;
 
-import java.util.Arrays;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -82,7 +79,8 @@ public class RedisUtils {
 
     public static Boolean setNX(final String key, final String value, final Long expTime) {
         vidate(key, value);
-        String str = template.execute((RedisCallback<String>) connection -> getCommands(connection).set(key, value, "NX", "PX", expTime));
+        String str = template.execute((RedisCallback<String>) connection ->
+                getCommands(connection).set(key, value, "NX", "PX", expTime));
         return StringUtils.isBlank(str);
     }
 
@@ -113,7 +111,7 @@ public class RedisUtils {
     public static Object getAndSet(final String key, final Object value) {
         vidate(value);
         if (!exits(key))
-            ExceptionFactory.create("_REDIS__ERROR_CODE_004");
+            ExceptionFactory.create("_REDIS__ERROR_CODE_004", "redis cannot find the value of this key");
 //        return template.execute((RedisCallback<String>) connection ->
 //                Arrays.toString(connection.getSet(SafeEncoder.encode(key), SafeEncoder.encode(Json.toJson(value)))));
         return template.opsForValue().getAndSet(key, value);
@@ -138,14 +136,16 @@ public class RedisUtils {
 
 
     private static void vidate(final String key, final Long expTime) {
-        vidate(key);
-        Me.that(expTime == null || expTime <= 0).isTrue("_REDIS__ERROR_CODE_003");
+        vidate(key, true, 1L);
     }
 
     private static void vidate(final String key, final Object value, final Long expTime) {
-        Me.that(key).isBlank("_REDIS__ERROR_CODE_001");
-        Me.that(value).isNull("_REDIS__ERROR_CODE_002");
-        Me.that(expTime == null || expTime <= 0).isTrue("_REDIS__ERROR_CODE_003");
+        if (StringUtils.isBlank(key))
+            ExceptionFactory.create("_REDIS__ERROR_CODE_001", "redis key is null");
+        if (Objects.isNull(value))
+            ExceptionFactory.create("_REDIS__ERROR_CODE_002", "redis value is null");
+        if (expTime == null || expTime <= 0)
+            ExceptionFactory.create("_REDIS__ERROR_CODE_003", "redis expTime is error");
     }
 
 
