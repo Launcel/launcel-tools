@@ -11,15 +11,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "db.redis")
 public class RedisProperties {
-    private String host;
-    private String password;
-    private Integer port;
-    private Integer database;
-    private Integer minIdle;
-    private Integer maxIdle;
-    private Integer maxActive;
-    private Long maxWait;
-    private Long expTime;
+    private String host = "127.0.0.1";
+    private String password = "123456";
+    private Integer port = 6379;
+    private Integer database = 0;
+    private Integer minIdle = 1;
+    private Integer maxIdle = 10;
+    private Integer maxActive = 10;
+    private Integer timeout = 300;
+    private Long maxWait = 30000L;
+    private Long expTime = 600L;
 
     public String getHost() {
         return host;
@@ -91,5 +92,13 @@ public class RedisProperties {
 
     public void setExpTime(Long expTime) {
         this.expTime = expTime;
+    }
+
+    public Integer getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Integer timeout) {
+        this.timeout = timeout;
     }
 }

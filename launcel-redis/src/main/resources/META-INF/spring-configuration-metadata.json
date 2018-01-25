@@ -48,22 +48,29 @@
     {
       "name": "db.redis.max-active",
       "type": "java.lang.Integer",
-      "description": "redis max-active.",
+      "description": "redis connect max-active.",
       "defaultValue": 8,
       "sourceType": "xyz.launcel.prop.RedisProperties"
     },
     {
       "name": "db.redis.max-wait",
       "type": "java.lang.Integer",
-      "description": "redis max-wait.",
+      "description": "redis connect max-wait.",
       "defaultValue": 30000,
       "sourceType": "xyz.launcel.prop.RedisProperties"
     },
     {
       "name": "db.redis.exp-time",
       "type": "java.lang.Integer",
-      "description": "redis exp-time.",
+      "description": "redis value exp-time.",
       "defaultValue": 600,
+      "sourceType": "xyz.launcel.prop.RedisProperties"
+    },
+    {
+      "name": "db.redis.timeout",
+      "type": "java.lang.Integer",
+      "description": "redis connect time out.",
+      "defaultValue": 300,
       "sourceType": "xyz.launcel.prop.RedisProperties"
     }
   ]

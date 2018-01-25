@@ -3,6 +3,7 @@ package xyz.launcel.autoconfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -20,6 +21,8 @@ import xyz.launcel.lang.Base64;
 import xyz.launcel.prop.RedisProperties;
 import xyz.launcel.support.serializer.GsonRedisSerializer;
 
+import javax.inject.Named;
+
 @EnableCaching
 @Configuration
 @EnableConfigurationProperties(value = RedisProperties.class)
@@ -27,31 +30,32 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
 
     private Logger logger = LoggerFactory.getLogger(RedisAutoConfiguration.class);
 
-    private final RedisProperties redisConf;
+    private final RedisProperties redisProperties;
 
-    public RedisAutoConfiguration(RedisProperties redisConf) {
-        this.redisConf = redisConf;
+    public RedisAutoConfiguration(RedisProperties redisProperties) {
+        this.redisProperties = redisProperties;
     }
 
     @Primary
     @Bean(name = "redisPool")
     public JedisPoolConfig jedisPoolConfig() {
         JedisPoolConfig pool = new JedisPoolConfig();
-        pool.setMinIdle(redisConf.getMinIdle());
-        pool.setMaxIdle(redisConf.getMaxIdle());
-        pool.setMaxWaitMillis(redisConf.getMaxWait());
+        pool.setMinIdle(redisProperties.getMinIdle());
+        pool.setMaxIdle(redisProperties.getMaxIdle());
+        pool.setMaxWaitMillis(redisProperties.getMaxWait());
         return pool;
     }
 
     @Primary
     @Bean(name = "redisConnectionFactory")
-    public JedisConnectionFactory jedisConnectionFactory(@Qualifier("redisPool") JedisPoolConfig jedisPoolConfig) {
+    @ConditionalOnBean(name = "redisConnectionFactory")
+    public JedisConnectionFactory jedisConnectionFactory(@Named("redisPool") JedisPoolConfig jedisPoolConfig) {
         JedisConnectionFactory factory = new JedisConnectionFactory();
-        factory.setDatabase(redisConf.getDatabase());
-        factory.setHostName(redisConf.getHost());
-        factory.setPort(redisConf.getPort());
-        factory.setPassword(Base64.decode(redisConf.getPassword()));
-        factory.setTimeout(300);
+        factory.setDatabase(redisProperties.getDatabase());
+        factory.setHostName(redisProperties.getHost());
+        factory.setPort(redisProperties.getPort());
+        factory.setPassword(Base64.decode(redisProperties.getPassword()));
+        factory.setTimeout(redisProperties.getTimeout());
         factory.setUsePool(true);
         factory.setPoolConfig(jedisPoolConfig);
         return factory;
@@ -59,7 +63,8 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
 
     @Primary
     @Bean(name = "redisTemplate")
-    RedisTemplate<String, Object> redisTemplate(@Qualifier("redisConnectionFactory") JedisConnectionFactory jedisConnectionFactory) {
+    @ConditionalOnBean(name = "redisConnectionFactory")
+    RedisTemplate<String, Object> redisTemplate(@Named("redisConnectionFactory") JedisConnectionFactory jedisConnectionFactory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(jedisConnectionFactory);
         GsonRedisSerializer<Object> serializer = new GsonRedisSerializer<>(Object.class);
