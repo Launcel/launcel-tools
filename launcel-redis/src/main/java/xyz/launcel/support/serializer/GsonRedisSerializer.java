@@ -1,12 +1,10 @@
 package xyz.launcel.support.serializer;
 
 import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonReader;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 import xyz.launcel.lang.PrimyGsonBuilder;
 
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 
 public class GsonRedisSerializer<T> implements RedisSerializer<T> {
@@ -18,10 +16,6 @@ public class GsonRedisSerializer<T> implements RedisSerializer<T> {
     public GsonRedisSerializer(Class<T> type) {
         this.type = type;
     }
-
-//    public GsonBuilder getGsonBuilder() {
-//        return gsonBuilder;
-//    }
 
     public void setGsonBuilder(GsonBuilder gsonBuilder) {
         this.gsonBuilder = gsonBuilder;
@@ -41,9 +35,9 @@ public class GsonRedisSerializer<T> implements RedisSerializer<T> {
         String str;
         try {
             str = new String(bytes, "UTF-8");
-            @SuppressWarnings("resource")
-			JsonReader reader = new JsonReader(new StringReader(str));
-            reader.setLenient(true);
+//            @SuppressWarnings("resource")
+//			JsonReader reader = new JsonReader(new StringReader(str));
+//            reader.setLenient(true);
             return gsonBuilder.create().fromJson(str, type);
         } catch (UnsupportedEncodingException e) {
             return null;
