@@ -2,6 +2,7 @@ package xyz.launcel.configuration;
 
 import com.google.gson.GsonBuilder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -15,12 +16,24 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import xyz.launcel.handle.GlobalExceptionHandle;
 import xyz.launcel.lang.PrimyGsonBuilder;
 import xyz.launcel.aspejct.ControllerParamValidateAspejct;
+import xyz.launcel.prop.CorsProperties;
+import xyz.launcel.prop.GsonConverterProperties;
 
 import java.util.List;
 
 @Configuration
 @EnableWebMvc
-public class WebKitConfiguration extends WebMvcConfigurerAdapter {
+@EnableConfigurationProperties(value = {CorsProperties.class, GsonConverterProperties.class})
+public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter {
+
+    private final CorsProperties corsProperties;
+
+    private final GsonConverterProperties gsonConverterProperties;
+
+    public WebKitAutoConfiguration(CorsProperties corsProperties, GsonConverterProperties gsonConverterProperties) {
+        this.corsProperties = corsProperties;
+        this.gsonConverterProperties = gsonConverterProperties;
+    }
 
     /**
      * 用 gson 替换 jackson
@@ -30,7 +43,7 @@ public class WebKitConfiguration extends WebMvcConfigurerAdapter {
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
         GsonHttpMessageConverter converter = new GsonHttpMessageConverter();
-        GsonBuilder gsonBuilder = new PrimyGsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").getGsonBuilder();
+        GsonBuilder gsonBuilder = new PrimyGsonBuilder().setDateFormat(gsonConverterProperties.getDateFormat()).getGsonBuilder();
         converter.setGson(gsonBuilder.create());
         converters.add(converter);
         super.configureMessageConverters(converters);
@@ -39,7 +52,8 @@ public class WebKitConfiguration extends WebMvcConfigurerAdapter {
     @ConditionalOnProperty(prefix = "web.cors", value = "enabled", havingValue = "true")
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**").allowedOrigins("*").allowCredentials(true).allowedMethods("GET", "POST", "DELETE", "PUT").maxAge(3600);
+        registry.addMapping(corsProperties.getPathPattern()).allowedOrigins(corsProperties.getAllowedOrigins()).
+                allowCredentials(true).allowedMethods(corsProperties.getMethods()).maxAge(corsProperties.getMaxAge());
         super.addCorsMappings(registry);
     }
 

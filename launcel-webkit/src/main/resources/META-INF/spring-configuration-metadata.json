@@ -35,9 +35,39 @@
       "sourceType": "xyz.launcel.prop.GsonConverterProperties"
     },
     {
+      "name": "web.gson-converter.date-format",
+      "type": "java.lang.String",
+      "defaultValue": true,
+      "sourceType": "xyz.launcel.prop.GsonConverterProperties"
+    },
+    {
       "name": "web.cors.enabled",
       "type": "java.lang.Boolean",
       "defaultValue": false,
+      "sourceType": "xyz.launcel.prop.CorsProperties"
+    },
+    {
+      "name": "web.cors.path-pattern",
+      "type": "java.lang.String",
+      "defaultValue": "/api/**",
+      "sourceType": "xyz.launcel.prop.CorsProperties"
+    },
+    {
+      "name": "web.cors.methods",
+      "type": "java.lang.String[]",
+      "defaultValue": "GET,POST,PUT,DETELE",
+      "sourceType": "xyz.launcel.prop.CorsProperties"
+    },
+    {
+      "name": "web.cors.max-age",
+      "type": "java.lang.Lang",
+      "defaultValue": 3600,
+      "sourceType": "xyz.launcel.prop.CorsProperties"
+    },
+    {
+      "name": "web.cors.allowed-origins",
+      "type": "java.lang.String[]",
+      "defaultValue": "*",
       "sourceType": "xyz.launcel.prop.CorsProperties"
     },
     {
