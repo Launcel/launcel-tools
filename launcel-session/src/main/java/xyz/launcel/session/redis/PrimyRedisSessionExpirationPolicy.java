@@ -29,7 +29,7 @@ public class PrimyRedisSessionExpirationPolicy {
     }
 
     public void onExpirationUpdated(Long originalExpirationTimeInMilli, ExpiringSession session) {
-        String keyToExpire = PrimyRedisOperationsSessionRepository.DEFAULT_SPRING_SESSION_REDIS_PREFIX + session.getId() + ":" + "expires:";
+        String keyToExpire = "session:" + session.getId() + ":" + "expires:";
 //        long toExpire = roundUpToNextMinute(expiresInMillis(session));
 
 //        if (originalExpirationTimeInMilli != null) {
@@ -54,7 +54,7 @@ public class PrimyRedisSessionExpirationPolicy {
 //        expireOperations.add(keyToExpire);
 
         @SuppressWarnings("unused")
-		long fiveMinutesAfterExpires = sessionExpireInSeconds + TimeUnit.MINUTES.toSeconds(5);
+        long fiveMinutesAfterExpires = sessionExpireInSeconds + TimeUnit.MINUTES.toSeconds(5);
 
 //        expireOperations.expire(fiveMinutesAfterExpires, TimeUnit.SECONDS);
         if (sessionExpireInSeconds == 0) {

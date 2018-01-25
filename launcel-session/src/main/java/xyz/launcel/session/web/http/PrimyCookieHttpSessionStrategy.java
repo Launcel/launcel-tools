@@ -21,23 +21,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PrimyCookieHttpSessionStrategy implements MultiHttpSessionStrategy, HttpSessionManager {
-    private static final String DEFAULT_DELIMITER = " ";
 
-    private static final String SESSION_IDS_WRITTEN_ATTR = PrimyCookieHttpSessionStrategy.class.getName().concat(".SESSIONS_WRITTEN_ATTR");
-
-    private static final String DEFAULT_ALIAS = "0";
-
-    private static final String DEFAULT_SESSION_ALIAS_PARAM_NAME = "_s";
-
-    private static final Pattern ALIAS_PATTERN = Pattern.compile("^[\\w-]{1,50}$");
-
-    private String sessionParam = DEFAULT_SESSION_ALIAS_PARAM_NAME;
+    private String sessionParam = "_s";
 
     private CookieSerializer cookieSerializer = new PrimyDefaultCookieSerializer();
 
-    private String deserializationDelimiter = DEFAULT_DELIMITER;
+    private String deserializationDelimiter = " ";
 
-    private String serializationDelimiter = DEFAULT_DELIMITER;
+    private String serializationDelimiter = " ";
 
     public String getRequestedSessionId(HttpServletRequest request) {
         Map<String, String> sessionIds = getSessionIds(request);
@@ -47,14 +38,14 @@ public class PrimyCookieHttpSessionStrategy implements MultiHttpSessionStrategy,
 
     public String getCurrentSessionAlias(HttpServletRequest request) {
         if (this.sessionParam == null) {
-            return DEFAULT_ALIAS;
+            return "0";
         }
         String u = request.getParameter(this.sessionParam);
         if (u == null) {
-            return DEFAULT_ALIAS;
+            return "0";
         }
-        if (!ALIAS_PATTERN.matcher(u).matches()) {
-            return DEFAULT_ALIAS;
+        if (!Pattern.compile("^[\\w-]{1,50}$").matcher(u).matches()) {
+            return "0";
         }
         return u;
     }
@@ -62,9 +53,9 @@ public class PrimyCookieHttpSessionStrategy implements MultiHttpSessionStrategy,
     public String getNewSessionAlias(HttpServletRequest request) {
         Set<String> sessionAliases = getSessionIds(request).keySet();
         if (sessionAliases.isEmpty()) {
-            return DEFAULT_ALIAS;
+            return "0";
         }
-        long lastAlias = Long.decode(DEFAULT_ALIAS);
+        long lastAlias = Long.decode("0");
         for (String alias : sessionAliases) {
             long selectedAlias = safeParse(alias);
             if (selectedAlias > lastAlias) {
@@ -98,6 +89,7 @@ public class PrimyCookieHttpSessionStrategy implements MultiHttpSessionStrategy,
     }
 
     private Set<String> getSessionIdsWritten(HttpServletRequest request) {
+        String SESSION_IDS_WRITTEN_ATTR = "xyz.launcel.session.web.http.PrimyCookieHttpSessionStrategy.SESSIONS_WRITTEN_ATTR";
         @SuppressWarnings("unchecked")
         Set<String> sessionsWritten = (Set<String>) request.getAttribute(SESSION_IDS_WRITTEN_ATTR);
         if (sessionsWritten == null) {
@@ -111,7 +103,7 @@ public class PrimyCookieHttpSessionStrategy implements MultiHttpSessionStrategy,
         if (sessionIds.isEmpty()) {
             return "";
         }
-        if (sessionIds.size() == 1 && sessionIds.keySet().contains(DEFAULT_ALIAS)) {
+        if (sessionIds.size() == 1 && sessionIds.keySet().contains("0")) {
             return sessionIds.values().iterator().next();
         }
 
@@ -168,7 +160,7 @@ public class PrimyCookieHttpSessionStrategy implements MultiHttpSessionStrategy,
         Map<String, String> result = new LinkedHashMap<>();
         StringTokenizer tokens = new StringTokenizer(sessionCookieValue, this.deserializationDelimiter);
         if (tokens.countTokens() == 1) {
-            result.put(DEFAULT_ALIAS, tokens.nextToken());
+            result.put("0", tokens.nextToken());
             return result;
         }
         while (tokens.hasMoreTokens()) {
@@ -194,7 +186,7 @@ public class PrimyCookieHttpSessionStrategy implements MultiHttpSessionStrategy,
     public String encodeURL(String url, String sessionAlias) {
         String encodedSessionAlias = urlEncode(sessionAlias);
         int queryStart = url.indexOf("?");
-        boolean isDefaultAlias = DEFAULT_ALIAS.equals(encodedSessionAlias);
+        boolean isDefaultAlias = "0".equals(encodedSessionAlias);
         if (queryStart < 0) {
             return isDefaultAlias ? url : url + "?" + this.sessionParam + "=" + encodedSessionAlias;
         }

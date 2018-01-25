@@ -14,14 +14,12 @@ public class MapSession implements ExpiringSession, Serializable {
 
     private static final long serialVersionUID = -4926709993975115053L;
 
-    private static final int DEFAULT_MAX_INACTIVE_INTERVAL_SECONDS = 1200;
-
     private String id;
     private Map<String, Object> sessionAttrs = new HashMap<>();
     private long creationTime = System.currentTimeMillis();
     private long lastAccessedTime = this.creationTime;
 
-    private int maxInactiveInterval = DEFAULT_MAX_INACTIVE_INTERVAL_SECONDS;
+    private int maxInactiveInterval = 1200;
 
     public MapSession() {
         this(StringUtils.getUUID());
@@ -79,7 +77,7 @@ public class MapSession implements ExpiringSession, Serializable {
     }
 
     @SuppressWarnings("unchecked")
-	public <T> T getAttribute(String attributeName) {
+    public <T> T getAttribute(String attributeName) {
         return (T) this.sessionAttrs.get(attributeName);
     }
 

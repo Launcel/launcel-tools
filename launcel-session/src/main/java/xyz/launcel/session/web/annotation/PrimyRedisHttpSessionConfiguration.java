@@ -26,6 +26,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.StringValueResolver;
 import xyz.launcel.session.redis.PrimyRedisOperationsSessionRepository;
 
+import javax.inject.Named;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
@@ -49,7 +50,7 @@ public class PrimyRedisHttpSessionConfiguration extends SpringHttpSessionConfigu
 
     @ConditionalOnBean(name = "redisConnectionFactory")
     @Bean
-    public RedisMessageListenerContainer redisMessageListenerContainer(@Qualifier("redisConnectionFactory") RedisConnectionFactory connectionFactory,
+    public RedisMessageListenerContainer redisMessageListenerContainer(@Named("redisConnectionFactory") RedisConnectionFactory connectionFactory,
                                                                        PrimyRedisOperationsSessionRepository messageListener) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
@@ -66,7 +67,7 @@ public class PrimyRedisHttpSessionConfiguration extends SpringHttpSessionConfigu
 
     @ConditionalOnBean(name = "redisTemplate")
     @Bean
-    public PrimyRedisOperationsSessionRepository sessionRepository(@Qualifier("redisTemplate") RedisOperations<String, Object> sessionRedisTemplate,
+    public PrimyRedisOperationsSessionRepository sessionRepository(@Named("redisTemplate") RedisOperations<String, Object> sessionRedisTemplate,
                                                                    ApplicationEventPublisher applicationEventPublisher) {
         PrimyRedisOperationsSessionRepository sessionRepository = new PrimyRedisOperationsSessionRepository(sessionRedisTemplate);
         sessionRepository.setApplicationEventPublisher(applicationEventPublisher);
@@ -113,7 +114,7 @@ public class PrimyRedisHttpSessionConfiguration extends SpringHttpSessionConfigu
 
     @ConditionalOnBean(name = "redisConnectionFactory")
     @Bean
-    public InitializingBean enableRedisKeyspaceNotificationsInitializer(@Qualifier(value = "redisConnectionFactory") RedisConnectionFactory connectionFactory) {
+    public InitializingBean enableRedisKeyspaceNotificationsInitializer(@Named(value = "redisConnectionFactory") RedisConnectionFactory connectionFactory) {
         return new EnableRedisKeyspaceNotificationsInitializer(connectionFactory, this.configureRedisAction);
     }
 
@@ -128,13 +129,13 @@ public class PrimyRedisHttpSessionConfiguration extends SpringHttpSessionConfigu
 //    }
 
     @Autowired(required = false)
-    @Qualifier("springSessionRedisTaskExecutor")
+    @Named("springSessionRedisTaskExecutor")
     public void setRedisTaskExecutor(Executor redisTaskExecutor) {
         this.redisTaskExecutor = redisTaskExecutor;
     }
 
     @Autowired(required = false)
-    @Qualifier("springSessionRedisSubscriptionExecutor")
+    @Named("springSessionRedisSubscriptionExecutor")
     public void setRedisSubscriptionExecutor(Executor redisSubscriptionExecutor) {
         this.redisSubscriptionExecutor = redisSubscriptionExecutor;
     }

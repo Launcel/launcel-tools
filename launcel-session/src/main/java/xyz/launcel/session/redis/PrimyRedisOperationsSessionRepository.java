@@ -23,7 +23,6 @@ import org.springframework.session.events.SessionCreatedEvent;
 import org.springframework.session.events.SessionDeletedEvent;
 import org.springframework.session.events.SessionExpiredEvent;
 import org.springframework.util.Assert;
-import xyz.launcel.lang.Json;
 import xyz.launcel.session.MapSession;
 import xyz.launcel.support.serializer.GsonRedisSerializer;
 
@@ -36,21 +35,15 @@ import java.util.concurrent.TimeUnit;
 public class PrimyRedisOperationsSessionRepository implements FindByIndexNameSessionRepository<PrimyRedisOperationsSessionRepository.RedisSession>, MessageListener {
     private static final Log logger = LogFactory.getLog(PrimyRedisOperationsSessionRepository.class);
 
-    private static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
 
     private static PrincipalNameResolver PRINCIPAL_NAME_RESOLVER = new PrincipalNameResolver();
 
-    static final String DEFAULT_SPRING_SESSION_REDIS_PREFIX = "session:";
 
-    private static final String CREATION_TIME_ATTR = "creationTime";
+//    private static final String LAST_ACCESSED_ATTR = "lastAccessedTime";
 
-    private static final String MAX_INACTIVE_ATTR = "maxInactiveInterval";
+//    private static final String SESSION_ATTR_PREFIX = "sessionAttr:";
 
-    private static final String LAST_ACCESSED_ATTR = "lastAccessedTime";
-
-    private static final String SESSION_ATTR_PREFIX = "sessionAttr:";
-
-    private String keyPrefix = DEFAULT_SPRING_SESSION_REDIS_PREFIX;
+    private String keyPrefix = "session:";
 
     private final RedisOperations<String, Object> sessionRedisOperations;
 
@@ -110,7 +103,7 @@ public class PrimyRedisOperationsSessionRepository implements FindByIndexNameSes
         if (session.isNew()) {
             String sessionCreatedKey = getSessionCreatedChannel(session.getId());
             this.sessionRedisOperations.convertAndSend(sessionCreatedKey, session.delta);
-            session.setNew(false);
+            session.setNew();
         }
     }
 
@@ -158,14 +151,14 @@ public class PrimyRedisOperationsSessionRepository implements FindByIndexNameSes
         MapSession loaded = new MapSession(id);
         for (Map.Entry<String, Object> entry : entries.entrySet()) {
             String key = entry.getKey();
-            if (CREATION_TIME_ATTR.equals(key)) {
+            if ("creationTime".equals(key)) {
                 loaded.setCreationTime(((Double) entry.getValue()).longValue());
-            } else if (MAX_INACTIVE_ATTR.equals(key)) {
+            } else if ("maxInactiveInterval".equals(key)) {
                 loaded.setMaxInactiveIntervalInSeconds(((Double) entry.getValue()).intValue());
-            } else if (LAST_ACCESSED_ATTR.equals(key)) {
+            } else if ("lastAccessedTime".equals(key)) {
                 loaded.setLastAccessedTime(((Double) entry.getValue()).longValue());
-            } else if (key.startsWith(SESSION_ATTR_PREFIX)) {
-                loaded.setAttribute(key.substring(SESSION_ATTR_PREFIX.length()), entry.getValue());
+            } else if (key.startsWith("sessionAttr:")) {
+                loaded.setAttribute(key.substring("sessionAttr:".length()), entry.getValue());
             }
         }
         return loaded;
@@ -282,7 +275,7 @@ public class PrimyRedisOperationsSessionRepository implements FindByIndexNameSes
     }
 
     public void setRedisKeyNamespace(String namespace) {
-        this.keyPrefix = DEFAULT_SPRING_SESSION_REDIS_PREFIX + namespace + ":";
+        this.keyPrefix += namespace + ":";
     }
 
     String getSessionKey(String sessionId) {
@@ -314,7 +307,7 @@ public class PrimyRedisOperationsSessionRepository implements FindByIndexNameSes
     }
 
     private static String getSessionAttrNameKey(String attributeName) {
-        return SESSION_ATTR_PREFIX + attributeName;
+        return "sessionAttr:" + attributeName;
     }
 
     private static RedisTemplate<String, Object> createDefaultTemplate(RedisConnectionFactory connectionFactory) {
@@ -342,9 +335,9 @@ public class PrimyRedisOperationsSessionRepository implements FindByIndexNameSes
 
         RedisSession() {
             this(new MapSession());
-            this.delta.put(CREATION_TIME_ATTR, getCreationTime());
-            this.delta.put(MAX_INACTIVE_ATTR, getMaxInactiveIntervalInSeconds());
-            this.delta.put(LAST_ACCESSED_ATTR, getLastAccessedTime());
+            this.delta.put("creationTime", getCreationTime());
+            this.delta.put("maxInactiveInterval", getMaxInactiveIntervalInSeconds());
+            this.delta.put("lastAccessedTime", getLastAccessedTime());
             this.isNew = true;
             this.flushImmediateIfNecessary();
         }
@@ -355,13 +348,14 @@ public class PrimyRedisOperationsSessionRepository implements FindByIndexNameSes
             this.originalPrincipalName = PRINCIPAL_NAME_RESOLVER.resolvePrincipal(this);
         }
 
-        private void setNew(boolean isNew) {
-            this.isNew = isNew;
+        //        private void setNew(boolean isNew) {
+        private void setNew() {
+            this.isNew = false;
         }
 
         public void setLastAccessedTime(long lastAccessedTime) {
             this.cached.setLastAccessedTime(lastAccessedTime);
-            this.putAndFlush(LAST_ACCESSED_ATTR, getLastAccessedTime());
+            this.putAndFlush("lastAccessedTime", getLastAccessedTime());
         }
 
         public boolean isExpired() {
@@ -386,7 +380,7 @@ public class PrimyRedisOperationsSessionRepository implements FindByIndexNameSes
 
         public void setMaxInactiveIntervalInSeconds(int interval) {
             this.cached.setMaxInactiveIntervalInSeconds(interval);
-            this.putAndFlush(MAX_INACTIVE_ATTR, getMaxInactiveIntervalInSeconds());
+            this.putAndFlush("maxInactiveInterval", getMaxInactiveIntervalInSeconds());
         }
 
         public int getMaxInactiveIntervalInSeconds() {
@@ -429,7 +423,7 @@ public class PrimyRedisOperationsSessionRepository implements FindByIndexNameSes
             String sessionId = getId();
             getSessionBoundHashOperations(sessionId).putAll(this.delta);
             String principalSessionKey = getSessionAttrNameKey(FindByIndexNameSessionRepository.PRINCIPAL_NAME_INDEX_NAME);
-            String securityPrincipalSessionKey = getSessionAttrNameKey(SPRING_SECURITY_CONTEXT);
+            String securityPrincipalSessionKey = getSessionAttrNameKey("SPRING_SECURITY_CONTEXT");
             if (this.delta.containsKey(principalSessionKey) || this.delta.containsKey(securityPrincipalSessionKey)) {
                 if (this.originalPrincipalName != null) {
                     String originalPrincipalRedisKey = getPrincipalKey(this.originalPrincipalName);
@@ -459,7 +453,7 @@ public class PrimyRedisOperationsSessionRepository implements FindByIndexNameSes
             if (principalName != null) {
                 return principalName;
             }
-            Object authentication = session.getAttribute(SPRING_SECURITY_CONTEXT);
+            Object authentication = session.getAttribute("SPRING_SECURITY_CONTEXT");
             if (authentication != null) {
                 Expression expression = this.parser.parseExpression("authentication?.name");
                 return expression.getValue(authentication, String.class);
