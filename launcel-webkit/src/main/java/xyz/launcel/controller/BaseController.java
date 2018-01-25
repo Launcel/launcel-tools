@@ -10,9 +10,6 @@ import xyz.launcel.response.Response;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 public class BaseController extends BaseLogger {
 
@@ -35,14 +32,15 @@ public class BaseController extends BaseLogger {
     protected <T> Paging<T> initPaging() {
         String pageNoStr = getRequest().getParameter("pageNo");
         String rowStr = getRequest().getParameter("maxRow");
-        String lowerIdStr = getRequest().getParameter("lowerId");
-        String largeIdStr = getRequest().getParameter("largeId");
+//        String lowerIdStr = getRequest().getParameter("lowerId");
+//        String largeIdStr = getRequest().getParameter("largeId");
 
         Integer pageNo = Integer.valueOf(StringUtils.isNotBlank(pageNoStr) ? pageNoStr.trim() : "1");
         Integer maxRow = Integer.valueOf(StringUtils.isNotBlank(rowStr) ? rowStr.trim() : "15");
-        Integer lowerId = Integer.valueOf(StringUtils.isNotBlank(lowerIdStr) ? lowerIdStr.trim() : "1");
-        Integer largeId = Integer.valueOf(StringUtils.isNotBlank(largeIdStr) ? largeIdStr.trim() : "1");
-        return new Paging<>(pageNo, maxRow, lowerId, largeId);
+//        Integer lowerId = Integer.valueOf(StringUtils.isNotBlank(lowerIdStr) ? lowerIdStr.trim() : "1");
+//        Integer largeId = Integer.valueOf(StringUtils.isNotBlank(largeIdStr) ? largeIdStr.trim() : "1");
+//        return new Paging<>(pageNo, maxRow, lowerId, largeId);
+        return new Paging<>(pageNo, maxRow);
     }
 
     protected HttpServletRequest getRequest() {
