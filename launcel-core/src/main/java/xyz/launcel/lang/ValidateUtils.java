@@ -42,7 +42,7 @@ public final class ValidateUtils {
         Limit l = f.getAnnotation(Limit.class);
 
         if (l.group().length > 0 && l.excGroup().length > 0)
-            ExceptionFactory.error("_DEFINE_ERROR_CODE_013");
+            ExceptionFactory.error("_DEFINE_ERROR_CODE_013", "Limit校验不能同时出现group和exceptGroup");
         // 全部校验
         if (l.group().length <= 0 && l.excGroup().length <= 0)
             checkFiled(value, l);//,f);

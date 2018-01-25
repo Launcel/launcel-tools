@@ -1,12 +1,15 @@
 package xyz.launcel.lang;
 
 import xyz.launcel.ensure.Me;
+import xyz.launcel.exception.ExceptionFactory;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class RegUtil {
     private static boolean isTrue(Object text, String pattern) {
-        Me.that(text).isNull("_DEFINE_ERROR_CODE_008");
+        if (Objects.isNull(text))
+            ExceptionFactory.create("_DEFINE_ERROR_CODE_008", "正则校验数据为空");
         return Pattern.compile(pattern).matcher(text.toString()).matches();
     }
 

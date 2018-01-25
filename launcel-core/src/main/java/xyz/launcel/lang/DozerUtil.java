@@ -9,6 +9,7 @@ package xyz.launcel.lang;
 
 import org.dozer.Mapper;
 import xyz.launcel.ensure.Me;
+import xyz.launcel.exception.ExceptionFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,10 +36,11 @@ public class DozerUtil {
      * @return
      */
     public <T> List<T> map(Collection<?> var1, Class<T> var2) {
-        Me.that(var1).isEmpty("_DEFINE_ERROR_CODE_009");
+        if (CollectionUtils.isEmpty(var1))
+            ExceptionFactory.create("_DEFINE_ERROR_CODE_009", "集合中没有数据");
         List<T> var2List = new ArrayList<>();
-        for (Iterator<?> it = var1.iterator(); it.hasNext(); ) {
-            T var = dozer.map(it.next(), var2);
+        for (Object aVar1 : var1) {
+            T var = dozer.map(aVar1, var2);
             var2List.add(var);
         }
         return var2List;

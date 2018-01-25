@@ -34,7 +34,8 @@ public class RedisUtils {
     }
 
     public static void remove(final String... key) {
-        Me.that(key.length > 0).isFalse("_REDIS__ERROR_CODE_001");
+        if (key.length <= 0)
+            ExceptionFactory.create("_REDIS__ERROR_CODE_001", "redis key is null");
         for (String str : key)
             remove(str);
     }
@@ -43,7 +44,7 @@ public class RedisUtils {
         if (exits(key))
             template.delete(key);
         else
-            ExceptionFactory.create("_REDIS__ERROR_CODE_004");
+            ExceptionFactory.create("_REDIS__ERROR_CODE_004", "redis cannot find the value of this key");
     }
 
     public static boolean exits(final String key) {

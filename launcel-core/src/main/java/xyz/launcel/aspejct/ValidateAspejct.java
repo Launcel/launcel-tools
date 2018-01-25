@@ -26,7 +26,7 @@ class ValidateAspejct extends BaseLogger {
                     Object object = joinPoint.getArgs()[i];
                     ValidateUtils.validateLimit(object, group);
                 } catch (ReflectiveOperationException e) {
-                    ExceptionFactory.error("_DEFINE_ERROR_CODE_014");
+                    ExceptionFactory.error("_DEFINE_ERROR_CODE_014", "Validate 校验失败");
                 }
             }
         }
