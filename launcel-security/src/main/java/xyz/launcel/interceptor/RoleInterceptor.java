@@ -5,7 +5,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import xyz.launcel.config.SecurityConfig;
 import xyz.launcel.exception.ExceptionFactory;
-import xyz.launcel.hook.ApplicationContextHook;
 import xyz.launcel.jdbc.JdbcRole;
 import xyz.launcel.jdbc.SimpleJdbcRole;
 import xyz.launcel.lang.Json;
@@ -23,11 +22,11 @@ public class RoleInterceptor extends BaseLogger implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String uri = request.getServletPath();
 //        if (isDebugEnabled())
-        info("\n---------------------------------\n\trequest uri is : {}", uri + "\n---------------------------------");
+        info("request uri is : " + uri);
         HttpSession session = request.getSession(false);
         boolean flat = SecurityConfig.isTransit(uri, session);
         if (!flat)
-            ExceptionFactory.create("_SECURITY_ERROR_CODE_001");
+            ExceptionFactory.create("_SECURITY_ERROR_CODE_001", "没有相应的权限");
         return flat;
     }
 
@@ -50,7 +49,7 @@ public class RoleInterceptor extends BaseLogger implements HandlerInterceptor {
                 userRoles.add("user");
                 // do role : save in redis
 //                if (isDebugEnabled())
-                info("\n---------------------------------\n\troles is : \n{}", Json.toJson(userRoles) + "\n---------------------------------");
+                info("roles is : \n" + Json.toJson(userRoles));
                 if (CollectionUtils.isNotEmpty(userRoles))
                     session.setAttribute("role", userRoles);
             }

@@ -2,6 +2,7 @@ package xyz.launcel.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.launcel.lang.CollectionUtils;
 import xyz.launcel.lang.Json;
 import xyz.launcel.lang.StringUtils;
 
@@ -38,7 +39,7 @@ public class SecurityConfig {
         if (requestUriString.isEmpty())
             return true;
         List<String> requestUris = (List<String>) StringUtils.spiltStream(requestUriString, "/").collect(Collectors.toList());
-        if (requestUris.isEmpty())
+        if (CollectionUtils.isEmpty(requestUris))
             return true;
         Set<String> tempRoleUris = new HashSet<>(uris.keySet());
         Map<String, Integer> maxMatchMap = temp(uris.keySet());
