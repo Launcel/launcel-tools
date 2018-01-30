@@ -5,11 +5,11 @@ package xyz.launcel.response;
  */
 public class Response {
 
-    private String code;
+    private String code = "1";
 
-    private Object data;
+    private Object data = null;
 
-    private String message;
+    private String message = "";
 
     public static Response getResponse() {
         return new Response();
