@@ -9,6 +9,7 @@ package xyz.launcel.lang;
 
 import org.dozer.Mapper;
 import xyz.launcel.exception.ExceptionFactory;
+import xyz.launcel.hook.ApplicationContextHook;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,13 +18,23 @@ import java.util.List;
 public class DozerUtil {
     private Mapper dozer;
 
-    private DozerUtil(Mapper dozer) {
-        this.dozer = dozer;
+
+    private DozerUtil() {
+        Mapper dozerMapper = (Mapper) ApplicationContextHook.getBean("dozer");
     }
 
-    public static DozerUtil me(Mapper dozer) {
-        return new DozerUtil(dozer);
+//    private DozerUtil(Mapper dozer) {
+//        this.dozer = dozer;
+//    }
+//
+//    public static DozerUtil me(Mapper dozer) {
+//        return new DozerUtil(dozer);
+//    }
+
+    public static DozerUtil me() {
+        return new DozerUtil();
     }
+
 
     /**
      * transform list to anthor list
