@@ -6,25 +6,25 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
 
-public class CollectionUtils {
+public interface CollectionUtils {
 
-    public static boolean isNotEmpty(Collection coll) {
+    static boolean isNotEmpty(Collection coll) {
         return !isEmpty(coll);
     }
 
-    public static boolean isNotEmpty(Map coll) {
+    static boolean isNotEmpty(Map coll) {
         return !isEmpty(coll);
     }
 
-    public static boolean isEmpty(Map coll) {
+    static boolean isEmpty(Map coll) {
         return (coll == null || coll.isEmpty());
     }
 
-    public static boolean isEmpty(Collection coll) {
+    static boolean isEmpty(Collection coll) {
         return (coll == null || coll.isEmpty());
     }
 
-    public static boolean sizeIsEmpty(Object object) {
+    static boolean sizeIsEmpty(Object object) {
         if (object instanceof Collection) {
             return ((Collection) object).isEmpty();
         } else if (object instanceof Map) {

@@ -15,22 +15,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class DozerUtil {
-    private static final Mapper dozer = (Mapper) ApplicationContextHook.getBean("dozer");
+public interface DozerUtil {
+    Mapper dozer = (Mapper) ApplicationContextHook.getBean("dozer");
 
 
-    private DozerUtil() {
-    }
-
-//    private DozerUtil(Mapper dozer) {
-//        this.dozer = dozer;
-//    }
-//
-//    public static DozerUtil me(Mapper dozer) {
-//        return new DozerUtil(dozer);
-//    }
-
-    public static <T> T map(Object source, Class<T> destinationClass) {
+    static <T> T map(Object source, Class<T> destinationClass) {
         return dozer.map(source, destinationClass);
     }
 
@@ -43,7 +32,7 @@ public class DozerUtil {
      * @param <T>
      * @return
      */
-    public static <T> List<T> map(Collection<?> var1, Class<T> var2) {
+    static <T> List<T> map(Collection<?> var1, Class<T> var2) {
         if (CollectionUtils.isEmpty(var1))
             ExceptionFactory.create("_DEFINE_ERROR_CODE_009", "集合中没有数据");
         List<T> var2List = new ArrayList<>();

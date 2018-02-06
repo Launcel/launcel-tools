@@ -11,14 +11,6 @@ public class AMapUtils {
 
     private static final Logger log = LoggerFactory.getLogger(AMapUtils.class);
 
-    /**
-     * 格式化
-     */
-    private static DecimalFormat decimalFormat = new DecimalFormat("0.0000000000", new DecimalFormatSymbols(Locale.US));
-
-    private static double parse(double d) {
-        return Double.parseDouble(decimalFormat.format(d));
-    }
 
     /**
      * @param lat 纬度
@@ -46,6 +38,16 @@ public class AMapUtils {
     }
 
     public static class Point {
+
+        /**
+         * 格式化
+         */
+        private static DecimalFormat decimalFormat = new DecimalFormat("0.0000000000", new DecimalFormatSymbols(Locale.US));
+
+        private static double parse(double d) {
+            return Double.parseDouble(decimalFormat.format(d));
+        }
+
         /**
          * 维度
          */

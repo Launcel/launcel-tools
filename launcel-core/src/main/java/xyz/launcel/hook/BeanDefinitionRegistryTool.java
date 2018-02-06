@@ -16,9 +16,9 @@ import org.springframework.context.annotation.AnnotationScopeMetadataResolver;
 import org.springframework.context.annotation.ScopeMetadata;
 import org.springframework.context.annotation.ScopeMetadataResolver;
 
-public class BeanDefinitionRegistryTool {
+public interface BeanDefinitionRegistryTool {
 
-    public static void registryBean(String beanName, BeanDefinitionRegistry registry, AnnotatedGenericBeanDefinition abd) {
+    static void registryBean(String beanName, BeanDefinitionRegistry registry, AnnotatedGenericBeanDefinition abd) {
 //        AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(clazz);
 //        ScopeMetadata scopeMetadata = new AnnotationScopeMetadataResolver().resolveScopeMetadata(abd);
 //        abd.setScope(scopeMetadata.getScopeName());
@@ -28,7 +28,7 @@ public class BeanDefinitionRegistryTool {
         BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, registry);
     }
 
-    public static AnnotatedGenericBeanDefinition decorateAbd(Class clazz) {
+    static AnnotatedGenericBeanDefinition decorateAbd(Class clazz) {
         ScopeMetadataResolver scopeMetadataResolver = new AnnotationScopeMetadataResolver();
         AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(clazz);
         ScopeMetadata metadata = scopeMetadataResolver.resolveScopeMetadata(abd);

@@ -16,6 +16,8 @@ import java.util.Properties;
 
 public class ExceptionHelp {
 
+    private ExceptionHelp() {}
+
     private static final Logger log = LoggerFactory.getLogger(ExceptionHelp.class);
 
     private static Properties props = null;

@@ -1,9 +1,10 @@
 package xyz.launcel.jdbc;
 
+import org.apache.ibatis.session.SqlSessionFactory;
+import xyz.launcel.hook.ApplicationContextHook;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.BaseLogger;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,28 +15,28 @@ import java.util.stream.Collectors;
 
 public class JdbcRole extends BaseLogger {
 
-    private static String DEFAULT_AUTHENTICATION_QUERY = "select password from users where username = ?";
+    protected String authenticationQuery = "select password from users where username = ?";
 
-    private static String DEFAULT_USER_ROLES_QUERY = "select role_name from user_roles where username = ?";
+    protected String userRoleQuery = "select role_name from user_roles where username = ?";
 
-    protected String authenticationQuery = DEFAULT_AUTHENTICATION_QUERY;
+    private String dataSourceName;
 
-    protected String userRoleQuery = DEFAULT_USER_ROLES_QUERY;
-
-    private DataSource dataSource;
+    private Connection connection;
 
     public Set<String> getRoles(String username) {
-        Connection conn = null;
-        try {
-            conn = dataSource.getConnection();
-            return getRoleNamesForUser(conn, username);
-        } catch (SQLException e) {
-            if (isDebugEnabled())
-                debug(e.getMessage());
-            return null;
-        } finally {
-            close(conn);
-        }
+//        Connection conn = null;
+//        try {
+//            conn = dataSource.getConnection();
+        connection = ((SqlSessionFactory) ApplicationContextHook.getBean(dataSourceName + "SqlSessionFactory")).
+                openSession().getConnection();
+        return getRoleNamesForUser(connection, username);
+//        } catch (SQLException e) {
+//            if (isDebugEnabled())
+//                debug(e.getMessage());
+//            return null;
+//        } finally {
+//            close(conn);
+//        }
     }
 
     @SuppressWarnings("unchecked")
@@ -62,12 +63,20 @@ public class JdbcRole extends BaseLogger {
         return roleNames;
     }
 
-    public DataSource getDataSource() {
-        return dataSource;
+    public String getDataSourceName() {
+        return dataSourceName;
     }
 
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public void setDataSourceName(String dataSourceName) {
+        this.dataSourceName = dataSourceName;
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 
     public String getUserRoleQuery() {

@@ -1,13 +1,12 @@
 package xyz.launcel.lang;
 
-import xyz.launcel.ensure.Me;
 import xyz.launcel.exception.ExceptionFactory;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class RegUtil {
-    private static boolean isTrue(Object text, String pattern) {
+public interface RegUtil {
+    static boolean isTrue(Object text, String pattern) {
         if (Objects.isNull(text))
             ExceptionFactory.create("_DEFINE_ERROR_CODE_008", "正则校验数据为空");
         return Pattern.compile(pattern).matcher(text.toString()).matches();
@@ -19,7 +18,7 @@ public class RegUtil {
      * @param text
      * @return
      */
-    public static boolean isNum(Object text) {
+    static boolean isNum(Object text) {
         return isTrue(text, "^[1-9]\\d*$");
     }
 
@@ -29,7 +28,7 @@ public class RegUtil {
      * @param text
      * @return
      */
-    public static boolean isFloatNum(Object text) {
+    static boolean isFloatNum(Object text) {
         return isTrue(text, "^[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*$");
     }
 
@@ -39,7 +38,7 @@ public class RegUtil {
      * @param text
      * @return
      */
-    public static boolean isMobile(Object text) {
+    static boolean isMobile(Object text) {
         return isTrue(text, "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
     }
 
@@ -49,7 +48,7 @@ public class RegUtil {
      * @param text
      * @return
      */
-    public static boolean isEmail(Object text) {
+    static boolean isEmail(Object text) {
         return isTrue(text, "[\\w\\.\\-]+@([\\w\\-]+\\.)+[\\w\\-]+");
     }
 
@@ -59,7 +58,7 @@ public class RegUtil {
      * @param text
      * @return
      */
-    public static boolean isShengfenZheng(Object text) {
+    static boolean isShengfenZheng(Object text) {
         return isTrue(text, "^(\\d{6})(\\d{4})(\\d{2})(\\d{2})(\\d{3})([0-9]|X)$");
     }
 

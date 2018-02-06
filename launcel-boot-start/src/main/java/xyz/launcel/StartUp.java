@@ -11,15 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.ConfigurableEnvironment;
 
-@SpringBootApplication
-public class StartUp {
+public interface StartUp {
 
-    private static final Logger log = LoggerFactory.getLogger(StartUp.class);
+    static final Logger log = LoggerFactory.getLogger(StartUp.class);
 
-    public static ConfigurableEnvironment run(String[] args, Class<?> appClass) {
+    static ConfigurableEnvironment run(String[] args, Class<?> appClass) {
         SpringApplication app = new SpringApplication(appClass);
         app.setBannerMode(Banner.Mode.OFF);
         ConfigurableEnvironment env = app.run(args).getEnvironment();

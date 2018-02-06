@@ -77,7 +77,7 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
         try {
             sqlSession.addPropertyValue(SessionConstant.mapperLocationName, new PathMatchingResourcePatternResolver().getResources(mybatisPropertie.getMapperResource()));
         } catch (IOException e) {
-            ExceptionFactory.error("-1", ">>>  connot load resource:" + mybatisPropertie.getMapperResource() + " !!");
+            ExceptionFactory.error("-1", ">>>  connot load resource :" + mybatisPropertie.getMapperResource() + " !!");
         }
         BeanDefinitionRegistryTool.registryBean(sqlSessionFactoryBeanName, registry, sqlSessionAbd);
         if (dataSourcePropertie.getEnableTransactal())

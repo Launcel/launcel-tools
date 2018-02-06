@@ -16,39 +16,43 @@ package xyz.launcel.lang;
  * <p>
  * 自测性能：一秒能有三四十万的数据产生。
  */
-public final class IDGeneratorUtil {
+public interface IDGeneratorUtil {
 
-    /**
-     * 2017-12-01 0:00:00
-     */
-    private static final long initTimeMillis = 1512057600000L;
+    class PrimyIDGenerator {
 
-    /**
-     * 机器编号
-     */
-    private static final int pid = 3;
+        /**
+         * 2017-12-01 0:00:00
+         */
+        private static final long initTimeMillis = 1512057600000L;
 
-    /**
-     * 计数器
-     * 需要保证线程安全
-     */
-    private static volatile long counter;
+        /**
+         * 机器编号
+         */
+        private static final int pid = 3;
 
-    private static volatile long currentTimeMillis = System.currentTimeMillis() - initTimeMillis;
-    private static volatile long lastTimeMillis = currentTimeMillis;
+        /**
+         * 计数器
+         * 需要保证线程安全
+         */
+        private static volatile long counter;
 
-    public static synchronized Long nextId() {
-        long series = counter++;
+        private static volatile long currentTimeMillis = System.currentTimeMillis() - initTimeMillis;
+        private static volatile long lastTimeMillis = currentTimeMillis;
+    }
+
+
+    static Long nextId() {
+        long series = PrimyIDGenerator.counter++;
 
         if (series >= (1 << 12) - 1) {
-            while (lastTimeMillis == currentTimeMillis) {//等待到下一秒
-                currentTimeMillis = System.currentTimeMillis() - initTimeMillis;
+            while (PrimyIDGenerator.lastTimeMillis == PrimyIDGenerator.currentTimeMillis) {//等待到下一秒
+                PrimyIDGenerator.currentTimeMillis = System.currentTimeMillis() - PrimyIDGenerator.initTimeMillis;
             }
-            lastTimeMillis = currentTimeMillis;
-            counter = 0;
-            series = counter++;
+            PrimyIDGenerator.lastTimeMillis = PrimyIDGenerator.currentTimeMillis;
+            PrimyIDGenerator.counter = 0;
+            series = PrimyIDGenerator.counter++;
         }
-        return (currentTimeMillis << 22) | (pid << 12) | series;
+        return (PrimyIDGenerator.currentTimeMillis << 22) | (PrimyIDGenerator.pid << 12) | series;
     }
-    
+
 }

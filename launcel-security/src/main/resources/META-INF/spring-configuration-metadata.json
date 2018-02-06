@@ -4,6 +4,11 @@
       "name": "web.security",
       "type": "xyz.launcel.prop.SecurityListProperties",
       "sourceType": "xyz.launcel.prop.SecurityListProperties"
+    },
+    {
+      "name": "web.role",
+      "type": "xyz.launcel.prop.JdbcRolePropertites",
+      "sourceType": "xyz.launcel.prop.JdbcRolePropertites"
     }
   ],
   "properties": [
@@ -16,6 +21,21 @@
       "name": "web.security.exclude-paths",
       "type": "java.lang.String[]",
       "sourceType": "xyz.launcel.prop.SecurityListProperties"
+    },
+    {
+      "name": "web.role.data-source-name",
+      "type": "java.lang.String",
+      "sourceType": "xyz.launcel.prop.JdbcRolePropertites"
+    },
+    {
+      "name": "web.role.authentication-query",
+      "type": "java.lang.String",
+      "sourceType": "xyz.launcel.prop.JdbcRolePropertites"
+    },
+    {
+      "name": "web.role.user-role-query",
+      "type": "java.lang.String",
+      "sourceType": "xyz.launcel.prop.JdbcRolePropertites"
     }
   ]
 }

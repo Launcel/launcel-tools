@@ -3,10 +3,7 @@ package xyz.launcel.exception;
 /**
  * @author Launcel
  */
-public class ExceptionFactory {
-
-    private ExceptionFactory() {
-    }
+public interface ExceptionFactory {
 
     public static void create(String message) {
         throw new ProfessionException(ExceptionHelp.getMessage(message));
