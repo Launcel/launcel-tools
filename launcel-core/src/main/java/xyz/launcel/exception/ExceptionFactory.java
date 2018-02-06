@@ -23,6 +23,6 @@ public class ExceptionFactory {
 
     public static void create(String msg, String msgInfo) {
         String sb = "\t[" + msg + " : " + msgInfo + "]";
-        throw new SystemError(sb);
+        throw new ProfessionException(sb);
     }
 }
