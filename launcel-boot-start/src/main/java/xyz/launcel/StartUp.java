@@ -5,14 +5,16 @@
  * Version: 1.0
  */
 
-package xyz.launcel.run;
+package xyz.launcel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.ConfigurableEnvironment;
 
+@SpringBootApplication
 public class StartUp {
 
     private static final Logger log = LoggerFactory.getLogger(StartUp.class);
