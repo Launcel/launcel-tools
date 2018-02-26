@@ -7,11 +7,11 @@ public class SystemError extends Error {
         super();
     }
 
-    protected SystemError(String message) {
+    SystemError(String message) {
         super(message);
     }
 
-    protected SystemError(String message, Throwable cause) {
+    SystemError(String message, Throwable cause) {
         super(message, cause);
     }
 

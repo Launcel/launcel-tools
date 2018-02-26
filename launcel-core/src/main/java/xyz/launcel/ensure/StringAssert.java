@@ -13,7 +13,7 @@ import xyz.launcel.lang.StringUtils;
 public class StringAssert {
     private String flat;
 
-    protected StringAssert(String f) {
+    StringAssert(String f) {
         flat = f;
     }
 

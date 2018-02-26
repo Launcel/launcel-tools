@@ -8,7 +8,7 @@ public class ObjectAssert {
 
     private Object flat;
 
-    protected ObjectAssert(Object flat) {
+    ObjectAssert(Object flat) {
         this.flat = flat;
     }
 

@@ -106,25 +106,18 @@ public class ParamValidatorAspect extends BaseLogger {
     private void verifyType(Object o, String message, Types tc) {
         if (tc == Types.string) {
             Assert.isTrue(Objects.nonNull(o), message);
-            return;
         } else if (tc == Types.number) {
             Assert.isTrue(RegUtil.isNum(o.toString()), message);
-            return;
         } else if (tc == Types.ip) {
             Assert.isTrue(RegUtil.isIP(o.toString()), message);
-            return;
         } else if (tc == Types.decimal) {
             Assert.isTrue(RegUtil.isFloatNum(o.toString()), message);
-            return;
         } else if (tc == Types.email) {
             Assert.isTrue(RegUtil.isEmail(o.toString()), message);
-            return;
         } else if (tc == Types.tel) {
             Assert.isTrue(RegUtil.isMobile(o.toString()), message);
-            return;
         } else if (tc == Types.qq) {
             Assert.isTrue(RegUtil.isQQ(o.toString()), message);
-            return;
         }
     }
 }

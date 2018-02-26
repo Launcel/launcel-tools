@@ -97,7 +97,7 @@ public class AMapUtils {
             this.radLng = radLng;
         }
 
-        protected Point(double lat, double lng) {
+        Point(double lat, double lng) {
             this(lat, lng, true);
         }
 

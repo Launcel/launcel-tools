@@ -5,7 +5,7 @@ import xyz.launcel.exception.ExceptionFactory;
 public class BooleanAssert {
     private Boolean flat;
 
-    protected BooleanAssert(Boolean fa) {
+    BooleanAssert(Boolean fa) {
         flat = fa;
     }
 

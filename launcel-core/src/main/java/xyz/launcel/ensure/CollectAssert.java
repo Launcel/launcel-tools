@@ -1,7 +1,7 @@
 package xyz.launcel.ensure;
 
-import org.apache.commons.collections.CollectionUtils;
 import xyz.launcel.exception.ExceptionFactory;
+import xyz.launcel.lang.CollectionUtils;
 
 import java.util.Collection;
 
@@ -9,7 +9,7 @@ public class CollectAssert {
 
     private Collection<?> collection;
 
-    protected CollectAssert(Collection<?> collection) {
+    CollectAssert(Collection<?> collection) {
         this.collection = collection;
     }
 
