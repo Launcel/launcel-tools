@@ -138,8 +138,30 @@
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
-      "name": "db.jdbc.main.data-sourc-property",
-      "type": "java.util.Properties",
+      "name": "db.jdbc.main.cache-prep-stmts",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "JDBC dataSourceProperties of the database.",
+      "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
+    },
+    {
+      "name": "db.jdbc.main.prep-stmt-cache-size",
+      "type": "java.lang.Integer",
+      "defaultValue": 250,
+      "description": "JDBC dataSourceProperties of the database.",
+      "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
+    },
+    {
+      "name": "db.jdbc.main.prep-stmt-cache-sql-limit",
+      "type": "java.lang.Integer",
+      "defaultValue": 2048,
+      "description": "JDBC dataSourceProperties of the database.",
+      "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
+    },
+    {
+      "name": "db.jdbc.main.use-server-prep-stmts",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
       "description": "JDBC dataSourceProperties of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
@@ -237,8 +259,30 @@
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
-      "name": "db.jdbc.others.data-sourc-property",
-      "type": "java.util.Properties",
+      "name": "db.jdbc.main.cache-prep-stmts",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "JDBC dataSourceProperties of the database.",
+      "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
+    },
+    {
+      "name": "db.jdbc.main.prep-stmt-cache-size",
+      "type": "java.lang.Integer",
+      "defaultValue": 250,
+      "description": "JDBC dataSourceProperties of the database.",
+      "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
+    },
+    {
+      "name": "db.jdbc.main.prep-stmt-cache-sql-limit",
+      "type": "java.lang.Integer",
+      "defaultValue": 2048,
+      "description": "JDBC dataSourceProperties of the database.",
+      "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
+    },
+    {
+      "name": "db.jdbc.main.use-server-prep-stmts",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
       "description": "JDBC dataSourceProperties of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },

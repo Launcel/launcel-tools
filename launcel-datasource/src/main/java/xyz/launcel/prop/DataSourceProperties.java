@@ -48,13 +48,11 @@ public class DataSourceProperties {
         private Long connectionTimeout = 30000L;
         private String connectionTestQuery = "select 'x'";
         private Boolean enableTransactal = false;
-        private Properties dataSourceProperty;
-//                = new Properties() {{
-//            put("dataSource.cachePrepStmts", true);
-//            put("dataSource.prepStmtCacheSize", 250);
-//            put("dataSource.prepStmtCacheSqlLimit", 2048);
-//            put("dataSource.useServerPrepStmts", true);
-//        }};
+
+        private Boolean cachePrepStmts = true;
+        private Integer prepStmtCacheSize = 250;
+        private Integer prepStmtCacheSqlLimit = 2048;
+        private Boolean useServerPrepStmts = true;
 
         private Boolean isRead = false;
 
@@ -146,14 +144,6 @@ public class DataSourceProperties {
             this.connectionTestQuery = connectionTestQuery;
         }
 
-        public Properties getDataSourceProperty() {
-            return dataSourceProperty;
-        }
-
-        public void setDataSourceProperty(Properties dataSourceProperty) {
-            this.dataSourceProperty = dataSourceProperty;
-        }
-
         public Boolean getEnableTransactal() {
             return enableTransactal;
         }
@@ -170,6 +160,38 @@ public class DataSourceProperties {
             isRead = read;
         }
 
+        public boolean isCachePrepStmts() {
+            return cachePrepStmts;
+        }
+
+        public void setCachePrepStmts(boolean cachePrepStmts) {
+            this.cachePrepStmts = cachePrepStmts;
+        }
+
+        public Integer getPrepStmtCacheSize() {
+            return prepStmtCacheSize;
+        }
+
+        public void setPrepStmtCacheSize(Integer prepStmtCacheSize) {
+            this.prepStmtCacheSize = prepStmtCacheSize;
+        }
+
+        public Integer getPrepStmtCacheSqlLimit() {
+            return prepStmtCacheSqlLimit;
+        }
+
+        public void setPrepStmtCacheSqlLimit(Integer prepStmtCacheSqlLimit) {
+            this.prepStmtCacheSqlLimit = prepStmtCacheSqlLimit;
+        }
+
+        public boolean isUseServerPrepStmts() {
+            return useServerPrepStmts;
+        }
+
+        public void setUseServerPrepStmts(boolean useServerPrepStmts) {
+            this.useServerPrepStmts = useServerPrepStmts;
+        }
+
         public HikariConfig getHikariConfig() {
             HikariConfig config = new HikariConfig();
             config.setDriverClassName(driverClassName);
@@ -183,8 +205,13 @@ public class DataSourceProperties {
             config.setConnectionTimeout(connectionTimeout);
             config.setConnectionTestQuery(connectionTestQuery);
             config.setReadOnly(isRead);
-            if (dataSourceProperty != null && !dataSourceProperty.isEmpty())
-                config.setDataSourceProperties(dataSourceProperty);
+
+            Properties dataSourceProperty = new Properties();
+            dataSourceProperty.put("dataSource.cachePrepStmts", isCachePrepStmts());
+            dataSourceProperty.put("dataSource.prepStmtCacheSize", getPrepStmtCacheSize());
+            dataSourceProperty.put("dataSource.prepStmtCacheSqlLimit", getPrepStmtCacheSqlLimit());
+            dataSourceProperty.put("dataSource.useServerPrepStmts", isUseServerPrepStmts());
+            config.setDataSourceProperties(dataSourceProperty);
             return config;
         }
     }
