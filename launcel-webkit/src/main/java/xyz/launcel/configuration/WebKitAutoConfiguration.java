@@ -44,13 +44,12 @@ public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter {
 //        GsonHttpMessageConverter converter = new GsonHttpMessageConverter();
 //        GsonBuilder gsonBuilder = new PrimyGsonBuilder().setDateFormat(gsonConverterProperties.getDateFormat()).getGsonBuilder();
 //        converter.setGson(gsonBuilder.create());
-//        converters.add(converter);
 
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
         fastJsonConfig.setDateFormat(jsonConverterProperties.getDateFormat());
-        FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
-        fastJsonHttpMessageConverter.setFastJsonConfig(fastJsonConfig);
-        converters.add(fastJsonHttpMessageConverter);
+        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
+        converter.setFastJsonConfig(fastJsonConfig);
+        converters.add(converter);
 
         super.configureMessageConverters(converters);
     }
