@@ -1,5 +1,6 @@
 package xyz.launcel.autoconfig;
 
+import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -18,7 +19,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import redis.clients.jedis.JedisPoolConfig;
 import xyz.launcel.lang.Base64;
 import xyz.launcel.prop.RedisProperties;
-import xyz.launcel.support.serializer.GsonRedisSerializer;
 
 import javax.inject.Named;
 
@@ -66,7 +66,8 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
     RedisTemplate<String, Object> redisTemplate(@Named("redisConnectionFactory") JedisConnectionFactory jedisConnectionFactory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(jedisConnectionFactory);
-        GsonRedisSerializer<Object> serializer = new GsonRedisSerializer<>(Object.class);
+//        GsonRedisSerializer<Object> serializer = new GsonRedisSerializer<>(Object.class);
+        FastJsonRedisSerializer<Object> serializer = new FastJsonRedisSerializer<>(Object.class);
         template.setKeySerializer(serializer);
         template.setValueSerializer(serializer);
         template.setDefaultSerializer(serializer);

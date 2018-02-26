@@ -37,12 +37,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-        </dependency>
-
-
-        <dependency>
             <groupId>xyz.launcel</groupId>
             <artifactId>launcel-core</artifactId>
             <version>1.0</version>

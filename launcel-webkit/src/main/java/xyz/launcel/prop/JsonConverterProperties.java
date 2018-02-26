@@ -2,8 +2,8 @@ package xyz.launcel.prop;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "web.gson-converter")
-public class GsonConverterProperties {
+@ConfigurationProperties(prefix = "web.json-converter")
+public class JsonConverterProperties {
 
     private Boolean enabled = true;
 

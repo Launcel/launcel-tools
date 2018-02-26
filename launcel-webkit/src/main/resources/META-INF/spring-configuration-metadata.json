@@ -7,8 +7,8 @@
     },
     {
       "name": "web.gson-converter",
-      "sourceType": "xyz.launcel.prop.GsonConverterProperties",
-      "type": "xyz.launcel.prop.GsonConverterProperties"
+      "sourceType": "xyz.launcel.prop.JsonConverterProperties",
+      "type": "xyz.launcel.prop.JsonConverterProperties"
     },
     {
       "name": "web.global-exception",
@@ -29,16 +29,16 @@
       "sourceType": "xyz.launcel.prop.WebAspejctProperties"
     },
     {
-      "name": "web.gson-converter.enabled",
+      "name": "web.json-converter.enabled",
       "type": "java.lang.Boolean",
       "defaultValue": true,
-      "sourceType": "xyz.launcel.prop.GsonConverterProperties"
+      "sourceType": "xyz.launcel.prop.JsonConverterProperties"
     },
     {
-      "name": "web.gson-converter.date-format",
+      "name": "web.json-converter.date-format",
       "type": "java.lang.String",
       "defaultValue": true,
-      "sourceType": "xyz.launcel.prop.GsonConverterProperties"
+      "sourceType": "xyz.launcel.prop.JsonConverterProperties"
     },
     {
       "name": "web.cors.enabled",

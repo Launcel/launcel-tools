@@ -1,5 +1,6 @@
 package xyz.launcel.session.redis;
 
+import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationEvent;
@@ -24,7 +25,6 @@ import org.springframework.session.events.SessionDeletedEvent;
 import org.springframework.session.events.SessionExpiredEvent;
 import org.springframework.util.Assert;
 import xyz.launcel.session.MapSession;
-import xyz.launcel.support.serializer.GsonRedisSerializer;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -49,7 +49,8 @@ public class PrimyRedisOperationsSessionRepository implements FindByIndexNameSes
 
     private final PrimyRedisSessionExpirationPolicy expirationPolicy;
 
-    private RedisSerializer<Map> defaultSerializer = new GsonRedisSerializer<>(Map.class);
+    //    private RedisSerializer<Map> defaultSerializer = new GsonRedisSerializer<>(Map.class);
+    private RedisSerializer<Map> defaultSerializer = new FastJsonRedisSerializer<>(Map.class);
 
     private ApplicationEventPublisher eventPublisher = new ApplicationEventPublisher() {
         public void publishEvent(ApplicationEvent event) {
@@ -314,7 +315,8 @@ public class PrimyRedisOperationsSessionRepository implements FindByIndexNameSes
         Assert.notNull(connectionFactory, "connectionFactory cannot be null");
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
-        GsonRedisSerializer<Object> serializer = new GsonRedisSerializer<>(Object.class);
+//        GsonRedisSerializer<Object> serializer = new GsonRedisSerializer<>(Object.class);
+        FastJsonRedisSerializer<Object> serializer = new FastJsonRedisSerializer<>(Object.class);
         template.setKeySerializer(serializer);
         template.setValueSerializer(serializer);
         template.setDefaultSerializer(serializer);
