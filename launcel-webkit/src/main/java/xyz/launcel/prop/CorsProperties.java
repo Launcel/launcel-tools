@@ -11,7 +11,7 @@ public class CorsProperties {
 
     private String[] methods = {"GET", "POST", "DELETE", "PUT"};
 
-    private Long maxAge = 3600L;
+    private Long maxAge = 1800L;
 
     private String[] allowedOrigins = {"*"};
 

@@ -42,7 +42,7 @@ public class ExceptionHelp {
                     if (in != null) in.close();
                 }
                 if (log.isDebugEnabled())
-                    log.info("  >>>   错误信息加载完毕！");
+                    log.debug("  >>>   错误信息加载完毕！");
             }
         } catch (IOException e) {
             throw new SystemError("错误信息文件加载失败!");
