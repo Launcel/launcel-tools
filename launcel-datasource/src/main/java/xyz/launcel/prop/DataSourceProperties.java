@@ -48,12 +48,13 @@ public class DataSourceProperties {
         private Long connectionTimeout = 30000L;
         private String connectionTestQuery = "select 'x'";
         private Boolean enableTransactal = false;
-        private Properties dataSourceProperty = new Properties() {{
-            put("dataSource.cachePrepStmts", true);
-            put("dataSource.prepStmtCacheSize", 250);
-            put("dataSource.prepStmtCacheSqlLimit", 2048);
-            put("dataSource.useServerPrepStmts", true);
-        }};
+        private Properties dataSourceProperty;
+//                = new Properties() {{
+//            put("dataSource.cachePrepStmts", true);
+//            put("dataSource.prepStmtCacheSize", 250);
+//            put("dataSource.prepStmtCacheSqlLimit", 2048);
+//            put("dataSource.useServerPrepStmts", true);
+//        }};
 
         private Boolean isRead = false;
 
