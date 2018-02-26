@@ -37,7 +37,7 @@
     {
       "name": "web.json-converter.date-format",
       "type": "java.lang.String",
-      "defaultValue": true,
+      "defaultValue": "yyyy-MM-dd HH:mm:ss",
       "sourceType": "xyz.launcel.prop.JsonConverterProperties"
     },
     {
