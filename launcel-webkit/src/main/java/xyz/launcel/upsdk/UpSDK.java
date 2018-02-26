@@ -97,9 +97,9 @@ public class UpSDK {
 
     private void checkSize(MultipartFile file) {
         if (file.getSize() < (min_size * 2 << 19))
-            ExceptionFactory.create("_WEBKIT_ERROR_CODE_011");
+            ExceptionFactory.create("文件太小");
         if (file.getSize() > max_size * 2 << 19)
-            ExceptionFactory.create("_WEBKIT_ERROR_CODE_010");
+            ExceptionFactory.create("文件大小超过限制");
     }
 
     /**
@@ -113,9 +113,9 @@ public class UpSDK {
             in = file.getInputStream();
             byte[] b = new byte[4];
             if (in == null)
-                ExceptionFactory.create("_WEBKIT_ERROR_CODE_008");
+                ExceptionFactory.create("无法识别的文件");
             if (in.read(b, 0, b.length) < 4)
-                ExceptionFactory.create("_WEBKIT_ERROR_CODE_011");
+                ExceptionFactory.create("文件太小");
             StringBuilder sb = new StringBuilder();
             String hv;
             for (byte b1 : b) {
@@ -125,7 +125,7 @@ public class UpSDK {
             }
             if (contentType.contains(sb.toString()))
                 return;
-            ExceptionFactory.create("_WEBKIT_ERROR_CODE_009");
+            ExceptionFactory.create("不能接收的文件类型");
         } finally {
             if (in != null) in.close();
         }
@@ -133,7 +133,7 @@ public class UpSDK {
 
     private String getExt(String originalName) {
         Integer index = originalName.lastIndexOf(".");
-        if (index <= 0) ExceptionFactory.create("_WEBKIT_ERROR_CODE_008");
+        if (index <= 0) ExceptionFactory.create("无法识别的文件");
         String ext = originalName.substring(index + 1);
         checkFile(ext);
         return ext;
@@ -141,7 +141,7 @@ public class UpSDK {
 
     private void checkFile(String ext) {
         if (fileType.contains(ext.toLowerCase())) return;
-        ExceptionFactory.create("_WEBKIT_ERROR_CODE_009");
+        ExceptionFactory.create("不能接收的文件类型");
     }
 
     private String getNewFileName(String ext) {

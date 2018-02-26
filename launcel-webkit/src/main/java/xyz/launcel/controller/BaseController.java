@@ -13,16 +13,16 @@ import java.io.UnsupportedEncodingException;
 
 public class BaseController extends BaseLogger {
 
-    protected ThreadLocal<HttpServletRequest> request = new ThreadLocal<>();
+    private ThreadLocal<HttpServletRequest> request = new ThreadLocal<>();
 
-    protected ThreadLocal<HttpServletResponse> response = new ThreadLocal<>();
+    private ThreadLocal<HttpServletResponse> response = new ThreadLocal<>();
 
     @ModelAttribute
     protected void init(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
             httpServletRequest.setCharacterEncoding("UTF-8");
         } catch (UnsupportedEncodingException e) {
-            ExceptionFactory.error("_WEBKIT_ERROR_CODE_002");
+            ExceptionFactory.error("编码转换失败");
         }
         httpServletResponse.setCharacterEncoding("UTF-8");
         request.set(httpServletRequest);
@@ -30,8 +30,8 @@ public class BaseController extends BaseLogger {
     }
 
     protected <T> Paging<T> initPaging() {
-        String pageNoStr = getRequest().getParameter("pageNo");
-        String rowStr = getRequest().getParameter("maxRow");
+        String pageNoStr = getReqLocal().getParameter("pageNo");
+        String rowStr = getReqLocal().getParameter("maxRow");
 //        String lowerIdStr = getRequest().getParameter("lowerId");
 //        String largeIdStr = getRequest().getParameter("largeId");
 
@@ -43,11 +43,11 @@ public class BaseController extends BaseLogger {
         return new Paging<>(pageNo, maxRow);
     }
 
-    protected HttpServletRequest getRequest() {
+    protected final HttpServletRequest getReqLocal() {
         return request.get();
     }
 
-    protected HttpServletResponse getResponse() {
+    protected final HttpServletResponse getRespLocal() {
         return response.get();
     }
 

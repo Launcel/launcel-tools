@@ -16,7 +16,8 @@ import java.util.Properties;
 
 public class ExceptionHelp {
 
-    private ExceptionHelp() {}
+    private ExceptionHelp() {
+    }
 
     private static final Logger log = LoggerFactory.getLogger(ExceptionHelp.class);
 
@@ -58,8 +59,8 @@ public class ExceptionHelp {
             map.clear();
             map.put("code", "MESSAGE_ERROR_001");
             map.put("message", "不存在的错误信息!");
-            throw new ProfessionException(Json.toJson(map));
+            throw new ProfessionException(Json.toJson(map).replaceAll("\\{", "[").replaceAll("\\}", "]"));
         }
-        return Json.toJson(map);
+        return Json.toJson(map).replaceAll("\\{", "[").replaceAll("\\}", "]");
     }
 }
