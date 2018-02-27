@@ -15,9 +15,9 @@ import org.springframework.core.env.ConfigurableEnvironment;
 
 public interface StartUp {
 
-    static final Logger log = LoggerFactory.getLogger(StartUp.class);
 
     static ConfigurableEnvironment run(String[] args, Class<?> appClass) {
+        Logger log = LoggerFactory.getLogger(StartUp.class);
         SpringApplication app = new SpringApplication(appClass);
         app.setBannerMode(Banner.Mode.OFF);
         ConfigurableEnvironment env = app.run(args).getEnvironment();

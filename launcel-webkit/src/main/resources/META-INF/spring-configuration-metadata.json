@@ -6,7 +6,7 @@
       "type": "xyz.launcel.prop.WebAspejctProperties"
     },
     {
-      "name": "web.gson-converter",
+      "name": "web.json-converter",
       "sourceType": "xyz.launcel.prop.JsonConverterProperties",
       "type": "xyz.launcel.prop.JsonConverterProperties"
     },
