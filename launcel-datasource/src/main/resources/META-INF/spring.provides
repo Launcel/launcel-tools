@@ -1,1 +1,1 @@
-provides: launcel-datasource
+provides: launcel-datasource,launcel-core
