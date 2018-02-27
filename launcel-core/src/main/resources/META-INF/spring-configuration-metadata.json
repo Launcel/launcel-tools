@@ -4,6 +4,11 @@
       "name": "common.dozer",
       "type": "xyz.launcel.prop.DozerProperties",
       "sourceType": "xyz.launcel.prop.DozerProperties"
+    },
+    {
+      "name": "common.aspejct",
+      "type": "xyz.launcel.prop.ServiceAspejctProperties",
+      "sourceType": "xyz.launcel.prop.ServiceAspejctProperties"
     }
   ],
   "properties": [
@@ -17,6 +22,12 @@
       "type": "java.lang.Boolean",
       "defaultValue": false,
       "sourceType": "xyz.launcel.prop.DozerProperties"
+    },
+    {
+      "name": "common.aspejct.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "sourceType": "xyz.launcel.prop.ServiceAspejctProperties"
     }
   ]
 }

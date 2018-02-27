@@ -12,15 +12,16 @@ import xyz.launcel.lang.Json;
 import xyz.launcel.log.BaseLogger;
 import xyz.launcel.prop.DozerProperties;
 
-import javax.inject.Inject;
-
 @ConditionalOnProperty(prefix = "common.dozer", value = "enabled", havingValue = "true")
 @Configuration
 @EnableConfigurationProperties(value = DozerProperties.class)
 public class DozerAutoConfiguration extends BaseLogger {
 
-    @Inject
-    private DozerProperties dozerProperties;
+    private final DozerProperties dozerProperties;
+
+    public DozerAutoConfiguration(DozerProperties dozerProperties) {
+        this.dozerProperties = dozerProperties;
+    }
 
     @Lazy
     @Bean(name = "dozer")
@@ -28,10 +29,12 @@ public class DozerAutoConfiguration extends BaseLogger {
         DozerBeanMapper mapper = new DozerBeanMapper();
         if (CollectionUtils.isEmpty(dozerProperties.getList())) {
             if (isDebugEnabled())
-                info(">>>  dozer mapper list is : " + Json.toJson(dozerProperties.getList()));
+                debug(">>>  dozer mapper list is : " + Json.toJson(dozerProperties.getList()));
             return mapper;
         }
         mapper.setMappingFiles(dozerProperties.getList());
         return mapper;
     }
+
+
 }

@@ -2,10 +2,9 @@ package xyz.launcel.prop;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "web.global-exception")
-public class GlobalExceptionProperties {
-
-    private Boolean enabled = true;
+@ConfigurationProperties(prefix = "common.aspejct")
+public class ServiceAspejctProperties {
+    private Boolean enabled = false;
 
     public Boolean getEnabled() {
         return enabled;

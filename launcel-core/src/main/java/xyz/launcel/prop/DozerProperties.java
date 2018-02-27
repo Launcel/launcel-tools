@@ -7,7 +7,7 @@ import java.util.List;
 @ConfigurationProperties(prefix = "common.dozer")
 public class DozerProperties {
 
-    private Boolean enabled;
+    private Boolean enabled = false;
 
     private List<String> list;
 

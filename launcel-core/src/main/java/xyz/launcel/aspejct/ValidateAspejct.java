@@ -30,7 +30,6 @@ class ValidateAspejct extends BaseLogger {
                 }
             }
         }
-
     }
 
     void doReturn(JoinPoint joinPoint, Object object) {

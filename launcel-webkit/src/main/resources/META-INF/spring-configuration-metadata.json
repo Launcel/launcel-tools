@@ -25,7 +25,7 @@
     {
       "name": "web.aspejct.enabled",
       "type": "java.lang.Boolean",
-      "defaultValue": true,
+      "defaultValue": false,
       "sourceType": "xyz.launcel.prop.WebAspejctProperties"
     },
     {

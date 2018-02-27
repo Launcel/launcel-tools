@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "web.cors")
 public class CorsProperties {
 
-    private Boolean enabled;
+    private Boolean enabled = false;
 
     private String pathPattern = "/api/**";
 
