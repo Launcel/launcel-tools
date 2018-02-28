@@ -41,6 +41,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
         JedisPoolConfig pool = new JedisPoolConfig();
         pool.setMinIdle(redisProperties.getMinIdle());
         pool.setMaxIdle(redisProperties.getMaxIdle());
+        pool.setMaxTotal(redisProperties.getMaxTotal());
         pool.setMaxWaitMillis(redisProperties.getMaxWait());
         return pool;
     }

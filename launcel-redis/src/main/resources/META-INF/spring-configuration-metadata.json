@@ -16,6 +16,7 @@
     {
       "name": "db.redis.password",
       "type": "java.lang.String",
+      "description": "password must be use xyz.launcel.lang.Base64.encode(password) to calculate",
       "sourceType": "xyz.launcel.prop.RedisProperties"
     },
     {
@@ -46,6 +47,13 @@
       "sourceType": "xyz.launcel.prop.RedisProperties"
     },
     {
+      "name": "db.redis.max-total",
+      "type": "java.lang.Integer",
+      "defaultValue": 8,
+      "description": "redis max-idle.",
+      "sourceType": "xyz.launcel.prop.RedisProperties"
+    },
+    {
       "name": "db.redis.max-active",
       "type": "java.lang.Integer",
       "description": "redis connect max-active.",
@@ -60,7 +68,7 @@
       "sourceType": "xyz.launcel.prop.RedisProperties"
     },
     {
-      "name": "db.redis.exp-time",
+      "name": "db.redis.exptime",
       "type": "java.lang.Integer",
       "description": "redis value exp-time.",
       "defaultValue": 600,

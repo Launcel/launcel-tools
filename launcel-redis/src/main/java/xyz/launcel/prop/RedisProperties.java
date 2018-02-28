@@ -15,12 +15,14 @@ public class RedisProperties {
     private String password = "123456";
     private Integer port = 6379;
     private Integer database = 0;
-    private Integer minIdle = 1;
+    private Integer minIdle = 0;
+    // 可用连接实例的最大数目，默认值为8；
     private Integer maxIdle = 10;
+    private Integer maxTotal = 8;
     private Integer maxActive = 10;
     private Integer timeout = 300;
     private Long maxWait = 30000L;
-    private Long expTime = 600L;
+    private Long exptime = 600L;
 
     public String getHost() {
         return host;
@@ -70,12 +72,28 @@ public class RedisProperties {
         this.maxIdle = maxIdle;
     }
 
+    public Integer getMaxTotal() {
+        return maxTotal;
+    }
+
+    public void setMaxTotal(Integer maxTotal) {
+        this.maxTotal = maxTotal;
+    }
+
     public Integer getMaxActive() {
         return maxActive;
     }
 
     public void setMaxActive(Integer maxActive) {
         this.maxActive = maxActive;
+    }
+
+    public Integer getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Integer timeout) {
+        this.timeout = timeout;
     }
 
     public Long getMaxWait() {
@@ -86,19 +104,11 @@ public class RedisProperties {
         this.maxWait = maxWait;
     }
 
-    public Long getExpTime() {
-        return expTime;
+    public Long getExptime() {
+        return exptime;
     }
 
-    public void setExpTime(Long expTime) {
-        this.expTime = expTime;
-    }
-
-    public Integer getTimeout() {
-        return timeout;
-    }
-
-    public void setTimeout(Integer timeout) {
-        this.timeout = timeout;
+    public void setExptime(Long exptime) {
+        this.exptime = exptime;
     }
 }
