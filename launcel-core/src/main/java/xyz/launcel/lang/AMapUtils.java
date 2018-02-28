@@ -7,9 +7,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-public class AMapUtils {
-
-    private static final Logger log = LoggerFactory.getLogger(AMapUtils.class);
+public interface AMapUtils {
 
 
     /**
@@ -17,7 +15,7 @@ public class AMapUtils {
      * @param lng 经度
      * @return
      */
-    public static Point newPoint(double lat, double lng) {
+    static Point newPoint(double lat, double lng) {
         return new Point(lat, lng);
     }
 
@@ -28,7 +26,8 @@ public class AMapUtils {
      * @param l2
      * @return
      */
-    public static double getDistance(Point l1, Point l2) {
+    static double getDistance(Point l1, Point l2) {
+        Logger log = LoggerFactory.getLogger(AMapUtils.class);
         double latDiff = l1.getRadLat() - l2.getRadLat();// 纬度的弧度差
         double lngDiff = l1.getRadLng() - l2.getRadLng();// 经度的弧度差
         double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(latDiff / 2), 2) + Math.cos(l1.getRadLat()) * Math.cos(l2.getRadLat()) * Math.pow(Math.sin(lngDiff / 2), 2)));
@@ -37,7 +36,7 @@ public class AMapUtils {
         return s;
     }
 
-    public static class Point {
+    class Point {
 
         /**
          * 格式化

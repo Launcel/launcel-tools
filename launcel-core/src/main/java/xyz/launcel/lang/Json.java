@@ -2,7 +2,7 @@ package xyz.launcel.lang;
 
 import com.alibaba.fastjson.JSON;
 
-public class Json {
+public interface Json {
 
 //    private Json() {
 //    }
@@ -26,11 +26,11 @@ public class Json {
 //    }
 
 
-    public static String toJson(Object object) {
+    static String toJson(Object object) {
         return JSON.toJSONString(object);
     }
 
-    public static <T> T parseObject(String jsonObject, Class<T> clazz) {
+    static <T> T parseObject(String jsonObject, Class<T> clazz) {
         return JSON.parseObject(jsonObject, clazz);
     }
 

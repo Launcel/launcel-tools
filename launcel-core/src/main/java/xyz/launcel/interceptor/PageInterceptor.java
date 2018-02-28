@@ -59,7 +59,6 @@ public class PageInterceptor extends BaseLogger implements Interceptor, Serializ
     }
 
     @Override
-    public void setProperties(Properties properties) {
-    }
+    public void setProperties(Properties properties) { }
 
 }

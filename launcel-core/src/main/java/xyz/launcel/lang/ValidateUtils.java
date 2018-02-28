@@ -10,6 +10,9 @@ import java.lang.reflect.Parameter;
 
 public final class ValidateUtils {
 
+    private ValidateUtils() {
+    }
+
     public static String getMethodGroupAnnotation(String method) {
         return method.substring(0, 1).toUpperCase() + method.substring(1);
     }

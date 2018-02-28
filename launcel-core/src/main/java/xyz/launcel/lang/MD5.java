@@ -10,6 +10,10 @@ import java.security.NoSuchAlgorithmException;
  * @author Launcel [shay93@163.com]
  */
 public class MD5 {
+
+    private MD5() {
+    }
+
     private static String md5(String input) {
         byte[] code;
         try {

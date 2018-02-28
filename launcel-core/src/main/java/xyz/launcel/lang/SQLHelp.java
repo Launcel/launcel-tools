@@ -9,6 +9,9 @@ import java.util.Map;
  */
 public class SQLHelp {
 
+    private SQLHelp() {
+    }
+
     @SuppressWarnings("rawtypes")
     public static Paging getPaging(Map<String, Object> parameter) {
         Paging p = null;
