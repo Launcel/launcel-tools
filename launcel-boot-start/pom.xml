@@ -5,7 +5,7 @@
     <parent>
         <artifactId>launcel-parent</artifactId>
         <groupId>xyz.launcel</groupId>
-        <version>1.0</version>
+        <version>1.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
@@ -87,9 +87,9 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>net.sf.dozer</groupId>-->
-            <!--<artifactId>dozer-spring</artifactId>-->
-            <!--<version>5.5.1</version>-->
+        <!--<groupId>net.sf.dozer</groupId>-->
+        <!--<artifactId>dozer-spring</artifactId>-->
+        <!--<version>5.5.1</version>-->
         <!--</dependency>-->
 
     </dependencies>
