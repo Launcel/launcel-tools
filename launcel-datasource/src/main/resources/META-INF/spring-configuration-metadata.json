@@ -66,103 +66,91 @@
       "name": "db.jdbc.main.driver-class-name",
       "type": "java.lang.String",
       "defaultValue": "net.sf.log4jdbc.DriverSpy",
-      "description": "JDBC driverClassName of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.url",
       "type": "java.lang.String",
-      "defaultValue": "jdbc:log4jdbc:mysql://localhost:3306/test",
-      "description": "JDBC driverClassName of the database.",
+      "defaultValue": "jdbc:log4jdbc:mysql://localhost:3306/wx-shop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.username",
       "type": "java.lang.String",
-      "description": "JDBC username of the database.",
+      "defaultValue": "root",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.password",
       "type": "java.lang.String",
-      "description": "JDBC password of the database. must be use Base64",
+      "description": "JDBC password of the database. must be use xyz.launcel.lang.Base64.encode(password) to calculate",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.min-idle",
-      "type": "java.lang.String",
-      "description": "JDBC minIdle of the database.",
+      "type": "java.lang.Integer",
       "defaultValue": 1,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.max-pool-size",
-      "type": "java.lang.String",
-      "description": "JDBC maxPoolSize of the database.",
+      "type": "java.lang.Integer",
       "defaultValue": 5,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.idle-timeout",
-      "type": "java.lang.String",
-      "description": "JDBC idleTimeout of the database.",
+      "type": "java.lang.Long",
       "defaultValue": 600000,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.max-life-time",
-      "type": "java.lang.String",
+      "type": "java.lang.Long",
       "defaultValue": 1800000,
-      "description": "JDBC maxLifetime of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.enabled-transactal",
       "type": "java.lang.Boolean",
       "defaultValue": false,
-      "description": "JDBC transactal of the database.",
+      "description": "is use transactal.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.connection-timeout",
-      "type": "java.lang.String",
-      "description": "JDBC connectionTimeout of the database.",
+      "type": "java.lang.Long",
       "defaultValue": 30000,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.connection-test-query",
       "type": "java.lang.String",
-      "description": "JDBC connectionTestQuery of the database.",
       "defaultValue": "select 'x'",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.cache-prep-stmts",
       "type": "java.lang.Boolean",
-      "defaultValue": false,
-      "description": "JDBC dataSourceProperties of the database.",
+      "defaultValue": true,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.prep-stmt-cache-size",
       "type": "java.lang.Integer",
       "defaultValue": 250,
-      "description": "JDBC dataSourceProperties of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.prep-stmt-cache-sql-limit",
       "type": "java.lang.Integer",
       "defaultValue": 2048,
-      "description": "JDBC dataSourceProperties of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.use-server-prep-stmts",
       "type": "java.lang.Boolean",
-      "defaultValue": false,
-      "description": "JDBC dataSourceProperties of the database.",
+      "defaultValue": true,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
@@ -180,81 +168,75 @@
     {
       "name": "db.jdbc.others.name",
       "type": "java.lang.String",
-      "description": "JDBC driverClassName of the database.",
+      "description": "others datasource name is mainDataSource.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.others.driver-class-name",
       "type": "java.lang.String",
       "defaultValue": "net.sf.log4jdbc.DriverSpy",
-      "description": "JDBC driverClassName of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.others.url",
       "type": "java.lang.String",
-      "defaultValue": "jdbc:log4jdbc:mysql://localhost:3306/test",
+      "defaultValue": "jdbc:log4jdbc:mysql://localhost:3306/wx-shop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false",
       "description": "JDBC driverClassName of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.others.username",
       "type": "java.lang.String",
-      "description": "JDBC username of the database.",
+      "defaultValue": "root",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.others.password",
       "type": "java.lang.String",
-      "description": "JDBC password of the database. must be use Base64",
+      "defaultValue": "123456",
+      "description": "JDBC password of the database. must be use xyz.launcel.lang.Base64.encode(password) to calculate",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.others.min-idle",
-      "type": "java.lang.String",
-      "description": "JDBC minIdle of the database.",
+      "type": "java.lang.Integer",
       "defaultValue": 1,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.others.max-pool-size",
-      "type": "java.lang.String",
-      "description": "JDBC maxPoolSize of the database.",
+      "type": "java.lang.Integer",
       "defaultValue": 20,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.others.idle-timeout",
-      "type": "java.lang.String",
-      "description": "JDBC idleTimeout of the database.",
+      "type": "java.lang.Long",
       "defaultValue": 600000,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.others.max-life-time",
-      "type": "java.lang.String",
+      "type": "java.lang.Long",
       "defaultValue": 1800000,
-      "description": "JDBC maxLifetime of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.others.enable-transactal",
       "type": "java.lang.Boolean",
       "defaultValue": false,
-      "description": "JDBC transactal of the database.",
+      "description": "is use transactal.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.others.connection-timeout",
-      "type": "java.lang.String",
-      "description": "JDBC connectionTimeout of the database.",
+      "type": "java.lang.Long",
       "defaultValue": 30000,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.others.connection-test-query",
       "type": "java.lang.String",
-      "description": "JDBC connectionTestQuery of the database.",
       "defaultValue": "select 'x'",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
@@ -262,28 +244,24 @@
       "name": "db.jdbc.main.cache-prep-stmts",
       "type": "java.lang.Boolean",
       "defaultValue": false,
-      "description": "JDBC dataSourceProperties of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.prep-stmt-cache-size",
       "type": "java.lang.Integer",
       "defaultValue": 250,
-      "description": "JDBC dataSourceProperties of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.prep-stmt-cache-sql-limit",
       "type": "java.lang.Integer",
       "defaultValue": 2048,
-      "description": "JDBC dataSourceProperties of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.use-server-prep-stmts",
       "type": "java.lang.Boolean",
       "defaultValue": false,
-      "description": "JDBC dataSourceProperties of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
@@ -301,7 +279,7 @@
     {
       "name": "db.mybatis.main.ref-name",
       "type": "java.lang.String",
-      "description": "mybatis entity aliase",
+      "description": "mybatis mapper use datasource name",
       "sourceType": "xyz.launcel.prop.MybatisProperties$MybatisPropertie"
     },
     {
@@ -331,7 +309,7 @@
     {
       "name": "db.mybatis.others.ref-name",
       "type": "java.lang.String",
-      "description": "mybatis entity used datasource name",
+      "description": "mybatis mapper use datasource name",
       "sourceType": "xyz.launcel.prop.MybatisProperties$MybatisPropertie"
     },
     {

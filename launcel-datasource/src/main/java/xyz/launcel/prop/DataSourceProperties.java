@@ -38,13 +38,17 @@ public class DataSourceProperties {
     public static class DataSourcePropertie {
         private String name = "main";
         private String driverClassName = "net.sf.log4jdbc.DriverSpy";
-        private String url = "jdbc:log4jdbc:mysql://localhost:3306/test";
+        private String url = "jdbc:log4jdbc:mysql://localhost:3306/wx-shop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false";
         private String username = "root";
         private String password = "MTIzNDU2";
         private Integer minIdle = 1;
+        // 连接池中允许的最大连接数。缺省值：10；推荐的公式：((core_count * 2) + effective_spindle_count)
         private Integer maxPoolSize = 5;
+        // 一个连接idle状态的最大时长（毫秒），超时则被释放（retired），缺省:10分钟
         private Long idleTimeout = 600000L;
+        // 一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），缺省:30分钟，建议设置比数据库超时时长少30秒
         private Long maxLifeTime = 1800000L;
+        // 等待连接池分配连接的最大时长（毫秒），超过这个时长还没可用的连接则发生SQLException， 缺省:30秒，参考MySQL wait_timeout参数（show variables like '%timeout%';）
         private Long connectionTimeout = 30000L;
         private String connectionTestQuery = "select 'x'";
         private Boolean enableTransactal = false;
@@ -53,7 +57,7 @@ public class DataSourceProperties {
         private Integer prepStmtCacheSize = 250;
         private Integer prepStmtCacheSqlLimit = 2048;
         private Boolean useServerPrepStmts = true;
-
+        // 接只读数据库时配置为true， 保证安全
         private Boolean isRead = false;
 
         public String getName() {
