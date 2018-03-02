@@ -23,11 +23,6 @@
       "sourceType": "xyz.launcel.prop.SecurityListProperties"
     },
     {
-      "name": "web.role.data-source-name",
-      "type": "java.lang.String",
-      "sourceType": "xyz.launcel.prop.JdbcRolePropertites"
-    },
-    {
       "name": "web.role.authentication-query",
       "type": "java.lang.String",
       "sourceType": "xyz.launcel.prop.JdbcRolePropertites"
