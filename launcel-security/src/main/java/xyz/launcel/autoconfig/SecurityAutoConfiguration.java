@@ -48,7 +48,6 @@ public class SecurityAutoConfiguration extends WebMvcConfigurerAdapter {
         if (Objects.isNull(jdbcRolePropertites))
             return null;
         JdbcRole jdbcRole = new JdbcRole();
-        jdbcRole.setDataSourceName(jdbcRolePropertites.getDataSourceName());
         jdbcRole.setAuthenticationQuery(jdbcRolePropertites.getAuthenticationQuery());
         jdbcRole.setUserRoleQuery(jdbcRolePropertites.getUserRoleQuery());
         return jdbcRole;

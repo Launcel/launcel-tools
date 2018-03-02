@@ -154,7 +154,13 @@
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
-      "name": "db.jdbc.main.is-read",
+      "name": "db.jdbc.main.read",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
+    },
+    {
+      "name": "db.jdbc.main.roleDataSource",
       "type": "java.lang.Boolean",
       "defaultValue": false,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
@@ -265,7 +271,13 @@
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
-      "name": "db.jdbc.others.is-read",
+      "name": "db.jdbc.others.read",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
+    },
+    {
+      "name": "db.jdbc.others.roleDataSource",
       "type": "java.lang.Boolean",
       "defaultValue": false,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"

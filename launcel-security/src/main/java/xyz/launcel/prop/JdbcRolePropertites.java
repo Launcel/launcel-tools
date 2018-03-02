@@ -11,17 +11,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "web.role")
 public class JdbcRolePropertites {
-    private String dataSourceName;
     private String authenticationQuery;
     private String userRoleQuery;
-
-    public String getDataSourceName() {
-        return dataSourceName;
-    }
-
-    public void setDataSourceName(String dataSourceName) {
-        this.dataSourceName = dataSourceName;
-    }
 
     public String getAuthenticationQuery() {
         return authenticationQuery;

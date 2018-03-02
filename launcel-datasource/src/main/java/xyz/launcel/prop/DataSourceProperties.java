@@ -58,7 +58,9 @@ public class DataSourceProperties {
         private Integer prepStmtCacheSqlLimit = 2048;
         private Boolean useServerPrepStmts = true;
         // 接只读数据库时配置为true， 保证安全
-        private Boolean isRead = false;
+        private Boolean read = false;
+
+        private Boolean roleDataSource = false;
 
         public String getName() {
             return name;
@@ -148,7 +150,7 @@ public class DataSourceProperties {
             this.connectionTestQuery = connectionTestQuery;
         }
 
-        public Boolean getEnableTransactal() {
+        public Boolean isEnableTransactal() {
             return enableTransactal;
         }
 
@@ -156,12 +158,20 @@ public class DataSourceProperties {
             this.enableTransactal = enableTransactal;
         }
 
-        public Boolean getRead() {
-            return isRead;
+        public Boolean isRead() {
+            return read;
         }
 
         public void setRead(Boolean read) {
-            isRead = read;
+            this.read = read;
+        }
+
+        public Boolean isRoleDataSource() {
+            return roleDataSource;
+        }
+
+        public void setRoleDataSource(Boolean roleDataSource) {
+            this.roleDataSource = roleDataSource;
         }
 
         public boolean isCachePrepStmts() {
@@ -209,7 +219,7 @@ public class DataSourceProperties {
             config.setIdleTimeout(idleTimeout);
             config.setConnectionTimeout(connectionTimeout);
             config.setConnectionTestQuery(connectionTestQuery);
-            config.setReadOnly(isRead);
+            config.setReadOnly(read);
 
             Properties dataSourceProperty = new Properties();
             dataSourceProperty.put("dataSource.cachePrepStmts", isCachePrepStmts());

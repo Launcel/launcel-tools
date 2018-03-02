@@ -24,7 +24,8 @@ public class BaseLogger {
     }
 
     protected void debug(String msg) {
-        log.debug(msg);
+        log.debug("\n------------------------------------------------------------------------\n\t{}",
+                msg + "\n------------------------------------------------------------------------");
     }
 
     protected boolean isDebugEnabled() {

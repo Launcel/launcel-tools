@@ -72,12 +72,12 @@ public class SecurityConfig {
     }
 
     private static String getBestUriKey(Map<String, Integer> maxMatchMap) {
-//        if (log.isDebugEnabled())
-        log.info("\n---------------------------------\n\tmatch :\n{} ", Json.toJson(maxMatchMap) + "\n---------------------------------");
+        if (log.isDebugEnabled())
+            log.debug("\n---------------------------------\n\tmatch :\n{} ", Json.toJson(maxMatchMap) + "\n---------------------------------");
         List<Map.Entry<String, Integer>> list = new ArrayList<>(maxMatchMap.entrySet());
         list.sort((Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) -> o2.getValue().compareTo(o1.getValue()));
-//        if (log.isDebugEnabled())
-        log.info("\n---------------------------------\n\tthe match uri is : \n{} , \nmatch weight is : \n{}", list.get(0).getKey(), list.get(0).getValue() + "\n---------------------------------");
+        if (log.isDebugEnabled())
+            log.debug("\n---------------------------------\n\tthe match uri is : \n{} , \nmatch weight is : \n{}", list.get(0).getKey(), list.get(0).getValue() + "\n---------------------------------");
         return list.get(0).getKey();
     }
 

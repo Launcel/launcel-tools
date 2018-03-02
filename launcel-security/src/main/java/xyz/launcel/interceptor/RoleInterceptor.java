@@ -21,8 +21,8 @@ public class RoleInterceptor extends BaseLogger implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String uri = request.getServletPath();
-//        if (isDebugEnabled())
-        info("request uri is : " + uri);
+        if (isDebugEnabled())
+            debug("request uri is : " + uri);
         HttpSession session = request.getSession(false);
         boolean flat = SecurityConfig.isTransit(uri, session);
         if (!flat)
@@ -48,8 +48,8 @@ public class RoleInterceptor extends BaseLogger implements HandlerInterceptor {
                 }
                 userRoles.add("user");
                 // do role : save in redis
-//                if (isDebugEnabled())
-                info("roles is : \n" + Json.toJson(userRoles));
+                if (isDebugEnabled())
+                    debug("roles is : \n" + Json.toJson(userRoles));
                 if (CollectionUtils.isNotEmpty(userRoles))
                     session.setAttribute("role", userRoles);
             }

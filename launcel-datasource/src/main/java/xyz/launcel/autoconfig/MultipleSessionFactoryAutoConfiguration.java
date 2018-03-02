@@ -32,13 +32,10 @@ import xyz.launcel.prop.DataSourceProperties;
 import xyz.launcel.prop.DataSourceProperties.DataSourcePropertie;
 import xyz.launcel.prop.MybatisProperties;
 import xyz.launcel.prop.MybatisProperties.MybatisPropertie;
+import xyz.launcel.prop.RoleDataSourceRef;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Configuration
 @EnableConfigurationProperties(value = {DataSourceProperties.class, MybatisProperties.class})
@@ -47,15 +44,15 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
     private List<DataSourcePropertie> multipleDataSource = new ArrayList<>();
 
     private Map<String, MybatisPropertie> multipleMybatis = new HashMap<>();
+    private volatile Boolean isFirstRoleDataSource = true;
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-        if (!multipleDataSource.isEmpty() && !multipleMybatis.isEmpty())
+        if (!multipleDataSource.isEmpty() && !multipleMybatis.isEmpty()) {
             multipleDataSource.forEach(dataSourcePropertie -> registBeans(dataSourcePropertie, registry));
-        else if (!multipleDataSource.isEmpty() && multipleMybatis.isEmpty())
-            ExceptionFactory.error("-1", ">>>  mybatis propertie config is null !!");
-        else
-            ExceptionFactory.error("-2", ">>>  datasource propertie config is null !!");
+        } else {
+            ExceptionFactory.error("-1", ">>>  datasource propertie config or mybatis propertie config is null !!");
+        }
     }
 
     private void registBeans(DataSourcePropertie dataSourcePropertie, BeanDefinitionRegistry registry) {
@@ -79,11 +76,22 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
         try {
             sqlSession.addPropertyValue(SessionConstant.mapperLocationName, new PathMatchingResourcePatternResolver().getResources(mybatisPropertie.getMapperResource()));
         } catch (IOException e) {
-            ExceptionFactory.error("-1", ">>>  connot load resource :" + mybatisPropertie.getMapperResource() + " !!");
+            ExceptionFactory.error("-2", ">>>  connot load resource :" + mybatisPropertie.getMapperResource() + " !!");
         }
         BeanDefinitionRegistryTool.registryBean(sqlSessionFactoryBeanName, registry, sqlSessionAbd);
-        if (dataSourcePropertie.getEnableTransactal())
+        if (dataSourcePropertie.isEnableTransactal())
             registTransactal(dataSourcePropertie.getName(), registry, hikariDataSource);
+        if (dataSourcePropertie.isRoleDataSource() && isFirstRoleDataSource) {
+            registDataSource(registry, hikariDataSource);
+            isFirstRoleDataSource = false;
+        }
+    }
+
+    private void registDataSource(BeanDefinitionRegistry registry, HikariDataSource hikariDataSource) {
+        AnnotatedGenericBeanDefinition roleDataSourceAbd = BeanDefinitionRegistryTool.decorateAbd(RoleDataSourceRef.class);
+        MutablePropertyValues roleDataSource = roleDataSourceAbd.getPropertyValues();
+        roleDataSource.addPropertyValue("hikariDataSource", hikariDataSource);
+        BeanDefinitionRegistryTool.registryBean(SessionConstant.roleDateSourceName, registry, roleDataSourceAbd);
     }
 
     // 注册 MapperScannerConfigurer
@@ -112,6 +120,7 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
         ConfigurableEnvironment env = (ConfigurableEnvironment) environment;
         Map<String, Object> multipleDataSourceMap = PropertySourceUtils.getSubProperties(env.getPropertySources(), SessionConstant.dataSourceConfigPrefix);
         Map<String, Object> multipleMybatisMap = PropertySourceUtils.getSubProperties(env.getPropertySources(), SessionConstant.mybatisConfigPrefix);
+        Map<String, Object> roleDateSourceMap = PropertySourceUtils.getSubProperties(env.getPropertySources(), "web.role-datasource-name");
         dataBinderDataSource(multipleDataSourceMap);
         dataBinderMapper(multipleMybatisMap);
     }

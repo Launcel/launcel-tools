@@ -30,4 +30,6 @@ public interface SessionConstant {
 
     String basePackageName = "basePackage";
 
+    String roleDateSourceName = "roleDataSource";
+
 }

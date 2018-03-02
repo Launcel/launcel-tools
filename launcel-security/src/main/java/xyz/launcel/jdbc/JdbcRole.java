@@ -1,9 +1,10 @@
 package xyz.launcel.jdbc;
 
-import org.apache.ibatis.session.SqlSessionFactory;
+import xyz.launcel.constant.SessionConstant;
 import xyz.launcel.hook.ApplicationContextHook;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.BaseLogger;
+import xyz.launcel.prop.RoleDataSourceRef;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,24 +20,15 @@ public class JdbcRole extends BaseLogger {
 
     protected String userRoleQuery = "select role_name from user_roles where username = ?";
 
-    private String dataSourceName;
-
     private Connection connection;
 
     public Set<String> getRoles(String username) {
-//        Connection conn = null;
-//        try {
-//            conn = dataSource.getConnection();
-        connection = ((SqlSessionFactory) ApplicationContextHook.getBean(dataSourceName + "SqlSessionFactory")).
-                openSession().getConnection();
+        try {
+            connection = ((RoleDataSourceRef) ApplicationContextHook.getBean(SessionConstant.roleDateSourceName)).getHikariDataSource().getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return getRoleNamesForUser(connection, username);
-//        } catch (SQLException e) {
-//            if (isDebugEnabled())
-//                debug(e.getMessage());
-//            return null;
-//        } finally {
-//            close(conn);
-//        }
     }
 
     @SuppressWarnings("unchecked")
@@ -61,14 +53,6 @@ public class JdbcRole extends BaseLogger {
             close(ps);
         }
         return roleNames;
-    }
-
-    public String getDataSourceName() {
-        return dataSourceName;
-    }
-
-    public void setDataSourceName(String dataSourceName) {
-        this.dataSourceName = dataSourceName;
     }
 
     public Connection getConnection() {
