@@ -2,6 +2,7 @@ package xyz.launcel.lang;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.launcel.exception.ExceptionFactory;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -48,7 +49,7 @@ public interface AMapUtils {
         }
 
         /**
-         * 维度
+         * 纬度
          */
         private double lat;
         /**
@@ -56,7 +57,7 @@ public interface AMapUtils {
          */
         private double lng;
         /**
-         * 维度弧度
+         * 纬度弧度
          */
         private double radLat;
         /**
@@ -105,13 +106,13 @@ public interface AMapUtils {
                 if (lng >= -180d && lng <= 180d) {
                     this.lng = parse(lng);
                     radLng = getRadian(lng);
-                } //else
-//                    throw new XBusinessException("ACTIVITY_SCORE_0001");
+                } else
+                    ExceptionFactory.create("-101", "经度值不在范围内");
                 if (lat >= -90d && lat <= 90d) {
                     this.lat = lat;
                     radLat = getRadian(lat);
-                } //else
-//                    throw new XBusinessException("ACTIVITY_SCORE_0002");
+                } else
+                    ExceptionFactory.create("-102", "纬度值不在范围内");
             }
         }
 
