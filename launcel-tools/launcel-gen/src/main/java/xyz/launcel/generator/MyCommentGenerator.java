@@ -98,7 +98,8 @@ public class MyCommentGenerator implements CommentGenerator {
     public void addModelClassComment(TopLevelClass arg0, IntrospectedTable introspectedTable) {
         if (!arg0.isJavaInterface()) {
 //            arg0.addAnnotation("@Entity");
-            StringBuilder sb = (new StringBuilder("@Table(name=\"")).append(introspectedTable.getFullyQualifiedTable()).append("\"");
+            StringBuilder sb = (new StringBuilder("@Table")).append(introspectedTable.getFullyQualifiedTable()).append("\"");
+//            StringBuilder sb = new StringBuilder("@Entity").append(introspectedTable.getFullyQualifiedTable()).append("\"");
             if (StringUtility.stringHasValue(introspectedTable.getRemarks())) {
                 sb.append(", describe=\"").append(introspectedTable.getRemarks()).append("\"");
             }
