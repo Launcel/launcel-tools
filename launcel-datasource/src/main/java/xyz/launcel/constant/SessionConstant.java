@@ -2,7 +2,7 @@ package xyz.launcel.constant;
 
 public interface SessionConstant {
 
-    String serviceaAspejctPrefix = "aspejct.service";
+    String serviceaAspejctPrefix = "service.aspejct";
 
     String dataSourceConfigPrefix = "db.jdbc";
 
@@ -12,7 +12,7 @@ public interface SessionConstant {
 
     String sessionFactoryName = "SqlSessionFactory";
 
-    String sessionFactoryDataSourceName = "dataSource";
+    String sessionFactoryDataSourceName = "DataSource";
 
     String configLocationName = "configLocation";
 

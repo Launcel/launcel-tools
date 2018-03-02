@@ -52,8 +52,10 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
         if (!multipleDataSource.isEmpty() && !multipleMybatis.isEmpty())
             multipleDataSource.forEach(dataSourcePropertie -> registBeans(dataSourcePropertie, registry));
-        else if (!multipleDataSource.isEmpty())
+        else if (!multipleDataSource.isEmpty() && multipleMybatis.isEmpty())
             ExceptionFactory.error("-1", ">>>  mybatis propertie config is null !!");
+        else
+            ExceptionFactory.error("-2", ">>>  datasource propertie config is null !!");
     }
 
     private void registBeans(DataSourcePropertie dataSourcePropertie, BeanDefinitionRegistry registry) {

@@ -200,6 +200,7 @@ public class DataSourceProperties {
             HikariConfig config = new HikariConfig();
             config.setDriverClassName(driverClassName);
             config.setPassword(Base64.decode(password));
+//            config.setPassword(password);
             config.setJdbcUrl(url);
             config.setUsername(username);
             config.setMinimumIdle(minIdle);

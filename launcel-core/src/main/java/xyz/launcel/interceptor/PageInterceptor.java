@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Created by xuyang in 2017/10/12
+ * Created by Launcel in 2017/10/12
  */
 @Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
 public class PageInterceptor extends BaseLogger implements Interceptor, Serializable {
@@ -59,6 +59,7 @@ public class PageInterceptor extends BaseLogger implements Interceptor, Serializ
     }
 
     @Override
-    public void setProperties(Properties properties) { }
+    public void setProperties(Properties properties) {
+    }
 
 }
