@@ -11,7 +11,7 @@ public class SimpleJdbcRole {
     static {
         if (ApplicationContextHook.hasBean("jdbcRole") &&
                 Objects.nonNull(ApplicationContextHook.getBean("jdbcRole")))
-            jdbcRole = (JdbcRole) ApplicationContextHook.getBean("jdbcRole");
+            jdbcRole = ApplicationContextHook.getBean("jdbcRole");
     }
 
     public static JdbcRole getJdbcRole() {

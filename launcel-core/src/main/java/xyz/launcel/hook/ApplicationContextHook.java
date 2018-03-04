@@ -14,12 +14,13 @@ public class ApplicationContextHook {
         return context;
     }
 
-    public static Object getBean(Class<?> clazz) {
+    public static <T> T getBean(Class<T> clazz) {
         return context.getBean(clazz);
     }
 
-    public static Object getBean(String name) {
-        return context.getBean(name);
+    @SuppressWarnings("unchecked")
+    public static <T> T getBean(String name) {
+        return (T) context.getBean(name);
     }
 
     public static boolean hasBean(String name) {

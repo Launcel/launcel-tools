@@ -17,12 +17,14 @@ public interface StartUp {
 
 
     static ConfigurableEnvironment run(String[] args, Class<?> appClass) {
-        Logger log = LoggerFactory.getLogger(StartUp.class);
+        Logger log = LoggerFactory.getLogger(appClass);
         SpringApplication app = new SpringApplication(appClass);
         app.setBannerMode(Banner.Mode.OFF);
         ConfigurableEnvironment env = app.run(args).getEnvironment();
         log.warn("\n------------------------------------\n\t\tapp port is : \t{}",
-                env.getProperty("server.port") + "\n------------------------------------");
+                env.getProperty("server.port") + "\n\t\turl is : \t" +
+                        "http://localhost:" + env.getProperty("server.port") +
+                        "\n------------------------------------");
         return env;
     }
 

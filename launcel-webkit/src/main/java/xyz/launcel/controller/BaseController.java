@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 
-public class BaseController extends BaseLogger {
+public abstract class BaseController extends BaseLogger {
 
     private ThreadLocal<HttpServletRequest> request = new ThreadLocal<>();
 

@@ -19,11 +19,11 @@ public class ExceptionHelp {
     private ExceptionHelp() {
     }
 
-    private static final Logger log = LoggerFactory.getLogger(ExceptionHelp.class);
 
     private static Properties props = null;
 
     public static void initProperties() {
+        Logger log = LoggerFactory.getLogger(ExceptionHelp.class);
         try {
             if (Objects.isNull(props)) {
                 PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -45,7 +45,7 @@ public class ExceptionHelp {
                     log.debug("  >>>   错误信息加载完毕！");
             }
         } catch (IOException e) {
-            throw new SystemError("错误信息文件加载失败!");
+            throw new ProfessionException("  >>>   错误信息文件加载失败!");
         }
     }
 
@@ -59,8 +59,10 @@ public class ExceptionHelp {
             map.clear();
             map.put("code", "MESSAGE_ERROR_001");
             map.put("message", "不存在的错误信息!");
-            throw new ProfessionException(Json.toJson(map).replaceAll("\\{", "[").replaceAll("\\}", "]"));
+//            throw new ProfessionException(Json.toJson(map).replaceAll("\\{", "[").replaceAll("}", "]"));
+            throw new ProfessionException(Json.toJson(map));
         }
-        return Json.toJson(map).replaceAll("\\{", "[").replaceAll("\\}", "]");
+//        return Json.toJson(map).replaceAll("\\{", "[").replaceAll("}", "]");
+        return Json.toJson(map);
     }
 }

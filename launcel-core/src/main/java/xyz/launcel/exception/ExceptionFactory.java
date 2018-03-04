@@ -14,12 +14,12 @@ public interface ExceptionFactory {
     }
 
     static void error(String msg, String msgInfo) {
-        String sb = "\t[" + msg + " : " + msgInfo + "]";
+        String sb = "\t{" + msg + " : " + msgInfo + "}";
         throw new SystemError(sb);
     }
 
     static void create(String msg, String msgInfo) {
-        String sb = "\t[" + msg + " : " + msgInfo + "]";
+        String sb = "\t{" + msg + " : " + msgInfo + "}";
         throw new ProfessionException(sb);
     }
 }

@@ -18,7 +18,7 @@ import java.util.List;
 public interface DozerUtil {
 
     class DozerMapperInstance {
-        private static Mapper dozer = (Mapper) ApplicationContextHook.getBean("dozer");
+        private static Mapper dozer = ApplicationContextHook.getBean("dozer");
     }
 
 
