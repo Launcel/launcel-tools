@@ -2,7 +2,7 @@ package xyz.launcel.service;
 
 import xyz.launcel.dao.Paging;
 
-public interface IBaseService<T> {
+public interface BaseService<T> {
 
     int insert(T t);
 

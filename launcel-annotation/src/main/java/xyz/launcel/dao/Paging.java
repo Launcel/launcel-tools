@@ -1,20 +1,22 @@
 package xyz.launcel.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Paging<T> {
+public class Paging<T> implements Serializable {
+    private static final long serialVersionUID = -8522433864030332281L;
 
-    private int _DEFAULT_ROW = 15;
+//    private int _DEFAULT_ROW = 15;
 
-    private boolean count = true;
+//    private boolean count = true;
 
-    private List<T> data;
+    private List<T> list;
 
-    private int maxRow = _DEFAULT_ROW;
+    private int maxRow = 15;
 
-    private Integer lowerId;
-
-    private Integer largeId;
+//    private Integer lowerId;
+//
+//    private Integer largeId;
 
     private Integer pageNo = 1;
 
@@ -33,12 +35,12 @@ public class Paging<T> {
         setMaxRow(maxRow);
     }
 
-    public Paging(Integer pageNo, Integer maxRow, Integer lowerId, Integer largeId) {
-        setPageNo(pageNo);
-        setMaxRow(maxRow);
-        setLowerId(lowerId);
-        setLargeId(largeId);
-    }
+//    public Paging(Integer pageNo, Integer maxRow, Integer lowerId, Integer largeId) {
+//        setPageNo(pageNo);
+//        setMaxRow(maxRow);
+//        setLowerId(lowerId);
+//        setLargeId(largeId);
+//    }
 
     /**
      * 查上一页
@@ -47,10 +49,10 @@ public class Paging<T> {
      * @param lowerId [description]
      * @param maxRow  [description]
      */
-    public void prePaging(Integer lowerId, Integer maxRow) {
-        setLowerId(lowerId);
-        setMaxRow(maxRow);
-    }
+//    public void prePaging(Integer lowerId, Integer maxRow) {
+//        setLowerId(lowerId);
+//        setMaxRow(maxRow);
+//    }
 
     /**
      * 查下一页
@@ -59,10 +61,10 @@ public class Paging<T> {
      * @param largeId
      * @param maxRow
      */
-    public void nextPaging(Integer largeId, Integer maxRow) {
-        setLargeId(largeId);
-        setMaxRow(maxRow);
-    }
+//    public void nextPaging(Integer largeId, Integer maxRow) {
+//        setLargeId(largeId);
+//        setMaxRow(maxRow);
+//    }
 
     /**
      * 普通分页查询，获得偏移量
@@ -84,12 +86,21 @@ public class Paging<T> {
 
     /*-------------------getter-----------------------*/
 
-    public List<T> getData() {
-        return this.data;
+//    public List<T> getData() {
+//        return this.data;
+//    }
+//
+//    public void setData(List<T> data) {
+//        this.data = data;
+//    }
+
+
+    public List<T> getList() {
+        return list;
     }
 
-    public void setData(List<T> data) {
-        this.data = data;
+    public void setList(List<T> list) {
+        this.list = list;
     }
 
     public int getMaxRow() {
@@ -97,7 +108,7 @@ public class Paging<T> {
     }
 
     public void setMaxRow(Integer maxRow) {
-        this.maxRow = (maxRow == null || maxRow < 5 || maxRow > 20) ? _DEFAULT_ROW : maxRow;
+        this.maxRow = (maxRow == null || maxRow < 5 || maxRow > 20) ? 15 : maxRow;
     }
 
     public int getPageNo() {
@@ -105,44 +116,44 @@ public class Paging<T> {
     }
 
     public void setPageNo(Integer pageNo) {
-        this.pageNo = (null == pageNo || pageNo < 1) ? _DEFAULT_ROW : pageNo;
+        this.pageNo = (null == pageNo || pageNo < 1) ? 15 : pageNo;
     }
 
     public int getSize() {
-        return this.data.size();
+        return this.list.size();
     }
 
     public int getTotal() {
         return this.total;
     }
 
-   /*-------------------setter-----------------------*/
+    /*-------------------setter-----------------------*/
 
     public void setTotal(Integer total) {
         this.total = (getMaxRow() == 0) ? 1 : (int) Math.ceil(total * 1.0D / this.maxRow);
     }
 
-    public Integer getLargeId() {
-        return largeId;
-    }
-
-    public void setLargeId(Integer largeId) {
-        this.largeId = (null == largeId || largeId < 0) ? 1 : largeId;
-    }
-
-    public Integer getLowerId() {
-        return lowerId;
-    }
-
-    public void setLowerId(Integer lowerId) {
-        this.lowerId = (null == lowerId || lowerId < 0) ? 1 : lowerId;
-    }
-
-    public boolean isCount() {
-        return this.count;
-    }
-
-    public void setCount(boolean count) {
-        this.count = count;
-    }
+//    public Integer getLargeId() {
+//        return largeId;
+//    }
+//
+//    public void setLargeId(Integer largeId) {
+//        this.largeId = (null == largeId || largeId < 0) ? 1 : largeId;
+//    }
+//
+//    public Integer getLowerId() {
+//        return lowerId;
+//    }
+//
+//    public void setLowerId(Integer lowerId) {
+//        this.lowerId = (null == lowerId || lowerId < 0) ? 1 : lowerId;
+//    }
+//
+//    public boolean isCount() {
+//        return this.count;
+//    }
+//
+//    public void setCount(boolean count) {
+//        this.count = count;
+//    }
 }
