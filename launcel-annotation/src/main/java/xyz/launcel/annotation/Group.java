@@ -5,7 +5,7 @@ package xyz.launcel.annotation;
  */
 public interface Group {
 
-    @interface get { }
+    @interface select { }
 
     @interface update { }
 

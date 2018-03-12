@@ -44,6 +44,6 @@ public @interface Limit
      */
     Class<?>[] group() default {};
 
-    Class<?>[] excGroup() default {};
+//    Class<?>[] excGroup() default {};
 
 }

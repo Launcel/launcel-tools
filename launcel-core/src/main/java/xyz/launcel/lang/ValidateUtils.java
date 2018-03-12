@@ -3,7 +3,6 @@ package xyz.launcel.lang;
 import xyz.launcel.annotation.Limit;
 import xyz.launcel.annotation.Types;
 import xyz.launcel.ensure.Me;
-import xyz.launcel.exception.ExceptionFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
@@ -44,29 +43,35 @@ public final class ValidateUtils {
     private static void validateGroup(Field f, Object value, String group) {
         Limit l = f.getAnnotation(Limit.class);
 
-        if (l.group().length > 0 && l.excGroup().length > 0)
-            ExceptionFactory.error("_DEFINE_ERROR_CODE_013", "Limit校验不能同时出现group和exceptGroup");
-        // 全部校验
-        if (l.group().length <= 0 && l.excGroup().length <= 0)
-            checkFiled(value, l);//,f);
-        else if (l.group().length <= 0 && l.excGroup().length > 0)
-            validateExceptGroup(f, value, group);
-        else if (l.excGroup().length <= 0 && l.group().length > 0) {
+//        if (l.group().length > 0 && l.excGroup().length > 0)
+//            ExceptionFactory.error("_DEFINE_ERROR_CODE_013", "Limit校验不能同时出现group和exceptGroup");
+//        // 全部校验
+//        if (l.group().length <= 0 && l.excGroup().length <= 0)
+//            checkFiled(value, l);//,f);
+//        else if (l.group().length <= 0 && l.excGroup().length > 0)
+//            validateExceptGroup(f, value, group);
+//        else if (l.excGroup().length <= 0 && l.group().length > 0) {
+//            for (Class<?> aClass : l.group())
+//                if (aClass.getSimpleName().equals(group))
+//                    checkFiled(value, l);//,f);
+//        }
+        if (l.group().length > 0) {
             for (Class<?> aClass : l.group())
                 if (aClass.getSimpleName().equals(group))
                     checkFiled(value, l);//,f);
-        }
-    }
-
-
-    private static void validateExceptGroup(Field f, Object value, String group) {
-        Limit l = f.getAnnotation(Limit.class);
-        for (Class<?> clazz : l.excGroup()) {
-            if (clazz.getSimpleName().equals(group)) return;
+        } else // 全部校验
             checkFiled(value, l);//,f);
-        }
-
     }
+
+
+//    private static void validateExceptGroup(Field f, Object value, String group) {
+//        Limit l = f.getAnnotation(Limit.class);
+//        for (Class<?> clazz : l.excGroup()) {
+//            if (clazz.getSimpleName().equals(group)) return;
+//            checkFiled(value, l);//,f);
+//        }
+//
+//    }
 
     private static void checkFiled(Object value, Limit l) {//,Field f) {
         String message = l.message();
