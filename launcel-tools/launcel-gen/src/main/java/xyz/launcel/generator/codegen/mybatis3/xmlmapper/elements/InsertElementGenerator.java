@@ -29,7 +29,7 @@ public class InsertElementGenerator extends AbstractXmlElementGenerator {
     public void addElements(XmlElement parentElement) {
         LXmlElement answer = new LXmlElement("insert");
 
-        answer.addAttribute(new Attribute("id", "insert"));
+        answer.addAttribute(new Attribute("id", "add"));
 
         FullyQualifiedJavaType parameterType;
         if (isSimple) {
