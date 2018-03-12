@@ -12,8 +12,8 @@ public abstract class BaseServiceImpl<T> extends BaseLogger implements BaseServi
     protected abstract BaseDAO<T> getDAO();
 
     @Override
-    public int insert(T t) {
-        return getDAO().insert(t);
+    public int add(T t) {
+        return getDAO().add(t);
     }
 
     @Override
