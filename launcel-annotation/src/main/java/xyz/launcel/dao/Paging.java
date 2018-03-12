@@ -6,10 +6,6 @@ import java.util.List;
 public class Paging<T> implements Serializable {
     private static final long serialVersionUID = -8522433864030332281L;
 
-//    private int _DEFAULT_ROW = 15;
-
-//    private boolean count = true;
-
     private List<T> list;
 
     private int maxRow = 15;
@@ -23,7 +19,7 @@ public class Paging<T> implements Serializable {
     /**
      * 总页数（不是数据总数）
      */
-    private Integer total;
+    private Integer total = 0;
 
     public Paging(int maxRow) {
         this.pageNo = 1;
@@ -76,24 +72,15 @@ public class Paging<T> implements Serializable {
         return (this.pageNo - 1) * this.maxRow;
     }
 
-    public int getNext() {
-        return (this.pageNo < getTotal()) ? this.pageNo + 1 : getTotal();
-    }
-
-    public int getPrev() {
-        return (this.pageNo > 1) ? this.pageNo - 1 : 1;
-    }
-
-    /*-------------------getter-----------------------*/
-
-//    public List<T> getData() {
-//        return this.data;
+//    public int getNext() {
+//        return (this.pageNo < getTotal()) ? this.pageNo + 1 : getTotal();
 //    }
 //
-//    public void setData(List<T> data) {
-//        this.data = data;
+//    public int getPrev() {
+//        return (this.pageNo > 1) ? this.pageNo - 1 : 1;
 //    }
 
+    /*-------------------getter-----------------------*/
 
     public List<T> getList() {
         return list;
@@ -117,10 +104,6 @@ public class Paging<T> implements Serializable {
 
     public void setPageNo(Integer pageNo) {
         this.pageNo = (null == pageNo || pageNo < 1) ? 15 : pageNo;
-    }
-
-    public int getSize() {
-        return this.list.size();
     }
 
     public int getTotal() {
@@ -149,11 +132,4 @@ public class Paging<T> implements Serializable {
 //        this.lowerId = (null == lowerId || lowerId < 0) ? 1 : lowerId;
 //    }
 //
-//    public boolean isCount() {
-//        return this.count;
-//    }
-//
-//    public void setCount(boolean count) {
-//        this.count = count;
-//    }
 }

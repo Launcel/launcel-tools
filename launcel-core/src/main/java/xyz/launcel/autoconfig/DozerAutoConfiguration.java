@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import xyz.launcel.lang.Json;
 import xyz.launcel.log.BaseLogger;
 import xyz.launcel.prop.DozerProperties;
@@ -23,7 +22,7 @@ public class DozerAutoConfiguration extends BaseLogger {
         this.dozerProperties = dozerProperties;
     }
 
-    @Lazy
+//    @Lazy
     @Bean(name = "dozer")
     public Mapper mapper() {
         DozerBeanMapper mapper = new DozerBeanMapper();
