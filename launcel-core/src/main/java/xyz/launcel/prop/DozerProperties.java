@@ -9,7 +9,7 @@ public class DozerProperties {
 
     private Boolean enabled = false;
 
-    private List<String> list;
+    private String path = "dozer/*.xml";
 
     public Boolean getEnabled() {
         return enabled;
@@ -19,11 +19,11 @@ public class DozerProperties {
         this.enabled = enabled;
     }
 
-    public List<String> getList() {
-        return list;
+    public String getPath() {
+        return path;
     }
 
-    public void setList(List<String> list) {
-        this.list = list;
+    public void setPath(String path) {
+        this.path = path;
     }
 }
