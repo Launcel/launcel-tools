@@ -9,7 +9,7 @@ public class DozerProperties {
 
     private Boolean enabled = false;
 
-    private String path = "dozer/*.xml";
+    private String path;
 
     public Boolean getEnabled() {
         return enabled;
