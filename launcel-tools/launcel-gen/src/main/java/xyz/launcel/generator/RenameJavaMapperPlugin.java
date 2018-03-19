@@ -18,11 +18,11 @@ import java.util.regex.Pattern;
 public class RenameJavaMapperPlugin extends PluginAdapter {
     private String searchString;
     private String replaceString;
-    private Pattern pattern;
-    private boolean reName = true;
-    private boolean noMethod = true;
     private String baseDAOPackage = "xyz.launcel.dao.BaseDAO";
+    private Pattern pattern;
 
+    //    private boolean reName = true;
+    private boolean addDefaultMethod = true;
 
     public RenameJavaMapperPlugin() {
         String temp = properties.getProperty("baseDAOPackage");
@@ -31,29 +31,30 @@ public class RenameJavaMapperPlugin extends PluginAdapter {
     }
 
     public boolean validate(List<String> warnings) {
-        if (!this.reName) {
-            return true;
-        } else {
-            this.searchString = this.properties.getProperty("searchString");
-            this.replaceString = this.properties.getProperty("replaceString");
-            String temp = properties.getProperty("baseDAOPackage");
-            if (StringUtility.stringHasValue(temp))
-                baseDAOPackage = temp;
-            boolean valid = StringUtility.stringHasValue(this.searchString) && StringUtility.stringHasValue(this.replaceString);
-            if (valid) {
-                this.pattern = Pattern.compile(this.searchString);
-            } else {
-                if (!StringUtility.stringHasValue(this.searchString)) {
-                    warnings.add(Messages.getString("ValidationError.18", "RenameExampleClassPlugin", "searchString"));
-                }
-
-                if (!StringUtility.stringHasValue(this.replaceString)) {
-                    warnings.add(Messages.getString("ValidationError.18", "RenameExampleClassPlugin", "replaceString"));
-                }
-            }
-
-            return valid;
+//        if (!this.reName) {
+//            return true;
+//        } else {
+        this.searchString = this.properties.getProperty("searchString");
+        this.replaceString = this.properties.getProperty("replaceString");
+        String temp = properties.getProperty("baseDAOPackage");
+        if (StringUtility.stringHasValue(temp))
+            baseDAOPackage = temp;
+        boolean valid = StringUtility.stringHasValue(this.searchString) && StringUtility.stringHasValue(this.replaceString);
+        if (valid) {
+            this.pattern = Pattern.compile(this.searchString);
         }
+//          else {
+//                if (!StringUtility.stringHasValue(this.searchString)) {
+//                    warnings.add(Messages.getString("ValidationError.18", "RenameExampleClassPlugin", "searchString"));
+//                }
+//
+//                if (!StringUtility.stringHasValue(this.replaceString)) {
+//                    warnings.add(Messages.getString("ValidationError.18", "RenameExampleClassPlugin", "replaceString"));
+//                }
+//            }
+
+        return valid;
+//        }
     }
 
     public void initialized(IntrospectedTable introspectedTable) {
@@ -64,9 +65,9 @@ public class RenameJavaMapperPlugin extends PluginAdapter {
     }
 
     public boolean clientGenerated(Interface interfaze, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        if (this.noMethod) {
+        if (addDefaultMethod) {
             FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType("BaseDAO<" + introspectedTable.getBaseRecordType() + ">");
-            FullyQualifiedJavaType imp = new FullyQualifiedJavaType(this.baseDAOPackage);
+            FullyQualifiedJavaType imp = new FullyQualifiedJavaType(baseDAOPackage);
             interfaze.addSuperInterface(fqjt);
             interfaze.addImportedType(imp);
             interfaze.getMethods().clear();

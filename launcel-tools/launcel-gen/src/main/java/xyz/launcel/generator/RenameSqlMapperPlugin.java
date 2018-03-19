@@ -26,15 +26,16 @@ public class RenameSqlMapperPlugin extends PluginAdapter {
         boolean valid = StringUtility.stringHasValue(this.searchString) && StringUtility.stringHasValue(this.replaceString);
         if (valid) {
             this.pattern = Pattern.compile(this.searchString);
-        } else {
-            if (!StringUtility.stringHasValue(this.searchString)) {
-                warnings.add(Messages.getString("ValidationError.18", "RenameExampleClassPlugin", "searchString"));
-            }
-
-            if (!StringUtility.stringHasValue(this.replaceString)) {
-                warnings.add(Messages.getString("ValidationError.18", "RenameExampleClassPlugin", "replaceString"));
-            }
         }
+//        else {
+//            if (!StringUtility.stringHasValue(this.searchString)) {
+//                warnings.add(Messages.getString("ValidationError.18", "RenameExampleClassPlugin", "searchString"));
+//            }
+//
+//            if (!StringUtility.stringHasValue(this.replaceString)) {
+//                warnings.add(Messages.getString("ValidationError.18", "RenameExampleClassPlugin", "replaceString"));
+//            }
+//        }
 
         return valid;
     }

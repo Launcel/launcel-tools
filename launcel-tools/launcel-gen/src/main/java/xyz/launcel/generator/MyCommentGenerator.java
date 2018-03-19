@@ -67,9 +67,9 @@ public class MyCommentGenerator implements CommentGenerator {
         }
 
         StringBuilder sb = (new StringBuilder("@Column(name=\"")).append(introspectedColumn.getActualColumnName()).append("\"");
-        if (StringUtility.stringHasValue(introspectedColumn.getRemarks())) {
-            sb.append(", describe=\"").append(introspectedColumn.getRemarks()).append("\"");
-        }
+//        if (StringUtility.stringHasValue(introspectedColumn.getRemarks())) {
+//            sb.append(", describe=\"").append(introspectedColumn.getRemarks()).append("\"");
+//        }
 
         sb.append(")");
         field.addAnnotation(sb.toString());
@@ -99,9 +99,9 @@ public class MyCommentGenerator implements CommentGenerator {
         if (!arg0.isJavaInterface()) {
 //            arg0.addAnnotation("@Entity");
             StringBuilder sb = (new StringBuilder("@Table(name=\"")).append(introspectedTable.getFullyQualifiedTable()).append("\"");
-            if (StringUtility.stringHasValue(introspectedTable.getRemarks())) {
-                sb.append(", describe=\"").append(introspectedTable.getRemarks()).append("\"");
-            }
+//            if (StringUtility.stringHasValue(introspectedTable.getRemarks())) {
+//                sb.append(", describe=\"").append(introspectedTable.getRemarks()).append("\"");
+//            }
 
             sb.append(")");
             arg0.addAnnotation(sb.toString());
