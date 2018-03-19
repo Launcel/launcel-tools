@@ -20,12 +20,12 @@ import java.util.Properties;
 /**
  * @author Launcel
  */
-public class MyCommentGenerator implements CommentGenerator {
+public class LCommentGenerator implements CommentGenerator {
     private Properties properties = new Properties();
     private boolean suppressDate = false;
 //    private boolean suppressAllComments = false;
 
-    public MyCommentGenerator() {
+    public LCommentGenerator() {
     }
 
     protected String getDateString() {
