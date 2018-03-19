@@ -31,8 +31,7 @@ public class MyCommentGenerator implements CommentGenerator {
     protected String getDateString() {
         String result = null;
         if (!this.suppressDate) {
-            String currentDateStr = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
-            result = currentDateStr;
+            result = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
         }
 
         return result;
@@ -48,7 +47,7 @@ public class MyCommentGenerator implements CommentGenerator {
     }
 
     public void addConfigurationProperties(Properties arg0) {
-        this.properties.putAll(this.properties);
+        this.properties.putAll(arg0);
         this.suppressDate = StringUtility.isTrue(this.properties.getProperty("suppressDate"));
 //        this.suppressAllComments = StringUtility.isTrue(this.properties.getProperty("suppressAllComments"));
     }
