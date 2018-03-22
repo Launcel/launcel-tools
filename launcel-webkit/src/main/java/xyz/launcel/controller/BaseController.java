@@ -54,6 +54,7 @@ public abstract class BaseController extends BaseLogger {
     protected Response getSuccess(Object o) {
         Response response = new Response();
         response.setData(o);
+        response.setCode("1");
         return response;
     }
 
