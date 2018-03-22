@@ -43,20 +43,20 @@ public abstract class BaseController extends BaseLogger {
         return new Paging<>(pageNo, maxRow);
     }
 
-    protected final HttpServletRequest getReqLocal() {
+    protected HttpServletRequest getReqLocal() {
         return request.get();
     }
 
-    protected final HttpServletResponse getRespLocal() {
+    protected HttpServletResponse getRespLocal() {
         return response.get();
     }
 
-    protected final Response getSuccess(Object o) {
-        return Response.getResponse().setSuccess(o);
+    protected Response getSuccess(Object o) {
+        return Response.getResponse().getSuccess(o);
     }
 
-    protected final Response getFail() {
-        return Response.getResponse().setFail();
+    protected Response getFail() {
+        return Response.getResponse().getFail();
     }
 
 }

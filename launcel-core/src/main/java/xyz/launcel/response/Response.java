@@ -39,25 +39,23 @@ public class Response {
         this.message = message;
     }
 
-    public Response setFail(String message) {
+    public Response getFail(String message) {
         setCode("-1");
         setData(message);
-        setMessage("FAIL");
         return this;
     }
 
-    public Response setFail() {
-        return setFail(null);
+    public Response getFail() {
+        return this;
     }
 
-    public Response setSuccess(Object o) {
+    public Response getSuccess(Object o) {
         setCode("1");
         setData(o);
-        setMessage("SUCCESS");
         return this;
     }
 
-    public Response setSuccess() {
-        return setSuccess(null);
+    public Response getSuccess() {
+        return this;
     }
 }

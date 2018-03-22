@@ -10,8 +10,6 @@ import xyz.launcel.response.Response;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by xuyang in 2017/9/22
@@ -55,7 +53,7 @@ public class GlobalExceptionHandle {
     }
 
     private Response response(String str) {
-        return Response.getResponse().setFail(str);
+        return Response.getResponse().getFail(str);
     }
 
     private Response responseInfo(String str) {
