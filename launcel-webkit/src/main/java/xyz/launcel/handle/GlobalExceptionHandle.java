@@ -53,7 +53,9 @@ public class GlobalExceptionHandle {
     }
 
     private Response response(String str) {
-        return Response.getResponse().getFail(str);
+        Response response = Response.getResponse();
+        response.setMessage(str);
+        return response;
     }
 
     private Response responseInfo(String str) {

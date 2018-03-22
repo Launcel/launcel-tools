@@ -5,7 +5,7 @@ package xyz.launcel.response;
  */
 public class Response {
 
-    private String code = "1";
+    private String code = "-1";
 
     private Object data = null;
 
@@ -39,23 +39,23 @@ public class Response {
         this.message = message;
     }
 
-    public Response getFail(String message) {
-        setCode("-1");
-        setData(message);
-        return this;
-    }
-
-    public Response getFail() {
-        return this;
-    }
-
-    public Response getSuccess(Object o) {
-        setCode("1");
-        setData(o);
-        return this;
-    }
-
-    public Response getSuccess() {
-        return this;
-    }
+//    public Response getFail(String message) {
+//        setCode("-1");
+//        setData(message);
+//        return this;
+//    }
+//
+//    public Response getFail() {
+//        return this;
+//    }
+//
+//    public Response getSuccess(Object o) {
+//        setCode("1");
+//        setData(o);
+//        return this;
+//    }
+//
+//    public Response getSuccess() {
+//        return this;
+//    }
 }

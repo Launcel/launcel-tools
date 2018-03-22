@@ -52,11 +52,21 @@ public abstract class BaseController extends BaseLogger {
     }
 
     protected Response getSuccess(Object o) {
-        return Response.getResponse().getSuccess(o);
+        Response response = Response.getResponse();
+        response.setCode("1");
+        response.setData(o);
+        return response;
     }
 
     protected Response getFail() {
-        return Response.getResponse().getFail();
+        return Response.getResponse();
     }
+
+    protected Response getFail(String msg) {
+        Response response = Response.getResponse();
+        response.setMessage(msg);
+        return response;
+    }
+
 
 }
