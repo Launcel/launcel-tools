@@ -53,7 +53,8 @@ public class GlobalExceptionHandle {
     }
 
     private Response response(String str) {
-        Response response = Response.getResponse();
+        Response response = new Response();
+        response.setCode("-1");
         response.setMessage(str);
         return response;
     }

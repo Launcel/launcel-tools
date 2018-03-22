@@ -52,18 +52,20 @@ public abstract class BaseController extends BaseLogger {
     }
 
     protected Response getSuccess(Object o) {
-        Response response = Response.getResponse();
-        response.setCode("1");
+        Response response = new Response();
         response.setData(o);
         return response;
     }
 
     protected Response getFail() {
-        return Response.getResponse();
+        Response response = new Response();
+        response.setCode("-1");
+        return response;
     }
 
     protected Response getFail(String msg) {
-        Response response = Response.getResponse();
+        Response response = new Response();
+        response.setCode("-1");
         response.setMessage(msg);
         return response;
     }
