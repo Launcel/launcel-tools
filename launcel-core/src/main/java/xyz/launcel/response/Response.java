@@ -38,23 +38,27 @@ public class Response implements Serializable {
         this.message = message;
     }
 
-//    public Response getFail(String message) {
-//        setCode("-1");
-//        setData(message);
-//        return this;
-//    }
-//
-//    public Response getFail() {
-//        return this;
-//    }
-//
-//    public Response getSuccess(Object o) {
-//        setCode("1");
-//        setData(o);
-//        return this;
-//    }
-//
-//    public Response getSuccess() {
-//        return this;
-//    }
+    public Response(String code, Object data, String message) {
+        this.code = code;
+        this.data = data;
+        this.message = message;
+    }
+
+    public Response(String code, Object data) {
+        this.code = code;
+        this.data = data;
+    }
+
+    public Response(Object data, String message) {
+        this.data = data;
+        this.message = message;
+    }
+
+    public Response(String code, String message) {
+        this.code = code;
+        this.message = message;
+    }
+
+    public Response() {
+    }
 }

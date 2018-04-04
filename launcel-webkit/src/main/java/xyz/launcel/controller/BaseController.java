@@ -66,10 +66,7 @@ public abstract class BaseController extends BaseLogger {
     }
 
     protected Response getSuccess(Object o) {
-        Response response = new Response();
-        response.setData(o);
-        response.setCode("1");
-        return response;
+        return new Response("1", o);
     }
 
     protected Response getFail() {
@@ -79,10 +76,7 @@ public abstract class BaseController extends BaseLogger {
     }
 
     protected Response getFail(String msg) {
-        Response response = new Response();
-        response.setCode("-1");
-        response.setMessage(msg);
-        return response;
+        return new Response("-1", msg);
     }
 
 
