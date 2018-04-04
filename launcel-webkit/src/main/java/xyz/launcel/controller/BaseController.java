@@ -13,9 +13,11 @@ import java.io.UnsupportedEncodingException;
 
 public abstract class BaseController extends BaseLogger {
 
-    private ThreadLocal<HttpServletRequest> request = new ThreadLocal<>();
+    //    private ThreadLocal<HttpServletRequest> request = new ThreadLocal<>();
+    private HttpServletRequest request;
 
-    private ThreadLocal<HttpServletResponse> response = new ThreadLocal<>();
+    //    private ThreadLocal<HttpServletResponse> response = new ThreadLocal<>();
+    private HttpServletResponse response;
 
     @ModelAttribute
     protected void init(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
@@ -25,13 +27,17 @@ public abstract class BaseController extends BaseLogger {
             ExceptionFactory.error("编码转换失败");
         }
         httpServletResponse.setCharacterEncoding("UTF-8");
-        request.set(httpServletRequest);
-        response.set(httpServletResponse);
+//        request.set(httpServletRequest);
+//        response.set(httpServletResponse);
+        request = httpServletRequest;
+        response = httpServletResponse;
     }
 
     protected <T> Paging<T> initPaging() {
-        String pageNoStr = getReqLocal().getParameter("pageNo");
-        String rowStr = getReqLocal().getParameter("maxRow");
+//        String pageNoStr = getReqLocal().getParameter("pageNo");
+//        String rowStr = getReqLocal().getParameter("maxRow");
+        String pageNoStr = getRequest().getParameter("pageNo");
+        String rowStr = getRequest().getParameter("maxRow");
 //        String lowerIdStr = getRequest().getParameter("lowerId");
 //        String largeIdStr = getRequest().getParameter("largeId");
 
@@ -43,12 +49,20 @@ public abstract class BaseController extends BaseLogger {
         return new Paging<>(pageNo, maxRow);
     }
 
-    protected HttpServletRequest getReqLocal() {
-        return request.get();
+//    protected HttpServletRequest getReqLocal() {
+//        return request.get();
+//    }
+
+//    protected HttpServletResponse getRespLocal() {
+//        return response.get();
+//    }
+
+    protected HttpServletRequest getRequest() {
+        return request;
     }
 
-    protected HttpServletResponse getRespLocal() {
-        return response.get();
+    protected HttpServletResponse getResponse() {
+        return response;
     }
 
     protected Response getSuccess(Object o) {

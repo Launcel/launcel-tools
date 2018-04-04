@@ -1,13 +1,16 @@
 package xyz.launcel.response;
 
+import java.io.Serializable;
+
 /**
  * Created by xuyang in 2017/9/20
  */
-public class Response {
+public class Response implements Serializable {
 
+    private static final long serialVersionUID = -6522850794196317135L;
     private String code;
 
-    private Object data = null;
+    private Object data;
 
     private String message;
 
