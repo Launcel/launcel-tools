@@ -9,7 +9,7 @@ public interface BaseDAO<T> {
 
     T select(@Param("param") T t);
 
-    int add(T t);
+    T add(T t);
 
     int update(T t);
 

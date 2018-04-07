@@ -21,6 +21,9 @@ public class Paging<T> implements Serializable {
      */
     private Integer total = 0;
 
+    public Paging() {
+    }
+
     public Paging(int maxRow) {
         this.pageNo = 1;
         setMaxRow(maxRow);
