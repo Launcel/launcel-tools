@@ -4,7 +4,7 @@ import xyz.launcel.dao.Paging;
 
 public interface BaseService<T> {
 
-    T add(T t);
+    int add(T t);
 
     int update(T t);
 
