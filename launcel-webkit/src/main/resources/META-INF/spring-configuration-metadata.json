@@ -113,7 +113,7 @@
       "type": "java.util.List<java.lang.String>",
       "defaultValue": 0,
       "sourceType": "xyz.launcel.prop.UploadProperties"
-    }
+    },
     {
       "name": "web.upload.content-type",
       "type": "java.util.List<java.lang.String>",
