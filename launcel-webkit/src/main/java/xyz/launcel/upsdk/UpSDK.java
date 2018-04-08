@@ -13,6 +13,9 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * @author Launcel
+ */
 public class UpSDK {
 
 
@@ -22,19 +25,15 @@ public class UpSDK {
         this.properties = properties;
     }
 
-    public UpSDK() {
-    }
+    public UpSDK() { }
 
     /**
      * @param file
      * @return net resource url
      */
     public String upload(MultipartFile file) {
-        try {
-            checkContent(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        try { checkContent(file); }
+        catch (IOException e) { e.printStackTrace(); }
         checkSize(file);
         String oldName = file.getOriginalFilename();
         String newName = getNewFileName(getExt(oldName));
@@ -50,18 +49,20 @@ public class UpSDK {
                     out.flush();
                     out.close();
                     return properties.getDomain() + savePath;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                } catch (IOException e) { e.printStackTrace(); }
             }
         return null;
     }
 
     private void checkSize(MultipartFile file) {
-        if (file.getSize() < (properties.getMinSize() * 2 << 19))
+//        if (file.getSize() < (properties.getMinSize() * 2 << 19)) {
+        if (file.getSize() < (properties.getMinSize())) {
             ExceptionFactory.create("文件太小");
-        if (file.getSize() > properties.getMaxSize() * 2 << 19)
+        }
+//        if (file.getSize() > properties.getMaxSize() * 2 << 19) {
+        if (file.getSize() > properties.getMaxSize()) {
             ExceptionFactory.create("文件大小超过限制");
+        }
     }
 
     /**
@@ -74,10 +75,8 @@ public class UpSDK {
         try {
             in = file.getInputStream();
             byte[] b = new byte[4];
-            if (in == null)
-                ExceptionFactory.create("无法识别的文件");
-            if (in.read(b, 0, b.length) < 4)
-                ExceptionFactory.create("文件太小");
+            if (in == null) { ExceptionFactory.create("无法识别的文件"); }
+            if (in.read(b, 0, b.length) < 4) { ExceptionFactory.create("文件太小"); }
             StringBuilder sb = new StringBuilder();
             String hv;
             for (byte b1 : b) {
@@ -85,32 +84,28 @@ public class UpSDK {
                 if (hv.length() < 2) sb.append(0);
                 sb.append(hv);
             }
-            if (properties.getContentType().contains(sb.toString()))
-                return;
+            if (properties.getContentType().contains(sb.toString())) { return; }
             ExceptionFactory.create("不能接收的文件类型");
         } finally {
-            if (in != null) in.close();
+            if (in != null) { in.close();}
         }
     }
 
     private String getExt(String originalName) {
         Integer index = originalName.lastIndexOf(".");
-        if (index <= 0) ExceptionFactory.create("无法识别的文件");
+        if (index <= 0) { ExceptionFactory.create("无法识别的文件"); }
         String ext = originalName.substring(index + 1);
         checkFile(ext);
         return ext;
     }
 
     private void checkFile(String ext) {
-        if (properties.getFileType().contains(ext.toLowerCase())) {
-            return;
-        }
+        if (properties.getFileType().contains(ext.toLowerCase())) { return; }
         ExceptionFactory.create("不能接收的文件类型");
     }
 
     private String getNewFileName(String ext) {
-        return new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd").format(new Date()) +
-                File.separator + StringUtils.getUUID() + "." + ext;
+        return new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd").format(new Date()) + File.separator + StringUtils.getUUID() + "." + ext;
     }
 
     public static void main(String[] args) {
