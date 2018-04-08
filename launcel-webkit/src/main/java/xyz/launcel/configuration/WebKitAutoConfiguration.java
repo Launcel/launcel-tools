@@ -17,21 +17,26 @@ import xyz.launcel.handle.GlobalExceptionHandle;
 import xyz.launcel.aspejct.ControllerParamValidateAspejct;
 import xyz.launcel.prop.CorsProperties;
 import xyz.launcel.prop.JsonConverterProperties;
+import xyz.launcel.prop.UploadProperties;
+import xyz.launcel.upsdk.UpSDK;
 
 import java.util.List;
 
 @Configuration
 @EnableWebMvc
-@EnableConfigurationProperties(value = {CorsProperties.class, JsonConverterProperties.class})
+@EnableConfigurationProperties(value = {CorsProperties.class, JsonConverterProperties.class, UploadProperties.class})
 public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter {
 
     private final CorsProperties corsProperties;
 
     private final JsonConverterProperties jsonConverterProperties;
 
-    public WebKitAutoConfiguration(CorsProperties corsProperties, JsonConverterProperties jsonConverterProperties) {
+    private final UploadProperties uploadProperties;
+
+    public WebKitAutoConfiguration(CorsProperties corsProperties, JsonConverterProperties jsonConverterProperties, UploadProperties uploadProperties) {
         this.corsProperties = corsProperties;
         this.jsonConverterProperties = jsonConverterProperties;
+        this.uploadProperties = uploadProperties;
     }
 
     /**
@@ -78,5 +83,11 @@ public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public ControllerParamValidateAspejct controllerParamValidateAspejct() {
         return new ControllerParamValidateAspejct();
+    }
+
+    @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true", matchIfMissing = true)
+    @Bean(name = "upSDK")
+    public UpSDK upSDK() {
+        return new UpSDK(uploadProperties);
     }
 }

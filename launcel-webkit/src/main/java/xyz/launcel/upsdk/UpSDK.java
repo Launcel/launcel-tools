@@ -3,75 +3,32 @@ package xyz.launcel.upsdk;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.lang.StringUtils;
+import xyz.launcel.prop.UploadProperties;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 public class UpSDK {
 
-    private static String domain = "";
 
-    private static String path;
+    private UploadProperties properties;
 
-    private static Integer max_size;
+    public UpSDK(UploadProperties properties) {
+        this.properties = properties;
+    }
 
-    private static Integer min_size = 0;
+    public UpSDK() {
+    }
 
     /**
-     * 多种文件类型
+     * @param file
+     * @return net resource url
      */
-    private static List<String> fileType;
-    //                               office07    office03       pdf        jpg         jpg          png       jpeg
-    private static String[] strings = {"504b0304", "d0cf11e0", "25504446", "ffd8ffe0", "ffd8ffe1", "89504e47", "ffd8ff"};
-
-    private static List<String> contentType = new ArrayList<>(Arrays.asList(strings));
-
-    public static String getDomain() {
-        return domain;
-    }
-
-    public void setDomain(String domain) {
-        this.domain = domain;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public Integer getMax_size() {
-        return max_size;
-    }
-
-    public void setMax_size(Integer max_size) {
-        this.max_size = max_size;
-    }
-
-    public Integer getMin_size() {
-        return min_size;
-    }
-
-    public void setMin_size(Integer min_size) {
-        this.min_size = min_size;
-    }
-
-    public List<String> getFileType() {
-        return fileType;
-    }
-
-    public void setFileType(List<String> fileType) {
-        this.fileType = fileType;
-    }
-
     public String upload(MultipartFile file) {
         try {
             checkContent(file);
@@ -81,13 +38,18 @@ public class UpSDK {
         checkSize(file);
         String oldName = file.getOriginalFilename();
         String newName = getNewFileName(getExt(oldName));
-        StringBuilder sb = new StringBuilder(domain).append(path).append(File.separator).append(newName);
-        File dir = new File(sb.toString());
+        String savePath = File.separator + newName;
+        String genPath = properties.getPath() + savePath;
+        File dir = new File(genPath);
         if (!dir.getParentFile().exists())
             if (dir.getParentFile().mkdirs()) {
                 try {
-                    file.transferTo(dir);
-                    return sb.toString();
+//                    file.transferTo(dir);
+                    BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(dir));
+                    out.write(file.getBytes());
+                    out.flush();
+                    out.close();
+                    return properties.getDomain() + savePath;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -96,9 +58,9 @@ public class UpSDK {
     }
 
     private void checkSize(MultipartFile file) {
-        if (file.getSize() < (min_size * 2 << 19))
+        if (file.getSize() < (properties.getMinSize() * 2 << 19))
             ExceptionFactory.create("文件太小");
-        if (file.getSize() > max_size * 2 << 19)
+        if (file.getSize() > properties.getMaxSize() * 2 << 19)
             ExceptionFactory.create("文件大小超过限制");
     }
 
@@ -123,7 +85,7 @@ public class UpSDK {
                 if (hv.length() < 2) sb.append(0);
                 sb.append(hv);
             }
-            if (contentType.contains(sb.toString()))
+            if (properties.getContentType().contains(sb.toString()))
                 return;
             ExceptionFactory.create("不能接收的文件类型");
         } finally {
@@ -140,7 +102,9 @@ public class UpSDK {
     }
 
     private void checkFile(String ext) {
-        if (fileType.contains(ext.toLowerCase())) return;
+        if (properties.getFileType().contains(ext.toLowerCase())) {
+            return;
+        }
         ExceptionFactory.create("不能接收的文件类型");
     }
 
