@@ -1,6 +1,5 @@
 package java.persistence;
 
-import javax.persistence.GenerationType;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
