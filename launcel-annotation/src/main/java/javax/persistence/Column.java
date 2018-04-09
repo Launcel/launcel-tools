@@ -1,4 +1,4 @@
-package java.persistence;
+package javax.persistence;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

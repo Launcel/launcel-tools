@@ -1,11 +1,4 @@
-/**
- * Copyright (C), 2017
- * Author: Launcel
- * Date: 17.11.17
- * Version: 1.0
- */
-
-package java.persistence;
+package javax.persistence;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,5 +10,8 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Version {
+public @interface GeneratedValue {
+    GenerationType strategy() default GenerationType.AUTO;
+
+    String generator() default "";
 }

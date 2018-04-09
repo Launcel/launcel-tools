@@ -1,4 +1,4 @@
-package java.persistence;
+package javax.persistence;
 
 /**
  * @author Launcel
