@@ -40,19 +40,20 @@ public class UpSDK {
             String newName = getNewName(file.getName());
             File dir = new File(getGenPath(newName));
             if (!dir.getParentFile().exists()) {
-                if (dir.getParentFile().mkdirs()) {
-                    BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(dir));
-                    int bytesRead;
-                    byte[] buffer = new byte[8192];
-                    while ((bytesRead = in.read(buffer, 0, 8192)) != -1) {
-                        out.write(buffer, 0, bytesRead);
-                    }
-                    out.flush();
-                    out.close();
-                    in.close();
-                    return getDomainPath(newName);
+                if (!dir.getParentFile().mkdirs()) {
+                    return null;
                 }
             }
+            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(dir));
+            int bytesRead;
+            byte[] buffer = new byte[8192];
+            while ((bytesRead = in.read(buffer, 0, 8192)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+            out.flush();
+            out.close();
+            in.close();
+            return getDomainPath(newName);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,13 +79,21 @@ public class UpSDK {
         catch (IOException e) { e.printStackTrace(); }
         String newName = getNewName(file.getOriginalFilename());
         File dir = new File(getGenPath(newName));
-        if (!dir.getParentFile().exists())
-            if (dir.getParentFile().mkdirs()) {
-                try {
-                    file.transferTo(dir);
-                    return getDomainPath(newName);
-                } catch (IOException e) { e.printStackTrace(); }
-            }
+        if (!dir.getParentFile().exists()) {
+           if (!dir.getParentFile().mkdirs()) {
+               return null;
+           }
+        }
+        try {
+//            file.transferTo(dir);
+                BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(getGenPath(newName)));
+                out.write(file.getBytes());
+                out.flush();
+                out.close();
+            return getDomainPath(newName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

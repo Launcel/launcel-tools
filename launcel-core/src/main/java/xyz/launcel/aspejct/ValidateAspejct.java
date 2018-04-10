@@ -17,6 +17,7 @@ class ValidateAspejct extends BaseLogger {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
 //        if (log.isDebugEnabled())
+        if (method.getName().toLowerCase().contains("upload")) { return; }
         info("调用了：" + signature.getDeclaringTypeName() + "." + method.getName() + " 方法 ：参数 \n" + Json.toJson(joinPoint.getArgs()));
         Parameter[] params = method.getParameters();
         String group = ValidateUtils.getMethodGroupAnnotation(joinPoint.getSignature().getName());
