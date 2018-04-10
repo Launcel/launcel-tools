@@ -26,7 +26,8 @@ public class UpSDK {
         this.properties = properties;
     }
 
-    public UpSDK() { }
+    public UpSDK() {
+    }
 
     public String upload(String imgUrl) {
         File file = new File(imgUrl);
@@ -75,21 +76,24 @@ public class UpSDK {
      * @return net resource url
      */
     public String upload(MultipartFile file) {
-        try { check(file.getInputStream(),file.getSize()); }
-        catch (IOException e) { e.printStackTrace(); }
+        try {
+            check(file.getInputStream(), file.getSize());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         String newName = getNewName(file.getOriginalFilename());
         File dir = new File(getGenPath(newName));
         if (!dir.getParentFile().exists()) {
-           if (!dir.getParentFile().mkdirs()) {
-               return null;
-           }
+            if (!dir.getParentFile().mkdirs()) {
+                return null;
+            }
         }
         try {
 //            file.transferTo(dir);
-                BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(getGenPath(newName)));
-                out.write(file.getBytes());
-                out.flush();
-                out.close();
+            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(getGenPath(newName)));
+            out.write(file.getBytes());
+            out.flush();
+            out.close();
             return getDomainPath(newName);
         } catch (IOException e) {
             e.printStackTrace();
@@ -137,14 +141,18 @@ public class UpSDK {
 
     private String getExt(String originalName) {
         Integer index = originalName.lastIndexOf(".");
-        if (index <= 0) { ExceptionFactory.create("无法识别的文件"); }
+        if (index <= 0) {
+            ExceptionFactory.create("无法识别的文件");
+        }
         String ext = originalName.substring(index + 1);
         checkFile(ext);
         return ext;
     }
 
     private void checkFile(String ext) {
-        if (properties.getFileType().contains(ext.toLowerCase())) { return; }
+        if (properties.getFileType().contains(ext.toLowerCase())) {
+            return;
+        }
         ExceptionFactory.create("不能接收的文件类型");
     }
 
