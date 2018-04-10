@@ -7,6 +7,7 @@ import xyz.launcel.prop.UploadProperties;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,40 +28,73 @@ public class UpSDK {
 
     public UpSDK() { }
 
+    public String upload(String imgUrl) {
+        File file = new File(imgUrl);
+        return upload(file);
+    }
+
+    public String upload(File file) {
+        try {
+            InputStream in = new FileInputStream(file);
+            check(in, file.length());
+            String newName = getNewName(file.getName());
+            File dir = new File(getGenPath(newName));
+            if (!dir.getParentFile().exists()) {
+                if (dir.getParentFile().mkdirs()) {
+                    BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(dir));
+                    int bytesRead;
+                    byte[] buffer = new byte[8192];
+                    while ((bytesRead = in.read(buffer, 0, 8192)) != -1) {
+                        out.write(buffer, 0, bytesRead);
+                    }
+                    out.flush();
+                    out.close();
+                    in.close();
+                    return getDomainPath(newName);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private void check(InputStream in, Long size) {
+        try {
+            checkContent(in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        checkSize(size);
+    }
+
+
     /**
      * @param file
      * @return net resource url
      */
     public String upload(MultipartFile file) {
-        try { checkContent(file); }
+        try { check(file.getInputStream(),file.getSize()); }
         catch (IOException e) { e.printStackTrace(); }
-        checkSize(file);
-        String oldName = file.getOriginalFilename();
-        String newName = getNewFileName(getExt(oldName));
-        String savePath = File.separator + newName;
-        String genPath = properties.getPath() + savePath;
-        File dir = new File(genPath);
+        String newName = getNewName(file.getOriginalFilename());
+        File dir = new File(getGenPath(newName));
         if (!dir.getParentFile().exists())
             if (dir.getParentFile().mkdirs()) {
                 try {
-//                    file.transferTo(dir);
-                    BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(dir));
-                    out.write(file.getBytes());
-                    out.flush();
-                    out.close();
-                    return properties.getDomain() + savePath;
+                    file.transferTo(dir);
+                    return getDomainPath(newName);
                 } catch (IOException e) { e.printStackTrace(); }
             }
         return null;
     }
 
-    private void checkSize(MultipartFile file) {
+    private void checkSize(Long size) {
 //        if (file.getSize() < (properties.getMinSize() * 2 << 19)) {
-        if (file.getSize() < (properties.getMinSize())) {
+        if (size < (properties.getMinSize())) {
             ExceptionFactory.create("文件太小");
         }
 //        if (file.getSize() > properties.getMaxSize() * 2 << 19) {
-        if (file.getSize() > properties.getMaxSize()) {
+        if (size > properties.getMaxSize()) {
             ExceptionFactory.create("文件大小超过限制");
         }
     }
@@ -70,25 +104,26 @@ public class UpSDK {
      *
      * @param file
      */
-    private void checkContent(MultipartFile file) throws IOException {
-        InputStream in = null;
-        try {
-            in = file.getInputStream();
-            byte[] b = new byte[4];
-            if (in == null) { ExceptionFactory.create("无法识别的文件"); }
-            if (in.read(b, 0, b.length) < 4) { ExceptionFactory.create("文件太小"); }
-            StringBuilder sb = new StringBuilder();
-            String hv;
-            for (byte b1 : b) {
-                hv = Integer.toHexString(b1 & 0xFF).toLowerCase();
-                if (hv.length() < 2) sb.append(0);
-                sb.append(hv);
-            }
-            if (properties.getContentType().contains(sb.toString())) { return; }
-            ExceptionFactory.create("不能接收的文件类型");
-        } finally {
-            if (in != null) { in.close();}
+    private void checkContent(InputStream in) throws IOException {
+//        InputStream in = file.getInputStream();
+        byte[] b = new byte[4];
+        if (in == null) {
+            ExceptionFactory.create("无法识别的文件");
         }
+        if (in.read(b, 0, b.length) < 4) {
+            ExceptionFactory.create("文件太小");
+        }
+        StringBuilder sb = new StringBuilder();
+        String hv;
+        for (byte b1 : b) {
+            hv = Integer.toHexString(b1 & 0xFF).toLowerCase();
+            if (hv.length() < 2) sb.append(0);
+            sb.append(hv);
+        }
+        if (properties.getContentType().contains(sb.toString())) {
+            return;
+        }
+        ExceptionFactory.create("不能接收的文件类型");
     }
 
     private String getExt(String originalName) {
@@ -102,6 +137,22 @@ public class UpSDK {
     private void checkFile(String ext) {
         if (properties.getFileType().contains(ext.toLowerCase())) { return; }
         ExceptionFactory.create("不能接收的文件类型");
+    }
+
+    private String getNewName(String oldName) {
+        return getNewFileName(getExt(oldName));
+    }
+
+    private String getSavePath(String newName) {
+        return File.separator + newName;
+    }
+
+    private String getGenPath(String newName) {
+        return properties.getPath() + getSavePath(newName);
+    }
+
+    private String getDomainPath(String newName) {
+        return properties.getDomain() + getSavePath(newName);
     }
 
     private String getNewFileName(String ext) {
