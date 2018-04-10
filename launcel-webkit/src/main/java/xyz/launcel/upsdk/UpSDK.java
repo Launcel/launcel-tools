@@ -29,10 +29,10 @@ public class UpSDK {
     public UpSDK() {
     }
 
-    public String upload(String imgUrl) {
-        File file = new File(imgUrl);
-        return upload(file);
-    }
+//    public String upload(String imgUrl) {
+//        File file = new File(imgUrl);
+//        return upload(file);
+//    }
 
     public String upload(File file) {
         try {
