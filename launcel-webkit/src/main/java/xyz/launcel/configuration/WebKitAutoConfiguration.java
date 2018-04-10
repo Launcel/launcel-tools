@@ -1,5 +1,6 @@
 package xyz.launcel.configuration;
 
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -51,6 +52,7 @@ public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter {
 //        converter.setGson(gsonBuilder.create());
 
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
+        fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteDateUseDateFormat, SerializerFeature.PrettyFormat);
         fastJsonConfig.setDateFormat(jsonConverterProperties.getDateFormat());
         FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
         converter.setFastJsonConfig(fastJsonConfig);
