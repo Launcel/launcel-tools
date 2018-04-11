@@ -66,9 +66,9 @@ public class LCommentGenerator implements CommentGenerator {
         }
 
         StringBuilder sb = (new StringBuilder("@Column(name=\"")).append(introspectedColumn.getActualColumnName()).append("\"");
-//        if (StringUtility.stringHasValue(introspectedColumn.getRemarks())) {
-//            sb.append(", describe=\"").append(introspectedColumn.getRemarks()).append("\"");
-//        }
+        if (StringUtility.stringHasValue(introspectedColumn.getRemarks())) {
+            sb.append(", describe=\"").append(introspectedColumn.getRemarks()).append("\"");
+        }
 
         sb.append(")");
         field.addAnnotation(sb.toString());
@@ -86,7 +86,7 @@ public class LCommentGenerator implements CommentGenerator {
             FullyQualifiedJavaType t;
             t = new FullyQualifiedJavaType("javax.persistence.Table");
             t.addTypeArgument(new FullyQualifiedJavaType("javax.persistence.Column"));
-//            t.addTypeArgument(new FullyQualifiedJavaType("javax.persistence.Entity"));
+            t.addTypeArgument(new FullyQualifiedJavaType("javax.persistence.Entity"));
             t.addTypeArgument(new FullyQualifiedJavaType("javax.persistence.GeneratedValue"));
             t.addTypeArgument(new FullyQualifiedJavaType("javax.persistence.Id"));
             arg0.addImportedType(t);
@@ -96,11 +96,11 @@ public class LCommentGenerator implements CommentGenerator {
 
     public void addModelClassComment(TopLevelClass arg0, IntrospectedTable introspectedTable) {
         if (!arg0.isJavaInterface()) {
-//            arg0.addAnnotation("@Entity");
+            arg0.addAnnotation("@Entity");
             StringBuilder sb = (new StringBuilder("@Table(name=\"")).append(introspectedTable.getFullyQualifiedTable()).append("\"");
-//            if (StringUtility.stringHasValue(introspectedTable.getRemarks())) {
-//                sb.append(", describe=\"").append(introspectedTable.getRemarks()).append("\"");
-//            }
+            if (StringUtility.stringHasValue(introspectedTable.getRemarks())) {
+                sb.append(", describe=\"").append(introspectedTable.getRemarks()).append("\"");
+            }
 
             sb.append(")");
             arg0.addAnnotation(sb.toString());
