@@ -40,15 +40,31 @@ public class BaseColumnElementGenerator extends AbstractXmlElementGenerator {
     public void addElements(XmlElement parentElement) {
         LXmlElement answer = new LXmlElement("sql");
 
-//        answer.addAttribute(new Attribute("id", introspectedTable.getBaseColumnListId()));
         answer.addAttribute(new Attribute("id", "BaseColumn"));
 
         context.getCommentGenerator().addComment(answer);
 
         StringBuilder sb = new StringBuilder();
+        boolean hasLen = false;
         Iterator<IntrospectedColumn> iter = introspectedTable.getNonBLOBColumns().iterator();
         while (iter.hasNext()) {
-            sb.append(MyBatis3FormattingUtilities.getSelectListPhrase(iter.next()));
+            String column = MyBatis3FormattingUtilities.getSelectListPhrase(iter.next());
+            StringBuilder aliasColumn = new StringBuilder();
+            if (column.contains("_")) {
+                hasLen = true;
+                String[] columnSeg = column.split("_");
+                for (int i = 0; i < columnSeg.length; i++) {
+                    if (i == 0) {
+                        aliasColumn.append(columnSeg[i]);
+                    } else {
+                        aliasColumn.append(getColumnSeg(columnSeg[i]));
+                    }
+                }
+            }
+            sb.append(column);
+            if (hasLen) {
+                sb.append(" as ").append(aliasColumn);
+            }
             if (iter.hasNext()) {
                 sb.append(",");
                 newLine(sb);
@@ -63,5 +79,9 @@ public class BaseColumnElementGenerator extends AbstractXmlElementGenerator {
         if (context.getPlugins().sqlMapBaseColumnListElementGenerated(answer, introspectedTable)) {
             parentElement.addElement(answer);
         }
+    }
+
+    public static String getColumnSeg(String columnSeg) {
+        return columnSeg.substring(0, 1).toUpperCase() + columnSeg.substring(1);
     }
 }
