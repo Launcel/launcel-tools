@@ -10,12 +10,12 @@ public interface BaseService<T> {
 
     int delete(Integer id);
 
-    T select(T t);
+    T query(T t);
 
     T get(Integer id);
 
     Integer count(T t);
 
-    void getPaging(T t, Paging<T> paging);
+    void queryPage(T t, Paging<T> paging);
 
 }

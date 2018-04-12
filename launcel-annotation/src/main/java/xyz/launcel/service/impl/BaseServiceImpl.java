@@ -27,8 +27,8 @@ public abstract class BaseServiceImpl<T> extends BaseLogger implements BaseServi
     }
 
     @Override
-    public T select(T t) {
-        return getDAO().select(t);
+    public T query(T t) {
+        return getDAO().query(t);
     }
 
     @Override
@@ -42,12 +42,12 @@ public abstract class BaseServiceImpl<T> extends BaseLogger implements BaseServi
     }
 
     @Override
-    public void getPaging(T t, Paging<T> paging) {
+    public void queryPage(T t, Paging<T> paging) {
         Integer total = getDAO().count(t);
         if (total == null || total <= 0)
             return;
         paging.setTotal(total);
-        List<T> list = getDAO().queryPaging(t, paging);
+        List<T> list = getDAO().queryPage(t, paging);
         paging.setList(list);
     }
 
