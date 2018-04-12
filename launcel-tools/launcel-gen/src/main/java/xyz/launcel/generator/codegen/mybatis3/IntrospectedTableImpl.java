@@ -16,9 +16,12 @@ import org.mybatis.generator.codegen.mybatis3.model.BaseRecordGenerator;
 import org.mybatis.generator.codegen.mybatis3.model.ExampleGenerator;
 import org.mybatis.generator.codegen.mybatis3.model.PrimaryKeyGenerator;
 import org.mybatis.generator.codegen.mybatis3.model.RecordWithBLOBsGenerator;
+import org.mybatis.generator.config.Context;
+import org.mybatis.generator.config.ModelType;
 import org.mybatis.generator.config.PropertyRegistry;
 import org.mybatis.generator.internal.ObjectFactory;
 import org.mybatis.generator.internal.util.StringUtility;
+import xyz.launcel.generator.Conston;
 import xyz.launcel.generator.codegen.mybatis3.xmlmapper.XMLMapperGenerator;
 
 import java.util.ArrayList;
@@ -26,7 +29,7 @@ import java.util.List;
 
 public class IntrospectedTableImpl extends IntrospectedTable {
 
-    private boolean addDefaultMethod;
+//    protected MyBatisGeneratorConfigurationParser parser;
 
     protected List<AbstractJavaGenerator> javaModelGenerators;
 
@@ -38,14 +41,31 @@ public class IntrospectedTableImpl extends IntrospectedTable {
         super(TargetRuntime.MYBATIS3);
         javaModelGenerators = new ArrayList<>();
         clientGenerators = new ArrayList<>();
+        setContext(new Context(ModelType.CONDITIONAL));
+        initProp();
         super.setBaseResultMapId(getBaseRecordType());
-        String addMethodTemp = getContext().getProperty("addDefaultMethod");
-        if (StringUtility.isTrue(addMethodTemp)) {
-            addDefaultMethod = true;
-        } else if (!StringUtility.isTrue(addMethodTemp)) {
-            addDefaultMethod = false;
-        } else {
-            throw new RuntimeException("IntrospectedTableImpl 属性设置错误,请仔细检查!!");
+    }
+
+    private void initProp() {
+        if ("false".equalsIgnoreCase(context.getProperty("addDefaultMethod"))) {
+            Conston.addDefaultMethod = false;
+        }
+        if ("false".equalsIgnoreCase(context.getProperty("useEnabledColumn"))) {
+            Conston.useEnabledColumn = false;
+        }
+        String enabledColumnNameTemp = context.getProperty("enabledColumnName");
+        if (StringUtility.stringHasValue(enabledColumnNameTemp)) {
+            Conston.enabledColumnName = enabledColumnNameTemp;
+        }
+        String enabledColumnValueTemp = context.getProperty("enabledColumnValue");
+        if (StringUtility.stringHasValue(enabledColumnValueTemp)) {
+            Conston.enabledColumnValue = enabledColumnValueTemp;
+        }
+        if ("false".equalsIgnoreCase(context.getProperty("useAnnotation"))) {
+            Conston.useAnnotation = false;
+        }
+        if ("false".equalsIgnoreCase(context.getProperty("addRemark"))) {
+            Conston.addRemark = false;
         }
     }
 
@@ -79,7 +99,7 @@ public class IntrospectedTableImpl extends IntrospectedTable {
     protected void calculateXmlMapperGenerator(AbstractJavaClientGenerator javaClientGenerator,
                                                List<String> warnings,
                                                ProgressCallback progressCallback) {
-        xmlMapperGenerator = new XMLMapperGenerator(addDefaultMethod);
+        xmlMapperGenerator = new XMLMapperGenerator();
         initializeAbstractGenerator(xmlMapperGenerator, warnings, progressCallback);
     }
 
@@ -226,7 +246,7 @@ public class IntrospectedTableImpl extends IntrospectedTable {
         List<GeneratedXmlFile> answer = new ArrayList<>();
 
         if (xmlMapperGenerator != null) {
-            Document document = xmlMapperGenerator.getDocument();
+            Document document = xmlMapperGenerator.getDocument(context);
             GeneratedXmlFile gxf = new GeneratedXmlFile(document,
                     getMyBatis3XmlMapperFileName(), getMyBatis3XmlMapperPackage(),
                     context.getSqlMapGeneratorConfiguration().getTargetProject(),
@@ -263,4 +283,5 @@ public class IntrospectedTableImpl extends IntrospectedTable {
         AbstractJavaClientGenerator javaClientGenerator = createJavaClientGenerator();
         return javaClientGenerator != null && javaClientGenerator.requiresXMLGenerator();
     }
+
 }

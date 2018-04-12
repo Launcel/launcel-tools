@@ -9,6 +9,8 @@
         <property name="useEnabledColumn" value="true"/>
         <property name="enabledColumnName" value="enabled"/>
         <property name="enabledColumnValue" value="1"/>
+        <property name="useAnnotation" value="true"/>
+        <property name="addRemark" value="true"/>
 
         <!-- 格式化java代码 -->
         <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
@@ -25,10 +27,8 @@
 
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
 
-        <commentGenerator type="xyz.launcel.generator.LCommentGenerator">
-            <property name="useAnnotation" value="true"/>
-            <property name="addRemark" value="true"/>
-        </commentGenerator>
+        <commentGenerator type="xyz.launcel.generator.LCommentGenerator"/>
+
         <!--数据库链接URL，用户名、密码 -->
         <jdbcConnection driverClass="org.mariadb.jdbc.Driver"
                         connectionURL="jdbc:mariadb:///test"

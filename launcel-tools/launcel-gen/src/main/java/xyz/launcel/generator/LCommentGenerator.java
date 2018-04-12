@@ -13,16 +13,12 @@ import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.internal.util.StringUtility;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Properties;
 
 /**
  * @author Launcel
  */
 public class LCommentGenerator implements CommentGenerator {
-    private boolean useAnnotation = true;
-    private boolean addRemark = true;
 
     public LCommentGenerator() {
     }
@@ -45,8 +41,6 @@ public class LCommentGenerator implements CommentGenerator {
     }
 
     public void addConfigurationProperties(Properties propertie) {
-        this.useAnnotation = StringUtility.isTrue(propertie.getProperty("useAnnotation"));
-        this.addRemark = StringUtility.isTrue(propertie.getProperty("addRemark"));
 
     }
 
@@ -57,14 +51,14 @@ public class LCommentGenerator implements CommentGenerator {
     }
 
     public void addFieldComment(Field field, IntrospectedTable introspectedTable, IntrospectedColumn introspectedColumn) {
-        if (useAnnotation) {
+        if (Conston.useAnnotation) {
             if (introspectedColumn.getActualColumnName().toLowerCase().equals("id")) {
                 field.addAnnotation("@Id");
                 field.addAnnotation("@GeneratedValue");
             }
 
             StringBuilder sb = (new StringBuilder("@Column(name=\"")).append(introspectedColumn.getActualColumnName()).append("\"");
-            if (addRemark) {
+            if (Conston.addRemark) {
                 if (StringUtility.stringHasValue(introspectedColumn.getRemarks())) {
                     sb.append(", describe=\"").append(introspectedColumn.getRemarks()).append("\"");
                 }
@@ -81,7 +75,7 @@ public class LCommentGenerator implements CommentGenerator {
     }
 
     public void addJavaFileComment(CompilationUnit clazz) {
-        if (useAnnotation) {
+        if (Conston.useAnnotation) {
             if (!clazz.isJavaInterface()) {
                 FullyQualifiedJavaType t;
                 t = new FullyQualifiedJavaType("javax.persistence.Table");
@@ -95,11 +89,11 @@ public class LCommentGenerator implements CommentGenerator {
     }
 
     public void addModelClassComment(TopLevelClass clazz, IntrospectedTable introspectedTable) {
-        if (useAnnotation) {
+        if (Conston.useAnnotation) {
             if (!clazz.isJavaInterface()) {
                 clazz.addAnnotation("@Entity");
                 StringBuilder sb = (new StringBuilder("@Table(name=\"")).append(introspectedTable.getFullyQualifiedTable()).append("\"");
-                if (addRemark) {
+                if (Conston.addRemark) {
                     if (StringUtility.stringHasValue(introspectedTable.getRemarks())) {
                         sb.append(", describe=\"").append(introspectedTable.getRemarks()).append("\"");
                     }
