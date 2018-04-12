@@ -33,7 +33,7 @@ public class PageInterceptor extends BaseLogger implements Interceptor, Serializ
         MetaObject metaStatementHandler = SystemMetaObject.forObject(statementHandler);
         MappedStatement mappedStatement = (MappedStatement) metaStatementHandler.getValue("delegate.mappedStatement");
         String selectId = mappedStatement.getId();
-        if (selectId.matches(".*Paging.*")) {
+        if (selectId.matches(".*Page.*")) {
             BoundSql boundSql = (BoundSql) metaStatementHandler.getValue("delegate.boundSql");
             // 分页参数作为参数对象 parameter 的一个属性
             String sql = boundSql.getSql();

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BaseDAO<T> {
 
-    T select(@Param("param") T t);
+    T query(@Param("param") T t);
 
     int add(T t);
 
@@ -17,7 +17,7 @@ public interface BaseDAO<T> {
 
     Integer count(@Param("param") T t);
 
-    List<T> queryPaging(@Param("param") T t, @Param("page") Paging<T> page);
+    List<T> queryPage(@Param("param") T t, @Param("page") Paging<T> page);
 
     T get(Integer id);
 
