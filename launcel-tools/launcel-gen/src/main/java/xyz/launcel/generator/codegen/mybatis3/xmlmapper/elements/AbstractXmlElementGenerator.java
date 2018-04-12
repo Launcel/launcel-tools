@@ -2,6 +2,7 @@ package xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements;
 
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.XmlElement;
+import org.mybatis.generator.internal.util.StringUtility;
 import xyz.launcel.generator.api.dom.xml.LXmlElement;
 
 /**
@@ -9,8 +10,20 @@ import xyz.launcel.generator.api.dom.xml.LXmlElement;
  */
 public abstract class AbstractXmlElementGenerator extends org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.AbstractXmlElementGenerator {
 
+    protected String enabledColumn = "enabled";
+
+    protected String enabledValue = "1";
+
     public AbstractXmlElementGenerator() {
         super();
+        String tempColumn = getContext().getProperty("enabledColumnName");
+        if (StringUtility.stringHasValue(tempColumn)) {
+            enabledColumn = tempColumn;
+        }
+        String tempValue = getContext().getProperty("enabledColumnValue");
+        if (StringUtility.stringHasValue(tempValue)) {
+            enabledValue = tempValue;
+        }
     }
 
     protected XmlElement getBaseColumnListElement() {
@@ -25,13 +38,13 @@ public abstract class AbstractXmlElementGenerator extends org.mybatis.generator.
         return answer;
     }
 
-    protected XmlElement getUpdateSql(){
+    protected XmlElement getUpdateSql() {
         LXmlElement answer = new LXmlElement("include");
         answer.addAttribute(new Attribute("refid", "UpdateSql"));
         return answer;
     }
 
-    protected String getParamType(){
+    protected String getParamType() {
         String parameterType;
         if (introspectedTable.getRules().generatePrimaryKeyClass()) {
             parameterType = introspectedTable.getPrimaryKeyType();
@@ -46,4 +59,11 @@ public abstract class AbstractXmlElementGenerator extends org.mybatis.generator.
         return parameterType;
     }
 
+    public String getEnabledColumn() {
+        return enabledColumn;
+    }
+
+    public String getEnabledValue() {
+        return enabledValue;
+    }
 }

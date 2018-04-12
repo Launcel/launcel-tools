@@ -56,4 +56,8 @@ public class OutputUtilities {
 
         return importStrings;
     }
+
+    public static String getColumnSeg(String columnSeg) {
+        return columnSeg.substring(0, 1).toUpperCase() + columnSeg.substring(1);
+    }
 }

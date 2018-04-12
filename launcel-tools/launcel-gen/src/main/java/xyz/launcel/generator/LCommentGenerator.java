@@ -21,21 +21,19 @@ import java.util.Properties;
  * @author Launcel
  */
 public class LCommentGenerator implements CommentGenerator {
-    private Properties properties = new Properties();
-    private boolean suppressDate = false;
-//    private boolean suppressAllComments = false;
+    private boolean useAnnotation = true;
+    private boolean addRemark = true;
 
     public LCommentGenerator() {
     }
 
-    protected String getDateString() {
-        String result = null;
-        if (!this.suppressDate) {
-            result = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
-        }
-
-        return result;
-    }
+//    protected String getDateString() {
+//        String result = null;
+//        if (!this.suppressDate) {
+//            result = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
+//        }
+//        return result;
+//    }
 
     public void addClassComment(InnerClass innerClass, IntrospectedTable introspectedTable) {
     }
@@ -43,74 +41,78 @@ public class LCommentGenerator implements CommentGenerator {
     public void addClassComment(InnerClass innerClass, IntrospectedTable introspectedTable, boolean arg2) {
     }
 
-    public void addComment(XmlElement arg0) {
+    public void addComment(XmlElement xmlElement) {
     }
 
-    public void addConfigurationProperties(Properties arg0) {
-        this.properties.putAll(arg0);
-        this.suppressDate = StringUtility.isTrue(this.properties.getProperty("suppressDate"));
-//        this.suppressAllComments = StringUtility.isTrue(this.properties.getProperty("suppressAllComments"));
+    public void addConfigurationProperties(Properties propertie) {
+        this.useAnnotation = StringUtility.isTrue(propertie.getProperty("suppressDate"));
+        this.addRemark = StringUtility.isTrue(propertie.getProperty("addRemark"));
+
     }
 
-    public void addEnumComment(InnerEnum arg0, IntrospectedTable arg1) {
+    public void addEnumComment(InnerEnum innerEnum, IntrospectedTable table) {
     }
 
     public void addFieldComment(Field field, IntrospectedTable introspectedTable) {
     }
 
     public void addFieldComment(Field field, IntrospectedTable introspectedTable, IntrospectedColumn introspectedColumn) {
-//        if (!this.suppressAllComments) {
-        if (introspectedColumn.getActualColumnName().toLowerCase().equals("id")) {
-            field.addAnnotation("@Id");
-            field.addAnnotation("@GeneratedValue");
-        }
-
-        StringBuilder sb = (new StringBuilder("@Column(name=\"")).append(introspectedColumn.getActualColumnName()).append("\"");
-        if (StringUtility.stringHasValue(introspectedColumn.getRemarks())) {
-            sb.append(", describe=\"").append(introspectedColumn.getRemarks()).append("\"");
-        }
-
-        sb.append(")");
-        field.addAnnotation(sb.toString());
-//        }
-    }
-
-    public void addGeneralMethodComment(Method arg0, IntrospectedTable arg1) {
-    }
-
-    public void addGetterComment(Method arg0, IntrospectedTable arg1, IntrospectedColumn arg2) {
-    }
-
-    public void addJavaFileComment(CompilationUnit arg0) {
-        if (!arg0.isJavaInterface()) {
-            FullyQualifiedJavaType t;
-            t = new FullyQualifiedJavaType("javax.persistence.Table");
-            t.addTypeArgument(new FullyQualifiedJavaType("javax.persistence.Column"));
-            t.addTypeArgument(new FullyQualifiedJavaType("javax.persistence.Entity"));
-            t.addTypeArgument(new FullyQualifiedJavaType("javax.persistence.GeneratedValue"));
-            t.addTypeArgument(new FullyQualifiedJavaType("javax.persistence.Id"));
-            arg0.addImportedType(t);
-        }
-
-    }
-
-    public void addModelClassComment(TopLevelClass arg0, IntrospectedTable introspectedTable) {
-        if (!arg0.isJavaInterface()) {
-            arg0.addAnnotation("@Entity");
-            StringBuilder sb = (new StringBuilder("@Table(name=\"")).append(introspectedTable.getFullyQualifiedTable()).append("\"");
-            if (StringUtility.stringHasValue(introspectedTable.getRemarks())) {
-                sb.append(", describe=\"").append(introspectedTable.getRemarks()).append("\"");
+        if (useAnnotation) {
+            if (introspectedColumn.getActualColumnName().toLowerCase().equals("id")) {
+                field.addAnnotation("@Id");
+                field.addAnnotation("@GeneratedValue");
             }
 
+            StringBuilder sb = (new StringBuilder("@Column(name=\"")).append(introspectedColumn.getActualColumnName()).append("\"");
+            if (addRemark) {
+                if (StringUtility.stringHasValue(introspectedColumn.getRemarks())) {
+                    sb.append(", describe=\"").append(introspectedColumn.getRemarks()).append("\"");
+                }
+            }
             sb.append(")");
-            arg0.addAnnotation(sb.toString());
+            field.addAnnotation(sb.toString());
         }
+    }
 
+    public void addGeneralMethodComment(Method method, IntrospectedTable table) {
+    }
+
+    public void addGetterComment(Method method, IntrospectedTable table, IntrospectedColumn column) {
+    }
+
+    public void addJavaFileComment(CompilationUnit clazz) {
+        if (useAnnotation) {
+            if (!clazz.isJavaInterface()) {
+                FullyQualifiedJavaType t;
+                t = new FullyQualifiedJavaType("javax.persistence.Table");
+                t.addTypeArgument(new FullyQualifiedJavaType("javax.persistence.Column"));
+                t.addTypeArgument(new FullyQualifiedJavaType("javax.persistence.Entity"));
+                t.addTypeArgument(new FullyQualifiedJavaType("javax.persistence.GeneratedValue"));
+                t.addTypeArgument(new FullyQualifiedJavaType("javax.persistence.Id"));
+                clazz.addImportedType(t);
+            }
+        }
+    }
+
+    public void addModelClassComment(TopLevelClass clazz, IntrospectedTable introspectedTable) {
+        if (useAnnotation) {
+            if (!clazz.isJavaInterface()) {
+                clazz.addAnnotation("@Entity");
+                StringBuilder sb = (new StringBuilder("@Table(name=\"")).append(introspectedTable.getFullyQualifiedTable()).append("\"");
+                if (addRemark) {
+                    if (StringUtility.stringHasValue(introspectedTable.getRemarks())) {
+                        sb.append(", describe=\"").append(introspectedTable.getRemarks()).append("\"");
+                    }
+                }
+                sb.append(")");
+                clazz.addAnnotation(sb.toString());
+            }
+        }
     }
 
     public void addRootComment(XmlElement arg0) {
     }
 
-    public void addSetterComment(Method arg0, IntrospectedTable arg1, IntrospectedColumn arg2) {
+    public void addSetterComment(Method method, IntrospectedTable table, IntrospectedColumn column) {
     }
 }

@@ -19,6 +19,7 @@ import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
+import xyz.launcel.generator.api.dom.OutputUtilities;
 import xyz.launcel.generator.api.dom.xml.LTextElement;
 import xyz.launcel.generator.api.dom.xml.LXmlElement;
 
@@ -57,7 +58,7 @@ public class BaseColumnElementGenerator extends AbstractXmlElementGenerator {
                     if (i == 0) {
                         aliasColumn.append(columnSeg[i]);
                     } else {
-                        aliasColumn.append(getColumnSeg(columnSeg[i]));
+                        aliasColumn.append(OutputUtilities.getColumnSeg(columnSeg[i]));
                     }
                 }
             }
@@ -81,7 +82,5 @@ public class BaseColumnElementGenerator extends AbstractXmlElementGenerator {
         }
     }
 
-    public static String getColumnSeg(String columnSeg) {
-        return columnSeg.substring(0, 1).toUpperCase() + columnSeg.substring(1);
-    }
+
 }

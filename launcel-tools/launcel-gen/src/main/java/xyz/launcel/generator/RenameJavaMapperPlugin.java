@@ -26,8 +26,9 @@ public class RenameJavaMapperPlugin extends PluginAdapter {
 
     public RenameJavaMapperPlugin() {
         String temp = properties.getProperty("baseDAOPackage");
-        if (StringUtility.stringHasValue(temp))
+        if (StringUtility.stringHasValue(temp)) {
             baseDAOPackage = temp;
+        }
     }
 
     public boolean validate(List<String> warnings) {

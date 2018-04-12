@@ -18,14 +18,18 @@ import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.BaseSqlElementG
 import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.CountElementGenerator;
 import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.DeleteByKeyElementGenerator;
 import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.GetElement;
-import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.InsertElementGenerator;
+import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.AddElementGenerator;
 import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.QueryPagingElementGenerator;
-import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.SelectElementGenerator;
+import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.QueryElementGenerator;
 import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.UpdateSelectiveElementGenerator;
 import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.UpdateSqlElementGenerator;
 
 public class XMLMapperGenerator extends AbstractXmlGenerator {
-    public XMLMapperGenerator() {
+
+    private boolean addDefaultMethod;
+
+    public XMLMapperGenerator(boolean addDefaultMethod) {
+        this.addDefaultMethod = addDefaultMethod;
     }
 
     protected LXmlElement getSqlMapElement() {
@@ -36,26 +40,25 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         answer.addAttribute(new Attribute("namespace", namespace));
         this.context.getCommentGenerator().addRootComment(answer);
 
-
-        this.addBaseColumnElement(answer);
-        this.addBaseSql(answer);
-        this.addUpdateSql(answer);
-        this.addSelectElementGenerator(answer);
-        this.addInsertElement(answer);
-        this.addUpdateByPrimaryKeySelectiveElement(answer);
-        this.addCountByElement(answer);
-        this.addQuetyPagingElement(answer);
-        this.addDeleteByKeyElement(answer);
-        this.addSelectByKeyElement(answer);
-
-
+        if (addDefaultMethod) {
+            this.addBaseColumnElement(answer);
+            this.addBaseSql(answer);
+            this.addUpdateSql(answer);
+            this.addQueryElementGenerator(answer);
+            this.addAddElement(answer);
+            this.addUpdateByPrimaryKeySelectiveElement(answer);
+            this.addCountByElement(answer);
+            this.addQuetyPagingElement(answer);
+            this.addDeleteByKeyElement(answer);
+            this.addSelectByKeyElement(answer);
+        }
         return answer;
     }
 
     protected void addBaseColumnElement(LXmlElement parentElement) {
 //        if (this.introspectedTable.getRules().generateBaseColumnList()) {
-            AbstractXmlElementGenerator elementGenerator = new BaseColumnElementGenerator();
-            this.initializeAndExecuteGenerator(elementGenerator, parentElement);
+        AbstractXmlElementGenerator elementGenerator = new BaseColumnElementGenerator();
+        this.initializeAndExecuteGenerator(elementGenerator, parentElement);
 //        }
     }
 
@@ -66,11 +69,11 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
 
     protected void addUpdateSql(LXmlElement parentElement) {
         AbstractXmlElementGenerator elementGenerator = new UpdateSqlElementGenerator();
-        this.initializeAndExecuteGenerator(elementGenerator,parentElement);
+        this.initializeAndExecuteGenerator(elementGenerator, parentElement);
     }
 
-    protected void addSelectElementGenerator(LXmlElement parentElement) {
-        AbstractXmlElementGenerator elementGenerator = new SelectElementGenerator();
+    protected void addQueryElementGenerator(LXmlElement parentElement) {
+        AbstractXmlElementGenerator elementGenerator = new QueryElementGenerator();
         this.initializeAndExecuteGenerator(elementGenerator, parentElement);
     }
 
@@ -79,16 +82,16 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
 //        this.initializeAndExecuteGenerator(elementGenerator, parentElement);
 //    }
 
-    protected void addInsertElement(LXmlElement parentElement) {
-        AbstractXmlElementGenerator elementGenerator = new InsertElementGenerator(true);
+    protected void addAddElement(LXmlElement parentElement) {
+        AbstractXmlElementGenerator elementGenerator = new AddElementGenerator(true);
         this.initializeAndExecuteGenerator(elementGenerator, parentElement);
     }
 
 
     protected void addUpdateByPrimaryKeySelectiveElement(LXmlElement parentElement) {
 //        if (this.introspectedTable.getRules().generateUpdateByPrimaryKeySelective()) {
-            AbstractXmlElementGenerator elementGenerator = new UpdateSelectiveElementGenerator();
-            this.initializeAndExecuteGenerator(elementGenerator, parentElement);
+        AbstractXmlElementGenerator elementGenerator = new UpdateSelectiveElementGenerator();
+        this.initializeAndExecuteGenerator(elementGenerator, parentElement);
 //        }
     }
 

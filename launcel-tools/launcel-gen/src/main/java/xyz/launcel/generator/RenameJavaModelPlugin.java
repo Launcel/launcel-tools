@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class RenameJavaModelPlugin extends PluginAdapter {
 
-    private String suffix;
+    private String suffix = "";
 
     public RenameJavaModelPlugin() {
     }

@@ -16,11 +16,11 @@ import java.util.List;
 import static xyz.launcel.generator.api.dom.OutputUtilities.newLine;
 import static xyz.launcel.generator.api.dom.OutputUtilities.xmlIndent;
 
-public class InsertElementGenerator extends AbstractXmlElementGenerator {
+public class AddElementGenerator extends AbstractXmlElementGenerator {
 
     private boolean isSimple;
 
-    public InsertElementGenerator(boolean isSimple) {
+    public AddElementGenerator(boolean isSimple) {
         super();
         this.isSimple = isSimple;
     }

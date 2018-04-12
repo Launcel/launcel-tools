@@ -3,6 +3,7 @@ package xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.XmlElement;
+import xyz.launcel.generator.api.dom.OutputUtilities;
 import xyz.launcel.generator.api.dom.xml.LTextElement;
 import xyz.launcel.generator.api.dom.xml.LXmlElement;
 
@@ -32,7 +33,7 @@ public class DeleteByKeyElementGenerator extends AbstractXmlElementGenerator {
         sb.append(introspectedTable.getFullyQualifiedTableNameAtRuntime());
         answer.addElement(new LTextElement(sb.toString()));
         sb.setLength(0);
-        sb.append("SET").append(" enabled=#{enabled}");
+        sb.append("SET").append(" ").append(getEnabledColumn()).append("=#{").append(OutputUtilities.getColumnSeg(getEnabledColumn())).append("}");
         answer.addElement(new LTextElement(sb.toString()));
         sb.setLength(0);
         sb.append("WHERE id=#{id}");
@@ -55,13 +56,17 @@ public class DeleteByKeyElementGenerator extends AbstractXmlElementGenerator {
         for (IntrospectedColumn introspectedColumn : introspectedTable.getNonPrimaryKeyColumns()) {
             sb.setLength(0);
             String name = getEscapedColumnName(introspectedColumn);
-            if (name.equalsIgnoreCase("enabled")) {
+            if (name.equalsIgnoreCase(getEnabledColumn())) {
                 sb.append("SET ").append(name);
                 sb.append(" = ").append(getParameterClause(introspectedColumn));
             }
         }
         answer.addElement(new LTextElement(sb.toString()));
 
+        whereCase(answer, sb);
+    }
+
+    private void whereCase(LXmlElement answer, StringBuilder sb) {
         boolean and = false;
         for (IntrospectedColumn introspectedColumn : introspectedTable.getPrimaryKeyColumns()) {
             sb.setLength(0);
@@ -81,27 +86,10 @@ public class DeleteByKeyElementGenerator extends AbstractXmlElementGenerator {
 
     @SuppressWarnings("unused")
     private void addDeleteElements(LXmlElement answer) {
-
         answer.addElement(new LTextElement("DELETE FROM "));
         StringBuilder sb = new StringBuilder();
         sb.append(introspectedTable.getFullyQualifiedTableNameAtRuntime());
         answer.addElement(new LTextElement("    " + sb.toString()));
-
-        boolean and = false;
-        for (IntrospectedColumn introspectedColumn : introspectedTable
-                .getPrimaryKeyColumns()) {
-            sb.setLength(0);
-            if (and) {
-                sb.append("  AND ");
-            } else {
-                sb.append("WHERE ");
-                and = true;
-            }
-
-            sb.append(getEscapedColumnName(introspectedColumn));
-            sb.append(" = ");
-            sb.append(getParameterClause(introspectedColumn));
-            answer.addElement(new LTextElement(sb.toString()));
-        }
+        whereCase(answer, sb);
     }
 }

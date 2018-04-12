@@ -18,12 +18,15 @@ import org.mybatis.generator.codegen.mybatis3.model.PrimaryKeyGenerator;
 import org.mybatis.generator.codegen.mybatis3.model.RecordWithBLOBsGenerator;
 import org.mybatis.generator.config.PropertyRegistry;
 import org.mybatis.generator.internal.ObjectFactory;
+import org.mybatis.generator.internal.util.StringUtility;
 import xyz.launcel.generator.codegen.mybatis3.xmlmapper.XMLMapperGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class IntrospectedTableImpl extends IntrospectedTable {
+
+    private boolean addDefaultMethod;
 
     protected List<AbstractJavaGenerator> javaModelGenerators;
 
@@ -36,6 +39,14 @@ public class IntrospectedTableImpl extends IntrospectedTable {
         javaModelGenerators = new ArrayList<>();
         clientGenerators = new ArrayList<>();
         super.setBaseResultMapId(getBaseRecordType());
+        String addMethodTemp = getContext().getProperty("addDefaultMethod");
+        if (StringUtility.isTrue(addMethodTemp)) {
+            addDefaultMethod = true;
+        } else if (!StringUtility.isTrue(addMethodTemp)) {
+            addDefaultMethod = false;
+        } else {
+            throw new RuntimeException("IntrospectedTableImpl 属性设置错误,请仔细检查!!");
+        }
     }
 
     @Override
@@ -68,7 +79,7 @@ public class IntrospectedTableImpl extends IntrospectedTable {
     protected void calculateXmlMapperGenerator(AbstractJavaClientGenerator javaClientGenerator,
                                                List<String> warnings,
                                                ProgressCallback progressCallback) {
-        xmlMapperGenerator = new XMLMapperGenerator();
+        xmlMapperGenerator = new XMLMapperGenerator(addDefaultMethod);
         initializeAbstractGenerator(xmlMapperGenerator, warnings, progressCallback);
     }
 
