@@ -23,23 +23,21 @@ public class BaseSqlElementGenerator extends AbstractXmlElementGenerator {
         this.context.getCommentGenerator().addComment(answer);
         StringBuilder sb = new StringBuilder();
         boolean and = false;
-        boolean first = true;
         Iterator<IntrospectedColumn> var5 = this.introspectedTable.getAllColumns().iterator();
 
         IntrospectedColumn introspectedColumn;
 
+        if (!Conston.useEnabledColumn) {
+            sb.append("WHERE");
+            sb.append(" 1=1");
+            answer.addElement(new LTextElement(sb.toString()));
+        } else {
+            sb.append("WHERE").append(" ").append(Conston.enabledColumnName).append("=").append(Conston.enabledColumnValue);
+            answer.addElement(new LTextElement(sb.toString()));
+        }
 
         while (var5.hasNext()) {
 
-            if (first && !Conston.useEnabledColumn) {
-                sb.append("WHERE");
-                sb.append(" 1=1");
-                first = false;
-                answer.addElement(new LTextElement(sb.toString()));
-            } else {
-                sb.append("WHERE").append(" ").append(Conston.enabledColumnName).append("=").append(Conston.enabledColumnValue);
-                answer.addElement(new LTextElement(sb.toString()));
-            }
             sb.setLength(0);
             introspectedColumn = var5.next();
             String columnName = MyBatis3FormattingUtilities.getEscapedColumnName(introspectedColumn);
