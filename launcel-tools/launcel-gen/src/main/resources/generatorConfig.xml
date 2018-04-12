@@ -6,6 +6,7 @@
     <context id="default" targetRuntime="xyz.launcel.generator.codegen.mybatis3.IntrospectedTableImpl">
         
         <property name="addDefaultMethod" value="true"/>
+        <property name="useEnabledColumn" value="true"/>
         <property name="enabledColumnName" value="enabled"/>
         <property name="enabledColumnValue" value="1"/>
 

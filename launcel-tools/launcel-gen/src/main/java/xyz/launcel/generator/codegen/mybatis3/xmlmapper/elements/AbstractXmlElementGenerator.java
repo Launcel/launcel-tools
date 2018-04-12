@@ -10,19 +10,29 @@ import xyz.launcel.generator.api.dom.xml.LXmlElement;
  */
 public abstract class AbstractXmlElementGenerator extends org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.AbstractXmlElementGenerator {
 
+    private boolean useEnabledColumn = true;
+
     protected String enabledColumn = "enabled";
 
     protected String enabledValue = "1";
 
     public AbstractXmlElementGenerator() {
         super();
-        String tempColumn = getContext().getProperty("enabledColumnName");
-        if (StringUtility.stringHasValue(tempColumn)) {
-            enabledColumn = tempColumn;
+        String temp = getContext().getProperty("useEnabledColumn");
+        if (StringUtility.isTrue(temp)) {
+            useEnabledColumn = true;
+        } else {
+            useEnabledColumn = false;
         }
-        String tempValue = getContext().getProperty("enabledColumnValue");
-        if (StringUtility.stringHasValue(tempValue)) {
-            enabledValue = tempValue;
+        if (useEnabledColumn) {
+            String tempColumn = getContext().getProperty("enabledColumnName");
+            if (StringUtility.stringHasValue(tempColumn)) {
+                enabledColumn = tempColumn;
+            }
+            String tempValue = getContext().getProperty("enabledColumnValue");
+            if (StringUtility.stringHasValue(tempValue)) {
+                enabledValue = tempValue;
+            }
         }
     }
 
@@ -57,6 +67,10 @@ public abstract class AbstractXmlElementGenerator extends org.mybatis.generator.
             }
         }
         return parameterType;
+    }
+
+    public boolean isUseEnabledColumn() {
+        return useEnabledColumn;
     }
 
     public String getEnabledColumn() {

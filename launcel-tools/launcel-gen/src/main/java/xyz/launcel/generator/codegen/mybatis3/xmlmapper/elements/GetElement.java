@@ -28,10 +28,11 @@ public class GetElement extends AbstractXmlElementGenerator {
         sb.setLength(0);
         sb.append("WHERE id=#{id}");
         answer.addElement(new LTextElement(sb.toString()));
-        sb.setLength(0);
-        sb.append("AND ").append(getEnabledColumn()).append("=").append(getEnabledValue());
-        answer.addElement(new LTextElement(sb.toString()));
-
+        if (isUseEnabledColumn()) {
+            sb.setLength(0);
+            sb.append("AND ").append(getEnabledColumn()).append("=").append(getEnabledValue());
+            answer.addElement(new LTextElement(sb.toString()));
+        }
 
         if (context.getPlugins().sqlMapSelectByPrimaryKeyElementGenerated(answer, introspectedTable)) {
             parentElement.addElement(answer);
