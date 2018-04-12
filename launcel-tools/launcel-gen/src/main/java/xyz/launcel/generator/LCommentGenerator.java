@@ -45,7 +45,7 @@ public class LCommentGenerator implements CommentGenerator {
     }
 
     public void addConfigurationProperties(Properties propertie) {
-        this.useAnnotation = StringUtility.isTrue(propertie.getProperty("suppressDate"));
+        this.useAnnotation = StringUtility.isTrue(propertie.getProperty("useAnnotation"));
         this.addRemark = StringUtility.isTrue(propertie.getProperty("addRemark"));
 
     }
