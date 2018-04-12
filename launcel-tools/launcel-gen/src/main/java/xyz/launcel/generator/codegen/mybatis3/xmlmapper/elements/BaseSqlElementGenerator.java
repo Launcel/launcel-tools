@@ -27,12 +27,12 @@ public class BaseSqlElementGenerator extends AbstractXmlElementGenerator {
 
         IntrospectedColumn introspectedColumn;
 
-        if (!Conston.useEnabledColumn) {
-            sb.append("WHERE");
-            sb.append(" 1=1");
+        if (Conston.useEnabledColumn) {
+            sb.append("WHERE").append(" ").append(Conston.enabledColumnName).append("=").append(Conston.enabledColumnValue);
             answer.addElement(new LTextElement(sb.toString()));
         } else {
-            sb.append("WHERE").append(" ").append(Conston.enabledColumnName).append("=").append(Conston.enabledColumnValue);
+            sb.append("WHERE");
+            sb.append(" 1=1");
             answer.addElement(new LTextElement(sb.toString()));
         }
 
@@ -41,7 +41,7 @@ public class BaseSqlElementGenerator extends AbstractXmlElementGenerator {
             sb.setLength(0);
             introspectedColumn = var5.next();
             String columnName = MyBatis3FormattingUtilities.getEscapedColumnName(introspectedColumn);
-            if (!columnName.equals(Conston.enabledColumnName)) {
+            if (Conston.useEnabledColumn && !columnName.equals(Conston.enabledColumnName)) {
                 LXmlElement isNotNullElement = new LXmlElement("if");
                 sb.setLength(0);
                 sb.append("param.").append(introspectedColumn.getJavaProperty());
