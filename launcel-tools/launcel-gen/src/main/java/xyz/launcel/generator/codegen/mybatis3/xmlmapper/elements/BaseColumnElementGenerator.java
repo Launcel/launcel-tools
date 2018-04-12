@@ -71,6 +71,7 @@ public class BaseColumnElementGenerator extends AbstractXmlElementGenerator {
                 newLine(sb);
                 xmlIndent(sb, 2);
             }
+            hasLen = false;
         }
 
         if (sb.length() > 0) {
