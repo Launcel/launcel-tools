@@ -10,7 +10,7 @@ import xyz.launcel.generator.api.dom.xml.LXmlElement;
  */
 public abstract class AbstractXmlElementGenerator extends org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.AbstractXmlElementGenerator {
 
-    private boolean useEnabledColumn = true;
+    private boolean useEnabledColumn;
 
     protected String enabledColumn = "enabled";
 
