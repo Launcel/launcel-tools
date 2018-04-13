@@ -20,7 +20,6 @@ public class DefaultCommentGenerator extends AbstractCommentGenerator {
     }
 
     public void addClassComment(InnerClass innerClass, IntrospectedTable introspectedTable) {
-        ShowDocUtils.addClassComment(innerClass, introspectedTable);
     }
 
     public void addFieldComment(Field field, IntrospectedTable introspectedTable, IntrospectedColumn introspectedColumn) {
@@ -57,6 +56,7 @@ public class DefaultCommentGenerator extends AbstractCommentGenerator {
     }
 
     public void addModelClassComment(TopLevelClass clazz, IntrospectedTable introspectedTable) {
+        ShowDocUtils.addClassComment(clazz, introspectedTable);
         if (Conston.useAnnotation) {
             if (!clazz.isJavaInterface()) {
                 clazz.addAnnotation("@Entity");
