@@ -1,56 +1,30 @@
-package xyz.launcel.generator;
+package xyz.launcel.generator.api;
 
-import org.mybatis.generator.api.CommentGenerator;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.CompilationUnit;
 import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.InnerClass;
-import org.mybatis.generator.api.dom.java.InnerEnum;
-import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
-import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.internal.util.StringUtility;
-
-import java.util.Properties;
+import xyz.launcel.generator.api.utils.Conston;
+import xyz.launcel.generator.api.utils.ShowDocUtils;
 
 /**
  * @author Launcel
  */
-public class LCommentGenerator implements CommentGenerator {
+public class DefaultCommentGenerator extends AbstractCommentGenerator {
 
-    public LCommentGenerator() {
+    public DefaultCommentGenerator() {
     }
-
-//    protected String getDateString() {
-//        String result = null;
-//        if (!this.suppressDate) {
-//            result = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
-//        }
-//        return result;
-//    }
 
     public void addClassComment(InnerClass innerClass, IntrospectedTable introspectedTable) {
-    }
-
-    public void addClassComment(InnerClass innerClass, IntrospectedTable introspectedTable, boolean arg2) {
-    }
-
-    public void addComment(XmlElement xmlElement) {
-    }
-
-    public void addConfigurationProperties(Properties propertie) {
-
-    }
-
-    public void addEnumComment(InnerEnum innerEnum, IntrospectedTable table) {
-    }
-
-    public void addFieldComment(Field field, IntrospectedTable introspectedTable) {
+        ShowDocUtils.addClassComment(innerClass, introspectedTable);
     }
 
     public void addFieldComment(Field field, IntrospectedTable introspectedTable, IntrospectedColumn introspectedColumn) {
+        ShowDocUtils.addFieldComment(field, introspectedTable, introspectedColumn);
         if (Conston.useAnnotation) {
             if (introspectedColumn.getActualColumnName().toLowerCase().equals("id")) {
                 field.addAnnotation("@Id");
@@ -66,12 +40,6 @@ public class LCommentGenerator implements CommentGenerator {
             sb.append(")");
             field.addAnnotation(sb.toString());
         }
-    }
-
-    public void addGeneralMethodComment(Method method, IntrospectedTable table) {
-    }
-
-    public void addGetterComment(Method method, IntrospectedTable table, IntrospectedColumn column) {
     }
 
     public void addJavaFileComment(CompilationUnit clazz) {
@@ -104,9 +72,4 @@ public class LCommentGenerator implements CommentGenerator {
         }
     }
 
-    public void addRootComment(XmlElement arg0) {
-    }
-
-    public void addSetterComment(Method method, IntrospectedTable table, IntrospectedColumn column) {
-    }
 }

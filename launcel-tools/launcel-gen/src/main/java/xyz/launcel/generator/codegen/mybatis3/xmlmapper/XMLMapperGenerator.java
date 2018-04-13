@@ -9,9 +9,8 @@ import org.mybatis.generator.api.FullyQualifiedTable;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.Document;
 import org.mybatis.generator.codegen.AbstractXmlGenerator;
-import org.mybatis.generator.config.Context;
 import org.mybatis.generator.internal.util.messages.Messages;
-import xyz.launcel.generator.Conston;
+import xyz.launcel.generator.api.utils.Conston;
 import xyz.launcel.generator.api.dom.xml.LTextElement;
 import xyz.launcel.generator.api.dom.xml.LXmlElement;
 import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.AbstractXmlElementGenerator;
@@ -41,15 +40,21 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
 
         if (Conston.addDefaultMethod) {
             this.addBaseColumnElement(answer);
+
             this.addBaseSql(answer);
             this.addUpdateSql(answer);
+
+            this.addGetElement(answer);
             this.addQueryElementGenerator(answer);
+
             this.addAddElement(answer);
+
             this.addUpdateByPrimaryKeySelectiveElement(answer);
+
+            this.addDeleteByKeyElement(answer);
+
             this.addCountByElement(answer);
             this.addQuetyPagingElement(answer);
-            this.addDeleteByKeyElement(answer);
-            this.addSelectByKeyElement(answer);
         }
         return answer;
     }
@@ -75,11 +80,6 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         AbstractXmlElementGenerator elementGenerator = new QueryElementGenerator();
         this.initializeAndExecuteGenerator(elementGenerator, parentElement);
     }
-
-//    protected void addDeleteByPrimaryKeyElement(LXmlElement parentElement) {
-//        AbstractXmlElementGenerator elementGenerator = new DeleteByPrimaryKeyElementGenerator(true);
-//        this.initializeAndExecuteGenerator(elementGenerator, parentElement);
-//    }
 
     protected void addAddElement(LXmlElement parentElement) {
         AbstractXmlElementGenerator elementGenerator = new AddElementGenerator(true);
@@ -109,7 +109,7 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         this.initializeAndExecuteGenerator(elementGenerator, parentElement);
     }
 
-    protected void addSelectByKeyElement(LXmlElement parentElement) {
+    protected void addGetElement(LXmlElement parentElement) {
         AbstractXmlElementGenerator elementGenerator = new GetElement();
         this.initializeAndExecuteGenerator(elementGenerator, parentElement);
     }
@@ -124,18 +124,6 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
     }
 
     public Document getDocument() {
-        Document document = new Document("-//mybatis.org//DTD Mapper 3.0//EN",
-                "http://mybatis.org/dtd/mybatis-3-mapper.dtd");
-        document.setRootElement(this.getSqlMapElement());
-        if (!this.context.getPlugins().sqlMapDocumentGenerated(document, this.introspectedTable)) {
-            document = null;
-        }
-
-        return document;
-    }
-
-    public Document getDocument(Context context) {
-        setContext(context);
         Document document = new Document("-//mybatis.org//DTD Mapper 3.0//EN",
                 "http://mybatis.org/dtd/mybatis-3-mapper.dtd");
         document.setRootElement(this.getSqlMapElement());

@@ -19,14 +19,15 @@ import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
-import xyz.launcel.generator.api.dom.OutputUtilities;
+import xyz.launcel.generator.api.utils.OutputUtils;
 import xyz.launcel.generator.api.dom.xml.LTextElement;
 import xyz.launcel.generator.api.dom.xml.LXmlElement;
+import xyz.launcel.lang.StringUtils;
 
 import java.util.Iterator;
 
-import static xyz.launcel.generator.api.dom.OutputUtilities.newLine;
-import static xyz.launcel.generator.api.dom.OutputUtilities.xmlIndent;
+import static xyz.launcel.generator.api.utils.OutputUtils.newLine;
+import static xyz.launcel.generator.api.utils.OutputUtils.xmlIndent;
 
 /**
  * @author Launcel
@@ -58,7 +59,7 @@ public class BaseColumnElementGenerator extends AbstractXmlElementGenerator {
                     if (i == 0) {
                         aliasColumn.append(columnSeg[i]);
                     } else {
-                        aliasColumn.append(OutputUtilities.getColumnSeg(columnSeg[i]));
+                        aliasColumn.append(StringUtils.filstCharacterUpperCase(columnSeg[i]));
                     }
                 }
             }

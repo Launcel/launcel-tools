@@ -1,4 +1,4 @@
-package xyz.launcel.generator.api.dom;
+package xyz.launcel.generator.api.utils;
 
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 
@@ -8,7 +8,7 @@ import java.util.TreeSet;
 /**
  * @author Launcel
  */
-public class OutputUtilities {
+public class OutputUtils {
 
     private static final String lineSeparator;
 
@@ -20,7 +20,7 @@ public class OutputUtilities {
         lineSeparator = ls;
     }
 
-    private OutputUtilities() {
+    private OutputUtils() {
         super();
     }
 
@@ -57,7 +57,4 @@ public class OutputUtilities {
         return importStrings;
     }
 
-    public static String getColumnSeg(String columnSeg) {
-        return columnSeg.substring(0, 1).toUpperCase() + columnSeg.substring(1);
-    }
 }

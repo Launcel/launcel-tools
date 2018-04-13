@@ -3,13 +3,13 @@ package xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.XmlElement;
-import xyz.launcel.generator.api.dom.OutputUtilities;
 import xyz.launcel.generator.api.dom.xml.LTextElement;
 import xyz.launcel.generator.api.dom.xml.LXmlElement;
+import xyz.launcel.lang.StringUtils;
 
 import static org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities.getEscapedColumnName;
 import static org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities.getParameterClause;
-import static xyz.launcel.generator.api.dom.OutputUtilities.xmlIndent;
+import static xyz.launcel.generator.api.utils.OutputUtils.xmlIndent;
 
 /**
  * @author Launcel
@@ -47,7 +47,7 @@ public class DeleteByKeyElementGenerator extends AbstractXmlElementGenerator {
         sb.append(introspectedTable.getFullyQualifiedTableNameAtRuntime());
         answer.addElement(new LTextElement(sb.toString()));
         sb.setLength(0);
-        sb.append("SET").append(" ").append(getEnabledColumn()).append("=#{").append(OutputUtilities.getColumnSeg(getEnabledColumn())).append("}");
+        sb.append("SET").append(" ").append(getEnabledColumn()).append("=#{").append(StringUtils.filstCharacterUpperCase(getEnabledColumn())).append("}");
         answer.addElement(new LTextElement(sb.toString()));
         sb.setLength(0);
         sb.append("WHERE id=#{id}");

@@ -3,7 +3,7 @@ package xyz.launcel.generator.api.dom.xml;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.Element;
 import org.mybatis.generator.api.dom.xml.XmlElement;
-import xyz.launcel.generator.api.dom.OutputUtilities;
+import xyz.launcel.generator.api.utils.OutputUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,7 +64,7 @@ public class LXmlElement extends XmlElement {
     public String getFormattedContent(int indentLevel) {
         StringBuilder sb = new StringBuilder();
 
-        OutputUtilities.xmlIndent(sb, indentLevel);
+        OutputUtils.xmlIndent(sb, indentLevel);
         sb.append('<');
         sb.append(name);
 
@@ -77,11 +77,11 @@ public class LXmlElement extends XmlElement {
         if (elements.size() > 0) {
             sb.append(">");
             for (Element element : elements) {
-                OutputUtilities.newLine(sb);
+                OutputUtils.newLine(sb);
                 sb.append(element.getFormattedContent(indentLevel + 1));
             }
-            OutputUtilities.newLine(sb);
-            OutputUtilities.xmlIndent(sb, indentLevel);
+            OutputUtils.newLine(sb);
+            OutputUtils.xmlIndent(sb, indentLevel);
             sb.append("</");
             sb.append(name);
             sb.append('>');

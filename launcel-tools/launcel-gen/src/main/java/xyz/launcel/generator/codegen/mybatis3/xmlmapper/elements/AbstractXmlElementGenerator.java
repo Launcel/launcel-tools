@@ -2,7 +2,7 @@ package xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements;
 
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.XmlElement;
-import xyz.launcel.generator.Conston;
+import xyz.launcel.generator.api.utils.Conston;
 import xyz.launcel.generator.api.dom.xml.LXmlElement;
 
 /**

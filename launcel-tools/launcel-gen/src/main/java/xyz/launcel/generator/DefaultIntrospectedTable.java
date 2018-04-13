@@ -1,4 +1,4 @@
-package xyz.launcel.generator.codegen.mybatis3;
+package xyz.launcel.generator;
 
 import org.mybatis.generator.api.GeneratedJavaFile;
 import org.mybatis.generator.api.GeneratedXmlFile;
@@ -16,20 +16,16 @@ import org.mybatis.generator.codegen.mybatis3.model.BaseRecordGenerator;
 import org.mybatis.generator.codegen.mybatis3.model.ExampleGenerator;
 import org.mybatis.generator.codegen.mybatis3.model.PrimaryKeyGenerator;
 import org.mybatis.generator.codegen.mybatis3.model.RecordWithBLOBsGenerator;
-import org.mybatis.generator.config.Context;
-import org.mybatis.generator.config.ModelType;
 import org.mybatis.generator.config.PropertyRegistry;
 import org.mybatis.generator.internal.ObjectFactory;
-import org.mybatis.generator.internal.util.StringUtility;
-import xyz.launcel.generator.Conston;
+import xyz.launcel.generator.api.utils.Conston;
 import xyz.launcel.generator.codegen.mybatis3.xmlmapper.XMLMapperGenerator;
+import xyz.launcel.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class IntrospectedTableImpl extends IntrospectedTable {
-
-//    protected MyBatisGeneratorConfigurationParser parser;
+public class DefaultIntrospectedTable extends IntrospectedTable {
 
     protected List<AbstractJavaGenerator> javaModelGenerators;
 
@@ -37,16 +33,15 @@ public class IntrospectedTableImpl extends IntrospectedTable {
 
     protected XMLMapperGenerator xmlMapperGenerator;
 
-    public IntrospectedTableImpl() {
+    public DefaultIntrospectedTable() {
         super(TargetRuntime.MYBATIS3);
         javaModelGenerators = new ArrayList<>();
         clientGenerators = new ArrayList<>();
-        setContext(new Context(ModelType.CONDITIONAL));
-        initProp();
         super.setBaseResultMapId(getBaseRecordType());
     }
 
     private void initProp() {
+
         if ("false".equalsIgnoreCase(context.getProperty("addDefaultMethod"))) {
             Conston.addDefaultMethod = false;
         }
@@ -54,18 +49,21 @@ public class IntrospectedTableImpl extends IntrospectedTable {
             Conston.useEnabledColumn = false;
         }
         String enabledColumnNameTemp = context.getProperty("enabledColumnName");
-        if (StringUtility.stringHasValue(enabledColumnNameTemp)) {
+        if (StringUtils.isNotBlank(enabledColumnNameTemp)) {
             Conston.enabledColumnName = enabledColumnNameTemp;
         }
         String enabledColumnValueTemp = context.getProperty("enabledColumnValue");
-        if (StringUtility.stringHasValue(enabledColumnValueTemp)) {
+        if (StringUtils.isNotBlank(enabledColumnValueTemp)) {
             Conston.enabledColumnValue = enabledColumnValueTemp;
         }
-        if ("false".equalsIgnoreCase(context.getProperty("useAnnotation"))) {
+        if (StringUtils.isFalse(context.getProperty("useAnnotation"))) {
             Conston.useAnnotation = false;
         }
-        if ("false".equalsIgnoreCase(context.getProperty("addRemark"))) {
+        if (StringUtils.isFalse(context.getProperty("addRemark"))) {
             Conston.addRemark = false;
+        }
+        if (StringUtils.isTrue(context.getProperty("showDoc"))) {
+            Conston.showDoc = true;
         }
     }
 
@@ -80,8 +78,10 @@ public class IntrospectedTableImpl extends IntrospectedTable {
     }
 
     @Override
-    public void calculateGenerators(List<String> warnings,
-                                    ProgressCallback progressCallback) {
+    public void calculateGenerators(List<String> warnings, ProgressCallback progressCallback) {
+
+        initProp();
+
         calculateJavaModelGenerators(warnings, progressCallback);
 
         AbstractJavaClientGenerator javaClientGenerator = calculateClientGenerators(warnings, progressCallback);
@@ -246,7 +246,7 @@ public class IntrospectedTableImpl extends IntrospectedTable {
         List<GeneratedXmlFile> answer = new ArrayList<>();
 
         if (xmlMapperGenerator != null) {
-            Document document = xmlMapperGenerator.getDocument(context);
+            Document document = xmlMapperGenerator.getDocument();
             GeneratedXmlFile gxf = new GeneratedXmlFile(document,
                     getMyBatis3XmlMapperFileName(), getMyBatis3XmlMapperPackage(),
                     context.getSqlMapGeneratorConfiguration().getTargetProject(),

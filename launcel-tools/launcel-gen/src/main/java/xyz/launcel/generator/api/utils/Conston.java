@@ -1,4 +1,4 @@
-package xyz.launcel.generator;
+package xyz.launcel.generator.api.utils;
 
 public class Conston {
 
@@ -14,4 +14,5 @@ public class Conston {
 
     public static boolean addRemark = true;
 
+    public static boolean showDoc = false;
 }

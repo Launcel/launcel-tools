@@ -1,7 +1,7 @@
 package xyz.launcel.generator.api.dom.xml;
 
 import org.mybatis.generator.api.dom.xml.Element;
-import xyz.launcel.generator.api.dom.OutputUtilities;
+import xyz.launcel.generator.api.utils.OutputUtils;
 
 /**
  * @author Launcel
@@ -17,7 +17,7 @@ public class LTextElement extends Element {
     @Override
     public String getFormattedContent(int indentLevel) {
         StringBuilder sb = new StringBuilder();
-        OutputUtilities.xmlIndent(sb, indentLevel);
+        OutputUtils.xmlIndent(sb, indentLevel);
         sb.append(content);
         return sb.toString();
     }

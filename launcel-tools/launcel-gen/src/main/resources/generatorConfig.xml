@@ -3,8 +3,15 @@
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-    <context id="default" targetRuntime="xyz.launcel.generator.codegen.mybatis3.IntrospectedTableImpl">
-        
+    <context id="default" targetRuntime="xyz.launcel.generator.DefaultIntrospectedTable">
+
+        <!-- beginningDelimiter和endingDelimiter：指明数据库的用于标记数据库对象名的符号，比如ORACLE就是双引号，MYSQL默认是`反引号； -->
+        <property name="endingDelimiter" value="`"/>
+        <property name="beginningDelimiter" value="`"/>
+
+        <!-- 自定义扩展功能选项 -->
+
+
         <property name="addDefaultMethod" value="true"/>
         <property name="useEnabledColumn" value="true"/>
         <property name="enabledColumnName" value="enabled"/>
@@ -12,22 +19,31 @@
         <property name="useAnnotation" value="true"/>
         <property name="addRemark" value="true"/>
 
+
         <!-- 格式化java代码 -->
         <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
         <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
-        <!-- beginningDelimiter和endingDelimiter：指明数据库的用于标记数据库对象名的符号，比如ORACLE就是双引号，MYSQL默认是`反引号； -->
-        <property name="beginningDelimiter" value="`"/>
-        <property name="endingDelimiter" value="`"/>
-
-        <plugin type="xyz.launcel.generator.RenameJavaMapperPlugin">
-            <property name="searchString" value="Mapper$"/>
-            <property name="replaceString" value="DAO"/>
-            <property name="baseDAOPackage" value="xyz.launcel.dao.BaseDAO"/>
-        </plugin>
-
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
 
-        <commentGenerator type="xyz.launcel.generator.LCommentGenerator"/>
+        <plugin type="xyz.launcel.generator.api.rename.JavaDAOMapperRenamePlugin">
+            <property name="searchCharacter" value="Mapper$"/>
+            <property name="replaceCharacter" value="DAO"/>
+            <property name="useBaseDAOPackage" value="true"/>
+            <property name="baseDAOPackage" value="xyz.launcel.dao.BaseDAO"/>
+            <property name="useGeneralizate" value="true"/>
+        </plugin>
+
+        <plugin type="xyz.launcel.generator.api.rename.JavaEntityRenamePlugin">
+            <property name="suffix" value="Entity"/>
+        </plugin>
+
+        <!--<plugin type="xyz.launcel.generator.api.rename.SqlMapperRenamePlugin">-->
+            <!--<property name="searchCharacter" value="Mapper$"/>-->
+            <!--<property name="replaceCharacter" value="DAO"/>-->
+        <!--</plugin>-->
+
+
+        <commentGenerator type="xyz.launcel.generator.api.DefaultCommentGenerator"/>
 
         <!--数据库链接URL，用户名、密码 -->
         <jdbcConnection driverClass="org.mariadb.jdbc.Driver"
