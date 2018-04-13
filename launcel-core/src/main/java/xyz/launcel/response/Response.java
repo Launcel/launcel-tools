@@ -3,23 +3,23 @@ package xyz.launcel.response;
 import java.io.Serializable;
 
 /**
- * Created by xuyang in 2017/9/20
+ * Created by Launcel in 2017/9/20
  */
 public class Response implements Serializable {
 
     private static final long serialVersionUID = -6522850794196317135L;
-    private String code;
+    private Boolean isOk = true;
 
     private Object data;
 
     private String message;
 
-    public String getCode() {
-        return code;
+    public Boolean getIsOk() {
+        return isOk;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setIsOk(Boolean ok) {
+        isOk = ok;
     }
 
     public Object getData() {
@@ -38,24 +38,24 @@ public class Response implements Serializable {
         this.message = message;
     }
 
-    public Response(String code, Object data, String message) {
-        this.code = code;
+    public Response(Boolean isOk, Object data, String message) {
+        this.isOk = isOk;
         this.data = data;
         this.message = message;
     }
 
-    public Response(String code, Object data) {
-        this.code = code;
+    public Response(Boolean isOk, Object data) {
+        this.isOk = isOk;
         this.data = data;
     }
 
-    public Response(Object data, String message) {
+    public Response(String message, Object data) {
         this.data = data;
         this.message = message;
     }
 
-    public Response(String code, String message) {
-        this.code = code;
+    public Response(Boolean isOk, String message) {
+        this.isOk = isOk;
         this.message = message;
     }
 

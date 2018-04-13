@@ -30,7 +30,7 @@ public interface Json {
         return JSON.toJSONString(object);
     }
 
-    static <T> T parseObject(String jsonObject, Class<T> clazz) {
+    static <T> T toObject(String jsonObject, Class<T> clazz) {
         return JSON.parseObject(jsonObject, clazz);
     }
 

@@ -66,12 +66,12 @@ public abstract class BaseController extends BaseLogger {
     }
 
     protected Response getSuccess(Object o) {
-        return new Response("1", o);
+        return new Response(true, o);
     }
 
     protected Response getFail() {
         Response response = new Response();
-        response.setCode("-1");
+        response.setIsOk(false);
         return response;
     }
 

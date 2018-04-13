@@ -49,20 +49,18 @@ public class ExceptionHelp {
         }
     }
 
-    protected static String getMessage(String code) {
+    protected static Map<String, String> getMessage(String code) {
         Map<String, String> map = new HashMap<>();
         try {
             String value = props.getProperty(code);
-            map.put("code", code);
             map.put("message", value);
         } catch (Exception x) {
             map.clear();
-            map.put("code", "MESSAGE_ERROR_001");
             map.put("message", "不存在的错误信息!");
 //            throw new ProfessionException(Json.toJson(map).replaceAll("\\{", "[").replaceAll("}", "]"));
-            throw new ProfessionException(Json.toJson(map));
+//            throw new ProfessionException(Json.toJson(map));
         }
 //        return Json.toJson(map).replaceAll("\\{", "[").replaceAll("}", "]");
-        return Json.toJson(map);
+        return map;
     }
 }

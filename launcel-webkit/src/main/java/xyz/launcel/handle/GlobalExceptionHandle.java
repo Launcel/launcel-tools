@@ -30,36 +30,29 @@ public class GlobalExceptionHandle {
 
     @ExceptionHandler(value = ProfessionException.class)
     public Response professionException(ProfessionException x) {
-        return responseInfo(x.getMessage());
+        return response(x.getMessage());
     }
-    //        getLog().error("missingServletRequestParameterException---Host {} ERROR: {}", req.getRemoteHost(), e.getLocalizedMessage());
 
     @ExceptionHandler(value = SQLException.class)
     public Response sqlException(SQLException x) {
         x.printStackTrace();
-        return response("系统内服错误!");
+        return response("系统内部错误!");
     }
 
     @ExceptionHandler(value = IOException.class)
     public Response ioException(IOException x) {
         x.printStackTrace();
-        return response("系统内服错误!");
+        return response("系统内部错误!");
     }
 
     @ExceptionHandler(SystemError.class)
     public Response systemError(Error x) {
         x.printStackTrace();
-        return response("系统内服错误!");
+        return response("系统内部错误!");
     }
 
     private Response response(String str) {
-        Response response = new Response();
-        response.setCode("-1");
-        response.setMessage(str);
-        return response;
+        return new Response(false, str);
     }
 
-    private Response responseInfo(String str) {
-        return Json.parseObject(str, Response.class);
-    }
 }
