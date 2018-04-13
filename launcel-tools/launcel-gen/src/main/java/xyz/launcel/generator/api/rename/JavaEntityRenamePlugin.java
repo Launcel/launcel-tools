@@ -10,15 +10,20 @@ public class JavaEntityRenamePlugin extends AbstractRenamePlugin {
     private String suffix = "";
 
     public JavaEntityRenamePlugin() {
+    }
+
+    @Override
+    protected void initProp() {
+        super.initProp();
         String suffixTemp = properties.getProperty("suffix");
         if (StringUtils.isNotBlank(suffixTemp)) {
             suffix = suffixTemp;
         }
-
     }
 
     @Override
     public boolean validate(List<String> warnings) {
+        this.initProp();
         return StringUtils.isNotBlank(suffix);
     }
 

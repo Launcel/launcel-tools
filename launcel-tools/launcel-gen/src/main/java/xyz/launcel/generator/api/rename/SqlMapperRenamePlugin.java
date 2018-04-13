@@ -12,7 +12,11 @@ import java.util.regex.Matcher;
 public class SqlMapperRenamePlugin extends AbstractRenamePlugin {
 
     public SqlMapperRenamePlugin() {
-        initProp();
+    }
+
+    @Override
+    protected void initProp() {
+        super.initProp();
     }
 
     public boolean validate(List<String> warnings) {

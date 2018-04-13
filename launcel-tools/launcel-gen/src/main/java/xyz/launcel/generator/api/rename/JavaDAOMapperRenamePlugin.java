@@ -19,7 +19,11 @@ public class JavaDAOMapperRenamePlugin extends AbstractRenamePlugin {
     private String baseDAOPackage = "xyz.launcel.dao.BaseDAO";
 
     public JavaDAOMapperRenamePlugin() {
-        initProp();
+    }
+
+    @Override
+    protected void initProp() {
+        super.initProp();
         String baseDAOPackageTemp = properties.getProperty("baseDAOPackage");
         if (StringUtils.isNotBlank(baseDAOPackageTemp)) {
             baseDAOPackage = baseDAOPackageTemp;
@@ -35,7 +39,8 @@ public class JavaDAOMapperRenamePlugin extends AbstractRenamePlugin {
     }
 
     public boolean validate(List<String> warnings) {
-        return Objects.nonNull(pattern);
+        this.initProp();
+        return Objects.nonNull(pattern) || useBaseDAOPackage;
     }
 
     public void initialized(IntrospectedTable introspectedTable) {
