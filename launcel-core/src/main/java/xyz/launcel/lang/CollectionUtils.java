@@ -7,23 +7,23 @@ import java.util.Iterator;
 import java.util.Map;
 
 public interface CollectionUtils {
-
+    
     static boolean isNotEmpty(Collection coll) {
         return !isEmpty(coll);
     }
-
+    
     static boolean isNotEmpty(Map coll) {
         return !isEmpty(coll);
     }
-
+    
     static boolean isEmpty(Map coll) {
         return (coll == null || coll.isEmpty());
     }
-
+    
     static boolean isEmpty(Collection coll) {
         return (coll == null || coll.isEmpty());
     }
-
+    
     static boolean sizeIsEmpty(Object object) {
         if (object instanceof Collection) {
             return ((Collection) object).isEmpty();
@@ -45,5 +45,5 @@ public interface CollectionUtils {
             }
         }
     }
-
+    
 }

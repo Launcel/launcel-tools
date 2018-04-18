@@ -13,18 +13,18 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
 class ValidateAspejct extends BaseLogger {
-
+    
     void preparedArgs(JoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Method method = signature.getMethod();
+        Method          method    = signature.getMethod();
         if (method.getName().toLowerCase().contains("upload")) {
             return;
         }
-        if (isDebugEnabled()) {
-            info("调用了：" + signature.getDeclaringTypeName() + "." + method.getName() + " 方法 ：参数 \n" + Json.toJson(joinPoint.getArgs()));
+        if (isDebug()) {
+            DEBUG("调用了：" + signature.getDeclaringTypeName() + "." + method.getName() + " 方法 ：参数 \n" + Json.toJson(joinPoint.getArgs()));
         }
         Parameter[] params = method.getParameters();
-        String group = StringUtils.filstCharacterUpperCase(joinPoint.getSignature().getName());
+        String      group  = StringUtils.capitalize(joinPoint.getSignature().getName());
         for (int i = 0; i < params.length; i++) {
             if (params[i].isAnnotationPresent(Validate.class)) {
                 try {
@@ -36,12 +36,12 @@ class ValidateAspejct extends BaseLogger {
             }
         }
     }
-
+    
     void doReturn(JoinPoint joinPoint, Object object) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Method method = signature.getMethod();
-        if (isDebugEnabled()) {
-            info("调用：" + signature.getDeclaringTypeName() + "." + method.getName() + " 方法结束 ：结果 \n" + Json.toJson(object));
+        Method          method    = signature.getMethod();
+        if (isDebug()) {
+            DEBUG("调用：" + signature.getDeclaringTypeName() + "." + method.getName() + " 方法结束 ：结果 \n" + Json.toJson(object));
         }
     }
 }

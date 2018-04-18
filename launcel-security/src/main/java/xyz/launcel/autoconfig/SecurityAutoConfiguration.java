@@ -18,35 +18,36 @@ import java.util.Objects;
 
 @EnableWebMvc
 @Configuration
-@EnableConfigurationProperties(value = {SecurityListProperties.class, JdbcRolePropertites.class})
+@EnableConfigurationProperties(value = { SecurityListProperties.class, JdbcRolePropertites.class })
 public class SecurityAutoConfiguration extends WebMvcConfigurerAdapter {
     private final SecurityListProperties securityListProperties;
-
-    private final JdbcRolePropertites jdbcRolePropertites;
-
+    private final JdbcRolePropertites    jdbcRolePropertites;
+    
     public SecurityAutoConfiguration(SecurityListProperties securityListProperties, JdbcRolePropertites jdbcRolePropertites) {
         this.securityListProperties = securityListProperties;
         this.jdbcRolePropertites = jdbcRolePropertites;
         initSecurityConfig();
     }
-
+    
     private void initSecurityConfig() {
-        if (CollectionUtils.isEmpty(securityListProperties.getList()))
+        if (CollectionUtils.isEmpty(securityListProperties.getList())) {
             ExceptionFactory.create("_SECURITY_ERROR_CODE_001", "");
+        }
         SecurityConfig.setUris(securityListProperties.getList());
     }
-
-
+    
+    
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new RoleInterceptor()).excludePathPatterns(securityListProperties.getExcludePaths());
         super.addInterceptors(registry);
     }
-
+    
     @Bean
     JdbcRole jdbcRole() {
-        if (Objects.isNull(jdbcRolePropertites))
+        if (Objects.isNull(jdbcRolePropertites)) {
             return null;
+        }
         JdbcRole jdbcRole = new JdbcRole();
         jdbcRole.setAuthenticationQuery(jdbcRolePropertites.getAuthenticationQuery());
         jdbcRole.setUserRoleQuery(jdbcRolePropertites.getUserRoleQuery());

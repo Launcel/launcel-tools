@@ -8,14 +8,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
 
 public final class ValidateUtils {
-
+    
     private ValidateUtils() {
     }
-
-    public static String getMethodGroupAnnotation(String method) {
-        return method.substring(0, 1).toUpperCase() + method.substring(1);
-    }
-
+    
     public static void validateLimit(Object object, String group) throws IllegalAccessException {
         Field[] fields = object.getClass().getDeclaredFields();
         for (Field field : fields) {
@@ -27,11 +23,11 @@ public final class ValidateUtils {
             field.setAccessible(false);
         }
     }
-
+    
     @Deprecated
     public static void validateLimit(Parameter parameter, String group) throws ReflectiveOperationException {
-        Class<?> clazz = parameter.getType();
-        Field[] fields = clazz.getDeclaredFields();
+        Class<?> clazz  = parameter.getType();
+        Field[]  fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             field.setAccessible(true);
             if (field.isAnnotationPresent(Limit.class))
@@ -39,7 +35,7 @@ public final class ValidateUtils {
             field.setAccessible(false);
         }
     }
-
+    
     private static void validateGroup(Field f, Object value, String group) {
         Limit l = f.getAnnotation(Limit.class);
 
@@ -72,13 +68,13 @@ public final class ValidateUtils {
 //        }
 //
 //    }
-
+    
     private static void checkFiled(Object value, Limit l) {//,Field f) {
-        String message = l.message();
-        Types typeClassName = l.type();
+        String message       = l.message();
+        Types  typeClassName = l.type();
         verifyType(value, message, typeClassName);//, f.getName());
     }
-
+    
     private static void verifyType(Object o, String message, Types typeClassName) {//, String name) {
         if (typeClassName == Types.string)
             Me.that((String) o).isBlank(message);
@@ -95,6 +91,4 @@ public final class ValidateUtils {
         else if (typeClassName == Types.qq)
             Me.that(RegUtil.isQQ(o)).isFalse(message);
     }
-
-
 }

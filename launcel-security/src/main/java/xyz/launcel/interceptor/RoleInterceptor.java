@@ -17,23 +17,25 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class RoleInterceptor extends BaseLogger implements HandlerInterceptor {
-
+    
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String uri = request.getServletPath();
-        if (isDebugEnabled())
-            debug("request uri is : " + uri);
+        if (isDebug()) {
+            DEBUG("request uri is : " + uri);
+        }
         HttpSession session = request.getSession(false);
-        boolean flat = SecurityConfig.isTransit(uri, session);
-        if (!flat)
+        boolean     flat    = SecurityConfig.isTransit(uri, session);
+        if (!flat) {
             ExceptionFactory.create("_SECURITY_ERROR_CODE_001", "没有相应的权限");
+        }
         return flat;
     }
-
+    
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
     }
-
+    
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         String uri = request.getServletPath();
@@ -48,12 +50,14 @@ public class RoleInterceptor extends BaseLogger implements HandlerInterceptor {
                 }
                 userRoles.add("user");
                 // do role : save in redis
-                if (isDebugEnabled())
-                    debug("roles is : \n" + Json.toJson(userRoles));
-                if (CollectionUtils.isNotEmpty(userRoles))
+                if (isDebug()) {
+                    DEBUG("roles is : \n" + Json.toJson(userRoles));
+                }
+                if (CollectionUtils.isNotEmpty(userRoles)) {
                     session.setAttribute("role", userRoles);
+                }
             }
         }
     }
-
+    
 }

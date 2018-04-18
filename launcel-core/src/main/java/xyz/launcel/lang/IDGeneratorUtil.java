@@ -17,33 +17,33 @@ package xyz.launcel.lang;
  * 自测性能：一秒能有三四十万的数据产生。
  */
 public interface IDGeneratorUtil {
-
+    
     class PrimyIDGenerator {
-
+        
         /**
          * 2017-12-01 0:00:00
          */
         private static final long initTimeMillis = 1512057600000L;
-
+        
         /**
          * 机器编号
          */
         private static final int pid = 3;
-
+        
         /**
          * 计数器
          * 需要保证线程安全
          */
         private static volatile long counter;
-
+        
         private static volatile long currentTimeMillis = System.currentTimeMillis() - initTimeMillis;
-        private static volatile long lastTimeMillis = currentTimeMillis;
+        private static volatile long lastTimeMillis    = currentTimeMillis;
     }
-
-
+    
+    
     static Long nextId() {
         long series = PrimyIDGenerator.counter++;
-
+        
         if (series >= (1 << 12) - 1) {
             while (PrimyIDGenerator.lastTimeMillis == PrimyIDGenerator.currentTimeMillis) {//等待到下一秒
                 PrimyIDGenerator.currentTimeMillis = System.currentTimeMillis() - PrimyIDGenerator.initTimeMillis;
@@ -54,5 +54,5 @@ public interface IDGeneratorUtil {
         }
         return (PrimyIDGenerator.currentTimeMillis << 22) | (PrimyIDGenerator.pid << 12) | series;
     }
-
+    
 }

@@ -22,13 +22,13 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableConfigurationProperties(value = DozerProperties.class)
 public class DozerAutoConfiguration extends BaseLogger {
-
+    
     private final DozerProperties properties;
-
+    
     public DozerAutoConfiguration(DozerProperties dozerProperties) {
         this.properties = dozerProperties;
     }
-
+    
     //    @Lazy
     @Bean(name = "dozer")
     public Mapper mapper() {
@@ -43,8 +43,8 @@ public class DozerAutoConfiguration extends BaseLogger {
                         throw new RuntimeException(e);
                     }
                 }).collect(Collectors.toList());
-                if (isDebugEnabled())
-                    debug(">>>  dozer mapper list is : " + Json.toJson(xmlString));
+                if (isDebug())
+                    DEBUG(">>>  dozer mapper list is : " + Json.toJson(xmlString));
                 mapper.setMappingFiles(xmlString);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -52,6 +52,6 @@ public class DozerAutoConfiguration extends BaseLogger {
         }
         return mapper;
     }
-
-
+    
+    
 }

@@ -13,19 +13,19 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class JdbcRolePropertites {
     private String authenticationQuery;
     private String userRoleQuery;
-
+    
     public String getAuthenticationQuery() {
         return authenticationQuery;
     }
-
+    
     public void setAuthenticationQuery(String authenticationQuery) {
         this.authenticationQuery = authenticationQuery;
     }
-
+    
     public String getUserRoleQuery() {
         return userRoleQuery;
     }
-
+    
     public void setUserRoleQuery(String userRoleQuery) {
         this.userRoleQuery = userRoleQuery;
     }

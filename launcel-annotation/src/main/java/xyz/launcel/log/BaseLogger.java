@@ -4,44 +4,47 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BaseLogger {
-    private Logger log = LoggerFactory.getLogger(this.getClass());
-
+    private Logger log = LoggerFactory.getLogger("root");
+    
     protected Logger log() {
         return log;
     }
-
-    protected void info(String format, Object... arguments) {
+    
+    protected void INFO(String format, Object... arguments) {
         log.info(format, arguments);
     }
-
-    protected void info(String msg) {
-        log.info("\n------------------------------------------------------------------------\n\t{}",
-                msg + "\n------------------------------------------------------------------------");
+    
+    protected void INFO(String msg) {
+        log.info(logInfo(msg));
     }
-
-    protected void debug(String format, Object... arguments) {
+    
+    protected void DEBUG(String format, Object... arguments) {
         log.debug(format, arguments);
     }
-
-    protected void debug(String msg) {
-        log.debug("\n------------------------------------------------------------------------\n\t{}",
-                msg + "\n------------------------------------------------------------------------");
+    
+    protected void DEBUG(String msg) {
+        log.debug(logInfo(msg));
     }
-
-    protected boolean isDebugEnabled() {
+    
+    protected boolean isDebug() {
         return log.isDebugEnabled();
     }
-
-    protected void warn(String format, Object... arguments) {
+    
+    protected void WARN(String format, Object... arguments) {
         log.warn(format, arguments);
     }
-
-    protected void warn(String msg) {
-        log.warn(msg);
+    
+    protected void WARN(String msg) {
+        log.warn(logInfo(msg));
     }
-
-    protected void error(String format, Object... arguments) {
+    
+    protected void ERROR(String format, Object... arguments) {
         log.error(format, arguments);
     }
-
+    
+    private String logInfo(String msg) {
+        return new StringBuilder("\n------------------------------------------------------------------------\n\t{}").
+                append(msg).append("\n------------------------------------------------------------------------").toString();
+    }
+    
 }

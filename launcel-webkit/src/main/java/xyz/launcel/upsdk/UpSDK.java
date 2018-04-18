@@ -18,31 +18,31 @@ import java.util.Date;
  * @author Launcel
  */
 public class UpSDK {
-
-
+    
+    
     private UploadProperties properties;
-
+    
     public UpSDK(UploadProperties properties) {
         this.properties = properties;
     }
-
+    
     public UpSDK() {
     }
-
+    
     public String upload(File file) {
         try {
             InputStream in = new FileInputStream(file);
             check(in, file.length());
             String newName = getNewName(file.getName());
-            File dir = new File(getGenPath(newName));
+            File   dir     = new File(getGenPath(newName));
             if (!dir.getParentFile().exists()) {
                 if (!dir.getParentFile().mkdirs()) {
                     return null;
                 }
             }
-            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(dir));
-            int bytesRead;
-            byte[] buffer = new byte[8192];
+            BufferedOutputStream out    = new BufferedOutputStream(new FileOutputStream(dir));
+            int                  bytesRead;
+            byte[]               buffer = new byte[8192];
             while ((bytesRead = in.read(buffer, 0, 8192)) != -1) {
                 out.write(buffer, 0, bytesRead);
             }
@@ -55,7 +55,7 @@ public class UpSDK {
         }
         return null;
     }
-
+    
     private void check(InputStream in, Long size) {
         try {
             checkContent(in);
@@ -64,8 +64,8 @@ public class UpSDK {
         }
         checkSize(size);
     }
-
-
+    
+    
     /**
      * @param file
      * @return net resource url
@@ -77,7 +77,7 @@ public class UpSDK {
             e.printStackTrace();
         }
         String newName = getNewName(file.getOriginalFilename());
-        File dir = new File(getGenPath(newName));
+        File   dir     = new File(getGenPath(newName));
         if (!dir.getParentFile().exists()) {
             if (!dir.getParentFile().mkdirs()) {
                 return null;
@@ -95,7 +95,7 @@ public class UpSDK {
         }
         return null;
     }
-
+    
     private void checkSize(Long size) {
 //        if (file.getSize() < (properties.getMinSize() * 2 << 19)) {
         if (size < (properties.getMinSize())) {
@@ -106,7 +106,7 @@ public class UpSDK {
             ExceptionFactory.create("文件大小超过限制");
         }
     }
-
+    
     /**
      * 检验上传文件的头信息，用来判断是否是非法文件
      *
@@ -118,14 +118,15 @@ public class UpSDK {
         if (in == null) {
             ExceptionFactory.create("无法识别的文件");
         }
-        if (in.read(b, 0, b.length) < 4) {
+        if ((in != null ? in.read(b, 0, b.length) : 0) < 4) {
             ExceptionFactory.create("文件太小");
         }
         StringBuilder sb = new StringBuilder();
-        String hv;
+        String        hv;
         for (byte b1 : b) {
             hv = Integer.toHexString(b1 & 0xFF).toLowerCase();
-            if (hv.length() < 2) sb.append(0);
+            if (hv.length() < 2)
+                sb.append(0);
             sb.append(hv);
         }
         if (properties.getContentType().contains(sb.toString())) {
@@ -133,7 +134,7 @@ public class UpSDK {
         }
         ExceptionFactory.create("不能接收的文件类型");
     }
-
+    
     private String getExt(String originalName) {
         Integer index = originalName.lastIndexOf(".");
         if (index <= 0) {
@@ -143,36 +144,36 @@ public class UpSDK {
         checkFile(ext);
         return ext;
     }
-
+    
     private void checkFile(String ext) {
         if (properties.getFileType().contains(ext.toLowerCase())) {
             return;
         }
         ExceptionFactory.create("不能接收的文件类型");
     }
-
+    
     private String getNewName(String oldName) {
         return getNewFileName(getExt(oldName));
     }
-
+    
     private String getSavePath(String newName) {
         return File.separator + newName;
     }
-
+    
     private String getGenPath(String newName) {
         return properties.getPath() + getSavePath(newName);
     }
-
+    
     private String getDomainPath(String newName) {
         return properties.getDomain() + getSavePath(newName);
     }
-
+    
     private String getNewFileName(String ext) {
         return new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd").format(new Date()) + File.separator + StringUtils.getUUID() + "." + ext;
     }
-
+    
     public static void main(String[] args) {
         System.out.println(new UpSDK().getNewFileName("png"));
     }
-
+    
 }

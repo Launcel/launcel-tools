@@ -15,21 +15,21 @@ import java.util.Objects;
 import java.util.Properties;
 
 public class ExceptionHelp {
-
+    
     private ExceptionHelp() {
     }
-
-
+    
+    
     private static Properties props = null;
-
+    
     public static void initProperties() {
         Logger log = LoggerFactory.getLogger(ExceptionHelp.class);
         try {
             if (Objects.isNull(props)) {
-                PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-                Resource[] resources = resolver.getResources("classpath*:/prop/error.properties");
+                PathMatchingResourcePatternResolver resolver  = new PathMatchingResourcePatternResolver();
+                Resource[]                          resources = resolver.getResources("classpath*:/prop/error.properties");
                 props = new Properties();
-                InputStream in = null;
+                InputStream       in  = null;
                 InputStreamReader inr = null;
                 try {
                     for (Resource resource : resources) {
@@ -38,8 +38,12 @@ public class ExceptionHelp {
                         props.load(inr);
                     }
                 } finally {
-                    if (inr != null) inr.close();
-                    if (in != null) in.close();
+                    if (inr != null) {
+                        inr.close();
+                    }
+                    if (in != null) {
+                        in.close();
+                    }
                 }
                 if (log.isDebugEnabled())
                     log.debug("  >>>   错误信息加载完毕！");
@@ -48,7 +52,7 @@ public class ExceptionHelp {
             throw new ProfessionException("  >>>   错误信息文件加载失败!");
         }
     }
-
+    
     protected static Map<String, String> getMessage(String code) {
         Map<String, String> map = new HashMap<>();
         try {
@@ -57,10 +61,7 @@ public class ExceptionHelp {
         } catch (Exception x) {
             map.clear();
             map.put("message", "不存在的错误信息!");
-//            throw new ProfessionException(Json.toJson(map).replaceAll("\\{", "[").replaceAll("}", "]"));
-//            throw new ProfessionException(Json.toJson(map));
         }
-//        return Json.toJson(map).replaceAll("\\{", "[").replaceAll("}", "]");
         return map;
     }
 }

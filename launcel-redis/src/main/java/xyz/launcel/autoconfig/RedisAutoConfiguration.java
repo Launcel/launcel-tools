@@ -26,15 +26,15 @@ import javax.inject.Named;
 @Configuration
 @EnableConfigurationProperties(value = RedisProperties.class)
 public class RedisAutoConfiguration extends CachingConfigurerSupport {
-
+    
     private Logger logger = LoggerFactory.getLogger(RedisAutoConfiguration.class);
-
+    
     private final RedisProperties redisProperties;
-
+    
     public RedisAutoConfiguration(RedisProperties redisProperties) {
         this.redisProperties = redisProperties;
     }
-
+    
     @Primary
     @Bean(name = "redisPool")
     public JedisPoolConfig jedisPoolConfig() {
@@ -45,7 +45,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
         pool.setMaxWaitMillis(redisProperties.getMaxWait());
         return pool;
     }
-
+    
     @Primary
     @Bean(name = "redisConnectionFactory")
     @ConditionalOnBean(name = "redisConnectionFactory")
@@ -60,7 +60,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
         factory.setPoolConfig(jedisPoolConfig);
         return factory;
     }
-
+    
     @Primary
     @Bean(name = "redisTemplate")
     @ConditionalOnBean(name = "redisConnectionFactory")
@@ -75,16 +75,16 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
         template.setHashKeySerializer(serializer);
         template.setHashValueSerializer(serializer);
         template.afterPropertiesSet();
-
+        
         return template;
     }
-
+    
     @Primary
     @Bean
     public CacheManager cacheManager(RedisTemplate<String, Object> redisTemplate) {
         return new RedisCacheManager(redisTemplate);
     }
-
+    
     @Bean
     @Override
     public CacheErrorHandler errorHandler() {
@@ -93,22 +93,22 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
             public void handleCacheGetError(RuntimeException e, Cache cache, Object key) {
                 logger.error("redis异常：key=[{}]", key);
             }
-
+            
             @Override
             public void handleCachePutError(RuntimeException e, Cache cache, Object key, Object value) {
                 logger.error("redis异常：key=[{}]", key);
             }
-
+            
             @Override
             public void handleCacheEvictError(RuntimeException e, Cache cache, Object key) {
                 logger.error("redis异常：key=[{}]", key);
             }
-
+            
             @Override
             public void handleCacheClearError(RuntimeException e, Cache cache) {
                 logger.error("redis异常：", e);
             }
         };
     }
-
+    
 }

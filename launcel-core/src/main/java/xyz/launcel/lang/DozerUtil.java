@@ -16,17 +16,17 @@ import java.util.Collection;
 import java.util.List;
 
 public interface DozerUtil {
-
+    
     class DozerMapperInstance {
         private static Mapper dozer = ApplicationContextHook.getBean("dozer");
     }
-
-
+    
+    
     static <T> T map(Object source, Class<T> destinationClass) {
         return DozerMapperInstance.dozer.map(source, destinationClass);
     }
-
-
+    
+    
     /**
      * transform list to anthor list
      *

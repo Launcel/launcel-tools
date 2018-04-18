@@ -3,7 +3,7 @@ package xyz.launcel.lang;
 import java.io.UnsupportedEncodingException;
 
 public interface Base64 {
-
+    
     static String encode(String string) {
         try {
             return java.util.Base64.getEncoder().encodeToString(string.getBytes("utf-8"));
@@ -11,7 +11,7 @@ public interface Base64 {
             return null;
         }
     }
-
+    
     static String decode(String string) {
         byte[] bytes = java.util.Base64.getDecoder().decode(string);
         try {
@@ -20,5 +20,5 @@ public interface Base64 {
             return null;
         }
     }
-
+    
 }
