@@ -70,25 +70,36 @@ public final class ValidateUtils {
 //    }
     
     private static void checkFiled(Object value, Limit l) {//,Field f) {
-        String message       = l.message();
-        Types  typeClassName = l.type();
-        verifyType(value, message, typeClassName);//, f.getName());
+        String message = l.message();
+        Types  type    = l.type();
+        verifyType(value, message, type);//, f.getName());
     }
     
-    private static void verifyType(Object o, String message, Types typeClassName) {//, String name) {
-        if (typeClassName == Types.string)
-            Me.that((String) o).isBlank(message);
-        else if (typeClassName == Types.number)
-            Me.that(RegUtil.isNum(o)).isFalse(message);
-        else if (typeClassName == Types.ip)
-            Me.that(RegUtil.isIP(o)).isFalse(message);
-        else if (typeClassName == Types.decimal)
-            Me.that(RegUtil.isFloatNum(o)).isFalse(message);
-        else if (typeClassName == Types.email)
-            Me.that(RegUtil.isEmail(o)).isFalse(message);
-        else if (typeClassName == Types.tel)
-            Me.that(RegUtil.isMobile(o)).isFalse(message);
-        else if (typeClassName == Types.qq)
-            Me.that(RegUtil.isQQ(o)).isFalse(message);
+    private static void verifyType(Object o, String message, Types type) {//, String name) {
+        switch (type) {
+            case string:
+                Me.that((String) o).isBlank(message);
+                break;
+            case number:
+                Me.that(RegUtil.isNum(o)).isFalse(message);
+                break;
+            case ip:
+                Me.that(RegUtil.isIP(o)).isFalse(message);
+                break;
+            case decimal:
+                Me.that(RegUtil.isFloatNum(o)).isFalse(message);
+                break;
+            case email:
+                Me.that(RegUtil.isEmail(o)).isFalse(message);
+                break;
+            case tel:
+                Me.that(RegUtil.isMobile(o)).isFalse(message);
+                break;
+            case qq:
+                Me.that(RegUtil.isQQ(o)).isFalse(message);
+                break;
+            default:
+                break;
+        }
     }
 }

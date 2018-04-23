@@ -5,8 +5,10 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-public class StringUtils {
+public final class StringUtils {
     
+    private StringUtils() {
+    }
     
     public static int indexOf(final CharSequence cs, final CharSequence searchChar, final int start) {
         return cs.toString().indexOf(searchChar.toString(), start);

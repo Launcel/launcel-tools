@@ -8,6 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>launcel-session</artifactId>
+    <version>${build.version}</version>
     <packaging>jar</packaging>
 
     <name>launcel-session</name>
@@ -51,7 +52,7 @@
         <dependency>
             <groupId>xyz.launcel</groupId>
             <artifactId>launcel-redis</artifactId>
-            <version>1.0</version>
+            <version>${build.version}</version>
         </dependency>
 
         <dependency>

@@ -19,6 +19,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>launcel-webkit</artifactId>
+    <version>${build.version}</version>
     <packaging>jar</packaging>
 
 
@@ -26,7 +27,7 @@
         <dependency>
             <groupId>xyz.launcel</groupId>
             <artifactId>launcel-core</artifactId>
-            <version>1.1</version>
+            <version>${build.version}</version>
             <scope>compile</scope>
         </dependency>
 

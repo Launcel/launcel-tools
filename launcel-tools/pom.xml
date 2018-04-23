@@ -3,7 +3,7 @@
     <parent>
         <artifactId>launcel-parent</artifactId>
         <groupId>xyz.launcel</groupId>
-        <version>1.0</version>
+        <version>1.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -31,7 +31,7 @@
             <dependency>
                 <groupId>xyz.launcel</groupId>
                 <artifactId>launcel-core</artifactId>
-                <version>1.1</version>
+                <version>${build.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

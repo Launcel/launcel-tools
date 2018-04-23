@@ -8,6 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>launcel-datasource</artifactId>
+    <version>${build.version}</version>
     <packaging>jar</packaging>
 
     <name>launcel-datasource</name>
@@ -32,7 +33,7 @@
         <dependency>
             <groupId>xyz.launcel</groupId>
             <artifactId>launcel-core</artifactId>
-            <version>1.0</version>
+            <version>${build.version}</version>
         </dependency>
 
         <dependency>

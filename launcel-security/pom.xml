@@ -8,6 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>launcel-security</artifactId>
+    <version>${build.version}</version>
     <packaging>jar</packaging>
 
     <name>launcel-security</name>
@@ -22,7 +23,7 @@
         <dependency>
             <groupId>xyz.launcel</groupId>
             <artifactId>launcel-core</artifactId>
-            <version>1.1</version>
+            <version>${build.version}</version>
         </dependency>
 
         <dependency>
@@ -53,7 +54,7 @@
         <dependency>
             <groupId>xyz.launcel</groupId>
             <artifactId>launcel-datasource</artifactId>
-            <version>1.1</version>
+            <version>${build.version}</version>
         </dependency>
 
     </dependencies>
