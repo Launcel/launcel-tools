@@ -9,7 +9,7 @@ import xyz.launcel.annotation.Limit;
 import xyz.launcel.annotation.ParamValidate;
 import xyz.launcel.annotation.Types;
 import xyz.launcel.lang.RegUtil;
-import xyz.launcel.log.BaseLogger;
+import xyz.launcel.log.RootLogger;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -23,7 +23,7 @@ import java.util.Objects;
 //@Aspect
 //@Component
 @Deprecated
-public class ParamValidatorAspect extends BaseLogger {
+public class ParamValidatorAspect {
     
     @Pointcut("@annotation(xyz.launcel.annotation.Validate)")
     public void initValidate() {
@@ -53,7 +53,7 @@ public class ParamValidatorAspect extends BaseLogger {
                     } catch (IllegalAccessException e) {
                         throw new IllegalArgumentException("_DEFINE_ERROR_CODE_004");
                     } catch (InstantiationException e) {
-                        ERROR("不可能的错误，{} 实例化错误", params[i].getType());
+                        RootLogger.ERROR("不可能的错误，{} 实例化错误", params[i].getType().getName());
                     }
                 }
             }

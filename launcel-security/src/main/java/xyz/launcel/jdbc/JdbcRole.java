@@ -85,7 +85,7 @@ public class JdbcRole extends BaseLogger {
                 conn.close();
             } catch (SQLException e) {
                 if (isDebug())
-                    DEBUG("Could not close JDBC Connection", e);
+                    DEBUG("Could not close JDBC Connection");
             }
         }
     }
@@ -96,7 +96,7 @@ public class JdbcRole extends BaseLogger {
                 ps.close();
             } catch (SQLException e) {
                 if (isDebug())
-                    DEBUG("Could not close JDBC PreparedStatement", e);
+                    DEBUG("Could not close JDBC PreparedStatement");
             }
         }
     }
@@ -107,7 +107,7 @@ public class JdbcRole extends BaseLogger {
                 rs.close();
             } catch (SQLException e) {
                 if (isDebug())
-                    DEBUG("Could not close JDBC ResultSet", e);
+                    DEBUG("Could not close JDBC ResultSet");
             }
         }
     }

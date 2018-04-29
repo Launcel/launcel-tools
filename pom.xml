@@ -4,7 +4,7 @@
 
     <groupId>xyz.launcel</groupId>
     <artifactId>launcel-parent</artifactId>
-    <version>${build.version}</version>
+    <version>1.2</version>
     <packaging>pom</packaging>
     <modules>
         <module>launcel-annotation</module>
@@ -28,7 +28,6 @@
             <url>https://github.launcel.io</url>
         </developer>
     </developers>
-
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

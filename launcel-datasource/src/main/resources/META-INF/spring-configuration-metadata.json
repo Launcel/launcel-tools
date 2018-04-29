@@ -65,13 +65,13 @@
     {
       "name": "db.jdbc.main.driver-class-name",
       "type": "java.lang.String",
-      "defaultValue": "net.sf.log4jdbc.DriverSpy",
+      "defaultValue": "org.mariadb.jdbc.Driver",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.main.url",
       "type": "java.lang.String",
-      "defaultValue": "jdbc:log4jdbc:mysql://localhost:3306/wx-shop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false",
+      "defaultValue": "jdbc:maria://localhost:3306/wx-shop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
@@ -160,6 +160,12 @@
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
+      "name": "db.jdbc.main.debug-sql",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
+    },
+    {
       "name": "db.jdbc.main.roleDataSource",
       "type": "java.lang.Boolean",
       "defaultValue": false,
@@ -180,13 +186,13 @@
     {
       "name": "db.jdbc.others.driver-class-name",
       "type": "java.lang.String",
-      "defaultValue": "net.sf.log4jdbc.DriverSpy",
+      "defaultValue": "org.mariadb.jdbc.Driver",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
       "name": "db.jdbc.others.url",
       "type": "java.lang.String",
-      "defaultValue": "jdbc:log4jdbc:mysql://localhost:3306/wx-shop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false",
+      "defaultValue": "jdbc:maria://localhost:3306/wx-shop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false",
       "description": "JDBC driverClassName of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
@@ -272,6 +278,12 @@
     },
     {
       "name": "db.jdbc.others.read",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
+    },
+    {
+      "name": "db.jdbc.others.debug-sql",
       "type": "java.lang.Boolean",
       "defaultValue": false,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"

@@ -12,28 +12,32 @@ import xyz.launcel.lang.StringUtils;
 
 public class StringAssert {
     private String flat;
-
+    
     StringAssert(String f) {
         flat = f;
     }
-
+    
     public void isEmpty(String message) {
-        if (StringUtils.isEmpty(flat))
+        if (StringUtils.isEmpty(flat)) {
             ExceptionFactory.create(message);
+        }
     }
-
+    
     public void isBlank(String message) {
-        if (StringUtils.isBlank(flat))
+        if (StringUtils.isBlank(flat)) {
             ExceptionFactory.create(message);
+        }
     }
-
+    
     public void notEmpty(String message) {
-        if (!StringUtils.isNotEmpty(flat))
+        if (!StringUtils.isNotEmpty(flat)) {
             ExceptionFactory.create(message);
+        }
     }
-
+    
     public void notBlank(String message) {
-        if (StringUtils.isNotBlank(flat))
+        if (StringUtils.isNotBlank(flat)) {
             ExceptionFactory.create(message);
+        }
     }
 }

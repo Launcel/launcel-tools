@@ -1,6 +1,5 @@
 package xyz.launcel.interceptor;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import xyz.launcel.config.SecurityConfig;
@@ -8,6 +7,7 @@ import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.jdbc.JdbcRole;
 import xyz.launcel.jdbc.SimpleJdbcRole;
 import xyz.launcel.json.Json;
+import xyz.launcel.lang.CollectionUtils;
 import xyz.launcel.log.RootLogger;
 
 import javax.servlet.http.HttpServletRequest;

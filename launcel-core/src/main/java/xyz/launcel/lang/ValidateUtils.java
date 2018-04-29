@@ -2,7 +2,7 @@ package xyz.launcel.lang;
 
 import xyz.launcel.annotation.Limit;
 import xyz.launcel.annotation.Types;
-import xyz.launcel.ensure.Me;
+import xyz.launcel.exception.ExceptionFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
@@ -38,68 +38,63 @@ public final class ValidateUtils {
     
     private static void validateGroup(Field f, Object value, String group) {
         Limit l = f.getAnnotation(Limit.class);
-
-//        if (l.group().length > 0 && l.excGroup().length > 0)
-//            ExceptionFactory.error("_DEFINE_ERROR_CODE_013", "Limit校验不能同时出现group和exceptGroup");
-//        // 全部校验
-//        if (l.group().length <= 0 && l.excGroup().length <= 0)
-//            checkFiled(value, l);//,f);
-//        else if (l.group().length <= 0 && l.excGroup().length > 0)
-//            validateExceptGroup(f, value, group);
-//        else if (l.excGroup().length <= 0 && l.group().length > 0) {
-//            for (Class<?> aClass : l.group())
-//                if (aClass.getSimpleName().equals(group))
-//                    checkFiled(value, l);//,f);
-//        }
         if (l.group().length > 0) {
             for (Class<?> aClass : l.group())
                 if (aClass.getSimpleName().equals(group))
-                    checkFiled(value, l);//,f);
+                    checkFiled(value, l, f);
         } else // 全部校验
-            checkFiled(value, l);//,f);
+            checkFiled(value, l, f);
     }
-
-
-//    private static void validateExceptGroup(Field f, Object value, String group) {
-//        Limit l = f.getAnnotation(Limit.class);
-//        for (Class<?> clazz : l.excGroup()) {
-//            if (clazz.getSimpleName().equals(group)) return;
-//            checkFiled(value, l);//,f);
-//        }
-//
-//    }
     
-    private static void checkFiled(Object value, Limit l) {//,Field f) {
+    private static void checkFiled(Object value, Limit l, Field f) {
         String message = l.message();
         Types  type    = l.type();
-        verifyType(value, message, type);//, f.getName());
+        verifyType(value, message, type, f.getName());
     }
     
-    private static void verifyType(Object o, String message, Types type) {//, String name) {
+    private static void verifyType(Object o, String message, Types type, String name) {
+        String msg = name;
         switch (type) {
             case string:
-                Me.that((String) o).isBlank(message);
+                if (StringUtils.isBlank((String) o)) {
+                    msg += "不能为空";
+                }
                 break;
             case number:
-                Me.that(RegUtil.isNum(o)).isFalse(message);
+                if (!RegUtil.isNum(o)) {
+                    msg += "不是整数";
+                }
                 break;
             case ip:
-                Me.that(RegUtil.isIP(o)).isFalse(message);
+                if (!RegUtil.isIP(o)) {
+                    msg += "不是合法ip";
+                }
                 break;
             case decimal:
-                Me.that(RegUtil.isFloatNum(o)).isFalse(message);
+                if (!RegUtil.isFloatNum(o)) {
+                    msg += "不是小数";
+                }
                 break;
             case email:
-                Me.that(RegUtil.isEmail(o)).isFalse(message);
+                if (!RegUtil.isEmail(o)) {
+                    msg += "不能为空";
+                }
                 break;
             case tel:
-                Me.that(RegUtil.isMobile(o)).isFalse(message);
+                if (!RegUtil.isMobile(o)) {
+                    msg += "不是合法手机号码";
+                }
                 break;
             case qq:
-                Me.that(RegUtil.isQQ(o)).isFalse(message);
+                if (!RegUtil.isQQ(o)) {
+                    msg += "不是合法QQ号码";
+                }
                 break;
             default:
                 break;
+        }
+        if (!msg.equals(name)) {
+            ExceptionFactory.create(message, msg);
         }
     }
 }

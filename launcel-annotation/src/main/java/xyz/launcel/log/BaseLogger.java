@@ -2,7 +2,7 @@ package xyz.launcel.log;
 
 public class BaseLogger {
     
-    protected void INFO(String format, Object... arguments) {
+    protected void INFO(String format, String... arguments) {
         RootLogger.INFO(format, arguments);
     }
     
@@ -10,7 +10,7 @@ public class BaseLogger {
         RootLogger.INFO(msg);
     }
     
-    protected void DEBUG(String format, Object... arguments) {
+    protected void DEBUG(String format, String... arguments) {
         RootLogger.INFO(format, arguments);
     }
     
@@ -22,7 +22,7 @@ public class BaseLogger {
         return RootLogger.isDebug();
     }
     
-    protected void WARN(String format, Object... arguments) {
+    protected void WARN(String format, String... arguments) {
         RootLogger.WARN(format, arguments);
     }
     
@@ -30,7 +30,7 @@ public class BaseLogger {
         RootLogger.WARN(msg);
     }
     
-    protected void ERROR(String format, Object... arguments) {
+    protected void ERROR(String format, String... arguments) {
         RootLogger.ERROR(format, arguments);
     }
     

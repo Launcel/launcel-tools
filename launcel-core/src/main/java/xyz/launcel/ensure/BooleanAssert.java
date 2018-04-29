@@ -15,8 +15,9 @@ public class BooleanAssert {
     }
 
     public void isFalse(String message) {
-        if (!flat)
+        if (!flat) {
             ExceptionFactory.create(message);
+        }
     }
 
 }

@@ -27,7 +27,6 @@ import xyz.launcel.constant.SessionConstant;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.hook.BeanDefinitionRegistryTool;
 import xyz.launcel.interceptor.PageInterceptor;
-import xyz.launcel.log.BaseLogger;
 import xyz.launcel.prop.DataSourceProperties;
 import xyz.launcel.prop.DataSourceProperties.DataSourcePropertie;
 import xyz.launcel.prop.MybatisProperties;
@@ -43,7 +42,7 @@ import java.util.Objects;
 
 @Configuration
 @EnableConfigurationProperties(value = { DataSourceProperties.class, MybatisProperties.class })
-public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implements BeanDefinitionRegistryPostProcessor, EnvironmentAware {
+public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRegistryPostProcessor, EnvironmentAware {
     
     private          List<DataSourcePropertie>     multipleDataSource    = new ArrayList<>();
     private          Map<String, MybatisPropertie> multipleMybatis       = new HashMap<>();
@@ -76,17 +75,17 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
         sqlSession.addPropertyValue(SessionConstant.dataSourceName, hikariDataSource);
         sqlSession.addPropertyValue(SessionConstant.configLocationName, SessionConstant.configLocationValue);
         sqlSession.addPropertyValue(SessionConstant.typeAliasesPackageName, mybatisPropertie.getAliasesPackage());
-        sqlSession.addPropertyValue(SessionConstant.pluginName, new Interceptor[]{ new PageInterceptor() });
+        sqlSession.addPropertyValue(SessionConstant.pluginName, new Interceptor[]{ new PageInterceptor(dataSourcePropertie.getDebugSql()) });
         try {
             sqlSession.addPropertyValue(SessionConstant.mapperLocationName, new PathMatchingResourcePatternResolver().getResources(mybatisPropertie.getMapperResource()));
         } catch (IOException e) {
             ExceptionFactory.error(">>>  connot load resource :" + mybatisPropertie.getMapperResource() + " !!");
         }
         BeanDefinitionRegistryTool.registryBean(sqlSessionFactoryBeanName, registry, sqlSessionAbd);
-        if (dataSourcePropertie.isEnableTransactal()) {
+        if (dataSourcePropertie.getEnableTransactal()) {
             registTransactal(dataSourcePropertie.getName(), registry, hikariDataSource);
         }
-        if (dataSourcePropertie.isRoleDataSource() && isFirstRoleDataSource) {
+        if (dataSourcePropertie.getRoleDataSource() && isFirstRoleDataSource) {
             registDataSource(registry, hikariDataSource);
             isFirstRoleDataSource = false;
         }
