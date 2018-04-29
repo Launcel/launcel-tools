@@ -2,7 +2,7 @@ package xyz.launcel.exception;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.launcel.lang.Json;
+import xyz.launcel.json.Json;
 
 import java.util.Map;
 

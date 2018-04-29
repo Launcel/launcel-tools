@@ -1,9 +1,9 @@
 package xyz.launcel.autoconfig;
 
-import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -14,11 +14,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.DefaultLettucePool;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettucePool;
 import org.springframework.data.redis.core.RedisTemplate;
 import redis.clients.jedis.JedisPoolConfig;
 import xyz.launcel.lang.Base64;
 import xyz.launcel.prop.RedisProperties;
+import xyz.launcel.support.serializer.GsonRedisSerializer;
 
 import javax.inject.Named;
 
@@ -27,37 +32,51 @@ import javax.inject.Named;
 @EnableConfigurationProperties(value = RedisProperties.class)
 public class RedisAutoConfiguration extends CachingConfigurerSupport {
     
-    private Logger logger = LoggerFactory.getLogger(RedisAutoConfiguration.class);
-    
-    private final RedisProperties redisProperties;
+    private final RedisProperties properties;
     
     public RedisAutoConfiguration(RedisProperties redisProperties) {
-        this.redisProperties = redisProperties;
+        this.properties = redisProperties;
     }
     
-    @Primary
-    @Bean(name = "redisPool")
-    public JedisPoolConfig jedisPoolConfig() {
-        JedisPoolConfig pool = new JedisPoolConfig();
-        pool.setMinIdle(redisProperties.getMinIdle());
-        pool.setMaxIdle(redisProperties.getMaxIdle());
-        pool.setMaxTotal(redisProperties.getMaxTotal());
-        pool.setMaxWaitMillis(redisProperties.getMaxWait());
-        return pool;
+    private LettucePool lettucePool() {
+        DefaultLettucePool lettucePool = new DefaultLettucePool();
+        lettucePool.setDatabase(properties.getDatabase());
+        lettucePool.setHostName(properties.getHost());
+        lettucePool.setPort(properties.getPort());
+        lettucePool.setPassword(Base64.decode(properties.getPassword()));
+        lettucePool.setTimeout(properties.getTimeout());
+//        lettucePool.setPoolConfig();
+        return lettucePool;
     }
     
     @Primary
     @Bean(name = "redisConnectionFactory")
-    @ConditionalOnBean(name = "redisConnectionFactory")
-    public JedisConnectionFactory jedisConnectionFactory(@Named("redisPool") JedisPoolConfig jedisPoolConfig) {
+    public RedisConnectionFactory lettuceConnectionFactory() {
+        return new LettuceConnectionFactory(lettucePool());
+    }
+    
+    
+    public JedisPoolConfig jedisPoolConfig() {
+        JedisPoolConfig pool = new JedisPoolConfig();
+        pool.setMinIdle(properties.getMinIdle());
+        pool.setMaxIdle(properties.getMaxIdle());
+        pool.setMaxTotal(properties.getMaxTotal());
+        pool.setMaxWaitMillis(properties.getMaxWait());
+        return pool;
+    }
+    
+    
+    @Bean(name = "redisConnectionFactory")
+    @ConditionalOnMissingBean(name = "redisConnectionFactory")
+    public JedisConnectionFactory jedisConnectionFactory() {
         JedisConnectionFactory factory = new JedisConnectionFactory();
-        factory.setDatabase(redisProperties.getDatabase());
-        factory.setHostName(redisProperties.getHost());
-        factory.setPort(redisProperties.getPort());
-        factory.setPassword(Base64.decode(redisProperties.getPassword()));
-        factory.setTimeout(redisProperties.getTimeout());
+        factory.setDatabase(properties.getDatabase());
+        factory.setHostName(properties.getHost());
+        factory.setPort(properties.getPort());
+        factory.setPassword(Base64.decode(properties.getPassword()));
+        factory.setTimeout(properties.getTimeout());
         factory.setUsePool(true);
-        factory.setPoolConfig(jedisPoolConfig);
+        factory.setPoolConfig(jedisPoolConfig());
         return factory;
     }
     
@@ -67,8 +86,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
     RedisTemplate<String, Object> redisTemplate(@Named("redisConnectionFactory") JedisConnectionFactory jedisConnectionFactory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(jedisConnectionFactory);
-//        GsonRedisSerializer<Object> serializer = new GsonRedisSerializer<>(Object.class);
-        FastJsonRedisSerializer<Object> serializer = new FastJsonRedisSerializer<>(Object.class);
+        GsonRedisSerializer<Object> serializer = new GsonRedisSerializer<>(Object.class);
         template.setKeySerializer(serializer);
         template.setValueSerializer(serializer);
         template.setDefaultSerializer(serializer);
@@ -89,6 +107,8 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
     @Override
     public CacheErrorHandler errorHandler() {
         return new CacheErrorHandler() {
+            private Logger logger = LoggerFactory.getLogger(CacheErrorHandler.class);
+            
             @Override
             public void handleCacheGetError(RuntimeException e, Cache cache, Object key) {
                 logger.error("redis异常：key=[{}]", key);
