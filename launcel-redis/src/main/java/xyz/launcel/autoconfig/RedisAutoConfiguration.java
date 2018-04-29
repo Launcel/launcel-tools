@@ -1,7 +1,5 @@
 package xyz.launcel.autoconfig;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -22,6 +20,7 @@ import org.springframework.data.redis.connection.lettuce.LettucePool;
 import org.springframework.data.redis.core.RedisTemplate;
 import redis.clients.jedis.JedisPoolConfig;
 import xyz.launcel.lang.Base64;
+import xyz.launcel.log.RootLogger;
 import xyz.launcel.prop.RedisProperties;
 import xyz.launcel.support.serializer.GsonRedisSerializer;
 
@@ -45,7 +44,6 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
         lettucePool.setPort(properties.getPort());
         lettucePool.setPassword(Base64.decode(properties.getPassword()));
         lettucePool.setTimeout(properties.getTimeout());
-//        lettucePool.setPoolConfig();
         return lettucePool;
     }
     
@@ -107,26 +105,24 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
     @Override
     public CacheErrorHandler errorHandler() {
         return new CacheErrorHandler() {
-            private Logger logger = LoggerFactory.getLogger(CacheErrorHandler.class);
-            
             @Override
             public void handleCacheGetError(RuntimeException e, Cache cache, Object key) {
-                logger.error("redis异常：key=[{}]", key);
+                RootLogger.ERROR("redis异常：key=[{}]", key.toString());
             }
             
             @Override
             public void handleCachePutError(RuntimeException e, Cache cache, Object key, Object value) {
-                logger.error("redis异常：key=[{}]", key);
+                RootLogger.ERROR("redis异常：key=[{}]", key.toString());
             }
             
             @Override
             public void handleCacheEvictError(RuntimeException e, Cache cache, Object key) {
-                logger.error("redis异常：key=[{}]", key);
+                RootLogger.ERROR("redis异常：key=[{}]", key.toString());
             }
             
             @Override
             public void handleCacheClearError(RuntimeException e, Cache cache) {
-                logger.error("redis异常：", e);
+                RootLogger.ERROR("redis异常：", e.getMessage());
             }
         };
     }

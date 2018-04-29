@@ -172,8 +172,4 @@ public class UpSDK {
         return new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd").format(new Date()) + File.separator + StringUtils.getUUID() + "." + ext;
     }
     
-    public static void main(String[] args) {
-        System.out.println(new UpSDK().getNewFileName("png"));
-    }
-    
 }

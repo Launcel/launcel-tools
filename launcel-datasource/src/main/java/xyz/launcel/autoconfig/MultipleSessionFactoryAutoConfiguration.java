@@ -32,7 +32,7 @@ import xyz.launcel.prop.DataSourceProperties;
 import xyz.launcel.prop.DataSourceProperties.DataSourcePropertie;
 import xyz.launcel.prop.MybatisProperties;
 import xyz.launcel.prop.MybatisProperties.MybatisPropertie;
-import xyz.launcel.prop.RoleDataSourceRef;
+import xyz.launcel.prop.RoleDataSourceHolder;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,8 +45,7 @@ import java.util.Objects;
 @EnableConfigurationProperties(value = { DataSourceProperties.class, MybatisProperties.class })
 public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implements BeanDefinitionRegistryPostProcessor, EnvironmentAware {
     
-    private List<DataSourcePropertie> multipleDataSource = new ArrayList<>();
-    
+    private          List<DataSourcePropertie>     multipleDataSource    = new ArrayList<>();
     private          Map<String, MybatisPropertie> multipleMybatis       = new HashMap<>();
     private volatile Boolean                       isFirstRoleDataSource = true;
     
@@ -93,9 +92,9 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
         }
     }
     
-    // 注册当前 dataSourced 以便其他程序中使用该 dataSource
+    // 注册当前 dataSource 以便其他程序中使用该 dataSource
     private void registDataSource(BeanDefinitionRegistry registry, HikariDataSource hikariDataSource) {
-        AnnotatedGenericBeanDefinition roleDataSourceAbd = BeanDefinitionRegistryTool.decorateAbd(RoleDataSourceRef.class);
+        AnnotatedGenericBeanDefinition roleDataSourceAbd = BeanDefinitionRegistryTool.decorateAbd(RoleDataSourceHolder.class);
         MutablePropertyValues          roleDataSource    = roleDataSourceAbd.getPropertyValues();
         roleDataSource.addPropertyValue("hikariDataSource", hikariDataSource);
         BeanDefinitionRegistryTool.registryBean(SessionConstant.roleDateSourceName, registry, roleDataSourceAbd);

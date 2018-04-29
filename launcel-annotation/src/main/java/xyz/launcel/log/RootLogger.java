@@ -5,12 +5,17 @@ import org.slf4j.LoggerFactory;
 
 public class RootLogger {
     
-    static Logger log = LoggerFactory.getLogger("root");
+    static Logger log = LoggerFactory.getLogger("ROOT");
     
     private RootLogger() { }
     
     
-    public static void INFO(String format, Object... arguments) {
+    public static String getName() {
+        return log.getName();
+    }
+    
+    
+    public static void INFO(String format, String... arguments) {
         log.info(format, arguments);
     }
     
@@ -18,7 +23,7 @@ public class RootLogger {
         log.info(logInfo(msg));
     }
     
-    public static void DEBUG(String format, Object... arguments) {
+    public static void DEBUG(String format, String... arguments) {
         log.debug(format, arguments);
     }
     
@@ -30,7 +35,7 @@ public class RootLogger {
         return log.isDebugEnabled();
     }
     
-    public static void WARN(String format, Object... arguments) {
+    public static void WARN(String format, String... arguments) {
         log.warn(format, arguments);
     }
     
@@ -38,7 +43,7 @@ public class RootLogger {
         log.warn(logInfo(msg));
     }
     
-    public static void ERROR(String format, Object... arguments) {
+    public static void ERROR(String format, String... arguments) {
         log.error(format, arguments);
     }
     

@@ -2,7 +2,7 @@ package xyz.launcel.prop;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-public class RoleDataSourceRef {
+public class RoleDataSourceHolder {
     
     private HikariDataSource hikariDataSource;
     

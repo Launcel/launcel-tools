@@ -4,7 +4,7 @@ import xyz.launcel.constant.SessionConstant;
 import xyz.launcel.hook.ApplicationContextHook;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.BaseLogger;
-import xyz.launcel.prop.RoleDataSourceRef;
+import xyz.launcel.prop.RoleDataSourceHolder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,7 +23,7 @@ public class JdbcRole extends BaseLogger {
     
     public Set<String> getRoles(String username) {
         try {
-            connection = ((RoleDataSourceRef) ApplicationContextHook.getBean(SessionConstant.roleDateSourceName)).getHikariDataSource().getConnection();
+            connection = ((RoleDataSourceHolder) ApplicationContextHook.getBean(SessionConstant.roleDateSourceName)).getHikariDataSource().getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -50,6 +50,7 @@ public class JdbcRole extends BaseLogger {
         } finally {
             close(rs);
             close(ps);
+            close(conn);
         }
         return roleNames;
     }
