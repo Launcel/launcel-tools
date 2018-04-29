@@ -10,8 +10,8 @@ import org.aspectj.lang.annotation.Pointcut;
 public class ControllerParamValidateAspejct extends ValidateAspejct {
     
     
-    private final String point = "execution(public * com.jiarun.controller.*.*(..))";
 //    private final String point = "@annotation(xyz.launcel.annotation.Validate)";
+    private final String point = "execution(public * xyz.launcel..*.controller.*.*(..))";
     
     @Pointcut(point)
     public void init() {
