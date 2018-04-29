@@ -10,10 +10,9 @@ import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
-import xyz.launcel.dao.Paging;
+import xyz.launcel.dao.Page;
 import xyz.launcel.lang.SQLHelp;
 import xyz.launcel.lang.StringUtils;
-import xyz.launcel.log.BaseLogger;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -24,7 +23,7 @@ import java.util.Properties;
  * Created by Launcel in 2017/10/12
  */
 @Intercepts({ @Signature(type = StatementHandler.class, method = "prepare", args = { Connection.class, Integer.class }) })
-public class PageInterceptor extends BaseLogger implements Interceptor, Serializable {
+public class PageInterceptor implements Interceptor, Serializable {
     private static final long serialVersionUID = 3637036555137206361L;
     
     @Override
@@ -45,8 +44,8 @@ public class PageInterceptor extends BaseLogger implements Interceptor, Serializ
             if (parameter.isEmpty()) {
                 return invocation.proceed();
             }
-            Paging<?> p       = SQLHelp.getPaging(parameter);
-            String    pageSql = SQLHelp.concatSql(sql, p);
+            Page<?> p       = SQLHelp.getPaging(parameter);
+            String  pageSql = SQLHelp.concatSql(sql, p);
             metaStatementHandler.setValue("delegate.boundSql.sql", pageSql);
         }
         return invocation.proceed();

@@ -1,6 +1,6 @@
 package xyz.launcel.controller;
 
-import xyz.launcel.dao.Paging;
+import xyz.launcel.dao.Page;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.BaseLogger;
 import xyz.launcel.response.Response;
@@ -18,7 +18,7 @@ public abstract class BaseController extends BaseLogger {
     private HttpServletResponse HttpResponse;
     
     
-    protected <T> Paging<T> initPaging() {
+    protected <T> Page<T> initPaging() {
 //        String pageNoStr = getReqLocal().getParameter("pageNo");
 //        String rowStr = getReqLocal().getParameter("maxRow");
         String pageNoStr = getRequest().getParameter("pageNo");
@@ -31,7 +31,8 @@ public abstract class BaseController extends BaseLogger {
 //        Integer lowerId = Integer.valueOf(StringUtils.isNotBlank(lowerIdStr) ? lowerIdStr.trim() : "1");
 //        Integer largeId = Integer.valueOf(StringUtils.isNotBlank(largeIdStr) ? largeIdStr.trim() : "1");
 //        return new Paging<>(pageNo, maxRow, lowerId, largeId);
-        return new Paging<>(pageNo, maxRow);
+        //noinspection unchecked
+        return new Page<>(pageNo, maxRow);
     }
     
     protected HttpServletRequest getRequest() {

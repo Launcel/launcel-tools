@@ -1,21 +1,21 @@
 package xyz.launcel.service;
 
-import xyz.launcel.dao.Paging;
+import xyz.launcel.dao.Page;
 
-public interface BaseService<T> {
-
-    int add(T t);
-
-    int update(T t);
-
+public interface BaseService {
+    
+    <T> int add(T t);
+    
+    <T> int update(T t);
+    
     int delete(Integer id);
-
-    T query(T t);
-
-    T get(Integer id);
-
-    Integer count(T t);
-
-    void queryPage(T t, Paging<T> paging);
-
+    
+    <T> T query(T t);
+    
+    <T> T get(Integer id);
+    
+    <T> Integer count(T t);
+    
+    <T> Page<T> queryPage(T t, Page<T> page);
+    
 }

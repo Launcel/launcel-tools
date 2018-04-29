@@ -1,5 +1,7 @@
 package xyz.launcel.lang;
 
+import xyz.launcel.exception.ProfessionException;
+
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -41,7 +43,7 @@ public interface CollectionUtils {
             try {
                 return Array.getLength(object) == 0;
             } catch (IllegalArgumentException ex) {
-                throw new IllegalArgumentException("Unsupported object type: " + object.getClass().getName());
+                throw new ProfessionException("_DEFINE_ERROR_CODE_011", "Unsupported object type" + object.getClass().getName());
             }
         }
     }

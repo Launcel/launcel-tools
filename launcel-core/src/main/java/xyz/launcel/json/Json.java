@@ -29,7 +29,7 @@ public class Json {
         gson = new PrimyGsonBuilder().getGsonBuilder().create();
     }
     
-    public static Gson me() {
+    private static Gson me() {
         return gson;
     }
     
@@ -37,7 +37,7 @@ public class Json {
         return gson.toJson(object);
     }
     
-    public static <T> T parseObject(String jsonObject, Class<T> clazz) {
+    public static <T> T toObject(String jsonObject, Class<T> clazz) {
         return gson.fromJson(jsonObject, clazz);
     }
 }

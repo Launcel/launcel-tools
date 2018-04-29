@@ -1,6 +1,6 @@
 package xyz.launcel.lang;
 
-import xyz.launcel.dao.Paging;
+import xyz.launcel.dao.Page;
 
 import java.util.Map;
 
@@ -12,19 +12,18 @@ public class SQLHelp {
     private SQLHelp() {
     }
     
-    @SuppressWarnings("rawtypes")
-    public static Paging getPaging(Map<String, Object> parameter) {
-        Paging p = null;
+    public static Page getPaging(Map<String, Object> parameter) {
+        Page   p = null;
         Object o;
         if (parameter.containsKey("page")) {
             o = getParam(parameter, "page");
         } else {
             o = getParam(parameter, "param1");
         }
-        if (o instanceof Paging) {
-            p = (Paging) o;
+        if (o instanceof Page) {
+            p = (Page) o;
         }
-        return p == null ? new Paging(15) : p;
+        return p == null ? new Page(Integer.MAX_VALUE) : p;
     }
     
     public static Class<?> getClazz(Map<String, Object> parameter) {
@@ -40,7 +39,7 @@ public class SQLHelp {
         return parameter != null ? (parameter.isEmpty() ? null : parameter.get(param)) : null;
     }
     
-    public static String concatSql(String boundSql, Paging<?> p) {
+    public static String concatSql(String boundSql, Page<?> p) {
         StringBuilder sb = new StringBuilder(boundSql);
         sb.append(" LIMIT ");
         if (p.getOffset() > 0) {

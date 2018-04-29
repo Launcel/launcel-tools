@@ -3,7 +3,7 @@ package xyz.launcel.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.launcel.lang.CollectionUtils;
-import xyz.launcel.lang.Json;
+import xyz.launcel.json.Json;
 import xyz.launcel.lang.StringUtils;
 
 import javax.servlet.http.HttpSession;

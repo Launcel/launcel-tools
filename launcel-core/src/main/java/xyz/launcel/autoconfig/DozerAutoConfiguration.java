@@ -10,7 +10,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import xyz.launcel.json.Json;
 import xyz.launcel.lang.StringUtils;
-import xyz.launcel.log.BaseLogger;
+import xyz.launcel.log.RootLogger;
 import xyz.launcel.prop.DozerProperties;
 
 import java.io.IOException;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @ConditionalOnProperty(prefix = "common.dozer", value = "enabled", havingValue = "true")
 @Configuration
 @EnableConfigurationProperties(value = DozerProperties.class)
-public class DozerAutoConfiguration extends BaseLogger {
+public class DozerAutoConfiguration {
     
     private final DozerProperties properties;
     
@@ -43,11 +43,12 @@ public class DozerAutoConfiguration extends BaseLogger {
                         throw new RuntimeException(e);
                     }
                 }).collect(Collectors.toList());
-                if (isDebug())
-                    DEBUG(">>>  dozer mapper list is : " + Json.toJson(xmlString));
+                if (RootLogger.isDebug()) {
+                    RootLogger.DEBUG(">>>  dozer mapper list is : " + Json.toJson(xmlString));
+                }
                 mapper.setMappingFiles(xmlString);
             } catch (IOException e) {
-                e.printStackTrace();
+                RootLogger.ERROR("dozer mapper load error!");
             }
         }
         return mapper;
