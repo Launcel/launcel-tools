@@ -71,7 +71,7 @@
     {
       "name": "db.jdbc.main.url",
       "type": "java.lang.String",
-      "defaultValue": "jdbc:maria://localhost:3306/wx-shop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false",
+      "defaultValue": "jdbc:mariadb://localhost:3306/test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
@@ -160,13 +160,20 @@
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
+      "name": "db.jdbc.main.enable-transactal",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "is use transactal.",
+      "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
+    },
+    {
       "name": "db.jdbc.main.debug-sql",
       "type": "java.lang.Boolean",
       "defaultValue": false,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
-      "name": "db.jdbc.main.roleDataSource",
+      "name": "db.jdbc.main.role-data-source",
       "type": "java.lang.Boolean",
       "defaultValue": false,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
@@ -192,7 +199,7 @@
     {
       "name": "db.jdbc.others.url",
       "type": "java.lang.String",
-      "defaultValue": "jdbc:maria://localhost:3306/wx-shop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false",
+      "defaultValue": "jdbc:mariadb://localhost:3306/wx-shop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false",
       "description": "JDBC driverClassName of the database.",
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
@@ -253,25 +260,25 @@
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
-      "name": "db.jdbc.main.cache-prep-stmts",
+      "name": "db.jdbc.others.cache-prep-stmts",
       "type": "java.lang.Boolean",
       "defaultValue": false,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
-      "name": "db.jdbc.main.prep-stmt-cache-size",
+      "name": "db.jdbc.others.prep-stmt-cache-size",
       "type": "java.lang.Integer",
       "defaultValue": 250,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
-      "name": "db.jdbc.main.prep-stmt-cache-sql-limit",
+      "name": "db.jdbc.others.prep-stmt-cache-sql-limit",
       "type": "java.lang.Integer",
       "defaultValue": 2048,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
-      "name": "db.jdbc.main.use-server-prep-stmts",
+      "name": "db.jdbc.others.use-server-prep-stmts",
       "type": "java.lang.Boolean",
       "defaultValue": false,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
@@ -289,7 +296,7 @@
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"
     },
     {
-      "name": "db.jdbc.others.roleDataSource",
+      "name": "db.jdbc.others.role-data-source",
       "type": "java.lang.Boolean",
       "defaultValue": false,
       "sourceType": "xyz.launcel.prop.DataSourceProperties$DataSourcePropertie"

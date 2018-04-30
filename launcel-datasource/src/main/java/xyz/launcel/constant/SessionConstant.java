@@ -10,6 +10,8 @@ public interface SessionConstant {
     
     String dataSourceName               = "dataSource";
     
+    String roleDataSourceName           = "roleDataSource";
+    
     String sessionFactoryName           = "SqlSessionFactory";
     
     String sessionFactoryDataSourceName = "DataSource";
@@ -31,5 +33,9 @@ public interface SessionConstant {
     String basePackageName              = "basePackage";
     
     String roleDateSourceName           = "roleDataSource";
+    
+    String txDateSourceName             = "transactionDateSource";
+    
+    String txManagerName                = "TxManager";
     
 }

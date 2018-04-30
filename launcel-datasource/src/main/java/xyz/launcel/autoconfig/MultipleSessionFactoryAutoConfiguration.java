@@ -27,6 +27,7 @@ import xyz.launcel.constant.SessionConstant;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.hook.BeanDefinitionRegistryTool;
 import xyz.launcel.interceptor.PageInterceptor;
+import xyz.launcel.log.RootLogger;
 import xyz.launcel.prop.DataSourceProperties;
 import xyz.launcel.prop.DataSourceProperties.DataSourcePropertie;
 import xyz.launcel.prop.MybatisProperties;
@@ -55,6 +56,7 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
         } else {
             ExceptionFactory.error(">>>  datasource propertie config or mybatis propertie config is null !!");
         }
+        RootLogger.WARN("dataSource registry success");
     }
     
     private void registBeans(DataSourcePropertie dataSourcePropertie, BeanDefinitionRegistry registry) {
@@ -82,12 +84,14 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
             ExceptionFactory.error(">>>  connot load resource :" + mybatisPropertie.getMapperResource() + " !!");
         }
         BeanDefinitionRegistryTool.registryBean(sqlSessionFactoryBeanName, registry, sqlSessionAbd);
-        if (dataSourcePropertie.getEnableTransactal()) {
-            registTransactal(dataSourcePropertie.getName(), registry, hikariDataSource);
-        }
+        System.out.println("is RoleDataSource : " + dataSourcePropertie.getRoleDataSource());
         if (dataSourcePropertie.getRoleDataSource() && isFirstRoleDataSource) {
             registDataSource(registry, hikariDataSource);
             isFirstRoleDataSource = false;
+        }
+        System.out.println("is EnableTransactal : " + dataSourcePropertie.getEnableTransactal());
+        if (dataSourcePropertie.getEnableTransactal()) {
+            registTransactal(dataSourcePropertie.getName(), registry, hikariDataSource);
         }
     }
     
@@ -95,7 +99,7 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
     private void registDataSource(BeanDefinitionRegistry registry, HikariDataSource hikariDataSource) {
         AnnotatedGenericBeanDefinition roleDataSourceAbd = BeanDefinitionRegistryTool.decorateAbd(RoleDataSourceHolder.class);
         MutablePropertyValues          roleDataSource    = roleDataSourceAbd.getPropertyValues();
-        roleDataSource.addPropertyValue("hikariDataSource", hikariDataSource);
+        roleDataSource.addPropertyValue(SessionConstant.roleDataSourceName, hikariDataSource);
         BeanDefinitionRegistryTool.registryBean(SessionConstant.roleDateSourceName, registry, roleDataSourceAbd);
     }
     
@@ -111,10 +115,11 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
     
     // 为当前 dataSource 注册事物
     private void registTransactal(String key, BeanDefinitionRegistry registry, HikariDataSource hikariDataSource) {
-        AnnotatedGenericBeanDefinition transactalAbd     = BeanDefinitionRegistryTool.decorateAbd(DataSourceTransactionManager.class);
-        MutablePropertyValues          abdPropertyValues = transactalAbd.getPropertyValues();
-        abdPropertyValues.addPropertyValue(SessionConstant.dataSourceName, hikariDataSource);
-        BeanDefinitionRegistryTool.registryBean(key + "PlatformTransactionManager", registry, transactalAbd);
+        AnnotatedGenericBeanDefinition transactalAbd            = BeanDefinitionRegistryTool.decorateAbd(DataSourceTransactionManager.class);
+        MutablePropertyValues          transactaDataSourceValue = transactalAbd.getPropertyValues();
+        transactaDataSourceValue.addPropertyValue(SessionConstant.dataSourceName, hikariDataSource);
+        transactaDataSourceValue.addPropertyValue("enforceReadOnly", false);
+        BeanDefinitionRegistryTool.registryBean(key + SessionConstant.txManagerName, registry, transactalAbd);
     }
     
     @Override

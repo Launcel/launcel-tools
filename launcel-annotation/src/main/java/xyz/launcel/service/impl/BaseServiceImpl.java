@@ -8,6 +8,7 @@ import java.util.List;
 
 public abstract class BaseServiceImpl implements BaseService {
     
+    //noinspection unchecked
     protected abstract <T> BaseDAO<T> getDAO();
     
     @Override

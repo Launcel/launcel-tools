@@ -40,7 +40,7 @@ public class DataSourceProperties {
         // private String  driverClassName     = "net.sf.log4jdbc.DriverSpy";
         private String  driverClassName       = "org.mariadb.jdbc.Driver";
         // private String  url                 = "jdbc:log4jdbc:mysql://localhost:3306/wx-shop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false";
-        private String  url                   = "jdbc:maria://localhost:3306/wx-shop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false";
+        private String  url                   = "jdbc:mariadb://localhost:3306/test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false";
         private String  username              = "root";
         private String  password              = "MTIzNDU2";
         private Integer minIdle               = 1;

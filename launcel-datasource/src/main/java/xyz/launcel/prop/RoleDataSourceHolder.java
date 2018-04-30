@@ -1,16 +1,16 @@
 package xyz.launcel.prop;
 
-import com.zaxxer.hikari.HikariDataSource;
+import javax.sql.DataSource;
 
 public class RoleDataSourceHolder {
     
-    private HikariDataSource hikariDataSource;
+    private DataSource hikariDataSource;
     
-    public HikariDataSource getHikariDataSource() {
+    public DataSource getHikariDataSource() {
         return hikariDataSource;
     }
     
-    public void setHikariDataSource(HikariDataSource hikariDataSource) {
+    public void setHikariDataSource(DataSource hikariDataSource) {
         this.hikariDataSource = hikariDataSource;
     }
 }
