@@ -27,6 +27,7 @@ import xyz.launcel.constant.SessionConstant;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.hook.BeanDefinitionRegistryTool;
 import xyz.launcel.interceptor.PageInterceptor;
+import xyz.launcel.json.Json;
 import xyz.launcel.log.RootLogger;
 import xyz.launcel.properties.DataSourceProperties;
 import xyz.launcel.properties.DataSourceProperties.DataSourcePropertie;
@@ -52,6 +53,8 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
         if (!multipleDataSource.isEmpty() && !multipleMybatis.isEmpty()) {
+            System.out.println("multipleDataSource is :" + Json.toJson(multipleDataSource));
+            System.out.println("multipleMybatis is :" + Json.toJson(multipleMybatis));
             multipleDataSource.forEach(dataSourcePropertie -> registBeans(dataSourcePropertie, registry));
         } else {
             ExceptionFactory.error(">>>  datasource propertie config or mybatis propertie config is null !!");
@@ -77,19 +80,24 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
         sqlSession.addPropertyValue(SessionConstant.dataSourceName, hikariDataSource);
         sqlSession.addPropertyValue(SessionConstant.configLocationName, SessionConstant.configLocationValue);
         sqlSession.addPropertyValue(SessionConstant.typeAliasesPackageName, mybatisPropertie.getAliasesPackage());
-        sqlSession.addPropertyValue(SessionConstant.pluginName, new Interceptor[]{ new PageInterceptor(dataSourcePropertie.getDebugSql()) });
+        
+        List<Interceptor> interceptors = new ArrayList<>(2);
+        interceptors.add(new PageInterceptor());
+        if (dataSourcePropertie.getDebugSql()) {
+            interceptors.add(new PageInterceptor());
+        }
+        
+        sqlSession.addPropertyValue(SessionConstant.pluginName, interceptors);
         try {
             sqlSession.addPropertyValue(SessionConstant.mapperLocationName, new PathMatchingResourcePatternResolver().getResources(mybatisPropertie.getMapperResource()));
         } catch (IOException e) {
             ExceptionFactory.error(">>>  connot load resource :" + mybatisPropertie.getMapperResource() + " !!");
         }
         BeanDefinitionRegistryTool.registryBean(sqlSessionFactoryBeanName, registry, sqlSessionAbd);
-        System.out.println("is RoleDataSource : " + dataSourcePropertie.getRoleDataSource());
         if (dataSourcePropertie.getRoleDataSource() && isFirstRoleDataSource) {
             registDataSource(registry, hikariDataSource);
             isFirstRoleDataSource = false;
         }
-        System.out.println("is EnableTransactal : " + dataSourcePropertie.getEnableTransactal());
         if (dataSourcePropertie.getEnableTransactal()) {
             registTransactal(dataSourcePropertie.getName(), registry, hikariDataSource);
         }

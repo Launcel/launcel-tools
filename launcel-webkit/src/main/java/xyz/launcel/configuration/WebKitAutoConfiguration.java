@@ -25,21 +25,21 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-@EnableConfigurationProperties(value = {CorsProperties.class, JsonConverterProperties.class, UploadProperties.class})
+@EnableConfigurationProperties(value = { CorsProperties.class, JsonConverterProperties.class, UploadProperties.class })
 public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter {
-
+    
     private final CorsProperties corsProperties;
-
+    
     private final JsonConverterProperties jsonConverterProperties;
-
+    
     private final UploadProperties uploadProperties;
-
+    
     public WebKitAutoConfiguration(CorsProperties corsProperties, JsonConverterProperties jsonConverterProperties, UploadProperties uploadProperties) {
         this.corsProperties = corsProperties;
         this.jsonConverterProperties = jsonConverterProperties;
         this.uploadProperties = uploadProperties;
     }
-
+    
     /**
      * 用 gson 替换 jackson
      */
@@ -57,10 +57,10 @@ public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter {
 //        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
 //        converter.setFastJsonConfig(fastJsonConfig);
         converters.add(converter);
-
+        
         super.configureMessageConverters(converters);
     }
-
+    
     @ConditionalOnProperty(prefix = "web.cors", value = "enabled", havingValue = "true")
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -68,26 +68,26 @@ public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter {
                 allowCredentials(true).allowedMethods(corsProperties.getMethods()).maxAge(corsProperties.getMaxAge());
         super.addCorsMappings(registry);
     }
-
+    
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer.defaultContentType(MediaType.APPLICATION_JSON_UTF8);
         super.configureContentNegotiation(configurer);
     }
-
-    @ConditionalOnProperty(prefix = "web.global-exception", value = "enabled", havingValue = "true", matchIfMissing = true)
+    
+    @ConditionalOnProperty(prefix = "web.global-exception", value = "enabled", havingValue = "true")
     @Bean
     public GlobalExceptionHandle globalExceptionHandle() {
         return new GlobalExceptionHandle();
     }
-
-    @ConditionalOnProperty(prefix = "web.aspejct", value = "enabled", havingValue = "true", matchIfMissing = true)
+    
+    @ConditionalOnProperty(prefix = "web.aspejct", value = "enabled", havingValue = "true")
     @Bean
     public ControllerParamValidateAspejct controllerParamValidateAspejct() {
         return new ControllerParamValidateAspejct();
     }
-
-    @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true", matchIfMissing = true)
+    
+    @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
     @Bean(name = "upSDK")
     public UpSDK upSDK() {
         return new UpSDK(uploadProperties);

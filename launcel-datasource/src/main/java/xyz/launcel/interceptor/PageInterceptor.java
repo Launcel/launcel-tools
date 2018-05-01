@@ -17,7 +17,6 @@ import xyz.launcel.lang.StringUtils;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -27,10 +26,6 @@ import java.util.Properties;
 public class PageInterceptor implements Interceptor, Serializable {
     private static final long serialVersionUID = 3637036555137206361L;
     
-    private Boolean isDebugSql;
-    
-    
-    public PageInterceptor(Boolean isDebugSql) { this.isDebugSql = isDebugSql != null && isDebugSql; }
     
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -38,7 +33,7 @@ public class PageInterceptor implements Interceptor, Serializable {
         MetaObject       metaStatementHandler = SystemMetaObject.forObject(statementHandler);
         MappedStatement  mappedStatement      = (MappedStatement) metaStatementHandler.getValue("delegate.mappedStatement");
         String           selectId             = mappedStatement.getId();
-        BoundSql         boundSql             = null;
+        BoundSql         boundSql;
         if (selectId.matches(".*Page.*")) {
             boundSql = (BoundSql) metaStatementHandler.getValue("delegate.boundSql");
             // 分页参数作为参数对象 parameter 的一个属性
@@ -56,21 +51,12 @@ public class PageInterceptor implements Interceptor, Serializable {
             metaStatementHandler.setValue("delegate.boundSql.sql", pageSql);
         }
         
-        if (isDebugSql) {
-            if (Objects.isNull(boundSql)) {
-                boundSql = (BoundSql) metaStatementHandler.getValue("delegate.boundSql");
-            }
-            System.out.println("=============================================================\n");
-            System.out.println(boundSql.getSql());
-            System.out.println("=============================================================");
-        }
         return invocation.proceed();
     }
     
     @Override
     public Object plugin(Object o) {
-        if (o instanceof StatementHandler) { return Plugin.wrap(o, this); }
-        else { return o; }
+        if (o instanceof StatementHandler) { return Plugin.wrap(o, this); } else { return o; }
     }
     
     @Override

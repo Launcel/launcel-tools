@@ -17,31 +17,31 @@ import static xyz.launcel.generator.api.utils.OutputUtils.newLine;
 import static xyz.launcel.generator.api.utils.OutputUtils.xmlIndent;
 
 public class AddElementGenerator extends AbstractXmlElementGenerator {
-
+    
     private boolean isSimple;
-
+    
     public AddElementGenerator(boolean isSimple) {
         super();
         this.isSimple = isSimple;
     }
-
+    
     @Override
     public void addElements(XmlElement parentElement) {
         LXmlElement answer = new LXmlElement("insert");
-
+        
         answer.addAttribute(new Attribute("id", "add"));
-
+        
         FullyQualifiedJavaType parameterType;
         if (isSimple) {
             parameterType = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
         } else {
             parameterType = introspectedTable.getRules().calculateAllFieldsClass();
         }
-
+        
         answer.addAttribute(new Attribute("parameterType", parameterType.getFullyQualifiedName()));
-
+        
         context.getCommentGenerator().addComment(answer);
-
+        
         GeneratedKey gk = introspectedTable.getGeneratedKey();
         if (gk != null) {
             IntrospectedColumn introspectedColumn = introspectedTable.getColumn(gk.getColumn());
@@ -55,31 +55,31 @@ public class AddElementGenerator extends AbstractXmlElementGenerator {
                 }
             }
         }
-
+        
         StringBuilder insertClause = new StringBuilder();
         StringBuilder valuesClause = new StringBuilder();
-
+        
         insertClause.append("insert into ");
         insertClause.append(introspectedTable.getFullyQualifiedTableNameAtRuntime());
         insertClause.append(" (");
-
+        
         valuesClause.append("values (");
-
-        List<String> valuesClauses = new ArrayList<>();
-        List<IntrospectedColumn> columns = ListUtilities.removeIdentityAndGeneratedAlwaysColumns(introspectedTable.getAllColumns());
+        
+        List<String>             valuesClauses = new ArrayList<>();
+        List<IntrospectedColumn> columns       = ListUtilities.removeIdentityAndGeneratedAlwaysColumns(introspectedTable.getAllColumns());
         for (int i = 0; i < columns.size(); i++) {
             IntrospectedColumn introspectedColumn = columns.get(i);
-
+            
             newLine(insertClause);
             xmlIndent(insertClause, 3);
-            insertClause.append(MyBatis3FormattingUtilities.getEscapedColumnName(introspectedColumn));
+            insertClause.append("`").append(MyBatis3FormattingUtilities.getEscapedColumnName(introspectedColumn)).append("`");
             newLine(valuesClause);
             xmlIndent(valuesClause, 3);
             valuesClause.append(MyBatis3FormattingUtilities.getParameterClause(introspectedColumn));
             if (i + 1 < columns.size()) {
                 insertClause.append(", ");
                 valuesClause.append(", ");
-
+                
             }
 
 //            if (valuesClause.length() > 80) {
@@ -100,11 +100,11 @@ public class AddElementGenerator extends AbstractXmlElementGenerator {
         xmlIndent(valuesClause, 2);
         valuesClause.append(')');
         valuesClauses.add(valuesClause.toString());
-
+        
         for (String clause : valuesClauses) {
             answer.addElement(new LTextElement(clause));
         }
-
+        
         if (context.getPlugins().sqlMapInsertElementGenerated(answer, introspectedTable)) {
             parentElement.addElement(answer);
         }

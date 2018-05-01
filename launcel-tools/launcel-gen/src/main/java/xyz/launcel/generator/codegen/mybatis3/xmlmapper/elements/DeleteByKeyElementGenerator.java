@@ -50,7 +50,7 @@ public class DeleteByKeyElementGenerator extends AbstractXmlElementGenerator {
         sb.append("SET").append(" ").append(getEnabledColumn()).append("=#{").append(StringUtils.capitalize(getEnabledColumn())).append("}");
         answer.addElement(new LTextElement(sb.toString()));
         sb.setLength(0);
-        sb.append("WHERE id=#{id}");
+        sb.append("WHERE `id`=#{id}");
         answer.addElement(new LTextElement(sb.toString()));
 //        whereCase(answer, sb);
     }
@@ -79,7 +79,7 @@ public class DeleteByKeyElementGenerator extends AbstractXmlElementGenerator {
         sb.append(introspectedTable.getFullyQualifiedTableNameAtRuntime());
         answer.addElement(new LTextElement(sb.toString()));
         sb.setLength(0);
-        sb.append("WHERE id=#{id}");
+        sb.append("WHERE `id`=#{id}");
         answer.addElement(new LTextElement(sb.toString()));
 //        whereCase(answer, sb);
     }

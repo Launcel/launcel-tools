@@ -17,6 +17,16 @@ import java.sql.SQLException;
 @ControllerAdvice
 public class GlobalExceptionHandle {
     
+    @ExceptionHandler(value = Throwable.class)
+    public Response throwable(Throwable e) {
+        return response(e.getMessage());
+    }
+    
+    @ExceptionHandler(value = Exception.class)
+    public Response exception(Exception e) {
+        return response(e.getMessage());
+    }
+    
     @ExceptionHandler(value = NullPointerException.class)
     public Response nullPointerException(NullPointerException e) {
         return response(e.getMessage());

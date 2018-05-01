@@ -16,7 +16,7 @@ import java.util.Iterator;
 public class BaseSqlElementGenerator extends AbstractXmlElementGenerator {
     public BaseSqlElementGenerator() {
     }
-
+    
     public void addElements(XmlElement parentElement) {
         LXmlElement answer = new LXmlElement("sql");
         answer.addAttribute(new Attribute("id", "BaseSql"));
@@ -24,14 +24,14 @@ public class BaseSqlElementGenerator extends AbstractXmlElementGenerator {
         StringBuilder sb = new StringBuilder();
 
 //        boolean and = false;
-
+        
         Iterator<IntrospectedColumn> var5 = this.introspectedTable.getAllColumns().iterator();
-
+        
         IntrospectedColumn introspectedColumn;
-
+        
         if (Conston.useEnabledColumn) {
             sb.setLength(0);
-            sb.append("WHERE").append(" ").append(Conston.enabledColumnName).append("=").append(Conston.enabledColumnValue);
+            sb.append("WHERE").append(" ").append("`").append(Conston.enabledColumnName).append("`").append("=").append(Conston.enabledColumnValue);
             answer.addElement(new LTextElement(sb.toString()));
         } else {
             sb.setLength(0);
@@ -39,9 +39,9 @@ public class BaseSqlElementGenerator extends AbstractXmlElementGenerator {
             sb.append(" 1=1");
             answer.addElement(new LTextElement(sb.toString()));
         }
-
+        
         while (var5.hasNext()) {
-
+            
             sb.setLength(0);
             introspectedColumn = var5.next();
             String columnName = MyBatis3FormattingUtilities.getEscapedColumnName(introspectedColumn);
@@ -53,17 +53,17 @@ public class BaseSqlElementGenerator extends AbstractXmlElementGenerator {
                 isNotNullElement.addAttribute(new Attribute("test", sb.toString()));
                 sb.setLength(0);
                 sb.append("AND ");
-                sb.append(columnName);
+                sb.append("`").append(columnName).append("`");
                 sb.append(" = ");
                 sb.append(MyBatis3FormattingUtilities.getParameterClause(introspectedColumn, "param."));
                 isNotNullElement.addElement(new LTextElement(sb.toString()));
                 answer.addElement(isNotNullElement);
             }
         }
-
+        
         if (this.context.getPlugins().sqlMapSelectByPrimaryKeyElementGenerated(answer, this.introspectedTable)) {
             parentElement.addElement(answer);
         }
-
+        
     }
 }

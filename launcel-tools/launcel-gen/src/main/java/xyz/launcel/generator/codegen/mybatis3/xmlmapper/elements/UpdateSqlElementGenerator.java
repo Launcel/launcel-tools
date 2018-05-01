@@ -11,17 +11,17 @@ import xyz.launcel.generator.api.dom.xml.LXmlElement;
 public class UpdateSqlElementGenerator extends AbstractXmlElementGenerator {
     @Override
     public void addElements(XmlElement parentElement) {
-
-
+        
+        
         LXmlElement answer = new LXmlElement("sql");
         answer.addAttribute(new Attribute("id", "UpdateSql"));
         this.context.getCommentGenerator().addComment(answer);
-
+        
         LXmlElement dynamicElement = new LXmlElement("set");
         answer.addElement(dynamicElement);
-
+        
         StringBuilder sb = new StringBuilder();
-
+        
         for (IntrospectedColumn introspectedColumn : ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getNonPrimaryKeyColumns())) {
             LXmlElement isNotNullElement = new LXmlElement("if");
             sb.setLength(0);
@@ -29,16 +29,16 @@ public class UpdateSqlElementGenerator extends AbstractXmlElementGenerator {
             sb.append(" != null");
             isNotNullElement.addAttribute(new Attribute("test", sb.toString()));
             dynamicElement.addElement(isNotNullElement);
-
+            
             sb.setLength(0);
-            sb.append(MyBatis3FormattingUtilities.getEscapedColumnName(introspectedColumn));
+            sb.append("`").append(MyBatis3FormattingUtilities.getEscapedColumnName(introspectedColumn)).append("`");
             sb.append(" = ");
             sb.append(MyBatis3FormattingUtilities.getParameterClause(introspectedColumn));
             sb.append(',');
-
+            
             isNotNullElement.addElement(new LTextElement(sb.toString()));
         }
-
+        
         boolean and = false;
         for (IntrospectedColumn introspectedColumn : introspectedTable
                 .getPrimaryKeyColumns()) {
@@ -49,13 +49,13 @@ public class UpdateSqlElementGenerator extends AbstractXmlElementGenerator {
                 sb.append("where ");
                 and = true;
             }
-
-            sb.append(MyBatis3FormattingUtilities.getEscapedColumnName(introspectedColumn));
+            
+            sb.append("`").append(MyBatis3FormattingUtilities.getEscapedColumnName(introspectedColumn)).append("`");
             sb.append(" = ");
             sb.append(MyBatis3FormattingUtilities.getParameterClause(introspectedColumn));
             answer.addElement(new LTextElement(sb.toString()));
         }
         parentElement.addElement(answer);
-
+        
     }
 }

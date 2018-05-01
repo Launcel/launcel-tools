@@ -32,24 +32,24 @@ import static xyz.launcel.generator.api.utils.OutputUtils.xmlIndent;
  * @author Launcel
  */
 public class BaseColumnElementGenerator extends AbstractXmlElementGenerator {
-
+    
     public BaseColumnElementGenerator() {
         super();
     }
-
+    
     @Override
     public void addElements(XmlElement parentElement) {
         LXmlElement answer = new LXmlElement("sql");
-
+        
         answer.addAttribute(new Attribute("id", "BaseColumn"));
-
+        
         context.getCommentGenerator().addComment(answer);
-
-        StringBuilder sb = new StringBuilder();
-        boolean hasLen = false;
-        Iterator<IntrospectedColumn> iter = introspectedTable.getNonBLOBColumns().iterator();
+        
+        StringBuilder                sb     = new StringBuilder();
+        boolean                      hasLen = false;
+        Iterator<IntrospectedColumn> iter   = introspectedTable.getNonBLOBColumns().iterator();
         while (iter.hasNext()) {
-            String column = MyBatis3FormattingUtilities.getSelectListPhrase(iter.next());
+            String        column      = MyBatis3FormattingUtilities.getSelectListPhrase(iter.next());
             StringBuilder aliasColumn = new StringBuilder();
             if (column.contains("_")) {
                 hasLen = true;
@@ -62,7 +62,7 @@ public class BaseColumnElementGenerator extends AbstractXmlElementGenerator {
                     }
                 }
             }
-            sb.append(column);
+            sb.append("`" + column + "`");
             if (hasLen) {
                 sb.append(" as ").append(aliasColumn);
             }
@@ -73,15 +73,15 @@ public class BaseColumnElementGenerator extends AbstractXmlElementGenerator {
             }
             hasLen = false;
         }
-
+        
         if (sb.length() > 0) {
             answer.addElement(new LTextElement(sb.toString()));
         }
-
+        
         if (context.getPlugins().sqlMapBaseColumnListElementGenerated(answer, introspectedTable)) {
             parentElement.addElement(answer);
         }
     }
-
-
+    
+    
 }

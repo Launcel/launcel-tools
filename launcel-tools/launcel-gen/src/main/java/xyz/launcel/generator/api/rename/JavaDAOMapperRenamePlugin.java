@@ -14,7 +14,7 @@ import java.util.regex.Matcher;
  * @author Launcel
  */
 public class JavaDAOMapperRenamePlugin extends AbstractRenamePlugin {
-    private Boolean useBaseDAOPackage = false;
+    private Boolean useBaseDAO = false;
     private Boolean useGeneralizate = false;
     private String baseDAOPackage = "xyz.launcel.dao.BaseDAO";
 
@@ -29,18 +29,18 @@ public class JavaDAOMapperRenamePlugin extends AbstractRenamePlugin {
             baseDAOPackage = baseDAOPackageTemp;
         }
         String useGeneralizateTemp = properties.getProperty("useGeneralizate");
-        if (StringUtils.isNotBlank(useGeneralizateTemp)) {
+        if (StringUtils.isTrue(useGeneralizateTemp)) {
             useGeneralizate = true;
         }
-        String useBaseDAOPackageTemp = properties.getProperty("useBaseDAOPackage");
-        if (StringUtils.isTrue(useBaseDAOPackageTemp)) {
-            useBaseDAOPackage = true;
+        String useBaseDAOTemp = properties.getProperty("useBaseDAO");
+        if (StringUtils.isTrue(useBaseDAOTemp)) {
+            useBaseDAO = true;
         }
     }
 
     public boolean validate(List<String> warnings) {
         this.initProp();
-        return Objects.nonNull(pattern) || useBaseDAOPackage;
+        return Objects.nonNull(pattern) || useBaseDAO;
     }
 
     public void initialized(IntrospectedTable introspectedTable) {
@@ -51,7 +51,7 @@ public class JavaDAOMapperRenamePlugin extends AbstractRenamePlugin {
     }
 
     public boolean clientGenerated(Interface interfaze, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        if (useBaseDAOPackage) {
+        if (useBaseDAO) {
             Integer index = baseDAOPackage.lastIndexOf(".");
             String superClass = baseDAOPackage.substring(index + 1);
             if (useGeneralizate) {
