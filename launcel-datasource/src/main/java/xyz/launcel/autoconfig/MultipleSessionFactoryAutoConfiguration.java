@@ -53,9 +53,11 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
         if (!multipleDataSource.isEmpty() && !multipleMybatis.isEmpty()) {
+            System.out.println("=============================================================\n");
             System.out.println("multipleDataSource is :" + Json.toJson(multipleDataSource));
             System.out.println("multipleMybatis is :" + Json.toJson(multipleMybatis));
-            multipleDataSource.forEach(dataSourcePropertie -> registBeans(dataSourcePropertie, registry));
+            System.out.println("=============================================================");
+            multipleDataSource.forEach(propertie -> registBeans(propertie, registry));
         } else {
             ExceptionFactory.error(">>>  datasource propertie config or mybatis propertie config is null !!");
         }
@@ -64,69 +66,91 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
     
     private void registBeans(DataSourcePropertie dataSourcePropertie, BeanDefinitionRegistry registry) {
         MybatisPropertie mybatisPropertie = multipleMybatis.get(dataSourcePropertie.getName());
+        
         if (Objects.isNull(mybatisPropertie)) {
             ExceptionFactory.error(">>>  mybatis propertie config not find ref-name :" + dataSourcePropertie.getName() + " !!");
         }
-        String sqlSessionFactoryBeanName = dataSourcePropertie.getName() + SessionConstant.sessionFactoryName;
-        registSessionFactory(registry, dataSourcePropertie, mybatisPropertie, sqlSessionFactoryBeanName);
+        
+        String           sqlSessionFactoryBeanName = dataSourcePropertie.getName() + SessionConstant.sessionFactoryName;
+        HikariDataSource dataSource                = new HikariDataSource(dataSourcePropertie.getHikariConfig());
+        
+        
+        registSessionFactory(registry, dataSource, mybatisPropertie, sqlSessionFactoryBeanName, dataSourcePropertie.getDebugSql());
         registMapperScannerConfigurer(registry, mybatisPropertie, sqlSessionFactoryBeanName);
+        
+        if (dataSourcePropertie.getEnableTransactal()) {
+            registTransactal(dataSourcePropertie.getName(), registry, dataSource);
+        }
+        if (dataSourcePropertie.getRoleDataSource() && isFirstRoleDataSource) {
+            registDataSource(registry, dataSource);
+            isFirstRoleDataSource = false;
+        }
     }
     
-    // 注册 sessionFactory
-    private void registSessionFactory(BeanDefinitionRegistry registry, DataSourcePropertie dataSourcePropertie, MybatisPropertie mybatisPropertie, String sqlSessionFactoryBeanName) {
-        AnnotatedGenericBeanDefinition sqlSessionAbd    = BeanDefinitionRegistryTool.decorateAbd(SqlSessionFactoryBean.class);
-        MutablePropertyValues          sqlSession       = sqlSessionAbd.getPropertyValues();
-        HikariDataSource               hikariDataSource = new HikariDataSource(dataSourcePropertie.getHikariConfig());
+    /**
+     * 注册 sessionFactory
+     */
+    private void registSessionFactory(BeanDefinitionRegistry registry, HikariDataSource hikariDataSource,
+                                      MybatisPropertie mybatisPropertie, String sqlSessionFactoryBeanName, boolean isDebugSql) {
+        AnnotatedGenericBeanDefinition sqlSessionAbd = BeanDefinitionRegistryTool.decorateAbd(SqlSessionFactoryBean.class);
+        MutablePropertyValues          sqlSession    = sqlSessionAbd.getPropertyValues();
+        
         sqlSession.addPropertyValue(SessionConstant.dataSourceName, hikariDataSource);
         sqlSession.addPropertyValue(SessionConstant.configLocationName, SessionConstant.configLocationValue);
         sqlSession.addPropertyValue(SessionConstant.typeAliasesPackageName, mybatisPropertie.getAliasesPackage());
         
         List<Interceptor> interceptors = new ArrayList<>(2);
         interceptors.add(new PageInterceptor());
-        if (dataSourcePropertie.getDebugSql()) {
+        if (isDebugSql) {
             interceptors.add(new PageInterceptor());
         }
         
         sqlSession.addPropertyValue(SessionConstant.pluginName, interceptors);
         try {
-            sqlSession.addPropertyValue(SessionConstant.mapperLocationName, new PathMatchingResourcePatternResolver().getResources(mybatisPropertie.getMapperResource()));
+            sqlSession.addPropertyValue(SessionConstant.mapperLocationName,
+                    new PathMatchingResourcePatternResolver().getResources(mybatisPropertie.getMapperResource()));
         } catch (IOException e) {
             ExceptionFactory.error(">>>  connot load resource :" + mybatisPropertie.getMapperResource() + " !!");
         }
         BeanDefinitionRegistryTool.registryBean(sqlSessionFactoryBeanName, registry, sqlSessionAbd);
-        if (dataSourcePropertie.getRoleDataSource() && isFirstRoleDataSource) {
-            registDataSource(registry, hikariDataSource);
-            isFirstRoleDataSource = false;
-        }
-        if (dataSourcePropertie.getEnableTransactal()) {
-            registTransactal(dataSourcePropertie.getName(), registry, hikariDataSource);
-        }
     }
     
-    // 注册当前 dataSource 以便其他程序中使用该 dataSource
+    /**
+     * 注册当前 dataSource 以便其他程序中使用该 dataSource
+     */
     private void registDataSource(BeanDefinitionRegistry registry, HikariDataSource hikariDataSource) {
         AnnotatedGenericBeanDefinition roleDataSourceAbd = BeanDefinitionRegistryTool.decorateAbd(RoleDataSourceHolder.class);
         MutablePropertyValues          roleDataSource    = roleDataSourceAbd.getPropertyValues();
+        
         roleDataSource.addPropertyValue(SessionConstant.roleDataSourceName, hikariDataSource);
+        
         BeanDefinitionRegistryTool.registryBean(SessionConstant.roleDateSourceName, registry, roleDataSourceAbd);
     }
     
-    // 注册 MapperScannerConfigurer
+    /**
+     * 注册 MapperScannerConfigurer
+     */
     private void registMapperScannerConfigurer(BeanDefinitionRegistry registry, MybatisPropertie mybatisPropertie, String sqlSessionFactoryBeanName) {
         AnnotatedGenericBeanDefinition abd                     = BeanDefinitionRegistryTool.decorateAbd(MapperScannerConfigurer.class);
         MutablePropertyValues          mapperScannerConfigurer = abd.getPropertyValues();
+        
         mapperScannerConfigurer.addPropertyValue(SessionConstant.sqlSessionFactoryName, sqlSessionFactoryBeanName);
         mapperScannerConfigurer.addPropertyValue(SessionConstant.basePackageName, mybatisPropertie.getMapperPackage());
         String mybatisBeanName = mybatisPropertie.getRefName() + SessionConstant.mybatisName;
+        
         BeanDefinitionRegistryTool.registryBean(mybatisBeanName, registry, abd);
     }
     
-    // 为当前 dataSource 注册事物
+    /**
+     * 为当前 dataSource 注册事物
+     */
     private void registTransactal(String key, BeanDefinitionRegistry registry, HikariDataSource hikariDataSource) {
         AnnotatedGenericBeanDefinition transactalAbd            = BeanDefinitionRegistryTool.decorateAbd(DataSourceTransactionManager.class);
         MutablePropertyValues          transactaDataSourceValue = transactalAbd.getPropertyValues();
+        
         transactaDataSourceValue.addPropertyValue(SessionConstant.dataSourceName, hikariDataSource);
         transactaDataSourceValue.addPropertyValue("enforceReadOnly", false);
+        
         BeanDefinitionRegistryTool.registryBean(key + SessionConstant.txManagerName, registry, transactalAbd);
     }
     
@@ -138,7 +162,6 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
         ConfigurableEnvironment env                   = (ConfigurableEnvironment) environment;
         Map<String, Object>     multipleDataSourceMap = PropertySourceUtils.getSubProperties(env.getPropertySources(), SessionConstant.dataSourceConfigPrefix);
         Map<String, Object>     multipleMybatisMap    = PropertySourceUtils.getSubProperties(env.getPropertySources(), SessionConstant.mybatisConfigPrefix);
-        Map<String, Object>     roleDateSourceMap     = PropertySourceUtils.getSubProperties(env.getPropertySources(), "web.role-datasource-name");
         dataBinderDataSource(multipleDataSourceMap);
         dataBinderMapper(multipleMybatisMap);
     }

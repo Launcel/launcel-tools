@@ -24,14 +24,12 @@ public class ParamInterceptor implements Interceptor {
     
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-        Object target = invocation.getTarget();
-        
-        long             startTime        = System.currentTimeMillis();
-        StatementHandler statementHandler = (StatementHandler) target;
+        StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
+        long             startTime        = System.nanoTime();
         try {
             return invocation.proceed();
         } finally {
-            long endTime = System.currentTimeMillis();
+            long endTime = System.nanoTime();
             long sqlCost = endTime - startTime;
             
             BoundSql               boundSql             = statementHandler.getBoundSql();

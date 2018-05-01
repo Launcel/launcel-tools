@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import xyz.launcel.exception.ProfessionException;
 import xyz.launcel.exception.SystemError;
+import xyz.launcel.log.RootLogger;
 import xyz.launcel.response.Response;
 
 import java.io.IOException;
@@ -18,22 +19,26 @@ import java.sql.SQLException;
 public class GlobalExceptionHandle {
     
     @ExceptionHandler(value = Throwable.class)
-    public Response throwable(Throwable e) {
-        return response(e.getMessage());
+    public Response throwable(Throwable x) {
+        x.printStackTrace();
+        return response(x.getMessage());
     }
     
     @ExceptionHandler(value = Exception.class)
-    public Response exception(Exception e) {
-        return response(e.getMessage());
+    public Response exception(Exception x) {
+        x.printStackTrace();
+        return response(x.getMessage());
     }
     
     @ExceptionHandler(value = NullPointerException.class)
-    public Response nullPointerException(NullPointerException e) {
-        return response(e.getMessage());
+    public Response nullPointerException(NullPointerException x) {
+        x.printStackTrace();
+        return response(x.getMessage());
     }
     
     @ExceptionHandler(value = IllegalArgumentException.class)
     public Response illegalArgumentException(IllegalArgumentException x) {
+        x.printStackTrace();
         return response(x.getMessage());
     }
     

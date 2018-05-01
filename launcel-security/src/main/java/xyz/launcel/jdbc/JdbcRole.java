@@ -23,7 +23,7 @@ public class JdbcRole extends BaseLogger {
     
     public Set<String> getRoles(String username) {
         try {
-            connection = ((RoleDataSourceHolder) ApplicationContextHook.getBean(SessionConstant.roleDateSourceName)).getHikariDataSource().getConnection();
+            connection = ((RoleDataSourceHolder) ApplicationContextHook.getBean(SessionConstant.roleDateSourceName)).getDataSource().getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }

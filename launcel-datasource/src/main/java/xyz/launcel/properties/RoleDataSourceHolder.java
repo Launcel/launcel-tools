@@ -4,13 +4,13 @@ import javax.sql.DataSource;
 
 public class RoleDataSourceHolder {
     
-    private DataSource hikariDataSource;
+    private DataSource dataSource;
     
-    public DataSource getHikariDataSource() {
-        return hikariDataSource;
+    public DataSource getDataSource() {
+        return dataSource;
     }
     
-    public void setHikariDataSource(DataSource hikariDataSource) {
-        this.hikariDataSource = hikariDataSource;
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 }

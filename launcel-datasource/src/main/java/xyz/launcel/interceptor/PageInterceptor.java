@@ -35,7 +35,7 @@ public class PageInterceptor implements Interceptor, Serializable {
         String           selectId             = mappedStatement.getId();
         BoundSql         boundSql;
         if (selectId.matches(".*Page.*")) {
-            boundSql = (BoundSql) metaStatementHandler.getValue("delegate.boundSql");
+            boundSql = statementHandler.getBoundSql();
             // 分页参数作为参数对象 parameter 的一个属性
             String sql = boundSql.getSql();
             if (StringUtils.isBlank(sql)) {
