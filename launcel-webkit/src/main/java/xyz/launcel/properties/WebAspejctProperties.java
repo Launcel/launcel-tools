@@ -1,4 +1,4 @@
-package xyz.launcel.prop;
+package xyz.launcel.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

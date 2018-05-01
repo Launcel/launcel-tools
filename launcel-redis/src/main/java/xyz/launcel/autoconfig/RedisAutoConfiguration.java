@@ -21,7 +21,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import redis.clients.jedis.JedisPoolConfig;
 import xyz.launcel.lang.Base64;
 import xyz.launcel.log.RootLogger;
-import xyz.launcel.prop.RedisProperties;
+import xyz.launcel.properties.RedisProperties;
 import xyz.launcel.support.serializer.GsonRedisSerializer;
 
 import javax.inject.Named;

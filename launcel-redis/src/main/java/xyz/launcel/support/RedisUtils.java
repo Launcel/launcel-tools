@@ -7,7 +7,7 @@ import redis.clients.jedis.JedisCommands;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.hook.ApplicationContextHook;
 import xyz.launcel.lang.StringUtils;
-import xyz.launcel.prop.RedisProperties;
+import xyz.launcel.properties.RedisProperties;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;

@@ -11,7 +11,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import xyz.launcel.json.Json;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.RootLogger;
-import xyz.launcel.prop.DozerProperties;
+import xyz.launcel.properties.DozerProperties;
 
 import java.io.IOException;
 import java.util.Arrays;

@@ -1,8 +1,7 @@
-package xyz.launcel.prop;
+package xyz.launcel.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class UploadProperties {
     //                                       office07    office03       pdf        jpg         jpg          png       jpeg
     //   private static String[] strings = {"504b0304", "d0cf11e0", "25504446", "ffd8ffe0", "ffd8ffe1", "89504e47", "ffd8ff"};
     
-    private List<String> contentType = new ArrayList<>(Arrays.asList("504b0304", "d0cf11e0", "25504446", "ffd8ffe0", "ffd8ffe1", "89504e47", "ffd8ff"));
+    private List<String> contentType = Arrays.asList("504b0304", "d0cf11e0", "25504446", "ffd8ffe0", "ffd8ffe1", "89504e47", "ffd8ff");
     
     public Boolean getEnabled() {
         return enabled;

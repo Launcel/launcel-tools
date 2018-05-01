@@ -26,7 +26,7 @@ public class ExceptionHelp {
         try {
             if (Objects.isNull(props)) {
                 PathMatchingResourcePatternResolver resolver  = new PathMatchingResourcePatternResolver();
-                Resource[]                          resources = resolver.getResources("classpath*:/prop/error.properties");
+                Resource[]                          resources = resolver.getResources("classpath*:/properties/error.properties");
                 props = new Properties();
                 InputStream       in  = null;
                 InputStreamReader inr = null;

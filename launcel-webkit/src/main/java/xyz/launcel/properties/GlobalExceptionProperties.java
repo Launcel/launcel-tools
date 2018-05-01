@@ -1,12 +1,11 @@
-package xyz.launcel.prop;
+package xyz.launcel.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import xyz.launcel.constant.SessionConstant;
 
-@ConfigurationProperties(prefix = SessionConstant.serviceaAspejctPrefix)
-public class ServiceProperties {
+@ConfigurationProperties(prefix = "web.global-exception")
+public class GlobalExceptionProperties {
     
-    private Boolean enabled = false;
+    private Boolean enabled = true;
     
     public Boolean getEnabled() {
         return enabled;

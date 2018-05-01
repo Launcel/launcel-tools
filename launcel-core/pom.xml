@@ -96,7 +96,7 @@
         <dependency>
             <groupId>xyz.launcel</groupId>
             <artifactId>launcel-annotation</artifactId>
-            <version>1.0</version>
+            <version>${build.version}</version>
         </dependency>
 
         <dependency>

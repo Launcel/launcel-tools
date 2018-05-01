@@ -14,10 +14,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 public interface StartUp {
-
-
+    
+    
     static ConfigurableEnvironment run(String[] args, Class<?> appClass) {
-        Logger log = LoggerFactory.getLogger(appClass);
+        Logger            log = LoggerFactory.getLogger(appClass);
         SpringApplication app = new SpringApplication(appClass);
         app.setBannerMode(Banner.Mode.OFF);
         ConfigurableEnvironment env = app.run(args).getEnvironment();
@@ -27,5 +27,5 @@ public interface StartUp {
                         "\n------------------------------------");
         return env;
     }
-
+    
 }

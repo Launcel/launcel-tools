@@ -1,4 +1,4 @@
-package xyz.launcel.prop;
+package xyz.launcel.properties;
 
 import com.zaxxer.hikari.HikariConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -38,7 +38,7 @@ public class DataSourceProperties {
     public static class DataSourcePropertie {
         private String  name                  = "main";
         // private String  driverClassName     = "net.sf.log4jdbc.DriverSpy";
-        private String  driverClassName       = "org.mariadb.jdbc.Driver";
+        private String  driverClass       = "org.mariadb.jdbc.Driver";
         // private String  url                 = "jdbc:log4jdbc:mysql://localhost:3306/wx-shop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false";
         private String  url                   = "jdbc:mariadb://localhost:3306/test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false";
         private String  username              = "root";
@@ -53,13 +53,13 @@ public class DataSourceProperties {
         // 等待连接池分配连接的最大时长（毫秒），超过这个时长还没可用的连接则发生SQLException， 缺省:30秒，参考MySQL wait_timeout参数（show variables like '%timeout%';）
         private Long    connectionTimeout     = 30000L;
         private String  connectionTestQuery   = "select 'x'";
-        private Boolean enableTransactal      = false;
+        private Boolean useServerPrepStmts    = true;
         private Boolean cachePrepStmts        = true;
         private Integer prepStmtCacheSize     = 250;
         private Integer prepStmtCacheSqlLimit = 2048;
-        private Boolean useServerPrepStmts    = true;
         // 只读数据库时配置为true
         private Boolean read                  = false;
+        private Boolean enableTransactal      = false;
         private Boolean roleDataSource        = false;
         private Boolean debugSql              = false;
         
@@ -71,12 +71,12 @@ public class DataSourceProperties {
             this.name = name;
         }
         
-        public String getDriverClassName() {
-            return driverClassName;
+        public String getDriverClass() {
+            return driverClass;
         }
         
-        public void setDriverClassName(String driverClassName) {
-            this.driverClassName = driverClassName;
+        public void setDriverClass(String driverClassName) {
+            this.driverClass = driverClassName;
         }
         
         public String getUrl() {
@@ -217,17 +217,17 @@ public class DataSourceProperties {
         
         public HikariConfig getHikariConfig() {
             HikariConfig config = new HikariConfig();
-            config.setDriverClassName(driverClassName);
-            config.setPassword(Base64.decode(password));
-            config.setJdbcUrl(url);
-            config.setUsername(username);
-            config.setMinimumIdle(minIdle);
-            config.setMaximumPoolSize(maxPoolSize);
-            config.setMaxLifetime(maxLifeTime);
-            config.setIdleTimeout(idleTimeout);
-            config.setConnectionTimeout(connectionTimeout);
-            config.setConnectionTestQuery(connectionTestQuery);
-            config.setReadOnly(read);
+            config.setDriverClassName(getDriverClass());
+            config.setPassword(Base64.decode(getPassword()));
+            config.setJdbcUrl(getUrl());
+            config.setUsername(getUsername());
+            config.setMinimumIdle(getMinIdle());
+            config.setMaximumPoolSize(getMaxPoolSize());
+            config.setMaxLifetime(getMaxLifeTime());
+            config.setIdleTimeout(getIdleTimeout());
+            config.setConnectionTimeout(getConnectionTimeout());
+            config.setConnectionTestQuery(getConnectionTestQuery());
+            config.setReadOnly(getRead());
             
             Properties dataSourceProperty = new Properties();
             dataSourceProperty.put("dataSource.cachePrepStmts", getCachePrepStmts());

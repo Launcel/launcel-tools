@@ -2,123 +2,151 @@
   "groups": [
     {
       "name": "web.aspejct",
-      "sourceType": "xyz.launcel.prop.WebAspejctProperties",
-      "type": "xyz.launcel.prop.WebAspejctProperties"
+      "sourceType": "xyz.launcel.properties.WebAspejctProperties",
+      "type": "xyz.launcel.properties.WebAspejctProperties"
     },
+
+
     {
       "name": "web.json-converter",
-      "sourceType": "xyz.launcel.prop.JsonConverterProperties",
-      "type": "xyz.launcel.prop.JsonConverterProperties"
+      "sourceType": "xyz.launcel.properties.JsonConverterProperties",
+      "type": "xyz.launcel.properties.JsonConverterProperties"
     },
+
+
     {
       "name": "web.global-exception",
-      "sourceType": "xyz.launcel.prop.GlobalExceptionProperties",
-      "type": "xyz.launcel.prop.GlobalExceptionProperties"
+      "sourceType": "xyz.launcel.properties.GlobalExceptionProperties",
+      "type": "xyz.launcel.properties.GlobalExceptionProperties"
     },
+
+
     {
       "name": "web.cors",
-      "sourceType": "xyz.launcel.prop.CorsProperties",
-      "type": "xyz.launcel.prop.CorsProperties"
+      "sourceType": "xyz.launcel.properties.CorsProperties",
+      "type": "xyz.launcel.properties.CorsProperties"
     },
+
+
     {
       "name": "web.upload",
-      "sourceType": "xyz.launcel.prop.UploadProperties",
-      "type": "xyz.launcel.prop.UploadProperties"
+      "sourceType": "xyz.launcel.properties.UploadProperties",
+      "type": "xyz.launcel.properties.UploadProperties"
     }
+
+
   ],
   "properties": [
+
+
     {
       "name": "web.aspejct.enabled",
       "type": "java.lang.Boolean",
       "defaultValue": false,
-      "sourceType": "xyz.launcel.prop.WebAspejctProperties"
+      "sourceType": "xyz.launcel.properties.WebAspejctProperties"
     },
+
+
+
     {
       "name": "web.json-converter.enabled",
       "type": "java.lang.Boolean",
       "defaultValue": true,
-      "sourceType": "xyz.launcel.prop.JsonConverterProperties"
+      "sourceType": "xyz.launcel.properties.JsonConverterProperties"
     },
     {
       "name": "web.json-converter.date-format",
       "type": "java.lang.String",
       "defaultValue": "yyyy-MM-dd HH:mm:ss",
-      "sourceType": "xyz.launcel.prop.JsonConverterProperties"
+      "sourceType": "xyz.launcel.properties.JsonConverterProperties"
     },
+
+
+
+
     {
       "name": "web.cors.enabled",
       "type": "java.lang.Boolean",
       "defaultValue": false,
-      "sourceType": "xyz.launcel.prop.CorsProperties"
+      "sourceType": "xyz.launcel.properties.CorsProperties"
     },
     {
       "name": "web.cors.path-pattern",
       "type": "java.lang.String",
       "defaultValue": "/api/**",
-      "sourceType": "xyz.launcel.prop.CorsProperties"
+      "sourceType": "xyz.launcel.properties.CorsProperties"
     },
     {
       "name": "web.cors.methods",
       "type": "java.lang.String[]",
       "defaultValue": "GET,POST,PUT,DETELE",
-      "sourceType": "xyz.launcel.prop.CorsProperties"
+      "sourceType": "xyz.launcel.properties.CorsProperties"
     },
     {
       "name": "web.cors.max-age",
       "type": "java.lang.Lang",
       "defaultValue": 3600,
-      "sourceType": "xyz.launcel.prop.CorsProperties"
+      "sourceType": "xyz.launcel.properties.CorsProperties"
     },
     {
       "name": "web.cors.allowed-origins",
       "type": "java.lang.String[]",
       "defaultValue": "*",
-      "sourceType": "xyz.launcel.prop.CorsProperties"
+      "sourceType": "xyz.launcel.properties.CorsProperties"
     },
+
+
+
+
     {
       "name": "web.global-exception.enabled",
       "type": "java.lang.Boolean",
       "defaultValue": true,
-      "sourceType": "xyz.launcel.prop.GlobalExceptionProperties"
+      "sourceType": "xyz.launcel.properties.GlobalExceptionProperties"
     },
+
+
+
+
+
     {
       "name": "web.upload.enabled",
       "type": "java.lang.Boolean",
       "defaultValue": false,
-      "sourceType": "xyz.launcel.prop.UploadProperties"
+      "sourceType": "xyz.launcel.properties.UploadProperties"
     },
     {
       "name": "web.upload.domain",
       "type": "java.lang.String",
-      "sourceType": "xyz.launcel.prop.UploadProperties"
+      "sourceType": "xyz.launcel.properties.UploadProperties"
     },
     {
       "name": "web.upload.path",
       "type": "java.lang.String",
-      "sourceType": "xyz.launcel.prop.UploadProperties"
+      "sourceType": "xyz.launcel.properties.UploadProperties"
     },
     {
       "name": "web.upload.max-size",
       "type": "java.lang.Long",
-      "sourceType": "xyz.launcel.prop.UploadProperties"
+      "sourceType": "xyz.launcel.properties.UploadProperties"
     },
     {
       "name": "web.upload.min-size",
       "type": "java.lang.Long",
-      "defaultValue": 0,
-      "sourceType": "xyz.launcel.prop.UploadProperties"
+      "defaultValue": 1024,
+      "sourceType": "xyz.launcel.properties.UploadProperties"
     },
     {
       "name": "web.upload.file-type",
       "type": "java.util.List<java.lang.String>",
-      "defaultValue": 0,
-      "sourceType": "xyz.launcel.prop.UploadProperties"
+      "defaultValue": "doc, docx, pdf, jpg, png, jepg",
+      "sourceType": "xyz.launcel.properties.UploadProperties"
     },
     {
       "name": "web.upload.content-type",
       "type": "java.util.List<java.lang.String>",
-      "defaultValue": 0,
-      "sourceType": "xyz.launcel.prop.UploadProperties"
+      "defaultValue": "504b0304, d0cf11e0, 25504446, ffd8ffe0, ffd8ffe1, 89504e47, ffd8ff",
+      "sourceType": "xyz.launcel.properties.UploadProperties"
     }
   ]
 }

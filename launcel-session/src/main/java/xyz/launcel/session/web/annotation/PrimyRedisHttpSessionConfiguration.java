@@ -3,7 +3,6 @@ package xyz.launcel.session.web.annotation;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.EmbeddedValueResolverAware;
@@ -141,7 +140,7 @@ public class PrimyRedisHttpSessionConfiguration extends SpringHttpSessionConfigu
     }
 
     public void setEmbeddedValueResolver(StringValueResolver resolver) {
-        this.embeddedValueResolver = resolver;
+        embeddedValueResolver = resolver;
     }
 
     @Bean

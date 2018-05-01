@@ -1,85 +1,96 @@
 {
   "groups": [
+
+
     {
       "name": "db.redis",
-      "type": "xyz.launcel.prop.RedisProperties",
-      "sourceType": "xyz.launcel.prop.RedisProperties"
+      "type": "xyz.launcel.properties.RedisProperties",
+      "sourceType": "xyz.launcel.properties.RedisProperties"
     }
+
+
+
   ],
   "properties": [
+
+
     {
       "name": "db.redis.host",
       "type": "java.lang.String",
       "defaultValue": "127.0.0.1",
-      "sourceType": "xyz.launcel.prop.RedisProperties"
+      "sourceType": "xyz.launcel.properties.RedisProperties"
     },
     {
       "name": "db.redis.password",
       "type": "java.lang.String",
       "description": "password must be use xyz.launcel.lang.Base64.encode(password) to calculate",
-      "sourceType": "xyz.launcel.prop.RedisProperties"
+      "sourceType": "xyz.launcel.properties.RedisProperties"
     },
     {
       "name": "db.redis.port",
       "type": "java.lang.Integer",
       "defaultValue": 6379,
-      "sourceType": "xyz.launcel.prop.RedisProperties"
+      "sourceType": "xyz.launcel.properties.RedisProperties"
     },
     {
       "name": "db.redis.database",
       "type": "java.lang.Integer",
       "description": "redis database.",
       "defaultValue": 0,
-      "sourceType": "xyz.launcel.prop.RedisProperties"
+      "sourceType": "xyz.launcel.properties.RedisProperties"
     },
     {
       "name": "db.redis.min-idle",
       "type": "java.lang.Integer",
       "description": "redis min-idle",
       "defaultValue": 1,
-      "sourceType": "xyz.launcel.prop.RedisProperties"
+      "sourceType": "xyz.launcel.properties.RedisProperties"
     },
     {
       "name": "db.redis.max-idle",
       "type": "java.lang.Integer",
       "defaultValue": 8,
       "description": "redis max-idle.",
-      "sourceType": "xyz.launcel.prop.RedisProperties"
+      "sourceType": "xyz.launcel.properties.RedisProperties"
     },
     {
       "name": "db.redis.max-total",
       "type": "java.lang.Integer",
       "defaultValue": 8,
       "description": "redis max-idle.",
-      "sourceType": "xyz.launcel.prop.RedisProperties"
+      "sourceType": "xyz.launcel.properties.RedisProperties"
     },
     {
       "name": "db.redis.max-active",
       "type": "java.lang.Integer",
       "description": "redis connect max-active.",
       "defaultValue": 8,
-      "sourceType": "xyz.launcel.prop.RedisProperties"
+      "sourceType": "xyz.launcel.properties.RedisProperties"
     },
     {
       "name": "db.redis.max-wait",
       "type": "java.lang.Integer",
       "description": "redis connect max-wait.",
       "defaultValue": 30000,
-      "sourceType": "xyz.launcel.prop.RedisProperties"
+      "sourceType": "xyz.launcel.properties.RedisProperties"
     },
     {
       "name": "db.redis.exptime",
       "type": "java.lang.Integer",
       "description": "redis value exp-time.",
       "defaultValue": 600,
-      "sourceType": "xyz.launcel.prop.RedisProperties"
+      "sourceType": "xyz.launcel.properties.RedisProperties"
     },
     {
       "name": "db.redis.timeout",
       "type": "java.lang.Integer",
       "description": "redis connect time out.",
       "defaultValue": 300,
-      "sourceType": "xyz.launcel.prop.RedisProperties"
+      "sourceType": "xyz.launcel.properties.RedisProperties"
     }
+
+
+
+
   ]
 }

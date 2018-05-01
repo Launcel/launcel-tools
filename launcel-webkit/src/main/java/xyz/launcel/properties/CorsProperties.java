@@ -1,4 +1,4 @@
-package xyz.launcel.prop;
+package xyz.launcel.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -47,11 +47,6 @@ public class CorsProperties {
         this.methods = methods;
     }
     
-    /**
-     * Configure how long in seconds the response from a pre-flight request
-     * can be cached by clients.
-     * <p>By default this is set to 1800 seconds (30 minutes).
-     */
     public Long getMaxAge() {
         return maxAge;
     }

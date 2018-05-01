@@ -5,7 +5,7 @@
  * Version: 1.0
  */
 
-package xyz.launcel.prop;
+package xyz.launcel.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -20,9 +20,9 @@ public class RedisProperties {
     private Integer maxIdle   = 10;
     private Integer maxTotal  = 8;
     private Integer maxActive = 10;
-    private Integer timeout   = 300;
     private Long    maxWait   = 30000L;
     private Long    exptime   = 600L;
+    private Integer timeout   = 300;
     
     public String getHost() {
         return host;

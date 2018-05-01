@@ -8,8 +8,7 @@ import java.util.List;
 
 public abstract class BaseServiceImpl implements BaseService {
     
-    //noinspection unchecked
-    protected abstract <T> BaseDAO<T> getDAO();
+    protected abstract <T> BaseDAO getDAO();
     
     @Override
     public <T> int add(T t) {
@@ -28,14 +27,12 @@ public abstract class BaseServiceImpl implements BaseService {
     
     @Override
     public <T> T query(T t) {
-        //noinspection unchecked
-        return (T) getDAO().query(t);
+        return getDAO().query(t);
     }
     
     @Override
     public <T> T get(Integer id) {
-        //noinspection unchecked
-        return (T) getDAO().get(id);
+        return getDAO().get(id);
     }
     
     @Override
@@ -45,11 +42,9 @@ public abstract class BaseServiceImpl implements BaseService {
     
     @Override
     public <T> Page<T> queryPage(T t, Page<T> page) {
-        Integer total  = getDAO().count(t);
+        Integer total = getDAO().count(t);
         if (total != null && total > 0) {
-            Page    p    = new Page(page.getPageNo(), page.getMaxRow());
-            //noinspection unchecked
-            List<T> list = getDAO().queryPage(t, p);
+            List<T> list = getDAO().queryPage(t, page);
             page.setTotal(total);
             page.setList(list);
         }

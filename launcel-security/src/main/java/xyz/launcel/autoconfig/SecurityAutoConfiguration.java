@@ -11,8 +11,8 @@ import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.interceptor.RoleInterceptor;
 import xyz.launcel.jdbc.JdbcRole;
 import xyz.launcel.lang.CollectionUtils;
-import xyz.launcel.prop.JdbcRolePropertites;
-import xyz.launcel.prop.SecurityListProperties;
+import xyz.launcel.properties.JdbcRolePropertites;
+import xyz.launcel.properties.SecurityListProperties;
 
 import java.util.Objects;
 

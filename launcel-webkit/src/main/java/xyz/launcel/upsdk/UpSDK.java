@@ -3,7 +3,7 @@ package xyz.launcel.upsdk;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.lang.StringUtils;
-import xyz.launcel.prop.UploadProperties;
+import xyz.launcel.properties.UploadProperties;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -97,11 +97,9 @@ public class UpSDK {
     }
     
     private void checkSize(Long size) {
-//        if (file.getSize() < (properties.getMinSize() * 2 << 19)) {
         if (size < (properties.getMinSize())) {
             ExceptionFactory.create("文件太小");
         }
-//        if (file.getSize() > properties.getMaxSize() * 2 << 19) {
         if (size > properties.getMaxSize()) {
             ExceptionFactory.create("文件大小超过限制");
         }

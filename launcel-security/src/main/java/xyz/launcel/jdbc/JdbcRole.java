@@ -4,7 +4,7 @@ import xyz.launcel.constant.SessionConstant;
 import xyz.launcel.hook.ApplicationContextHook;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.BaseLogger;
-import xyz.launcel.prop.RoleDataSourceHolder;
+import xyz.launcel.properties.RoleDataSourceHolder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

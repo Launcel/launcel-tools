@@ -2,35 +2,46 @@
   "groups": [
     {
       "name": "web.security",
-      "type": "xyz.launcel.prop.SecurityListProperties",
-      "sourceType": "xyz.launcel.prop.SecurityListProperties"
+      "type": "xyz.launcel.properties.SecurityListProperties",
+      "sourceType": "xyz.launcel.properties.SecurityListProperties"
     },
+
+
+
     {
       "name": "web.role",
-      "type": "xyz.launcel.prop.JdbcRolePropertites",
-      "sourceType": "xyz.launcel.prop.JdbcRolePropertites"
+      "type": "xyz.launcel.properties.JdbcRolePropertites",
+      "sourceType": "xyz.launcel.properties.JdbcRolePropertites"
     }
   ],
   "properties": [
+
+
+
+
     {
       "name": "web.security.list",
-      "type": "java.util.Map<java.lang.String,java.lang.String[]>",
-      "sourceType": "xyz.launcel.prop.SecurityListProperties"
+      "type": "java.util.Map<java.lang.String, java.lang.String[]>",
+      "sourceType": "xyz.launcel.properties.SecurityListProperties"
     },
     {
       "name": "web.security.exclude-paths",
       "type": "java.lang.String[]",
-      "sourceType": "xyz.launcel.prop.SecurityListProperties"
+      "sourceType": "xyz.launcel.properties.SecurityListProperties"
     },
+
+
+
+
     {
       "name": "web.role.authentication-query",
       "type": "java.lang.String",
-      "sourceType": "xyz.launcel.prop.JdbcRolePropertites"
+      "sourceType": "xyz.launcel.properties.JdbcRolePropertites"
     },
     {
       "name": "web.role.user-role-query",
       "type": "java.lang.String",
-      "sourceType": "xyz.launcel.prop.JdbcRolePropertites"
+      "sourceType": "xyz.launcel.properties.JdbcRolePropertites"
     }
   ]
 }
