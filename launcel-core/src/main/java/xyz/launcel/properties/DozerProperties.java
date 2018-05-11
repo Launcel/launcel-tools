@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class DozerProperties {
     
     private Boolean enabled = false;
-    private String  path;
+    private String  path    = "";
     
     public Boolean getEnabled() {
         return enabled;
