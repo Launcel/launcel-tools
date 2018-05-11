@@ -10,46 +10,27 @@ public class RootLogger {
     private RootLogger() { }
     
     
-    public static String getName() {
-        return log.getName();
+    public static String getName() { return log.getName(); }
+    
+    
+    public static void INFO(String format, Object... args) { log.info(appenders(format), args); }
+    
+    public static void INFO(String msg) { log.info(appenders(msg)); }
+    
+    public static void DEBUG(String format, Object... args) { log.debug(appenders(format), args); }
+    
+    public static void DEBUG(String msg) { log.debug(appenders(msg)); }
+    
+    public static boolean isDebug() { return log.isDebugEnabled(); }
+    
+    public static void WARN(String format, Object... args) { log.warn(appenders(format), args); }
+    
+    public static void WARN(String msg) { log.warn(appenders(msg)); }
+    
+    public static void ERROR(String format, Object... args) { log.error(appenders(format), args); }
+    
+    private static String appenders(String format) {
+        return "\n------------------------------------------------------------------------\n\t" + format +
+                "\n------------------------------------------------------------------------";
     }
-    
-    
-    public static void INFO(String format, String... arguments) {
-        log.info(format, arguments);
-    }
-    
-    public static void INFO(String msg) {
-        log.info(logInfo(msg));
-    }
-    
-    public static void DEBUG(String format, String... arguments) {
-        log.debug(format, arguments);
-    }
-    
-    public static void DEBUG(String msg) {
-        log.debug(logInfo(msg));
-    }
-    
-    public static boolean isDebug() {
-        return log.isDebugEnabled();
-    }
-    
-    public static void WARN(String format, String... arguments) {
-        log.warn(format, arguments);
-    }
-    
-    public static void WARN(String msg) {
-        log.warn(logInfo(msg));
-    }
-    
-    public static void ERROR(String format, String... arguments) {
-        log.error(format, arguments);
-    }
-    
-    public static String logInfo(String msg) {
-        return "\n------------------------------------------------------------------------\n\t" +
-                msg + "\n------------------------------------------------------------------------";
-    }
-    
 }

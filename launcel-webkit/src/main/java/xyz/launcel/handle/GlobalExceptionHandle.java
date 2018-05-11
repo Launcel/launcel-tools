@@ -21,13 +21,7 @@ public class GlobalExceptionHandle {
     @ExceptionHandler(value = Throwable.class)
     public Response throwable(Throwable x) {
         x.printStackTrace();
-        return response(x.getMessage());
-    }
-    
-    @ExceptionHandler(value = Exception.class)
-    public Response exception(Exception x) {
-        x.printStackTrace();
-        return response(x.getMessage());
+        return response("系统内部错误!");
     }
     
     @ExceptionHandler(value = NullPointerException.class)
@@ -47,18 +41,6 @@ public class GlobalExceptionHandle {
         return response(x.getMessage());
     }
     
-    @ExceptionHandler(value = SQLException.class)
-    public Response sqlException(SQLException x) {
-        x.printStackTrace();
-        return response("系统内部错误!");
-    }
-    
-    @ExceptionHandler(value = IOException.class)
-    public Response ioException(IOException x) {
-        x.printStackTrace();
-        return response("系统内部错误!");
-    }
-    
     @ExceptionHandler(SystemError.class)
     public Response systemError(Error x) {
         x.printStackTrace();
@@ -66,7 +48,7 @@ public class GlobalExceptionHandle {
     }
     
     private Response response(String str) {
-        return new Response(false, str);
+        return new Response(str, false);
     }
     
 }

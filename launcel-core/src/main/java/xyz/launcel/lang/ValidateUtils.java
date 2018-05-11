@@ -40,10 +40,10 @@ public final class ValidateUtils {
         Limit l = f.getAnnotation(Limit.class);
         if (l.group().length > 0) {
             for (Class<?> aClass : l.group())
-                if (aClass.getSimpleName().equals(group))
-                    checkFiled(value, l, f);
-        } else // 全部校验
+                if (aClass.getSimpleName().equals(group)) { checkFiled(value, l, f); }
+        } else {// 全部校验
             checkFiled(value, l, f);
+        }
     }
     
     private static void checkFiled(Object value, Limit l, Field f) {

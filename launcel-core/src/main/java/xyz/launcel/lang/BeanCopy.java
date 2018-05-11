@@ -18,14 +18,10 @@ public class BeanCopy {
         return target;
     }
     
-    private static <T> T mapProperties(Object source, T target) {
-        return mapProperties(source, target, (String[]) null);
-    }
+    private static <T> T mapProperties(Object source, T target) { return mapProperties(source, target, (String[]) null); }
     
     
-    public static <T> T map(Object source, Class<T> targetClass) {
-        return map(source, targetClass, (String[]) null);
-    }
+    public static <T> T map(Object source, Class<T> targetClass) { return map(source, targetClass, (String[]) null); }
     
     
     public static <T> T map(Object source, Class<T> targetClass, String... ignoreProperties) {
@@ -34,9 +30,7 @@ public class BeanCopy {
             target = targetClass.newInstance();
             mapProperties(source, target, ignoreProperties);
             return target;
-        } catch (ReflectiveOperationException e) {
-            throw new ProfessionException("_DEFINE_ERROR_CODE_010", "BeanCopy对象属性转换异常");
-        }
+        } catch (ReflectiveOperationException e) { throw new ProfessionException("_DEFINE_ERROR_CODE_010", targetClass.getSimpleName() + "实例化异常"); }
     }
     
     public static <T> List<T> map(Collection<?> source, Class<T> targetClass) {
@@ -44,16 +38,12 @@ public class BeanCopy {
     }
     
     public static <T> List<T> map(Collection<?> source, Class<T> targetClass, String... ignoreProperties) {
-        if (CollectionUtils.isEmpty(source)) {
-            ExceptionFactory.create("_DEFINE_ERROR_CODE_009", "集合中没有数据");
-        }
+        if (CollectionUtils.isEmpty(source)) { ExceptionFactory.create("_DEFINE_ERROR_CODE_009", "集合中没有数据"); }
         try {
             List<T> targetList = new ArrayList<>();
             T       target     = targetClass.newInstance();
             source.forEach(s -> targetList.add(mapProperties(s, target)));
             return targetList;
-        } catch (ReflectiveOperationException e) {
-            throw new ProfessionException("_DEFINE_ERROR_CODE_010", "BeanCopy对象属性转换异常");
-        }
+        } catch (ReflectiveOperationException e) { throw new ProfessionException("_DEFINE_ERROR_CODE_010", targetClass.getSimpleName() + "实例化异常"); }
     }
 }

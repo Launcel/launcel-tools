@@ -2,36 +2,22 @@ package xyz.launcel.log;
 
 public class BaseLogger {
     
-    protected void INFO(String format, String... arguments) {
-        RootLogger.INFO(format, arguments);
-    }
+    protected String getName() { return RootLogger.getName(); }
     
-    protected void INFO(String msg) {
-        RootLogger.INFO(msg);
-    }
+    protected void INFO(String format, Object... args) { RootLogger.INFO(format, args); }
     
-    protected void DEBUG(String format, String... arguments) {
-        RootLogger.INFO(format, arguments);
-    }
+    protected void INFO(String msg) { RootLogger.INFO(msg); }
     
-    protected void DEBUG(String msg) {
-        RootLogger.INFO(msg);
-    }
+    protected void DEBUG(String format, Object... args) { RootLogger.INFO(format, args); }
     
-    protected boolean isDebug() {
-        return RootLogger.isDebug();
-    }
+    protected void DEBUG(String msg) { RootLogger.INFO(msg); }
     
-    protected void WARN(String format, String... arguments) {
-        RootLogger.WARN(format, arguments);
-    }
+    protected boolean isDebug() { return RootLogger.isDebug(); }
     
-    protected void WARN(String msg) {
-        RootLogger.WARN(msg);
-    }
+    protected void WARN(String format, Object... args) { RootLogger.WARN(format, args); }
     
-    protected void ERROR(String format, String... arguments) {
-        RootLogger.ERROR(format, arguments);
-    }
+    protected void WARN(String msg) { RootLogger.WARN(msg); }
+    
+    protected void ERROR(String format, Object... args) { RootLogger.ERROR(format, args); }
     
 }

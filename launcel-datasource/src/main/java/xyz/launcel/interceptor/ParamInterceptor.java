@@ -10,6 +10,7 @@ import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 import xyz.launcel.lang.StringUtils;
+import xyz.launcel.log.RootLogger;
 
 import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
@@ -40,9 +41,10 @@ public class ParamInterceptor implements Interceptor {
             // 格式化Sql语句，去除换行符，替换参数
             sql = formatSql(sql, parameterObject, parameterMappingList);
             if (StringUtils.isNotBlank(sql)) {
-                System.out.println("=============================================================\n");
-                System.out.println("SQL：[" + sql + "]执行耗时[" + sqlCost + "ms]");
-                System.out.println("=============================================================");
+//                System.out.println("=============================================================\n");
+//                System.out.println("SQL：[" + sql + "]执行耗时[" + sqlCost + "ms]");
+//                System.out.println("=============================================================");
+                RootLogger.INFO("SQL：[{}],执行耗时[{}ms]",sql, sqlCost);
             }
         }
     }

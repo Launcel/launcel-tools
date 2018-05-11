@@ -20,18 +20,14 @@ public class SQLHelp {
         } else {
             o = getParam(parameter, "param1");
         }
-        if (o instanceof Page) {
-            p = (Page) o;
-        }
+        if (o instanceof Page) { p = (Page) o; }
         return p == null ? new Page(Integer.MAX_VALUE) : p;
     }
     
     public static Class<?> getClazz(Map<String, Object> parameter) {
         Class<?> clazz = null;
         Object   o     = getParam(parameter, "clazz");
-        if (o instanceof Class) {
-            clazz = (Class<?>) o;
-        }
+        if (o instanceof Class) { clazz = (Class<?>) o; }
         return clazz;
     }
     
@@ -42,11 +38,8 @@ public class SQLHelp {
     public static String concatSql(String boundSql, Page<?> p) {
         StringBuilder sb = new StringBuilder(boundSql);
         sb.append(" LIMIT ");
-        if (p.getOffset() > 0) {
-            sb.append(p.getOffset()).append(",").append(p.getMaxRow());
-        } else {
-            sb.append(p.getMaxRow());
-        }
+        if (p.getOffset() > 0) { sb.append(p.getOffset()).append(",").append(p.getMaxRow()); }
+        else { sb.append(p.getMaxRow()); }
         return sb.toString();
     }
 }

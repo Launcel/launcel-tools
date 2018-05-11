@@ -30,6 +30,7 @@ public class DozerAutoConfiguration {
     }
     
     //    @Lazy
+    @ConditionalOnProperty(prefix = "common.dozer", value = "enabled", havingValue = "true")
     @Bean(name = "dozer")
     public Mapper mapper() {
         DozerBeanMapper mapper = new DozerBeanMapper();
@@ -39,17 +40,11 @@ public class DozerAutoConfiguration {
                 List<String> xmlString = Arrays.stream(resources).map(t -> {
                     try {
                         return t.getFile().toURI().toURL().toString();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    } catch (IOException e) { throw new RuntimeException(e); }
                 }).collect(Collectors.toList());
-                if (RootLogger.isDebug()) {
-                    RootLogger.DEBUG(">>>  dozer mapper list is : " + Json.toJson(xmlString));
-                }
+                if (RootLogger.isDebug()) { RootLogger.DEBUG(">>>  dozer mapper list is : " + Json.toJson(xmlString)); }
                 mapper.setMappingFiles(xmlString);
-            } catch (IOException e) {
-                RootLogger.ERROR("dozer mapper load error!");
-            }
+            } catch (IOException e) { RootLogger.ERROR("dozer mapper load error!"); }
         }
         return mapper;
     }

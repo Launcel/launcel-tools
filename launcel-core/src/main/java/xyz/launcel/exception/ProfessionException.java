@@ -14,9 +14,9 @@ public class ProfessionException extends RuntimeException {
         super(message);
     }
     
-    public ProfessionException(String msg, String msgInfo) {
-        this(msgInfo);
-        String sb = "\t[" + msg + " : " + msgInfo + "]";
+    public ProfessionException(String code, String msg) {
+        this(msg);
+        String sb = "\t[" + code + " : " + msg + "]";
         RootLogger.ERROR(sb);
     }
     

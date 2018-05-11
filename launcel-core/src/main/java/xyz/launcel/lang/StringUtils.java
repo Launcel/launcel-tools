@@ -7,8 +7,7 @@ import java.util.stream.Stream;
 
 public final class StringUtils {
     
-    private StringUtils() {
-    }
+    private StringUtils() { }
     
     public static int indexOf(final CharSequence cs, final CharSequence searchChar, final int start) {
         return cs.toString().indexOf(searchChar.toString(), start);
@@ -19,61 +18,39 @@ public final class StringUtils {
         return seq != null && searchSeq != null && indexOf(seq, searchSeq, 0) >= 0;
     }
     
-    public static boolean isNotEmpty(final CharSequence cs) {
-        return !StringUtils.isEmpty(cs);
-    }
+    public static boolean isNotEmpty(final CharSequence cs) { return !StringUtils.isEmpty(cs); }
     
-    public static boolean isEmpty(final CharSequence cs) {
-        return cs == null || cs.length() == 0;
-    }
+    public static boolean isEmpty(final CharSequence cs) { return cs == null || cs.length() == 0; }
     
-    public static boolean isNotBlank(final CharSequence cs) {
-        return !isBlank(cs);
-    }
+    public static boolean isNotBlank(final CharSequence cs) { return !isBlank(cs); }
     
     public static boolean isBlank(final CharSequence cs) {
         int strLen;
-        if (cs == null || (strLen = cs.length()) == 0) {
-            return true;
-        }
+        if (cs == null || (strLen = cs.length()) == 0) { return true; }
         for (int i = 0; i < strLen; i++) {
-            if (!Character.isWhitespace(cs.charAt(i))) {
-                return false;
-            }
+            if (!Character.isWhitespace(cs.charAt(i))) { return false; }
         }
         return true;
     }
     
     public static String capitalize(final String str) {
-        if (isBlank(str)) {
-            return null;
-        }
+        if (isBlank(str)) { return null; }
         
         char firstChar = str.charAt(0);
-        if (Character.isTitleCase(firstChar)) {
-            return str;
-        }
+        if (Character.isTitleCase(firstChar)) { return str; }
         
         return Character.toTitleCase(firstChar) + str.substring(1);
     }
     
-    public static boolean isTrue(String s) {
-        return "true".equalsIgnoreCase(s);
-    }
+    public static boolean isTrue(String s) { return "true".equalsIgnoreCase(s); }
     
     
-    public static boolean isFalse(String s) {
-        return "false".equalsIgnoreCase(s);
-    }
+    public static boolean isFalse(String s) { return "false".equalsIgnoreCase(s); }
     
-    public static String getUUID() {
-        return UUID.randomUUID().toString().replaceAll("-", "");
-    }
+    public static String getUUID() { return UUID.randomUUID().toString().replaceAll("-", ""); }
     
     @SuppressWarnings("rawtypes")
-    public static Stream spiltStream(String strings, String split) {
-        return Arrays.stream(strings.split(split)).filter(StringUtils::isNotBlank);
-    }
+    public static Stream spiltStream(String strings, String split) { return Arrays.stream(strings.split(split)).filter(StringUtils::isNotBlank); }
     
     private static final Random RANDOM = new Random();
     
@@ -91,30 +68,21 @@ public final class StringUtils {
     
     private static String random(int count, int start, int end, final boolean letters, final boolean numbers,
                                  final char[] chars, final Random random) {
-        if (count == 0) {
-            return "";
-        } else if (count < 0) {
-            throw new IllegalArgumentException("Requested random string length " + count + " is less than 0.");
-        }
-        if (chars != null && chars.length == 0) {
-            throw new IllegalArgumentException("The chars array must not be empty");
-        }
+        if (count == 0) { return ""; }
+        else if (count < 0) { throw new IllegalArgumentException("Requested random string length " + count + " is less than 0."); }
+        if (chars != null && chars.length == 0) { throw new IllegalArgumentException("The chars array must not be empty"); }
         
         if (start == 0 && end == 0) {
-            if (chars != null) {
-                end = chars.length;
-            } else {
-                if (!letters && !numbers) {
-                    end = Integer.MAX_VALUE;
-                } else {
+            if (chars != null) { end = chars.length; }
+            else {
+                if (!letters && !numbers) { end = Integer.MAX_VALUE; }
+                else {
                     end = 'z' + 1;
                     start = ' ';
                 }
             }
         } else {
-            if (end <= start) {
-                throw new IllegalArgumentException("Parameter end (" + end + ") must be greater than start (" + start + ")");
-            }
+            if (end <= start) { throw new IllegalArgumentException("Parameter end (" + end + ") must be greater than start (" + start + ")"); }
         }
         
         final char[] buffer = new char[count];
@@ -122,38 +90,26 @@ public final class StringUtils {
         
         while (count-- != 0) {
             char ch;
-            if (chars == null) {
-                ch = (char) (random.nextInt(gap) + start);
-            } else {
-                ch = chars[random.nextInt(gap) + start];
-            }
-            if (letters && Character.isLetter(ch)
-                    || numbers && Character.isDigit(ch)
-                    || !letters && !numbers) {
+            if (chars == null) { ch = (char) (random.nextInt(gap) + start); }
+            else { ch = chars[random.nextInt(gap) + start]; }
+            if (letters && Character.isLetter(ch) || numbers && Character.isDigit(ch) || !letters && !numbers) {
                 if (ch >= 56320 && ch <= 57343) {
-                    if (count == 0) {
-                        count++;
-                    } else {
+                    if (count == 0) { count++; }
+                    else {
                         buffer[count] = ch;
                         count--;
                         buffer[count] = (char) (55296 + random.nextInt(128));
                     }
                 } else if (ch >= 55296 && ch <= 56191) {
-                    if (count == 0) {
-                        count++;
-                    } else {
+                    if (count == 0) { count++; }
+                    else {
                         buffer[count] = (char) (56320 + random.nextInt(128));
                         count--;
                         buffer[count] = ch;
                     }
-                } else if (ch >= 56192 && ch <= 56319) {
-                    count++;
-                } else {
-                    buffer[count] = ch;
-                }
-            } else {
-                count++;
-            }
+                } else if (ch >= 56192 && ch <= 56319) { count++; }
+                else { buffer[count] = ch; }
+            } else { count++; }
         }
         return new String(buffer);
     }

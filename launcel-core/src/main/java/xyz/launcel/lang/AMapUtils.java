@@ -3,6 +3,7 @@ package xyz.launcel.lang;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.launcel.exception.ExceptionFactory;
+import xyz.launcel.log.RootLogger;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -28,13 +29,12 @@ public interface AMapUtils {
      * @return
      */
     static double getDistance(Point l1, Point l2) {
-        Logger log     = LoggerFactory.getLogger(AMapUtils.class);
         double latDiff = l1.getRadLat() - l2.getRadLat();// 纬度的弧度差
         double lngDiff = l1.getRadLng() - l2.getRadLng();// 经度的弧度差
         double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(latDiff / 2), 2) +
                 Math.cos(l1.getRadLat()) * Math.cos(l2.getRadLat()) * Math.pow(Math.sin(lngDiff / 2), 2)));
         s = s * 6378.137;
-        log.info("Point({},{})与Point({},{})的距离={}", l1.getLng(), l1.getLat(), l2.getLng(), l2.getLat(), s);
+        RootLogger.INFO("Point({},{})与Point({},{})的距离={}", l1.getLng(), l1.getLat(), l2.getLng(), l2.getLat(), s);
         return s;
     }
     
@@ -107,14 +107,11 @@ public interface AMapUtils {
                 if (lng >= -180d && lng <= 180d) {
                     this.lng = parse(lng);
                     radLng = getRadian(lng);
-                } else
-                    ExceptionFactory.create("-101", "经度值不在范围内");
+                } else { ExceptionFactory.create("-101", "经度值不在范围内"); }
                 if (lat >= -90d && lat <= 90d) {
                     this.lat = lat;
                     radLat = getRadian(lat);
-                } else {
-                    ExceptionFactory.create("-102", "纬度值不在范围内");
-                }
+                } else { ExceptionFactory.create("-102", "纬度值不在范围内"); }
             }
         }
         
@@ -124,8 +121,6 @@ public interface AMapUtils {
          * @param degree
          * @return
          */
-        private double getRadian(double degree) {
-            return degree * Math.PI / 180.0;
-        }
+        private double getRadian(double degree) { return degree * Math.PI / 180.0; }
     }
 }

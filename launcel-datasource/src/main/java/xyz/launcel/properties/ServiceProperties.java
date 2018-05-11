@@ -1,9 +1,9 @@
 package xyz.launcel.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import xyz.launcel.constant.SessionConstant;
+import xyz.launcel.constant.SessionFactoryConstant;
 
-@ConfigurationProperties(prefix = SessionConstant.serviceaAspejctPrefix)
+@ConfigurationProperties(prefix = SessionFactoryConstant.serviceaAspejctPrefix)
 public class ServiceProperties {
     
     private Boolean enabled = false;

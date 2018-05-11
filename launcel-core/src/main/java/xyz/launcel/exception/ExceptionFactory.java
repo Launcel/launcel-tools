@@ -11,27 +11,27 @@ import java.util.Map;
 public interface ExceptionFactory {
     
     
-    static void create(String message) {
-        Map<String, String> map = ExceptionHelp.getMessage(message);
+    static void create(String code) {
+        Map<String, String> map = ExceptionHelp.getMessage(code);
         RootLogger.ERROR("\t{}", Json.toJson(map).replaceAll("\\{", "[").replaceAll("}", "]"));
         throw new ProfessionException(map.values().toString());
     }
     
-    static void error(String message) {
-        Map<String, String> map = ExceptionHelp.getMessage(message);
+    static void error(String code) {
+        Map<String, String> map = ExceptionHelp.getMessage(code);
         RootLogger.ERROR("\t{}", Json.toJson(map).replaceAll("\\{", "[").replaceAll("}", "]"));
         throw new SystemError(map.values().toString());
     }
     
-    static void error(String msg, String msgInfo) {
-        String sb = "\t[" + msg + " : " + msgInfo + "]";
+    static void error(String code, String msg) {
+        String sb = "\t[" + code + " : " + msg + "]";
         RootLogger.ERROR(sb);
-        throw new SystemError(msgInfo);
+        throw new SystemError(msg);
     }
     
-    static void create(String msg, String msgInfo) {
-        String sb = "\t[" + msg + " : " + msgInfo + "]";
+    static void create(String code, String msg) {
+        String sb = "\t[" + code + " : " + msg + "]";
         RootLogger.ERROR(sb);
-        throw new ProfessionException(msgInfo);
+        throw new ProfessionException(msg);
     }
 }

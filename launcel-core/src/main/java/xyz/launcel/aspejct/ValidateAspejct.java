@@ -18,10 +18,11 @@ class ValidateAspejct extends BaseLogger {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method          method    = signature.getMethod();
         if (method.getName().toLowerCase().contains("upload")) {
+            DEBUG("调用了：{}.upload* 方法,可能是上传文件,不输出参数,如有误,请重命名该方法,不要包含upload关键字", signature.getDeclaringTypeName());
             return;
         }
         if (isDebug()) {
-            DEBUG("调用了：" + signature.getDeclaringTypeName() + "." + method.getName() + " 方法 ：参数 \n" + Json.toJson(joinPoint.getArgs()));
+            DEBUG("调用了：{}.{} 方法 ：参数 \n{}", signature.getDeclaringTypeName(), method.getName(), Json.toJson(joinPoint.getArgs()));
         }
         Parameter[] params = method.getParameters();
         String      group  = StringUtils.capitalize(joinPoint.getSignature().getName());
@@ -41,7 +42,7 @@ class ValidateAspejct extends BaseLogger {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method          method    = signature.getMethod();
         if (isDebug()) {
-            DEBUG("调用：" + signature.getDeclaringTypeName() + "." + method.getName() + " 方法结束 ：结果 \n" + Json.toJson(object));
+            DEBUG("调用了：{}.{} 方法结束 ：结果 \n{}", signature.getDeclaringTypeName(), method.getName(), Json.toJson(object));
         }
     }
 }

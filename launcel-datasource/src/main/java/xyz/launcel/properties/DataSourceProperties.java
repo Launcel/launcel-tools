@@ -2,7 +2,7 @@ package xyz.launcel.properties;
 
 import com.zaxxer.hikari.HikariConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import xyz.launcel.constant.SessionConstant;
+import xyz.launcel.constant.SessionFactoryConstant;
 import xyz.launcel.lang.Base64;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Properties;
 /**
  * Created by Launcel in 2017/9/19
  */
-@ConfigurationProperties(prefix = SessionConstant.dataSourceConfigPrefix)
+@ConfigurationProperties(prefix = SessionFactoryConstant.dataSourceConfigPrefix)
 public class DataSourceProperties {
     
     private DataSourcePropertie main;
@@ -38,7 +38,7 @@ public class DataSourceProperties {
     public static class DataSourcePropertie {
         private String  name                  = "main";
         // private String  driverClassName     = "net.sf.log4jdbc.DriverSpy";
-        private String  driverClass       = "org.mariadb.jdbc.Driver";
+        private String  driverClass           = "org.mariadb.jdbc.Driver";
         // private String  url                 = "jdbc:log4jdbc:mysql://localhost:3306/wx-shop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false";
         private String  url                   = "jdbc:mariadb://localhost:3306/test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false";
         private String  username              = "root";

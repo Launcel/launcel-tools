@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtils {
     
     private static RedisTemplate<String, Object> template   = ApplicationContextHook.getBean("redisTemplate");
-    private static Long                          expireTime = ((RedisProperties) ApplicationContextHook.getBean(RedisProperties.class)).getExptime();
+    private static Long                          expireTime = ApplicationContextHook.getBean(RedisProperties.class).getExptime();
     
     public static RedisTemplate<String, Object> getTemplate() {
         return template;

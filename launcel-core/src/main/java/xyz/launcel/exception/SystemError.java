@@ -9,13 +9,13 @@ public class SystemError extends Error {
         super();
     }
     
-    protected SystemError(String message) {
-        super(message);
+    protected SystemError(String msg) {
+        super(msg);
     }
     
-    public SystemError(String msg, String msgInfo) {
-        this(msgInfo);
-        String sb = "\t[" + msg + " : " + msgInfo + "]";
+    public SystemError(String code, String msg) {
+        this(msg);
+        String sb = "\t[" + code + " : " + msg + "]";
         RootLogger.ERROR(sb);
     }
     

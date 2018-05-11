@@ -26,8 +26,8 @@ public abstract class BaseController extends BaseLogger {
 //        String lowerIdStr = getRequest().getParameter("lowerId");
 //        String largeIdStr = getRequest().getParameter("largeId");
         
-        Integer pageNo = Integer.valueOf(StringUtils.isNotBlank(pageNoStr) ? pageNoStr.trim() : "1");
-        Integer maxRow = Integer.valueOf(StringUtils.isNotBlank(rowStr) ? rowStr.trim() : "15");
+        Integer pageNo = StringUtils.isNotBlank(pageNoStr) ? Integer.valueOf(pageNoStr.trim()) : 1;
+        Integer maxRow = StringUtils.isNotBlank(rowStr) ? Integer.valueOf(rowStr.trim()) : Integer.MAX_VALUE;
 //        Integer lowerId = Integer.valueOf(StringUtils.isNotBlank(lowerIdStr) ? lowerIdStr.trim() : "1");
 //        Integer largeId = Integer.valueOf(StringUtils.isNotBlank(largeIdStr) ? largeIdStr.trim() : "1");
 //        return new Paging<>(pageNo, maxRow, lowerId, largeId);
@@ -43,6 +43,10 @@ public abstract class BaseController extends BaseLogger {
         return HttpResponse;
     }
     
+    protected Response getSuccess() {
+        return new Response(true);
+    }
+    
     protected Response getSuccess(Object o) {
         return new Response(true, o);
     }
@@ -56,6 +60,5 @@ public abstract class BaseController extends BaseLogger {
     protected Response getFail(String msg) {
         return new Response(false, msg);
     }
-    
-    
+
 }
