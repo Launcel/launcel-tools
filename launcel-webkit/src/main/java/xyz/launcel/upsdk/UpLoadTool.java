@@ -5,12 +5,9 @@ import xyz.launcel.hook.ApplicationContextHook;
 
 public class UpLoadTool {
     
-    private UpLoadTool() {
-    }
+    private UpLoadTool() {}
     
     private static UpSDK upSDK = ApplicationContextHook.getBean("upSDK");
     
-    public static String upload(MultipartFile file) {
-        return upSDK.upload(file);
-    }
+    public static String upload(MultipartFile file) { return upSDK.upload(file); }
 }

@@ -38,14 +38,10 @@ public class PageInterceptor implements Interceptor, Serializable {
             boundSql = statementHandler.getBoundSql();
             // 分页参数作为参数对象 parameter 的一个属性
             String sql = boundSql.getSql();
-            if (StringUtils.isBlank(sql)) {
-                return invocation.proceed();
-            }
+            if (StringUtils.isBlank(sql)) { return invocation.proceed(); }
             @SuppressWarnings("unchecked")
             Map<String, Object> parameter = (Map<String, Object>) boundSql.getParameterObject();
-            if (parameter.isEmpty()) {
-                return invocation.proceed();
-            }
+            if (parameter.isEmpty()) { return invocation.proceed(); }
             Page<?> p       = SQLHelp.getPaging(parameter);
             String  pageSql = SQLHelp.concatSql(sql, p);
             metaStatementHandler.setValue("delegate.boundSql.sql", pageSql);
@@ -56,7 +52,8 @@ public class PageInterceptor implements Interceptor, Serializable {
     
     @Override
     public Object plugin(Object o) {
-        if (o instanceof StatementHandler) { return Plugin.wrap(o, this); } else { return o; }
+        if (o instanceof StatementHandler) { return Plugin.wrap(o, this); }
+        else { return o; }
     }
     
     @Override

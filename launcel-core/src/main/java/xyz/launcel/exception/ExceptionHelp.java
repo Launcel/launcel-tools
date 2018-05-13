@@ -2,6 +2,7 @@ package xyz.launcel.exception;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.RootLogger;
 
 import java.io.IOException;
@@ -43,13 +44,9 @@ public class ExceptionHelp {
     
     protected static Map<String, String> getMessage(String code) {
         Map<String, String> map = new HashMap<>();
-        try {
-            String value = props.getProperty(code);
-            map.put("message", value);
-        } catch (Exception x) {
-            map.clear();
-            map.put("message", code);
-        }
+        String value = props.getProperty(code);
+        if (StringUtils.isNotBlank(value)) { map.put("message", value); }
+        else { map.put("message", code); }
         return map;
     }
 }

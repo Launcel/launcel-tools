@@ -56,25 +56,25 @@ public final class ValidateUtils {
         String msg = name;
         switch (type) {
             case string:
-                if (StringUtils.isBlank((String) o)) { msg += "不能为空"; }
+                if (StringUtils.isBlank((String) o)) { msg += " : 不能为空"; }
                 break;
             case number:
-                if (!RegUtil.isNum(o)) { msg += "不是整数"; }
+                if (!RegUtil.isNum(o)) { msg += " : 不是整数"; }
                 break;
             case ip:
-                if (!RegUtil.isIP(o)) { msg += "不是合法ip"; }
+                if (!RegUtil.isIP(o)) { msg += " : 不是合法ip"; }
                 break;
             case decimal:
-                if (!RegUtil.isFloatNum(o)) { msg += "不是小数"; }
+                if (!RegUtil.isFloatNum(o)) { msg += " : 不是小数"; }
                 break;
             case email:
-                if (!RegUtil.isEmail(o)) { msg += "不能为空"; }
+                if (!RegUtil.isEmail(o)) { msg += " : 不能为空"; }
                 break;
             case tel:
-                if (!RegUtil.isMobile(o)) { msg += "不是合法手机号码"; }
+                if (!RegUtil.isMobile(o)) { msg += " : 不是合法手机号码"; }
                 break;
             case qq:
-                if (!RegUtil.isQQ(o)) { msg += "不是合法QQ号码"; }
+                if (!RegUtil.isQQ(o)) { msg += " : 不是合法QQ号码"; }
                 break;
             default:
                 break;

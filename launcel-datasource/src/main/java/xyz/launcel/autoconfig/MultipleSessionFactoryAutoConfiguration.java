@@ -54,10 +54,6 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
         if (!multipleDataSource.isEmpty() && !multipleMybatis.isEmpty()) {
-//            System.out.println("=============================================================\n");
-//            System.out.println("multipleDataSource is :" + Json.toJson(multipleDataSource));
-//            System.out.println("multipleMybatis is :" + Json.toJson(multipleMybatis));
-//            System.out.println("=============================================================");
             INFO("multipleDataSource is : {}\nmultipleMybatis is : {}", Json.toJson(multipleDataSource), Json.toJson(multipleMybatis));
             multipleDataSource.forEach(propertie -> registBeans(propertie, registry));
         } else {
@@ -105,9 +101,7 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
         
         List<Interceptor> interceptors = new ArrayList<>(2);
         interceptors.add(new PageInterceptor());
-        if (isDebugSql) {
-            interceptors.add(new PageInterceptor());
-        }
+        if (isDebugSql) { interceptors.add(new PageInterceptor()); }
         
         sqlSession.addPropertyValue(SessionFactoryConstant.pluginName, interceptors);
         try {
@@ -176,9 +170,7 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
         // 设置数据源属性
         dataBinder(dataBinder, map);
         multipleDataSource.add(dataSourceProperties.getMain());
-        if (dataSourceProperties.getOthers() != null) {
-            multipleDataSource.addAll(dataSourceProperties.getOthers());
-        }
+        if (dataSourceProperties.getOthers() != null) { multipleDataSource.addAll(dataSourceProperties.getOthers()); }
     }
     
     private void dataBinderMapper(Map<String, Object> map) {
@@ -202,9 +194,7 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
     
     @ConditionalOnProperty(prefix = "service.aspejct", value = "enabled", havingValue = "true", matchIfMissing = true)
     @Bean
-    public ServerAspejct serverAspejct() {
-        return new ServerAspejct();
-    }
+    public ServerAspejct serverAspejct() { return new ServerAspejct(); }
     
     /**
      * 基于mapper代理则不需要注入

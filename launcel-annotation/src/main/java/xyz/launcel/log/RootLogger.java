@@ -30,7 +30,8 @@ public class RootLogger {
     public static void ERROR(String format, Object... args) { log.error(appenders(format), args); }
     
     private static String appenders(String format) {
-        return "\n------------------------------------------------------------------------\n\t" + format +
+        return "\n------------------------------------------------------------------------\n\t"
+                                                + format +
                 "\n------------------------------------------------------------------------";
     }
 }

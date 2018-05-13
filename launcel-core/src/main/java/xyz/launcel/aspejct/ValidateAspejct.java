@@ -11,6 +11,7 @@ import xyz.launcel.log.BaseLogger;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Objects;
 
 class ValidateAspejct extends BaseLogger {
 
@@ -33,7 +34,7 @@ class ValidateAspejct extends BaseLogger {
                     Object object = joinPoint.getArgs()[i];
                     ValidateUtils.validateLimit(object, group);
                 } catch (ReflectiveOperationException e) {
-                    ExceptionFactory.error("_DEFINE_ERROR_CODE_014", "Validate 校验失败");
+                    ExceptionFactory.error("进行反射校验失败");
                 }
             }
         }
@@ -43,7 +44,9 @@ class ValidateAspejct extends BaseLogger {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         if (isDebug()) {
-            DEBUG("调用了：{}.{} 方法结束 ：结果 \n{}", signature.getDeclaringTypeName(), method.getName(), Json.toJson(object));
+            String returnObjs = "";
+            if (Objects.nonNull(object)) { returnObjs = Json.toJson(object); }
+            DEBUG("调用了：{}.{} 方法结束 ：结果 \n{}", signature.getDeclaringTypeName(), method.getName(), returnObjs);
         }
     }
 }

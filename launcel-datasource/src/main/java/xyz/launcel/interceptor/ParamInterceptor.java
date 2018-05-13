@@ -288,14 +288,14 @@ public class ParamInterceptor implements Interceptor {
             return keyParts[keyParts.length - 1];
         }
         
-        protected static class Ambiguity<V> {
+        static class Ambiguity<V> {
             private final V subject;
             
-            public Ambiguity(V subject) {
+            Ambiguity(V subject) {
                 this.subject = subject;
             }
             
-            public V getSubject() {
+            V getSubject() {
                 return this.subject;
             }
         }

@@ -96,9 +96,6 @@ public class RedisUtils {
     /**
      * RedisTemplate set方法默认使用的是jedis的setEX
      *
-     * @param key
-     * @param value
-     * @return
      */
     public static String setEX(final String key, String value) {
         return setEX(key, value, getExpireTime());
@@ -107,10 +104,6 @@ public class RedisUtils {
     /**
      * RedisTemplate set方法默认使用的是jedis的setEX
      *
-     * @param key
-     * @param value
-     * @param expTime
-     * @return
      */
     public static String setEX(final String key, final String value, final Long expTime) {
         vidate(key, value, expTime);
