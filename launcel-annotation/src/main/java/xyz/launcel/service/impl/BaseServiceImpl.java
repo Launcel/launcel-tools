@@ -6,6 +6,9 @@ import xyz.launcel.service.BaseService;
 
 import java.util.List;
 
+/**
+ * @author launcel
+ */
 public abstract class BaseServiceImpl implements BaseService {
     
     protected abstract <T> BaseDAO getDAO();

@@ -13,6 +13,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Objects;
 
+/**
+ * @author launcel
+ */
 class ValidateAspejct extends BaseLogger {
 
     void preparedArgs(JoinPoint joinPoint) {

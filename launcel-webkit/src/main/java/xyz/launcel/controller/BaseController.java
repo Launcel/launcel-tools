@@ -19,18 +19,11 @@ public abstract class BaseController extends BaseLogger {
     
     
     protected <T> Page<T> initPaging() {
-//        String pageNoStr = getReqLocal().getParameter("pageNo");
-//        String rowStr = getReqLocal().getParameter("maxRow");
         String pageNoStr = getRequest().getParameter("pageNo");
         String rowStr    = getRequest().getParameter("maxRow");
-//        String lowerIdStr = getRequest().getParameter("lowerId");
-//        String largeIdStr = getRequest().getParameter("largeId");
-        
+
         Integer pageNo = StringUtils.isNotBlank(pageNoStr) ? Integer.valueOf(pageNoStr.trim()) : 1;
         Integer maxRow = StringUtils.isNotBlank(rowStr) ? Integer.valueOf(rowStr.trim()) : Integer.MAX_VALUE;
-//        Integer lowerId = Integer.valueOf(StringUtils.isNotBlank(lowerIdStr) ? lowerIdStr.trim() : "1");
-//        Integer largeId = Integer.valueOf(StringUtils.isNotBlank(largeIdStr) ? largeIdStr.trim() : "1");
-//        return new Paging<>(pageNo, maxRow, lowerId, largeId);
         //noinspection unchecked
         return new Page<>(pageNo, maxRow);
     }
@@ -50,7 +43,11 @@ public abstract class BaseController extends BaseLogger {
     protected Response getSuccess(Object o) {
         return new Response(true, o);
     }
-    
+
+    protected Response getSuccess(String msg) {
+        return new Response(msg, true);
+    }
+
     protected Response getFail() {
         Response response = new Response();
         response.setIsOk(false);

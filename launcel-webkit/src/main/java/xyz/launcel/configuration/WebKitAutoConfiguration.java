@@ -35,9 +35,9 @@ public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter {
     private final UploadProperties uploadProperties;
     
     public WebKitAutoConfiguration(CorsProperties corsProperties, JsonConverterProperties jsonConverterProperties, UploadProperties uploadProperties) {
-        this.corsProperties = corsProperties;
+        this.corsProperties          = corsProperties;
         this.jsonConverterProperties = jsonConverterProperties;
-        this.uploadProperties = uploadProperties;
+        this.uploadProperties        = uploadProperties;
     }
     
     /**

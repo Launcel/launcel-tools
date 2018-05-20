@@ -3,9 +3,11 @@ package xyz.launcel.lang;
 import xyz.launcel.exception.ProfessionException;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public interface CollectionUtils {
@@ -47,5 +49,22 @@ public interface CollectionUtils {
             }
         }
     }
-    
+
+    static <K, V> Map.Entry<K, V> getHead(LinkedHashMap<K, V> map) {
+        return map.entrySet().iterator().next();
+    }
+
+    static <K, V> Map.Entry<K, V> getTail(LinkedHashMap<K, V> map) {
+        Field tail = null;
+        try {
+            tail = map.getClass().getDeclaredField("tail");
+            tail.setAccessible(true);
+            //noinspection unchecked
+            return (Map.Entry<K, V>) tail.get(map);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

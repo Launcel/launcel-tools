@@ -20,10 +20,12 @@ public class BeanCopy {
     
     private static <T> T mapProperties(Object source, T target) { return mapProperties(source, target, (String[]) null); }
     
-    
+    public static void map(Object source, Object target) { map(source, target, (String[]) null); }
+
+    public static void map(Object source, Object target, String... ignoreProperties) { mapProperties(source, target, ignoreProperties); }
+
     public static <T> T map(Object source, Class<T> targetClass) { return map(source, targetClass, (String[]) null); }
-    
-    
+
     public static <T> T map(Object source, Class<T> targetClass, String... ignoreProperties) {
         T target;
         try {
@@ -36,7 +38,7 @@ public class BeanCopy {
     public static <T> List<T> map(Collection<?> source, Class<T> targetClass) {
         return map(source, targetClass, (String[]) null);
     }
-    
+
     public static <T> List<T> map(Collection<?> source, Class<T> targetClass, String... ignoreProperties) {
         if (CollectionUtils.isEmpty(source)) { ExceptionFactory.create("_DEFINE_ERROR_CODE_009", "集合中没有数据"); }
         try {

@@ -5,6 +5,9 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * @author launcel
+ */
 public interface BaseDAO {
     
     <T> T query(@Param("param") T t);

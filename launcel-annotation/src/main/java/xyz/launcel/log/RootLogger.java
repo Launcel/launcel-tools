@@ -3,6 +3,9 @@ package xyz.launcel.log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author launcel
+ */
 public class RootLogger {
     
     static Logger log = LoggerFactory.getLogger("ROOT");

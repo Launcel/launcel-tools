@@ -1,7 +1,7 @@
 package xyz.launcel.annotation;
 
 /**
- * Created by xuyang in 2017/9/19
+ * Created by Launcel in 2017/9/19
  */
 public interface Group {
 

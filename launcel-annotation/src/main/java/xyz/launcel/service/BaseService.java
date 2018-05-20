@@ -2,6 +2,9 @@ package xyz.launcel.service;
 
 import xyz.launcel.dao.Page;
 
+/**
+ * @author launcel
+ */
 public interface BaseService {
     
     <T> int add(T t);

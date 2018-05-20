@@ -3,9 +3,9 @@ package xyz.launcel.upsdk;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.launcel.hook.ApplicationContextHook;
 
-public class UpLoadTool {
+public class UpLoadUtil {
     
-    private UpLoadTool() {}
+    private UpLoadUtil() {}
     
     private static UpSDK upSDK = ApplicationContextHook.getBean("upSDK");
     

@@ -17,11 +17,13 @@ import java.sql.SQLException;
 @ResponseBody
 @ControllerAdvice
 public class GlobalExceptionHandle {
+
+    private final String message = "网络错误！";
     
     @ExceptionHandler(value = Throwable.class)
     public Response throwable(Throwable x) {
         x.printStackTrace();
-        return response("系统内部错误!");
+        return response(message);
     }
     
     @ExceptionHandler(value = NullPointerException.class)
@@ -38,13 +40,16 @@ public class GlobalExceptionHandle {
     
     @ExceptionHandler(value = ProfessionException.class)
     public Response professionException(ProfessionException x) {
+        if (RootLogger.isDebug()) {
+            RootLogger.DEBUG(x.getMessage());
+        }
         return response(x.getMessage());
     }
     
     @ExceptionHandler(SystemError.class)
     public Response systemError(Error x) {
         x.printStackTrace();
-        return response("系统内部错误!");
+        return response(message);
     }
     
     private Response response(String str) {

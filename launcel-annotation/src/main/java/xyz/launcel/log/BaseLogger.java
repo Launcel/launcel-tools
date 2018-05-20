@@ -1,5 +1,8 @@
 package xyz.launcel.log;
 
+/**
+ * @author launcel
+ */
 public class BaseLogger {
     
     protected String getName() { return RootLogger.getName(); }

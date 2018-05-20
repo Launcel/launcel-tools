@@ -20,12 +20,11 @@ public @interface Limit {
      *
      * @return
      */
-    String message() default "_DEFINE_ERROR_CODE_001";
+    String message() default "_PARAM_ERROR_CODE_001";
     
     /**
      * 当前字段的类型
      *
-     * @return
      * @see Types
      * default string
      */
@@ -34,7 +33,6 @@ public @interface Limit {
     /**
      * 校验字段对应的 group
      *
-     * @return
      * @see Group
      */
     Class<?>[] group() default {};

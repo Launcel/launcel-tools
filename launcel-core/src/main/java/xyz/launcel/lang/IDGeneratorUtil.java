@@ -17,8 +17,7 @@ package xyz.launcel.lang;
  * 自测性能：一秒能有三四十万的数据产生。
  */
 public final class IDGeneratorUtil {
-    private IDGeneratorUtil() {
-    }
+    private IDGeneratorUtil() {}
     
     /**
      * 2017-12-01 0:00:00

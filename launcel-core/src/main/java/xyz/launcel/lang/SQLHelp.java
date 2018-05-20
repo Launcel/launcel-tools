@@ -2,7 +2,11 @@ package xyz.launcel.lang;
 
 import xyz.launcel.dao.Page;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by xuyang in 2017/10/12
@@ -37,9 +41,30 @@ public class SQLHelp {
     
     public static String concatSql(String boundSql, Page<?> p) {
         StringBuilder sb = new StringBuilder(boundSql);
+        if (CollectionUtils.isNotEmpty(p.getGroupBy())) {
+            sb.append(" GROUP BY ");
+            final Set<Integer> indexSet = new HashSet<>();
+            indexSet.add(1);
+            p.getGroupBy().forEach(groupSet -> {
+                if (indexSet.contains(1)) {
+                    sb.append(groupSet);
+                    indexSet.clear();
+                }
+                else { sb.append(",").append(groupSet); }
+            });
+        }
+        if (CollectionUtils.isNotEmpty(p.getOrderBy())) {
+            sb.append(" ORDER BY ");
+            String headColName = CollectionUtils.getHead(p.getOrderBy()).getKey();
+            p.getOrderBy().forEach((colName, order) -> {
+                if (colName.equals(headColName)) { sb.append(colName).append(" ").append(order.name()); }
+                else { sb.append(",").append(colName).append(" ").append(order.name()); }
+            });
+        }
         sb.append(" LIMIT ");
         if (p.getOffset() > 0) { sb.append(p.getOffset()).append(",").append(p.getMaxRow()); }
         else { sb.append(p.getMaxRow()); }
+
         return sb.toString();
     }
 }

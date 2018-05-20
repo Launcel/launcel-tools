@@ -35,8 +35,7 @@ public class RedisUtils {
     
     private RedisUtils() {
     }
-    
-    
+
     public static void remove(final String... key) {
         if (key.length <= 0) {
             ExceptionFactory.create("_REDIS__ERROR_CODE_001", "redis key is null");
@@ -53,7 +52,11 @@ public class RedisUtils {
             ExceptionFactory.create("_REDIS__ERROR_CODE_004", "redis cannot find the value of this key");
         }
     }
-    
+
+    public static void bentchRemove(final String pattern) {
+        getTemplate().execute((RedisCallback<Long>) connection -> getCommands(connection).del(pattern));
+    }
+
     public static boolean exits(final String key) {
         vidate(key);
         return getTemplate().hasKey(key);

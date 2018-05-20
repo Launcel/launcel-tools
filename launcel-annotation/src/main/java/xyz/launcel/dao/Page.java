@@ -1,8 +1,18 @@
 package xyz.launcel.dao;
 
-import java.io.Serializable;
-import java.util.List;
+import xyz.launcel.annotation.OrderSqlEnum;
 
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+/**
+ * @author launcel
+ * @param <T>
+ */
 public class Page<T> implements Serializable {
     private static final long serialVersionUID = -8522433864030332281L;
     
@@ -22,6 +32,10 @@ public class Page<T> implements Serializable {
     private Integer total = 0;
     
     private transient int offset;
+
+    private transient LinkedHashMap<String, OrderSqlEnum> orderBy;
+
+    private transient Set<String> groupBy;
     
     public Page() {
     }
@@ -119,5 +133,30 @@ public class Page<T> implements Serializable {
     public void setLowerId(Integer lowerId) {
         this.lowerId = (null == lowerId || lowerId < 0) ? 1 : lowerId;
     }
-    
+
+    public LinkedHashMap<String, OrderSqlEnum> getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderByCol, OrderSqlEnum orderRule) {
+        if (Objects.isNull(this.orderBy)) { this.orderBy = new LinkedHashMap<>(); }
+        this.orderBy.put(orderByCol, orderRule);
+    }
+
+    public void setOrderBy(LinkedHashMap<String, OrderSqlEnum> orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public Set<String> getGroupBy() {
+        return groupBy;
+    }
+
+    public void setGroupBy(Set<String> groupBy) {
+        this.groupBy = groupBy;
+    }
+
+    public void setGroupBy(String groupBy) {
+        if (Objects.isNull(this.groupBy)) { this.groupBy = new HashSet<>(); }
+        this.groupBy.add(groupBy);
+    }
 }

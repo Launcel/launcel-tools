@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Created by xuyang in 2017/10/24
+ * Created by Launcel in 2017/10/24
  */
 @Deprecated
 @Intercepts({ @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = { Statement.class }) })
