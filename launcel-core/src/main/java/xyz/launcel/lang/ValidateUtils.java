@@ -68,7 +68,7 @@ public final class ValidateUtils {
                 if (!RegUtil.isFloatNum(o)) { msg += " : 不是小数"; }
                 break;
             case email:
-                if (!RegUtil.isEmail(o)) { msg += " : 不能为空"; }
+                if (!RegUtil.isEmail(o)) { msg += " : 不是邮箱"; }
                 break;
             case tel:
                 if (!RegUtil.isMobile(o)) { msg += " : 不是合法手机号码"; }
