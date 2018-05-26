@@ -3,8 +3,10 @@ package xyz.launcel.configuration;
 import com.google.gson.GsonBuilder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
@@ -21,6 +23,7 @@ import xyz.launcel.properties.JsonConverterProperties;
 import xyz.launcel.properties.UploadProperties;
 import xyz.launcel.upsdk.UpSDK;
 
+import javax.servlet.MultipartConfigElement;
 import java.util.List;
 
 @Configuration
@@ -77,19 +80,24 @@ public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter {
     
     @ConditionalOnProperty(prefix = "web.global-exception", value = "enabled", havingValue = "true")
     @Bean
-    public GlobalExceptionHandle globalExceptionHandle() {
-        return new GlobalExceptionHandle();
-    }
+    public GlobalExceptionHandle globalExceptionHandle() { return new GlobalExceptionHandle(); }
     
     @ConditionalOnProperty(prefix = "web.aspejct", value = "enabled", havingValue = "true")
     @Bean
-    public ControllerParamValidateAspejct controllerParamValidateAspejct() {
-        return new ControllerParamValidateAspejct();
-    }
+    public ControllerParamValidateAspejct controllerParamValidateAspejct() { return new ControllerParamValidateAspejct(); }
     
     @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
     @Bean(name = "upSDK")
-    public UpSDK upSDK() {
-        return new UpSDK(uploadProperties);
+    public UpSDK upSDK() { return new UpSDK(uploadProperties); }
+
+    @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
+    @Bean
+    @Primary
+    MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        factory.setMaxFileSize(uploadProperties.getMaxSize());
+        factory.setMaxRequestSize(100);
+        return factory.createMultipartConfig();
     }
+
 }
