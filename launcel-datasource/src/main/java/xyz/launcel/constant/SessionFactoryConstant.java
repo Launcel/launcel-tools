@@ -17,7 +17,6 @@ public interface SessionFactoryConstant
     String sqlSessionFactoryName        = "sqlSessionFactoryBeanName";
     String basePackageName              = "basePackage";
     String roleDateSourceName           = "roleDataSource";
-    String txDateSourceName             = "transactionDateSource";
     String transactionManagerName       = "TransactionManager";
 
 }
