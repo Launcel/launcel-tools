@@ -132,7 +132,7 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
 
         roleDataSource.addPropertyValue(SessionFactoryConstant.dataSourceName, hikariDataSource);
 
-        BeanDefinitionRegistryTool.registryBean(SessionFactoryConstant.roleDateSourceName, registry, roleDataSourceAbd);
+        BeanDefinitionRegistryTool.registryBean(SessionFactoryConstant.roleDataSourceName, registry, roleDataSourceAbd);
     }
 
     /**
