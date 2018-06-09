@@ -28,8 +28,6 @@ import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.hook.BeanDefinitionRegistryTool;
 import xyz.launcel.interceptor.PageInterceptor;
 import xyz.launcel.json.Json;
-import xyz.launcel.log.BaseLogger;
-import xyz.launcel.log.RootLogger;
 import xyz.launcel.prop.DataSourceProperties;
 import xyz.launcel.prop.MybatisProperties;
 import xyz.launcel.prop.RoleDataSourceHolder;
@@ -43,7 +41,7 @@ import java.util.Objects;
 
 @Configuration
 @EnableConfigurationProperties(value = {DataSourceProperties.class, MybatisProperties.class})
-public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implements BeanDefinitionRegistryPostProcessor, EnvironmentAware
+public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRegistryPostProcessor, EnvironmentAware
 {
 
     private          List<DataSourceProperties.DataSourcePropertie>  multipleDataSource    = new ArrayList<>();
@@ -55,7 +53,7 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
     {
         if (!multipleDataSource.isEmpty() && !multipleMybatis.isEmpty())
         {
-            INFO("multipleDataSource is : {}\nmultipleMybatis is : {}", Json.toJson(multipleDataSource), Json.toJson(multipleMybatis));
+            System.out.format("multipleDataSource is : {}\nmultipleMybatis is : {}", Json.toJson(multipleDataSource), Json.toJson(multipleMybatis));
             multipleDataSource.forEach(propertie -> registBeans(propertie, registry));
         }
         else
@@ -63,7 +61,6 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
             ExceptionFactory.error(">>>  datasource propertie config or mybatis propertie config is null !!");
             System.exit(-1);
         }
-        RootLogger.WARN("SessionFactory registry success");
     }
 
     private void registBeans(DataSourceProperties.DataSourcePropertie dataSourcePropertie, BeanDefinitionRegistry registry)
