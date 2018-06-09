@@ -2,7 +2,7 @@ package xyz.launcel.prop;
 
 import com.zaxxer.hikari.HikariConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import xyz.launcel.constant.SessionConstant;
+import xyz.launcel.constant.SessionFactoryConstant;
 import xyz.launcel.lang.Base64;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Properties;
 /**
  * Created by Launcel in 2017/9/19
  */
-@ConfigurationProperties(prefix = SessionConstant.dataSourceConfigPrefix)
+@ConfigurationProperties(prefix = SessionFactoryConstant.dataSourceConfigPrefix)
 public class DataSourceProperties {
     
     private DataSourcePropertie main;
