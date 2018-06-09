@@ -18,6 +18,6 @@ public interface SessionFactoryConstant
     String basePackageName              = "basePackage";
     String roleDateSourceName           = "roleDataSource";
     String txDateSourceName             = "transactionDateSource";
-    String transactionManagerName       = "transactionManager-";
+    String transactionManagerName       = "TransactionManager";
 
 }
