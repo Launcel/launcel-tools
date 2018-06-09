@@ -66,15 +66,16 @@ public final class ValidateUtils
         verifyType(value, message, type, f.getName());
     }
 
-    private static void verifyType(Object o, String message, Types type, String name)
+    private static void verifyType(Object temp, String message, Types type, String name)
     {
         String msg = name;
+        String o   = temp.toString();
         try
         {
             switch (type)
             {
                 case string:
-                    if (StringUtils.isBlank((String) o)) { msg += " : 不能为空"; }
+                    if (StringUtils.isBlank(o)) { msg += " : 不能为空"; }
                     break;
                 case number:
                     if (!RegUtil.isNum(o)) { msg += " : 不是整数"; }
