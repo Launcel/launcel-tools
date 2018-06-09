@@ -76,6 +76,12 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>xyz.launcel</groupId>
+            <artifactId>launcel-annotation</artifactId>
+            <version>1.2</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
