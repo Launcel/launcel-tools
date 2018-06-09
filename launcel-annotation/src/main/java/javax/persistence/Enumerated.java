@@ -13,7 +13,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)
-public @interface Enumerated {
+public @interface Enumerated
+{
 
     /**
      * (Optional) The type used in mapping an enum type.

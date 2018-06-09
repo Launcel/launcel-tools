@@ -12,5 +12,4 @@ import java.lang.annotation.Target;
 @Target({ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Qualifier {
-}
+public @interface Qualifier {}

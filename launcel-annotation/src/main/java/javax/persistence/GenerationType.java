@@ -3,12 +3,9 @@ package javax.persistence;
 /**
  * @author Launcel
  */
-public enum GenerationType {
-    TABLE,
-    SEQUENCE,
-    IDENTITY,
-    AUTO;
+public enum GenerationType
+{
+    TABLE, SEQUENCE, IDENTITY, AUTO;
 
-    GenerationType() {
-    }
+    GenerationType() { }
 }

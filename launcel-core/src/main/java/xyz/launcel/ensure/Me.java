@@ -9,24 +9,28 @@ package xyz.launcel.ensure;
 
 import java.util.Collection;
 
-public final class Me {
+public final class Me
+{
 
-    private Me() {
-    }
+    private Me() { }
 
-    public static BooleanAssert that(Boolean flat) {
+    public static BooleanAssert that(Boolean flat)
+    {
         return new BooleanAssert(flat);
     }
 
-    public static ObjectAssert that(Object o) {
+    public static ObjectAssert that(Object o)
+    {
         return new ObjectAssert(o);
     }
 
-    public static StringAssert that(String str) {
+    public static StringAssert that(String str)
+    {
         return new StringAssert(str);
     }
 
-    public static CollectAssert that(Collection<?> collection) {
+    public static CollectAssert that(Collection<?> collection)
+    {
         return new CollectAssert(collection);
     }
 

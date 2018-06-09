@@ -4,17 +4,19 @@ import xyz.launcel.hook.ApplicationContextHook;
 
 import java.util.Objects;
 
-public class SimpleJdbcRole {
-    
+public class SimpleJdbcRole
+{
+
     private static JdbcRole jdbcRole = null;
-    
-    static {
-        if (ApplicationContextHook.hasBean("jdbcRole") &&
-                Objects.nonNull(ApplicationContextHook.getBean("jdbcRole")))
+
+    static
+    {
+        if (ApplicationContextHook.hasBean("jdbcRole") && Objects.nonNull(ApplicationContextHook.getBean("jdbcRole")))
             jdbcRole = ApplicationContextHook.getBean("jdbcRole");
     }
-    
-    public static JdbcRole getJdbcRole() {
+
+    public static JdbcRole getJdbcRole()
+    {
         return jdbcRole;
     }
 }

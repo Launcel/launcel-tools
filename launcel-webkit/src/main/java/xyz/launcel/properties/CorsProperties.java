@@ -3,14 +3,15 @@ package xyz.launcel.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "web.cors")
-public class CorsProperties {
-    
+public class CorsProperties
+{
+
     private Boolean  enabled        = false;
     private String   pathPattern    = "/api/**";
-    private String[] methods        = { "GET", "POST", "DELETE", "PUT" };
+    private String[] methods        = {"GET", "POST", "DELETE", "PUT"};
     private Long     maxAge         = 1800L;
-    private String[] allowedOrigins = { "*" };
-    
+    private String[] allowedOrigins = {"*"};
+
     /**
      * Enable cross-origin request handling for the specified path pattern.
      * <p>Exact path mapping URIs (such as {@code "/admin"}) are supported as
@@ -20,51 +21,62 @@ public class CorsProperties {
      * is set to 30 minutes.
      *
      * @param pathPattern the path pattern to enable CORS handling for
+     *
      * @return CorsRegistration the corresponding registration object,
      * allowing for further fine-tuning
      */
-    public String getPathPattern() {
+    public String getPathPattern()
+    {
         return pathPattern;
     }
-    
-    public void setPathPattern(String pathPattern) {
+
+    public void setPathPattern(String pathPattern)
+    {
         this.pathPattern = pathPattern;
     }
-    
-    public Boolean getEnabled() {
+
+    public Boolean getEnabled()
+    {
         return enabled;
     }
-    
-    public void setEnabled(Boolean enabled) {
+
+    public void setEnabled(Boolean enabled)
+    {
         this.enabled = enabled;
     }
-    
-    public String[] getMethods() {
+
+    public String[] getMethods()
+    {
         return methods;
     }
-    
-    public void setMethods(String[] methods) {
+
+    public void setMethods(String[] methods)
+    {
         this.methods = methods;
     }
-    
-    public Long getMaxAge() {
+
+    public Long getMaxAge()
+    {
         return maxAge;
     }
-    
-    public void setMaxAge(Long maxAge) {
+
+    public void setMaxAge(Long maxAge)
+    {
         this.maxAge = maxAge;
     }
-    
+
     /**
      * Set the origins to allow, e.g. {@code "http://domain1.com"}.
      * <p>The special value {@code "*"} allows all domains.
      * <p>By default, all origins are allowed.
      */
-    public String[] getAllowedOrigins() {
+    public String[] getAllowedOrigins()
+    {
         return allowedOrigins;
     }
-    
-    public void setAllowedOrigins(String[] allowedOrigins) {
+
+    public void setAllowedOrigins(String[] allowedOrigins)
+    {
         this.allowedOrigins = allowedOrigins;
     }
 }

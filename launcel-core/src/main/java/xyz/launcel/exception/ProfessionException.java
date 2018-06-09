@@ -10,7 +10,7 @@ public class ProfessionException extends RuntimeException {
         super();
     }
     
-    protected ProfessionException(String message) {
+    ProfessionException(String message) {
         super(message);
     }
     

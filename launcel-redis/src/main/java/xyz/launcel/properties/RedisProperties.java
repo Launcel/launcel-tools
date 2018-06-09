@@ -10,7 +10,8 @@ package xyz.launcel.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "db.redis")
-public class RedisProperties {
+public class RedisProperties
+{
     private String  host      = "127.0.0.1";
     private String  password  = "123456";
     private Integer port      = 6379;
@@ -23,92 +24,114 @@ public class RedisProperties {
     private Long    maxWait   = 30000L;
     private Long    exptime   = 600L;
     private Integer timeout   = 300;
-    
-    public String getHost() {
+
+    public String getHost()
+    {
         return host;
     }
-    
-    public void setHost(String host) {
+
+    public void setHost(String host)
+    {
         this.host = host;
     }
-    
-    public String getPassword() {
+
+    public String getPassword()
+    {
         return password;
     }
-    
-    public void setPassword(String password) {
+
+    public void setPassword(String password)
+    {
         this.password = password;
     }
-    
-    public Integer getPort() {
+
+    public Integer getPort()
+    {
         return port;
     }
-    
-    public void setPort(Integer port) {
+
+    public void setPort(Integer port)
+    {
         this.port = port;
     }
-    
-    public Integer getDatabase() {
+
+    public Integer getDatabase()
+    {
         return database;
     }
-    
-    public void setDatabase(Integer database) {
+
+    public void setDatabase(Integer database)
+    {
         this.database = database;
     }
-    
-    public Integer getMinIdle() {
+
+    public Integer getMinIdle()
+    {
         return minIdle;
     }
-    
-    public void setMinIdle(Integer minIdle) {
+
+    public void setMinIdle(Integer minIdle)
+    {
         this.minIdle = minIdle;
     }
-    
-    public Integer getMaxIdle() {
+
+    public Integer getMaxIdle()
+    {
         return maxIdle;
     }
-    
-    public void setMaxIdle(Integer maxIdle) {
+
+    public void setMaxIdle(Integer maxIdle)
+    {
         this.maxIdle = maxIdle;
     }
-    
-    public Integer getMaxTotal() {
+
+    public Integer getMaxTotal()
+    {
         return maxTotal;
     }
-    
-    public void setMaxTotal(Integer maxTotal) {
+
+    public void setMaxTotal(Integer maxTotal)
+    {
         this.maxTotal = maxTotal;
     }
-    
-    public Integer getMaxActive() {
+
+    public Integer getMaxActive()
+    {
         return maxActive;
     }
-    
-    public void setMaxActive(Integer maxActive) {
+
+    public void setMaxActive(Integer maxActive)
+    {
         this.maxActive = maxActive;
     }
-    
-    public Integer getTimeout() {
+
+    public Integer getTimeout()
+    {
         return timeout;
     }
-    
-    public void setTimeout(Integer timeout) {
+
+    public void setTimeout(Integer timeout)
+    {
         this.timeout = timeout;
     }
-    
-    public Long getMaxWait() {
+
+    public Long getMaxWait()
+    {
         return maxWait;
     }
-    
-    public void setMaxWait(Long maxWait) {
+
+    public void setMaxWait(Long maxWait)
+    {
         this.maxWait = maxWait;
     }
-    
-    public Long getExptime() {
+
+    public Long getExptime()
+    {
         return exptime;
     }
-    
-    public void setExptime(Long exptime) {
+
+    public void setExptime(Long exptime)
+    {
         this.exptime = exptime;
     }
 }

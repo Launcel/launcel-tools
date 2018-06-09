@@ -3,14 +3,15 @@ package xyz.launcel.annotation;
 /**
  * Created by Launcel in 2017/9/19
  */
-public interface Group {
+public interface Group
+{
 
-    @interface Select { }
+    @interface Select {}
 
-    @interface Update { }
+    @interface Update {}
 
-    @interface Add { }
+    @interface Add {}
 
-    @interface Delete { }
+    @interface Delete {}
 
 }

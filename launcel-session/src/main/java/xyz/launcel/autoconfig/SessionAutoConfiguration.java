@@ -9,12 +9,14 @@ import xyz.launcel.session.web.http.PrimyCookieHttpSessionStrategy;
 
 @Configuration
 @PrimyEnableRedisHttpSession
-public class SessionAutoConfiguration {
+public class SessionAutoConfiguration
+{
 
     @Primary
     @Bean
-    public HttpSessionStrategy httpSessionStrategy() {
-//        HttpSessionStrategy strategy = new HeaderHttpSessionStrategy();
+    public HttpSessionStrategy httpSessionStrategy()
+    {
+        //        HttpSessionStrategy strategy = new HeaderHttpSessionStrategy();
         return new PrimyCookieHttpSessionStrategy();
     }
 

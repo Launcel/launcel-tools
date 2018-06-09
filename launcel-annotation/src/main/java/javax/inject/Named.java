@@ -10,6 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 @Qualifier
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Named {
+public @interface Named
+{
     String value() default "";
 }

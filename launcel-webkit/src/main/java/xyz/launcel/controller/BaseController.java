@@ -9,16 +9,18 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public abstract class BaseController extends BaseLogger {
-    
+public abstract class BaseController extends BaseLogger
+{
+
     @Inject
     private HttpServletRequest HttpRequest;
-    
+
     @Inject
     private HttpServletResponse HttpResponse;
-    
-    
-    protected <T> Page<T> initPaging() {
+
+
+    protected <T> Page<T> initPaging()
+    {
         String pageNoStr = getRequest().getParameter("pageNo");
         String rowStr    = getRequest().getParameter("maxRow");
 
@@ -27,34 +29,41 @@ public abstract class BaseController extends BaseLogger {
         //noinspection unchecked
         return new Page<>(pageNo, maxRow);
     }
-    
-    protected HttpServletRequest getRequest() {
+
+    protected HttpServletRequest getRequest()
+    {
         return HttpRequest;
     }
-    
-    protected HttpServletResponse getResponse() {
+
+    protected HttpServletResponse getResponse()
+    {
         return HttpResponse;
     }
-    
-    protected Response getSuccess() {
+
+    protected Response getSuccess()
+    {
         return new Response(true);
     }
-    
-    protected Response getSuccess(Object o) {
+
+    protected Response getSuccess(Object o)
+    {
         return new Response(true, o);
     }
 
-    protected Response getSuccess(String msg) {
+    protected Response getSuccess(String msg)
+    {
         return new Response(msg, true);
     }
 
-    protected Response getFail() {
+    protected Response getFail()
+    {
         Response response = new Response();
         response.setIsOk(false);
         return response;
     }
-    
-    protected Response getFail(String msg) {
+
+    protected Response getFail(String msg)
+    {
         return new Response(false, msg);
     }
 

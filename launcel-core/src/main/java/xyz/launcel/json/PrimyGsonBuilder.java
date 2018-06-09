@@ -23,52 +23,63 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class PrimyGsonBuilder {
-    
+public class PrimyGsonBuilder
+{
+
     private GsonBuilder gsonBuilder;
-    
-    public PrimyGsonBuilder() {
+
+    public PrimyGsonBuilder()
+    {
         gsonBuilder = new GsonBuilder().setDateFormat(DateFormat.LONG).
                 serializeSpecialFloatingPointValues().setPrettyPrinting().
                 setLongSerializationPolicy(LongSerializationPolicy.DEFAULT).
-                registerTypeAdapter(new TypeToken<Map<String, Object>>() {
-                }.getType(), new PrimyJsonDeserializer());
+                registerTypeAdapter(new TypeToken<Map<String, Object>>()
+                {}.getType(), new PrimyJsonDeserializer());
     }
-    
-    public GsonBuilder getGsonBuilder() {
+
+    public GsonBuilder getGsonBuilder()
+    {
         return gsonBuilder;
     }
-    
-    public PrimyGsonBuilder setDateFormat(int style) {
+
+    public PrimyGsonBuilder setDateFormat(int style)
+    {
         gsonBuilder.setDateFormat(style);
         return this;
     }
-    
-    public PrimyGsonBuilder setDateFormat(String pattern) {
+
+    public PrimyGsonBuilder setDateFormat(String pattern)
+    {
         gsonBuilder.setDateFormat(pattern);
         return this;
     }
-    
-    public PrimyGsonBuilder setExcludeFieldsWithoutExposeAnnotation() {
+
+    public PrimyGsonBuilder setExcludeFieldsWithoutExposeAnnotation()
+    {
         gsonBuilder.excludeFieldsWithoutExposeAnnotation();
         return this;
     }
-    
-    static class MapTypeAdapter extends TypeAdapter<Object> {
-        
+
+    static class MapTypeAdapter extends TypeAdapter<Object>
+    {
+
         @Override
-        public void write(JsonWriter out, Object value) {
-        
+        public void write(JsonWriter out, Object value)
+        {
+
         }
-        
+
         @Override
-        public Object read(JsonReader in) throws IOException {
+        public Object read(JsonReader in) throws IOException
+        {
             JsonToken token = in.peek();
-            switch (token) {
+            switch (token)
+            {
                 case BEGIN_ARRAY:
                     List<Object> list = new ArrayList<>();
                     in.beginArray();
-                    while (in.hasNext()) {
+                    while (in.hasNext())
+                    {
                         list.add(read(in));
                     }
                     in.endArray();
@@ -76,7 +87,8 @@ public class PrimyGsonBuilder {
                 case BEGIN_OBJECT:
                     Map<String, Object> map = new LinkedTreeMap<>();
                     in.beginObject();
-                    while (in.hasNext()) {
+                    while (in.hasNext())
+                    {
                         map.put(in.nextName(), read(in));
                     }
                     in.endObject();
@@ -89,14 +101,18 @@ public class PrimyGsonBuilder {
                      */
                     double dbNum = in.nextDouble();
                     // 数字超过long的最大值，返回浮点类型
-                    if (dbNum > Long.MAX_VALUE) {
+                    if (dbNum > Long.MAX_VALUE)
+                    {
                         return dbNum;
                     }
                     // 判断数字是否为整数值
                     long lngNum = (long) dbNum;
-                    if (dbNum == lngNum) {
+                    if (dbNum == lngNum)
+                    {
                         return lngNum;
-                    } else {
+                    }
+                    else
+                    {
                         return dbNum;
                     }
                 case BOOLEAN:
@@ -109,14 +125,17 @@ public class PrimyGsonBuilder {
             }
         }
     }
-    
-    static class PrimyJsonDeserializer implements JsonDeserializer<Object> {
+
+    static class PrimyJsonDeserializer implements JsonDeserializer<Object>
+    {
         @Override
-        public Map<String, Object> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        public Map<String, Object> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
+        {
             Map<String, Object>                 treeMap    = new HashMap<>();
             JsonObject                          jsonObject = json.getAsJsonObject();
             Set<Map.Entry<String, JsonElement>> entrySet   = jsonObject.entrySet();
-            for (Map.Entry<String, JsonElement> entry : entrySet) {
+            for (Map.Entry<String, JsonElement> entry : entrySet)
+            {
                 treeMap.put(entry.getKey(), entry.getValue());
             }
             return treeMap;

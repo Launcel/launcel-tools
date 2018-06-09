@@ -29,15 +29,18 @@ import javax.inject.Named;
 @EnableCaching
 @Configuration
 @EnableConfigurationProperties(value = RedisProperties.class)
-public class RedisAutoConfiguration extends CachingConfigurerSupport {
-    
+public class RedisAutoConfiguration extends CachingConfigurerSupport
+{
+
     private final RedisProperties properties;
-    
-    public RedisAutoConfiguration(RedisProperties redisProperties) {
+
+    public RedisAutoConfiguration(RedisProperties redisProperties)
+    {
         this.properties = redisProperties;
     }
-    
-    private LettucePool lettucePool() {
+
+    private LettucePool lettucePool()
+    {
         DefaultLettucePool lettucePool = new DefaultLettucePool();
         lettucePool.setDatabase(properties.getDatabase());
         lettucePool.setHostName(properties.getHost());
@@ -46,15 +49,17 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
         lettucePool.setTimeout(properties.getTimeout());
         return lettucePool;
     }
-    
+
     @Primary
     @Bean(name = "redisConnectionFactory")
-    public RedisConnectionFactory lettuceConnectionFactory() {
+    public RedisConnectionFactory lettuceConnectionFactory()
+    {
         return new LettuceConnectionFactory(lettucePool());
     }
-    
-    
-    public JedisPoolConfig jedisPoolConfig() {
+
+
+    public JedisPoolConfig jedisPoolConfig()
+    {
         JedisPoolConfig pool = new JedisPoolConfig();
         pool.setMinIdle(properties.getMinIdle());
         pool.setMaxIdle(properties.getMaxIdle());
@@ -62,11 +67,12 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
         pool.setMaxWaitMillis(properties.getMaxWait());
         return pool;
     }
-    
-    
+
+
     @Bean(name = "redisConnectionFactory")
     @ConditionalOnMissingBean(name = "redisConnectionFactory")
-    public JedisConnectionFactory jedisConnectionFactory() {
+    public JedisConnectionFactory jedisConnectionFactory()
+    {
         JedisConnectionFactory factory = new JedisConnectionFactory();
         factory.setDatabase(properties.getDatabase());
         factory.setHostName(properties.getHost());
@@ -77,11 +83,12 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
         factory.setPoolConfig(jedisPoolConfig());
         return factory;
     }
-    
+
     @Primary
     @Bean(name = "redisTemplate")
     @ConditionalOnBean(name = "redisConnectionFactory")
-    RedisTemplate<String, Object> redisTemplate(@Named("redisConnectionFactory") JedisConnectionFactory jedisConnectionFactory) {
+    RedisTemplate<String, Object> redisTemplate(@Named("redisConnectionFactory") JedisConnectionFactory jedisConnectionFactory)
+    {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(jedisConnectionFactory);
         GsonRedisSerializer<Object> serializer = new GsonRedisSerializer<>(Object.class);
@@ -91,40 +98,47 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
         template.setHashKeySerializer(serializer);
         template.setHashValueSerializer(serializer);
         template.afterPropertiesSet();
-        
+
         return template;
     }
-    
+
     @Primary
     @Bean
-    public CacheManager cacheManager(RedisTemplate<String, Object> redisTemplate) {
+    public CacheManager cacheManager(RedisTemplate<String, Object> redisTemplate)
+    {
         return new RedisCacheManager(redisTemplate);
     }
-    
+
     @Bean
     @Override
-    public CacheErrorHandler errorHandler() {
-        return new CacheErrorHandler() {
+    public CacheErrorHandler errorHandler()
+    {
+        return new CacheErrorHandler()
+        {
             @Override
-            public void handleCacheGetError(RuntimeException e, Cache cache, Object key) {
+            public void handleCacheGetError(RuntimeException e, Cache cache, Object key)
+            {
                 RootLogger.ERROR("redis异常：key=[{}]", key.toString());
             }
-            
+
             @Override
-            public void handleCachePutError(RuntimeException e, Cache cache, Object key, Object value) {
+            public void handleCachePutError(RuntimeException e, Cache cache, Object key, Object value)
+            {
                 RootLogger.ERROR("redis异常：key=[{}]", key.toString());
             }
-            
+
             @Override
-            public void handleCacheEvictError(RuntimeException e, Cache cache, Object key) {
+            public void handleCacheEvictError(RuntimeException e, Cache cache, Object key)
+            {
                 RootLogger.ERROR("redis异常：key=[{}]", key.toString());
             }
-            
+
             @Override
-            public void handleCacheClearError(RuntimeException e, Cache cache) {
+            public void handleCacheClearError(RuntimeException e, Cache cache)
+            {
                 RootLogger.ERROR("redis异常：", e.getMessage());
             }
         };
     }
-    
+
 }

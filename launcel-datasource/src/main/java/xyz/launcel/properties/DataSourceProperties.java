@@ -12,30 +12,36 @@ import java.util.Properties;
  * Created by Launcel in 2017/9/19
  */
 @ConfigurationProperties(prefix = SessionFactoryConstant.dataSourceConfigPrefix)
-public class DataSourceProperties {
-    
+public class DataSourceProperties
+{
+
     private DataSourcePropertie main;
-    
+
     private List<DataSourcePropertie> others;
-    
-    
-    public DataSourcePropertie getMain() {
+
+
+    public DataSourcePropertie getMain()
+    {
         return main;
     }
-    
-    public void setMain(DataSourcePropertie main) {
+
+    public void setMain(DataSourcePropertie main)
+    {
         this.main = main;
     }
-    
-    public List<DataSourcePropertie> getOthers() {
+
+    public List<DataSourcePropertie> getOthers()
+    {
         return others;
     }
-    
-    public void setOthers(List<DataSourcePropertie> others) {
+
+    public void setOthers(List<DataSourcePropertie> others)
+    {
         this.others = others;
     }
-    
-    public static class DataSourcePropertie {
+
+    public static class DataSourcePropertie
+    {
         private String  name                  = "main";
         // private String  driverClassName     = "net.sf.log4jdbc.DriverSpy";
         private String  driverClass           = "org.mariadb.jdbc.Driver";
@@ -62,160 +68,199 @@ public class DataSourceProperties {
         private Boolean enableTransactal      = false;
         private Boolean roleDataSource        = false;
         private Boolean debugSql              = false;
-        
-        public String getName() {
+
+        public String getName()
+        {
             return name;
         }
-        
-        public void setName(String name) {
+
+        public void setName(String name)
+        {
             this.name = name;
         }
-        
-        public String getDriverClass() {
+
+        public String getDriverClass()
+        {
             return driverClass;
         }
-        
-        public void setDriverClass(String driverClassName) {
+
+        public void setDriverClass(String driverClassName)
+        {
             this.driverClass = driverClassName;
         }
-        
-        public String getUrl() {
+
+        public String getUrl()
+        {
             return url;
         }
-        
-        public void setUrl(String url) {
+
+        public void setUrl(String url)
+        {
             this.url = url;
         }
-        
-        public String getUsername() {
+
+        public String getUsername()
+        {
             return username;
         }
-        
-        public void setUsername(String username) {
+
+        public void setUsername(String username)
+        {
             this.username = username;
         }
-        
-        public String getPassword() {
+
+        public String getPassword()
+        {
             return password;
         }
-        
-        public void setPassword(String password) {
+
+        public void setPassword(String password)
+        {
             this.password = password;
         }
-        
-        public Integer getMinIdle() {
+
+        public Integer getMinIdle()
+        {
             return minIdle;
         }
-        
-        public void setMinIdle(Integer minIdle) {
+
+        public void setMinIdle(Integer minIdle)
+        {
             this.minIdle = minIdle;
         }
-        
-        public Integer getMaxPoolSize() {
+
+        public Integer getMaxPoolSize()
+        {
             return maxPoolSize;
         }
-        
-        public void setMaxPoolSize(Integer maxPoolSize) {
+
+        public void setMaxPoolSize(Integer maxPoolSize)
+        {
             this.maxPoolSize = maxPoolSize;
         }
-        
-        public Long getIdleTimeout() {
+
+        public Long getIdleTimeout()
+        {
             return idleTimeout;
         }
-        
-        public void setIdleTimeout(Long idleTimeout) {
+
+        public void setIdleTimeout(Long idleTimeout)
+        {
             this.idleTimeout = idleTimeout;
         }
-        
-        public Long getMaxLifeTime() {
+
+        public Long getMaxLifeTime()
+        {
             return maxLifeTime;
         }
-        
-        public void setMaxLifeTime(Long maxLifeTime) {
+
+        public void setMaxLifeTime(Long maxLifeTime)
+        {
             this.maxLifeTime = maxLifeTime;
         }
-        
-        public Long getConnectionTimeout() {
+
+        public Long getConnectionTimeout()
+        {
             return connectionTimeout;
         }
-        
-        public void setConnectionTimeout(Long connectionTimeout) {
+
+        public void setConnectionTimeout(Long connectionTimeout)
+        {
             this.connectionTimeout = connectionTimeout;
         }
-        
-        public String getConnectionTestQuery() {
+
+        public String getConnectionTestQuery()
+        {
             return connectionTestQuery;
         }
-        
-        public void setConnectionTestQuery(String connectionTestQuery) {
+
+        public void setConnectionTestQuery(String connectionTestQuery)
+        {
             this.connectionTestQuery = connectionTestQuery;
         }
-        
-        public Boolean getEnableTransactal() {
+
+        public Boolean getEnableTransactal()
+        {
             return enableTransactal;
         }
-        
-        public void setEnableTransactal(Boolean enableTransactal) {
+
+        public void setEnableTransactal(Boolean enableTransactal)
+        {
             this.enableTransactal = enableTransactal;
         }
-        
-        public Boolean getRead() {
+
+        public Boolean getRead()
+        {
             return read;
         }
-        
-        public void setRead(Boolean read) {
+
+        public void setRead(Boolean read)
+        {
             this.read = read;
         }
-        
-        public Boolean getRoleDataSource() {
+
+        public Boolean getRoleDataSource()
+        {
             return roleDataSource;
         }
-        
-        public void setRoleDataSource(Boolean roleDataSource) {
+
+        public void setRoleDataSource(Boolean roleDataSource)
+        {
             this.roleDataSource = roleDataSource;
         }
-        
-        public Boolean getCachePrepStmts() {
+
+        public Boolean getCachePrepStmts()
+        {
             return cachePrepStmts;
         }
-        
-        public void setCachePrepStmts(Boolean cachePrepStmts) {
+
+        public void setCachePrepStmts(Boolean cachePrepStmts)
+        {
             this.cachePrepStmts = cachePrepStmts;
         }
-        
-        public Integer getPrepStmtCacheSize() {
+
+        public Integer getPrepStmtCacheSize()
+        {
             return prepStmtCacheSize;
         }
-        
-        public void setPrepStmtCacheSize(Integer prepStmtCacheSize) {
+
+        public void setPrepStmtCacheSize(Integer prepStmtCacheSize)
+        {
             this.prepStmtCacheSize = prepStmtCacheSize;
         }
-        
-        public Integer getPrepStmtCacheSqlLimit() {
+
+        public Integer getPrepStmtCacheSqlLimit()
+        {
             return prepStmtCacheSqlLimit;
         }
-        
-        public void setPrepStmtCacheSqlLimit(Integer prepStmtCacheSqlLimit) {
+
+        public void setPrepStmtCacheSqlLimit(Integer prepStmtCacheSqlLimit)
+        {
             this.prepStmtCacheSqlLimit = prepStmtCacheSqlLimit;
         }
-        
-        public Boolean getUseServerPrepStmts() {
+
+        public Boolean getUseServerPrepStmts()
+        {
             return useServerPrepStmts;
         }
-        
-        public void setUseServerPrepStmts(Boolean useServerPrepStmts) {
+
+        public void setUseServerPrepStmts(Boolean useServerPrepStmts)
+        {
             this.useServerPrepStmts = useServerPrepStmts;
         }
-        
-        public Boolean getDebugSql() {
+
+        public Boolean getDebugSql()
+        {
             return debugSql;
         }
-        
-        public void setDebugSql(Boolean debugSql) {
+
+        public void setDebugSql(Boolean debugSql)
+        {
             this.debugSql = debugSql;
         }
-        
-        public HikariConfig getHikariConfig() {
+
+        public HikariConfig getHikariConfig()
+        {
             HikariConfig config = new HikariConfig();
             config.setDriverClassName(getDriverClass());
             config.setPassword(Base64.decode(getPassword()));
@@ -228,7 +273,7 @@ public class DataSourceProperties {
             config.setConnectionTimeout(getConnectionTimeout());
             config.setConnectionTestQuery(getConnectionTestQuery());
             config.setReadOnly(getRead());
-            
+
             Properties dataSourceProperty = new Properties();
             dataSourceProperty.put("dataSource.cachePrepStmts", getCachePrepStmts());
             dataSourceProperty.put("dataSource.prepStmtCacheSize", getPrepStmtCacheSize());

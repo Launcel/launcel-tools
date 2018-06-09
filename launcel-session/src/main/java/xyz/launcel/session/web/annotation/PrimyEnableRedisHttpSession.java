@@ -13,7 +13,8 @@ import java.lang.annotation.Target;
 @Documented
 @Import(PrimyRedisHttpSessionConfiguration.class)
 @Configuration
-public @interface PrimyEnableRedisHttpSession {
+public @interface PrimyEnableRedisHttpSession
+{
 
     int maxInactiveIntervalInSeconds() default 1200;
 

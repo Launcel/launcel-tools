@@ -9,19 +9,20 @@ import java.lang.annotation.Target;
 /**
  * Created by Launcel in 2017/9/27
  */
-@Target({ ElementType.FIELD })
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Limit {
-    
+public @interface Limit
+{
+
     /**
      * 当前字段是否必需
      * default false
      *
-     * @return
+     * @return message
      */
     String message() default "_PARAM_ERROR_CODE_001";
-    
+
     /**
      * 当前字段的类型
      *
@@ -29,12 +30,12 @@ public @interface Limit {
      * default string
      */
     Types type() default Types.string;
-    
+
     /**
      * 校验字段对应的 group
      *
      * @see Group
      */
     Class<?>[] group() default {};
-    
+
 }

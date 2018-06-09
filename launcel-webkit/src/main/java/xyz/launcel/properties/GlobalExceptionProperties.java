@@ -3,15 +3,18 @@ package xyz.launcel.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "web.global-exception")
-public class GlobalExceptionProperties {
-    
+public class GlobalExceptionProperties
+{
+
     private Boolean enabled = true;
-    
-    public Boolean getEnabled() {
+
+    public Boolean getEnabled()
+    {
         return enabled;
     }
-    
-    public void setEnabled(Boolean enabled) {
+
+    public void setEnabled(Boolean enabled)
+    {
         this.enabled = enabled;
     }
 }

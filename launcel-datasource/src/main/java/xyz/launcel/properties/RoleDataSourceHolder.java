@@ -2,15 +2,18 @@ package xyz.launcel.properties;
 
 import javax.sql.DataSource;
 
-public class RoleDataSourceHolder {
-    
+public class RoleDataSourceHolder
+{
+
     private DataSource dataSource;
-    
-    public DataSource getDataSource() {
+
+    public DataSource getDataSource()
+    {
         return dataSource;
     }
-    
-    public void setDataSource(DataSource dataSource) {
+
+    public void setDataSource(DataSource dataSource)
+    {
         this.dataSource = dataSource;
     }
 }

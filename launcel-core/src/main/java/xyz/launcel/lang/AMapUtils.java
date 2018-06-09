@@ -1,7 +1,5 @@
 package xyz.launcel.lang;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.log.RootLogger;
 
@@ -9,46 +7,52 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-public interface AMapUtils {
-    
-    
+public interface AMapUtils
+{
+
+
     /**
      * @param lat 纬度
      * @param lng 经度
-     * @return
+     *
+     * @return Point
      */
-    static Point newPoint(double lat, double lng) {
+    static Point newPoint(double lat, double lng)
+    {
         return new Point(lat, lng);
     }
-    
+
     /**
      * 误差在0.05公里左右，因获取经纬度也存在误差
      *
-     * @param l1
-     * @param l2
-     * @return
+     * @param l1 point 1
+     * @param l2 point 2
+     *
+     * @return two point legth
      */
-    static double getDistance(Point l1, Point l2) {
+    static double getDistance(Point l1, Point l2)
+    {
         double latDiff = l1.getRadLat() - l2.getRadLat();// 纬度的弧度差
         double lngDiff = l1.getRadLng() - l2.getRadLng();// 经度的弧度差
-        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(latDiff / 2), 2) +
-                Math.cos(l1.getRadLat()) * Math.cos(l2.getRadLat()) * Math.pow(Math.sin(lngDiff / 2), 2)));
+        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(latDiff / 2), 2) + Math.cos(l1.getRadLat()) * Math.cos(l2.getRadLat()) * Math.pow(Math.sin(lngDiff / 2), 2)));
         s = s * 6378.137;
         RootLogger.INFO("Point({},{})与Point({},{})的距离={}", l1.getLng(), l1.getLat(), l2.getLng(), l2.getLat(), s);
         return s;
     }
-    
-    class Point {
-        
+
+    class Point
+    {
+
         /**
          * 格式化
          */
         private static DecimalFormat decimalFormat = new DecimalFormat("0.0000000000", new DecimalFormatSymbols(Locale.US));
-        
-        private static double parse(double d) {
+
+        private static double parse(double d)
+        {
             return Double.parseDouble(decimalFormat.format(d));
         }
-        
+
         /**
          * 纬度
          */
@@ -65,61 +69,77 @@ public interface AMapUtils {
          * 经度弧度
          */
         private double radLng;
-        
-        private double getLat() {
+
+        private double getLat()
+        {
             return lat;
         }
-        
-        private void setLat(double lat) {
+
+        private void setLat(double lat)
+        {
             this.lat = lat;
         }
-        
-        public double getLng() {
+
+        public double getLng()
+        {
             return lng;
         }
-        
-        private void setLng(double lng) {
+
+        private void setLng(double lng)
+        {
             this.lng = lng;
         }
-        
-        public double getRadLat() {
+
+        public double getRadLat()
+        {
             return radLat;
         }
-        
-        private void setRadLat(double radLat) {
+
+        private void setRadLat(double radLat)
+        {
             this.radLat = radLat;
         }
-        
-        public double getRadLng() {
+
+        public double getRadLng()
+        {
             return radLng;
         }
-        
-        private void setRadLng(double radLng) {
+
+        private void setRadLng(double radLng)
+        {
             this.radLng = radLng;
         }
-        
-        Point(double lat, double lng) {
+
+        Point(double lat, double lng)
+        {
             this(lat, lng, true);
         }
-        
-        private Point(double lat, double lng, boolean check) {
-            if (check) {
-                if (lng >= -180d && lng <= 180d) {
+
+        private Point(double lat, double lng, boolean check)
+        {
+            if (check)
+            {
+                if (lng >= -180d && lng <= 180d)
+                {
                     this.lng = parse(lng);
                     radLng = getRadian(lng);
-                } else { ExceptionFactory.create("-101", "经度值不在范围内"); }
-                if (lat >= -90d && lat <= 90d) {
+                }
+                else { ExceptionFactory.create("-101", "经度值不在范围内"); }
+                if (lat >= -90d && lat <= 90d)
+                {
                     this.lat = lat;
                     radLat = getRadian(lat);
-                } else { ExceptionFactory.create("-102", "纬度值不在范围内"); }
+                }
+                else { ExceptionFactory.create("-102", "纬度值不在范围内"); }
             }
         }
-        
+
         /**
          * 获得当前角度的弧度值
          *
-         * @param degree
-         * @return
+         * @param degree 角度
+         *
+         * @return 弧度
          */
         private double getRadian(double degree) { return degree * Math.PI / 180.0; }
     }

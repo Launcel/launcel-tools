@@ -12,6 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @Inherited
-public @interface ParamValidate {
+public @interface ParamValidate
+{
     Class<?> group() default void.class;
 }

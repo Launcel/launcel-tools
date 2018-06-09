@@ -16,33 +16,37 @@ package xyz.launcel.lang;
  * <p>
  * 自测性能：一秒能有三四十万的数据产生。
  */
-public final class IDGeneratorUtil {
+public final class IDGeneratorUtil
+{
     private IDGeneratorUtil() {}
-    
+
     /**
      * 2017-12-01 0:00:00
      */
     private static final long initTimeMillis = 1512057600000L;
-    
+
     /**
      * 机器编号
      */
     private static final int pid = 3;
-    
+
     /**
      * 计数器
      * 需要保证线程安全
      */
     private static volatile long counter;
-    
+
     private static volatile long currentTimeMillis = System.currentTimeMillis() - initTimeMillis;
     private static volatile long lastTimeMillis    = currentTimeMillis;
-    
-    public static Long nextId() {
+
+    public static Long nextId()
+    {
         long series = counter++;
-        
-        if (series >= (1 << 12) - 1) {
-            while (lastTimeMillis == currentTimeMillis) {//等待到下一秒
+
+        if (series >= (1 << 12) - 1)
+        {
+            while (lastTimeMillis == currentTimeMillis)
+            {//等待到下一秒
                 currentTimeMillis = System.currentTimeMillis() - initTimeMillis;
             }
             lastTimeMillis = currentTimeMillis;
@@ -51,5 +55,5 @@ public final class IDGeneratorUtil {
         }
         return (currentTimeMillis << 22) | (pid << 12) | series;
     }
-    
+
 }

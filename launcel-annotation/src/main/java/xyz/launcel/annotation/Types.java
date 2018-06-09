@@ -11,7 +11,8 @@ package xyz.launcel.annotation;
 /**
  * Created by Launcel in 2017/9/27
  */
-public enum Types {
+public enum Types
+{
 
     number, string, decimal, email, tel, qq, ip
 }

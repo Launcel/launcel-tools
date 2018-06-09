@@ -15,86 +15,121 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 @WebAppConfiguration
-public abstract class AbstractMvcTest extends AbstractTest {
-    
+public abstract class AbstractMvcTest extends AbstractTest
+{
+
     @Inject
     private WebApplicationContext wac;
     private MockMvc               mockMvc;
-    
-    private void setup() {
+
+    private void setup()
+    {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).alwaysExpect(MockMvcResultMatchers.status().isOk()).alwaysDo(MockMvcResultHandlers.print()).build();
     }
-    
-    private MockMvc getMockMvc() {
+
+    private MockMvc getMockMvc()
+    {
         setup();
         return mockMvc;
     }
-    
-    protected String getting(String uri, Map<String, String> params) {
-        try {
+
+    protected String getting(String uri, Map<String, String> params)
+    {
+        try
+        {
             //noinspection ConstantConditions
             return getReturn(getMockMvc().perform(builder(uri, params, "get")));
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             return null;
         }
     }
-    
-    protected String deleting(String uri, Map<String, String> params) {
-        try {
+
+    protected String deleting(String uri, Map<String, String> params)
+    {
+        try
+        {
             //noinspection ConstantConditions
             return getReturn(getMockMvc().perform(builder(uri, params, "delete")));
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             return null;
         }
     }
-    
-    protected String posting(String uri, Map<String, String> params) {
-        try {
+
+    protected String posting(String uri, Map<String, String> params)
+    {
+        try
+        {
             //noinspection ConstantConditions
             return getReturn(getMockMvc().perform(builder(uri, params, "post")));
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             return null;
         }
     }
-    
-    protected String puting(String uri, Map<String, String> params) {
-        try {
+
+    protected String puting(String uri, Map<String, String> params)
+    {
+        try
+        {
             //noinspection ConstantConditions
             return getReturn(getMockMvc().perform(builder(uri, params, "put")));
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             return null;
         }
     }
-    
-    private MockHttpServletRequestBuilder builder(String uri, Map<String, String> params, String requestMethod) {
-        if ("get".equals(requestMethod.toLowerCase())) {
+
+    private MockHttpServletRequestBuilder builder(String uri, Map<String, String> params, String requestMethod)
+    {
+        if ("get".equals(requestMethod.toLowerCase()))
+        {
             return addParam(MockMvcRequestBuilders.get(uri), params);
-        } else if ("post".equals(requestMethod.toLowerCase())) {
+        }
+        else if ("post".equals(requestMethod.toLowerCase()))
+        {
             return addParam(MockMvcRequestBuilders.post(uri), params);
-        } else if ("put".equals(requestMethod.toLowerCase())) {
+        }
+        else if ("put".equals(requestMethod.toLowerCase()))
+        {
             return addParam(MockMvcRequestBuilders.put(uri), params);
-        } else if ("delete".equals(requestMethod.toLowerCase())) {
+        }
+        else if ("delete".equals(requestMethod.toLowerCase()))
+        {
             return addParam(MockMvcRequestBuilders.delete(uri), params);
-        } else {
+        }
+        else
+        {
             return null;
         }
     }
-    
-    private MockHttpServletRequestBuilder addParam(MockHttpServletRequestBuilder builder, Map<String, String> params) {
-        for (Map.Entry<String, String> entry : params.entrySet()) {
+
+    private MockHttpServletRequestBuilder addParam(MockHttpServletRequestBuilder builder, Map<String, String> params)
+    {
+        for (Map.Entry<String, String> entry : params.entrySet())
+        {
             builder.param(entry.getKey(), entry.getValue());
         }
         return builder;
     }
-    
-    private String getReturn(ResultActions resultActions) {
-        try {
+
+    private String getReturn(ResultActions resultActions)
+    {
+        try
+        {
             return resultActions.andReturn().getResponse().getContentAsString();
-        } catch (UnsupportedEncodingException e) {
+        }
+        catch (UnsupportedEncodingException e)
+        {
             e.printStackTrace();
             return null;
         }

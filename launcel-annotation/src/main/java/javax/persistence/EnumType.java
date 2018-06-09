@@ -3,7 +3,8 @@ package javax.persistence;
 /**
  * @author Launcel
  */
-public enum EnumType {
+public enum EnumType
+{
     /**
      * Persist enumerated type property or field as an integer.
      */

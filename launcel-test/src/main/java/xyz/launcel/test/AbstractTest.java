@@ -7,5 +7,4 @@ import xyz.launcel.log.BaseLogger;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public abstract class AbstractTest extends BaseLogger {
-}
+public abstract class AbstractTest extends BaseLogger {}

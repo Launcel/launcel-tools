@@ -18,17 +18,18 @@ package xyz.launcel.json;
 
 import com.google.gson.Gson;
 
-public class Json {
-    
+public class Json
+{
+
     private Json() {}
-    
+
     private static Gson gson;
-    
+
     static { gson = new PrimyGsonBuilder().getGsonBuilder().create(); }
-    
-    private static Gson me() { return gson; }
-    
-    public static String toJson(Object object) { return gson.toJson(object); }
-    
+
+    private static Gson me()                                        { return gson; }
+
+    public static String toJson(Object object)                      { return gson.toJson(object); }
+
     public static <T> T toObject(String jsonObject, Class<T> clazz) { return gson.fromJson(jsonObject, clazz); }
 }
