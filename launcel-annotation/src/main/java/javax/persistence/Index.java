@@ -9,8 +9,7 @@ import java.lang.annotation.Target;
  */
 @Target({})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Index
-{
+public @interface Index {
     String name() default "";
 
     String columnList();

@@ -8,4 +8,8 @@
 package xyz.launcel.task;
 
 public abstract class AbstractTask {
+    
+    public void execute(Thread thread) {
+        thread.start();
+    }
 }

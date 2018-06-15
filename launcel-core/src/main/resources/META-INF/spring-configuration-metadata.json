@@ -8,8 +8,9 @@
   ],
   "properties": [
     {
-      "name": "common.dozer.list",
-      "type": "java.util.List<java.lang.String>",
+      "name": "common.dozer.path",
+      "type": "java.util.String",
+      "defaultValue": "dozer/*.xml",
       "sourceType": "xyz.launcel.prop.DozerProperties"
     },
     {

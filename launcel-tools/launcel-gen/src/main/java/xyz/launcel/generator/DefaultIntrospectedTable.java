@@ -1,4 +1,4 @@
-package xyz.launcel.generator.codegen.mybatis3;
+package xyz.launcel.generator;
 
 import org.mybatis.generator.api.GeneratedJavaFile;
 import org.mybatis.generator.api.GeneratedXmlFile;
@@ -18,12 +18,14 @@ import org.mybatis.generator.codegen.mybatis3.model.PrimaryKeyGenerator;
 import org.mybatis.generator.codegen.mybatis3.model.RecordWithBLOBsGenerator;
 import org.mybatis.generator.config.PropertyRegistry;
 import org.mybatis.generator.internal.ObjectFactory;
+import xyz.launcel.generator.api.utils.Conston;
 import xyz.launcel.generator.codegen.mybatis3.xmlmapper.XMLMapperGenerator;
+import xyz.launcel.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class IntrospectedTableImpl extends IntrospectedTable {
+public class DefaultIntrospectedTable extends IntrospectedTable {
 
     protected List<AbstractJavaGenerator> javaModelGenerators;
 
@@ -31,11 +33,38 @@ public class IntrospectedTableImpl extends IntrospectedTable {
 
     protected XMLMapperGenerator xmlMapperGenerator;
 
-    public IntrospectedTableImpl() {
+    public DefaultIntrospectedTable() {
         super(TargetRuntime.MYBATIS3);
         javaModelGenerators = new ArrayList<>();
         clientGenerators = new ArrayList<>();
         super.setBaseResultMapId(getBaseRecordType());
+    }
+
+    private void initProp() {
+
+        if ("false".equalsIgnoreCase(context.getProperty("addDefaultMethod"))) {
+            Conston.addDefaultMethod = false;
+        }
+        if ("false".equalsIgnoreCase(context.getProperty("useEnabledColumn"))) {
+            Conston.useEnabledColumn = false;
+        }
+        String enabledColumnNameTemp = context.getProperty("enabledColumnName");
+        if (StringUtils.isNotBlank(enabledColumnNameTemp)) {
+            Conston.enabledColumnName = enabledColumnNameTemp;
+        }
+        String enabledColumnValueTemp = context.getProperty("enabledColumnValue");
+        if (StringUtils.isNotBlank(enabledColumnValueTemp)) {
+            Conston.enabledColumnValue = enabledColumnValueTemp;
+        }
+        if (StringUtils.isFalse(context.getProperty("useAnnotation"))) {
+            Conston.useAnnotation = false;
+        }
+        if (StringUtils.isFalse(context.getProperty("addRemark"))) {
+            Conston.addRemark = false;
+        }
+        if (StringUtils.isTrue(context.getProperty("showDoc"))) {
+            Conston.showDoc = true;
+        }
     }
 
     @Override
@@ -49,8 +78,10 @@ public class IntrospectedTableImpl extends IntrospectedTable {
     }
 
     @Override
-    public void calculateGenerators(List<String> warnings,
-                                    ProgressCallback progressCallback) {
+    public void calculateGenerators(List<String> warnings, ProgressCallback progressCallback) {
+
+        initProp();
+
         calculateJavaModelGenerators(warnings, progressCallback);
 
         AbstractJavaClientGenerator javaClientGenerator = calculateClientGenerators(warnings, progressCallback);
@@ -252,4 +283,5 @@ public class IntrospectedTableImpl extends IntrospectedTable {
         AbstractJavaClientGenerator javaClientGenerator = createJavaClientGenerator();
         return javaClientGenerator != null && javaClientGenerator.requiresXMLGenerator();
     }
+
 }

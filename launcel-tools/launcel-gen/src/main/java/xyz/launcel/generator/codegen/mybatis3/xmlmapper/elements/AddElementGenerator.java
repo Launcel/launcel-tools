@@ -13,14 +13,14 @@ import xyz.launcel.generator.api.dom.xml.LXmlElement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static xyz.launcel.generator.api.dom.OutputUtilities.newLine;
-import static xyz.launcel.generator.api.dom.OutputUtilities.xmlIndent;
+import static xyz.launcel.generator.api.utils.OutputUtils.newLine;
+import static xyz.launcel.generator.api.utils.OutputUtils.xmlIndent;
 
-public class InsertElementGenerator extends AbstractXmlElementGenerator {
+public class AddElementGenerator extends AbstractXmlElementGenerator {
 
     private boolean isSimple;
 
-    public InsertElementGenerator(boolean isSimple) {
+    public AddElementGenerator(boolean isSimple) {
         super();
         this.isSimple = isSimple;
     }
@@ -29,7 +29,7 @@ public class InsertElementGenerator extends AbstractXmlElementGenerator {
     public void addElements(XmlElement parentElement) {
         LXmlElement answer = new LXmlElement("insert");
 
-        answer.addAttribute(new Attribute("id", "insert"));
+        answer.addAttribute(new Attribute("id", "add"));
 
         FullyQualifiedJavaType parameterType;
         if (isSimple) {

@@ -8,21 +8,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>launcel-security</artifactId>
+    <version>${build.version}</version>
     <packaging>jar</packaging>
-
-    <name>launcel-security</name>
-    <url>http://maven.apache.org</url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <dependencies>
 
         <dependency>
             <groupId>xyz.launcel</groupId>
             <artifactId>launcel-core</artifactId>
-            <version>1.1</version>
+            <version>${build.version}</version>
         </dependency>
 
         <dependency>
@@ -33,7 +27,6 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>4.3.13.RELEASE</version>
         </dependency>
 
         <dependency>
@@ -53,7 +46,7 @@
         <dependency>
             <groupId>xyz.launcel</groupId>
             <artifactId>launcel-datasource</artifactId>
-            <version>1.1</version>
+            <version>${build.version}</version>
         </dependency>
 
     </dependencies>

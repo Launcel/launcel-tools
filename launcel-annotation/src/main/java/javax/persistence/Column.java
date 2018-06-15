@@ -21,10 +21,6 @@ public @interface Column {
 
     boolean updatable() default true;
 
-    /**
-     * @Column(columnDefinition = "tinyint(1) not null default '0'")
-     * @return
-     */
     String columnDefinition() default "";
 
     String table() default "";

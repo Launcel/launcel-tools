@@ -16,17 +16,17 @@ import java.util.Collection;
 import java.util.List;
 
 public interface DozerUtil {
-
+    
     class DozerMapperInstance {
         private static Mapper dozer = ApplicationContextHook.getBean("dozer");
     }
-
-
-    static <T> T map(Object source, Class<T> destinationClass) {
-        return DozerMapperInstance.dozer.map(source, destinationClass);
+    
+    
+    static <T> T map(Object source, Class<T> targetClass) {
+        return DozerMapperInstance.dozer.map(source, targetClass);
     }
-
-
+    
+    
     /**
      * transform list to anthor list
      *
@@ -35,12 +35,12 @@ public interface DozerUtil {
      * @param <T>
      * @return
      */
-    static <T> List<T> map(Collection<?> var1, Class<T> var2) {
+    static <T> List<T> map(Collection<?> var1, Class<T> targetClass) {
         if (CollectionUtils.isEmpty(var1))
             ExceptionFactory.create("_DEFINE_ERROR_CODE_009", "集合中没有数据");
         List<T> var2List = new ArrayList<>();
         for (Object aVar1 : var1) {
-            T var = DozerMapperInstance.dozer.map(aVar1, var2);
+            T var = DozerMapperInstance.dozer.map(aVar1, targetClass);
             var2List.add(var);
         }
         return var2List;

@@ -16,20 +16,20 @@ import java.util.Map;
 
 @WebAppConfiguration
 public abstract class AbstractMvcTest extends AbstractTest {
-
+    
     @Inject
     private WebApplicationContext wac;
-    private MockMvc mockMvc;
-
+    private MockMvc               mockMvc;
+    
     private void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).alwaysExpect(MockMvcResultMatchers.status().isOk()).alwaysDo(MockMvcResultHandlers.print()).build();
     }
-
+    
     private MockMvc getMockMvc() {
         setup();
         return mockMvc;
     }
-
+    
     protected String getting(String uri, Map<String, String> params) {
         try {
             //noinspection ConstantConditions
@@ -39,7 +39,7 @@ public abstract class AbstractMvcTest extends AbstractTest {
             return null;
         }
     }
-
+    
     protected String deleting(String uri, Map<String, String> params) {
         try {
             //noinspection ConstantConditions
@@ -49,7 +49,7 @@ public abstract class AbstractMvcTest extends AbstractTest {
             return null;
         }
     }
-
+    
     protected String posting(String uri, Map<String, String> params) {
         try {
             //noinspection ConstantConditions
@@ -59,7 +59,7 @@ public abstract class AbstractMvcTest extends AbstractTest {
             return null;
         }
     }
-
+    
     protected String puting(String uri, Map<String, String> params) {
         try {
             //noinspection ConstantConditions
@@ -69,27 +69,28 @@ public abstract class AbstractMvcTest extends AbstractTest {
             return null;
         }
     }
-
+    
     private MockHttpServletRequestBuilder builder(String uri, Map<String, String> params, String requestMethod) {
-        if ("get".equals(requestMethod.toLowerCase()))
+        if ("get".equals(requestMethod.toLowerCase())) {
             return addParam(MockMvcRequestBuilders.get(uri), params);
-        else if ("post".equals(requestMethod.toLowerCase()))
+        } else if ("post".equals(requestMethod.toLowerCase())) {
             return addParam(MockMvcRequestBuilders.post(uri), params);
-        else if ("put".equals(requestMethod.toLowerCase()))
+        } else if ("put".equals(requestMethod.toLowerCase())) {
             return addParam(MockMvcRequestBuilders.put(uri), params);
-        else if ("delete".equals(requestMethod.toLowerCase()))
+        } else if ("delete".equals(requestMethod.toLowerCase())) {
             return addParam(MockMvcRequestBuilders.delete(uri), params);
-        else
+        } else {
             return null;
+        }
     }
-
+    
     private MockHttpServletRequestBuilder addParam(MockHttpServletRequestBuilder builder, Map<String, String> params) {
         for (Map.Entry<String, String> entry : params.entrySet()) {
             builder.param(entry.getKey(), entry.getValue());
         }
         return builder;
     }
-
+    
     private String getReturn(ResultActions resultActions) {
         try {
             return resultActions.andReturn().getResponse().getContentAsString();

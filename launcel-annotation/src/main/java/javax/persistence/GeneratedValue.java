@@ -10,8 +10,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface GeneratedValue
-{
+public @interface GeneratedValue {
     GenerationType strategy() default GenerationType.AUTO;
 
     String generator() default "";

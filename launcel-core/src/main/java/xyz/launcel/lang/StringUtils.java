@@ -6,31 +6,31 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 public final class StringUtils {
-
+    
     private StringUtils() {
     }
-
+    
     public static int indexOf(final CharSequence cs, final CharSequence searchChar, final int start) {
         return cs.toString().indexOf(searchChar.toString(), start);
     }
-
-
+    
+    
     public static boolean contains(final CharSequence seq, final CharSequence searchSeq) {
         return seq != null && searchSeq != null && indexOf(seq, searchSeq, 0) >= 0;
     }
-
+    
     public static boolean isNotEmpty(final CharSequence cs) {
         return !StringUtils.isEmpty(cs);
     }
-
+    
     public static boolean isEmpty(final CharSequence cs) {
         return cs == null || cs.length() == 0;
     }
-
+    
     public static boolean isNotBlank(final CharSequence cs) {
         return !isBlank(cs);
     }
-
+    
     public static boolean isBlank(final CharSequence cs) {
         int strLen;
         if (cs == null || (strLen = cs.length()) == 0) {
@@ -43,34 +43,54 @@ public final class StringUtils {
         }
         return true;
     }
-
-    public static String random(final int count) {
-        return random(count, false, false);
+    
+    public static String capitalize(final String str) {
+        if (isBlank(str)) {
+            return null;
+        }
+        
+        char firstChar = str.charAt(0);
+        if (Character.isTitleCase(firstChar)) {
+            return str;
+        }
+        
+        return Character.toTitleCase(firstChar) + str.substring(1);
     }
-
-    public static String random(final int count,
-                                final boolean letters,
-                                final boolean numbers) {
+    
+    public static boolean isTrue(String s) {
+        return "true".equalsIgnoreCase(s);
+    }
+    
+    
+    public static boolean isFalse(String s) {
+        return "false".equalsIgnoreCase(s);
+    }
+    
+    public static String getUUID() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
+    
+    @SuppressWarnings("rawtypes")
+    public static Stream spiltStream(String strings, String split) {
+        return Arrays.stream(strings.split(split)).filter(StringUtils::isNotBlank);
+    }
+    
+    private static final Random RANDOM = new Random();
+    
+    public static String random(final int count) {
+        return random(count, false, true);
+    }
+    
+    private static String random(final int count, final boolean letters, final boolean numbers) {
         return random(count, 0, 0, letters, numbers);
     }
-
-    private static final Random RANDOM = new Random();
-
-    public static String random(final int count,
-                                final int start,
-                                final int end,
-                                final boolean letters,
-                                final boolean numbers) {
+    
+    private static String random(final int count, final int start, final int end, final boolean letters, final boolean numbers) {
         return random(count, start, end, letters, numbers, null, RANDOM);
     }
-
-    public static String random(int count,
-                                int start,
-                                int end,
-                                final boolean letters,
-                                final boolean numbers,
-                                final char[] chars,
-                                final Random random) {
+    
+    private static String random(int count, int start, int end, final boolean letters, final boolean numbers,
+                                 final char[] chars, final Random random) {
         if (count == 0) {
             return "";
         } else if (count < 0) {
@@ -79,7 +99,7 @@ public final class StringUtils {
         if (chars != null && chars.length == 0) {
             throw new IllegalArgumentException("The chars array must not be empty");
         }
-
+        
         if (start == 0 && end == 0) {
             if (chars != null) {
                 end = chars.length;
@@ -96,10 +116,10 @@ public final class StringUtils {
                 throw new IllegalArgumentException("Parameter end (" + end + ") must be greater than start (" + start + ")");
             }
         }
-
+        
         final char[] buffer = new char[count];
-        final int gap = end - start;
-
+        final int    gap    = end - start;
+        
         while (count-- != 0) {
             char ch;
             if (chars == null) {
@@ -114,7 +134,6 @@ public final class StringUtils {
                     if (count == 0) {
                         count++;
                     } else {
-                        // low surrogate, insert high surrogate after putting it in
                         buffer[count] = ch;
                         count--;
                         buffer[count] = (char) (55296 + random.nextInt(128));
@@ -123,13 +142,11 @@ public final class StringUtils {
                     if (count == 0) {
                         count++;
                     } else {
-                        // high surrogate, insert low surrogate before putting it in
                         buffer[count] = (char) (56320 + random.nextInt(128));
                         count--;
                         buffer[count] = ch;
                     }
                 } else if (ch >= 56192 && ch <= 56319) {
-                    // private high surrogate, no effing clue, so skip it
                     count++;
                 } else {
                     buffer[count] = ch;
@@ -140,30 +157,6 @@ public final class StringUtils {
         }
         return new String(buffer);
     }
-
-    public static String capitalize(final String str) {
-        int strLen;
-        if (str == null || (strLen = str.length()) == 0) {
-            return str;
-        }
-
-        char firstChar = str.charAt(0);
-        if (Character.isTitleCase(firstChar)) {
-            // already capitalized
-            return str;
-        }
-
-        return strLen + Character.toTitleCase(firstChar) + str.substring(1);
-    }
-
-    public static String getUUID() {
-        return UUID.randomUUID().toString().replaceAll("-", "");
-    }
-
-    @SuppressWarnings("rawtypes")
-    public static Stream spiltStream(String strings, String split) {
-        return Arrays.stream(strings.split(split)).filter(StringUtils::isNotBlank);
-    }
-
+    
 }
 

@@ -4,17 +4,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "web.cors")
 public class CorsProperties {
-
-    private Boolean enabled = false;
-
-    private String pathPattern = "/api/**";
-
-    private String[] methods = {"GET", "POST", "DELETE", "PUT"};
-
-    private Long maxAge = 1800L;
-
-    private String[] allowedOrigins = {"*"};
-
+    
+    private Boolean  enabled        = false;
+    private String   pathPattern    = "/api/**";
+    private String[] methods        = { "GET", "POST", "DELETE", "PUT" };
+    private Long     maxAge         = 1800L;
+    private String[] allowedOrigins = { "*" };
+    
     /**
      * Enable cross-origin request handling for the specified path pattern.
      * <p>Exact path mapping URIs (such as {@code "/admin"}) are supported as
@@ -30,27 +26,27 @@ public class CorsProperties {
     public String getPathPattern() {
         return pathPattern;
     }
-
+    
     public void setPathPattern(String pathPattern) {
         this.pathPattern = pathPattern;
     }
-
+    
     public Boolean getEnabled() {
         return enabled;
     }
-
+    
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
-
+    
     public String[] getMethods() {
         return methods;
     }
-
+    
     public void setMethods(String[] methods) {
         this.methods = methods;
     }
-
+    
     /**
      * Configure how long in seconds the response from a pre-flight request
      * can be cached by clients.
@@ -59,11 +55,11 @@ public class CorsProperties {
     public Long getMaxAge() {
         return maxAge;
     }
-
+    
     public void setMaxAge(Long maxAge) {
         this.maxAge = maxAge;
     }
-
+    
     /**
      * Set the origins to allow, e.g. {@code "http://domain1.com"}.
      * <p>The special value {@code "*"} allows all domains.
@@ -72,7 +68,7 @@ public class CorsProperties {
     public String[] getAllowedOrigins() {
         return allowedOrigins;
     }
-
+    
     public void setAllowedOrigins(String[] allowedOrigins) {
         this.allowedOrigins = allowedOrigins;
     }

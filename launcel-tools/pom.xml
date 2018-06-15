@@ -3,7 +3,7 @@
     <parent>
         <artifactId>launcel-parent</artifactId>
         <groupId>xyz.launcel</groupId>
-        <version>1.0</version>
+        <version>1.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -22,9 +22,15 @@
     </modules>
 
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>xyz.launcel</groupId>
+                <artifactId>launcel-core</artifactId>
+                <version>${build.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 
 </project>

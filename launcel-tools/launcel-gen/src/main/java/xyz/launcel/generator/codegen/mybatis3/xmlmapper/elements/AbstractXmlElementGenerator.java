@@ -2,6 +2,7 @@ package xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements;
 
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.XmlElement;
+import xyz.launcel.generator.api.utils.Conston;
 import xyz.launcel.generator.api.dom.xml.LXmlElement;
 
 /**
@@ -25,13 +26,13 @@ public abstract class AbstractXmlElementGenerator extends org.mybatis.generator.
         return answer;
     }
 
-    protected XmlElement getUpdateSql(){
+    protected XmlElement getUpdateSql() {
         LXmlElement answer = new LXmlElement("include");
         answer.addAttribute(new Attribute("refid", "UpdateSql"));
         return answer;
     }
 
-    protected String getParamType(){
+    protected String getParamType() {
         String parameterType;
         if (introspectedTable.getRules().generatePrimaryKeyClass()) {
             parameterType = introspectedTable.getPrimaryKeyType();
@@ -46,4 +47,15 @@ public abstract class AbstractXmlElementGenerator extends org.mybatis.generator.
         return parameterType;
     }
 
+    public boolean isUseEnabledColumn() {
+        return Conston.useEnabledColumn;
+    }
+
+    public String getEnabledColumn() {
+        return Conston.enabledColumnName;
+    }
+
+    public String getEnabledValue() {
+        return Conston.enabledColumnValue;
+    }
 }

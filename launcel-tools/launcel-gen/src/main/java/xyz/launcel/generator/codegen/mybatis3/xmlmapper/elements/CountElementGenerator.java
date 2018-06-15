@@ -2,7 +2,7 @@ package xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements;
 
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.XmlElement;
-import xyz.launcel.generator.api.dom.OutputUtilities;
+import xyz.launcel.generator.api.utils.OutputUtils;
 import xyz.launcel.generator.api.dom.xml.LTextElement;
 import xyz.launcel.generator.api.dom.xml.LXmlElement;
 
@@ -19,11 +19,11 @@ public class CountElementGenerator extends AbstractXmlElementGenerator {
         answer.addAttribute(new Attribute("resultType", "java.lang.Integer"));
         this.context.getCommentGenerator().addComment(answer);
         StringBuilder sb = new StringBuilder("SELECT count(1)");
-        OutputUtilities.newLine(sb);
-        OutputUtilities.xmlIndent(sb, 2);
+        OutputUtils.newLine(sb);
+        OutputUtils.xmlIndent(sb, 2);
         sb.append("FROM");
-        OutputUtilities.newLine(sb);
-        OutputUtilities.xmlIndent(sb, 3);
+        OutputUtils.newLine(sb);
+        OutputUtils.xmlIndent(sb, 3);
         sb.append(this.introspectedTable.getAliasedFullyQualifiedTableNameAtRuntime());
         answer.addElement(new LTextElement(sb.toString()));
         answer.addElement(this.getBaseSql());

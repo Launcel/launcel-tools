@@ -15,13 +15,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class JdbcRole extends BaseLogger {
-
+    
     protected String authenticationQuery = "select password from users where username = ?";
-
-    protected String userRoleQuery = "select role_name from user_roles where username = ?";
-
+    protected String userRoleQuery       = "select role_name from user_roles where username = ?";
+    
     private Connection connection;
-
+    
     public Set<String> getRoles(String username) {
         try {
             connection = ((RoleDataSourceHolder) ApplicationContextHook.getBean(SessionFactoryConstant.roleDateSourceName)).getHikariDataSource().getConnection();
@@ -30,12 +29,12 @@ public class JdbcRole extends BaseLogger {
         }
         return getRoleNamesForUser(connection, username);
     }
-
+    
     @SuppressWarnings("unchecked")
     protected Set<String> getRoleNamesForUser(Connection conn, String username) {
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Set<String> roleNames = new LinkedHashSet<>();
+        PreparedStatement ps        = null;
+        ResultSet         rs        = null;
+        Set<String>       roleNames = new LinkedHashSet<>();
         try {
             ps = conn.prepareStatement(userRoleQuery);
             ps.setString(1, username);
@@ -51,63 +50,64 @@ public class JdbcRole extends BaseLogger {
         } finally {
             close(rs);
             close(ps);
+            close(conn);
         }
         return roleNames;
     }
-
+    
     public Connection getConnection() {
         return connection;
     }
-
+    
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
-
+    
     public String getUserRoleQuery() {
         return userRoleQuery;
     }
-
+    
     public void setUserRoleQuery(String userRoleQuery) {
         this.userRoleQuery = userRoleQuery;
     }
-
+    
     public String getAuthenticationQuery() {
         return authenticationQuery;
     }
-
+    
     public void setAuthenticationQuery(String authenticationQuery) {
         this.authenticationQuery = authenticationQuery;
     }
-
+    
     private void close(Connection conn) {
         if (conn != null) {
             try {
                 conn.close();
             } catch (SQLException e) {
-                if (isDebugEnabled())
-                    debug("Could not close JDBC Connection", e);
+                if (isDebug())
+                    DEBUG("Could not close JDBC Connection");
             }
         }
     }
-
+    
     private void close(PreparedStatement ps) {
         if (ps != null) {
             try {
                 ps.close();
             } catch (SQLException e) {
-                if (isDebugEnabled())
-                    debug("Could not close JDBC PreparedStatement", e);
+                if (isDebug())
+                    DEBUG("Could not close JDBC PreparedStatement");
             }
         }
     }
-
+    
     private void close(ResultSet rs) {
         if (rs != null) {
             try {
                 rs.close();
             } catch (SQLException e) {
-                if (isDebugEnabled())
-                    debug("Could not close JDBC ResultSet", e);
+                if (isDebug())
+                    DEBUG("Could not close JDBC ResultSet");
             }
         }
     }

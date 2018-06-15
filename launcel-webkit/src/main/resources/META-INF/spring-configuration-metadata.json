@@ -19,6 +19,11 @@
       "name": "web.cors",
       "sourceType": "xyz.launcel.prop.CorsProperties",
       "type": "xyz.launcel.prop.CorsProperties"
+    },
+    {
+      "name": "web.upload",
+      "sourceType": "xyz.launcel.prop.UploadProperties",
+      "type": "xyz.launcel.prop.UploadProperties"
     }
   ],
   "properties": [
@@ -75,6 +80,45 @@
       "type": "java.lang.Boolean",
       "defaultValue": true,
       "sourceType": "xyz.launcel.prop.GlobalExceptionProperties"
+    },
+    {
+      "name": "web.upload.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "sourceType": "xyz.launcel.prop.UploadProperties"
+    },
+    {
+      "name": "web.upload.domain",
+      "type": "java.lang.String",
+      "sourceType": "xyz.launcel.prop.UploadProperties"
+    },
+    {
+      "name": "web.upload.path",
+      "type": "java.lang.String",
+      "sourceType": "xyz.launcel.prop.UploadProperties"
+    },
+    {
+      "name": "web.upload.max-size",
+      "type": "java.lang.Long",
+      "sourceType": "xyz.launcel.prop.UploadProperties"
+    },
+    {
+      "name": "web.upload.min-size",
+      "type": "java.lang.Long",
+      "defaultValue": 0,
+      "sourceType": "xyz.launcel.prop.UploadProperties"
+    },
+    {
+      "name": "web.upload.file-type",
+      "type": "java.util.List<java.lang.String>",
+      "defaultValue": 0,
+      "sourceType": "xyz.launcel.prop.UploadProperties"
+    },
+    {
+      "name": "web.upload.content-type",
+      "type": "java.util.List<java.lang.String>",
+      "defaultValue": 0,
+      "sourceType": "xyz.launcel.prop.UploadProperties"
     }
   ]
 }

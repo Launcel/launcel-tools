@@ -1,4 +1,4 @@
-package xyz.launcel.generator.api.dom;
+package xyz.launcel.generator.api.utils;
 
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 
@@ -8,7 +8,7 @@ import java.util.TreeSet;
 /**
  * @author Launcel
  */
-public class OutputUtilities {
+public class OutputUtils {
 
     private static final String lineSeparator;
 
@@ -20,7 +20,7 @@ public class OutputUtilities {
         lineSeparator = ls;
     }
 
-    private OutputUtilities() {
+    private OutputUtils() {
         super();
     }
 
@@ -43,7 +43,7 @@ public class OutputUtilities {
     public static Set<String> calculateImports(
             Set<FullyQualifiedJavaType> importedTypes) {
         StringBuilder sb = new StringBuilder();
-        Set<String> importStrings = new TreeSet<String>();
+        Set<String> importStrings = new TreeSet<>();
         for (FullyQualifiedJavaType fqjt : importedTypes) {
             for (String importString : fqjt.getImportList()) {
                 sb.setLength(0);
@@ -56,4 +56,5 @@ public class OutputUtilities {
 
         return importStrings;
     }
+
 }

@@ -1,63 +1,63 @@
 package xyz.launcel.response;
 
+import java.io.Serializable;
+
 /**
- * Created by xuyang in 2017/9/20
+ * Created by Launcel in 2017/9/20
  */
-public class Response {
-
-    private String code = "1";
-
-    private Object data = null;
-
-    private String message = "";
-
-    public static Response getResponse() {
-        return new Response();
+public class Response implements Serializable {
+    
+    private static final long    serialVersionUID = -6522850794196317135L;
+    private              Boolean isOk             = true;
+    
+    private Object data;
+    private String message;
+    
+    public Boolean getIsOk() {
+        return isOk;
     }
-
-    public String getCode() {
-        return code;
+    
+    public void setIsOk(Boolean ok) {
+        isOk = ok;
     }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
+    
     public Object getData() {
         return data;
     }
-
+    
     public void setData(Object object) {
         this.data = object;
     }
-
+    
     public String getMessage() {
         return message;
     }
-
+    
     public void setMessage(String message) {
         this.message = message;
     }
-
-    public Response setFail(String message) {
-        setCode("-1");
-        setData(message);
-        setMessage("FAIL");
-        return this;
+    
+    public Response(Boolean isOk, Object data, String message) {
+        this.isOk = isOk;
+        this.data = data;
+        this.message = message;
     }
-
-    public Response setFail() {
-        return setFail(null);
+    
+    public Response(Boolean isOk, Object data) {
+        this.isOk = isOk;
+        this.data = data;
     }
-
-    public Response setSuccess(Object o) {
-        setCode("1");
-        setData(o);
-        setMessage("SUCCESS");
-        return this;
+    
+    public Response(String message, Object data) {
+        this.data = data;
+        this.message = message;
     }
-
-    public Response setSuccess() {
-        return setSuccess(null);
+    
+    public Response(Boolean isOk, String message) {
+        this.isOk = isOk;
+        this.message = message;
+    }
+    
+    public Response() {
     }
 }

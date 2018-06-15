@@ -11,24 +11,24 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class MapSession implements ExpiringSession, Serializable {
-
+    
     private static final long serialVersionUID = -4926709993975115053L;
-
-    private String id;
-    private Map<String, Object> sessionAttrs = new HashMap<>();
-    private long creationTime = System.currentTimeMillis();
-    private long lastAccessedTime = this.creationTime;
-
+    
+    private String              id;
+    private Map<String, Object> sessionAttrs     = new HashMap<>();
+    private long                creationTime     = System.currentTimeMillis();
+    private long                lastAccessedTime = this.creationTime;
+    
     private int maxInactiveInterval = 1200;
-
+    
     public MapSession() {
         this(StringUtils.getUUID());
     }
-
+    
     public MapSession(String id) {
         this.id = id;
     }
-
+    
     public MapSession(ExpiringSession session) {
         if (session == null) {
             throw new IllegalArgumentException("session cannot be null");
@@ -43,48 +43,48 @@ public class MapSession implements ExpiringSession, Serializable {
         this.creationTime = session.getCreationTime();
         this.maxInactiveInterval = session.getMaxInactiveIntervalInSeconds();
     }
-
+    
     public void setLastAccessedTime(long lastAccessedTime) {
         this.lastAccessedTime = lastAccessedTime;
     }
-
+    
     public long getCreationTime() {
         return this.creationTime;
     }
-
+    
     public String getId() {
         return this.id;
     }
-
+    
     public long getLastAccessedTime() {
         return this.lastAccessedTime;
     }
-
+    
     public void setMaxInactiveIntervalInSeconds(int interval) {
         this.maxInactiveInterval = interval;
     }
-
+    
     public int getMaxInactiveIntervalInSeconds() {
         return this.maxInactiveInterval;
     }
-
+    
     public boolean isExpired() {
         return isExpired(System.currentTimeMillis());
     }
-
+    
     private boolean isExpired(long now) {
         return this.maxInactiveInterval >= 0 && now - TimeUnit.SECONDS.toMillis(this.maxInactiveInterval) >= this.lastAccessedTime;
     }
-
+    
     @SuppressWarnings("unchecked")
     public <T> T getAttribute(String attributeName) {
         return (T) this.sessionAttrs.get(attributeName);
     }
-
+    
     public Set<String> getAttributeNames() {
         return this.sessionAttrs.keySet();
     }
-
+    
     public void setAttribute(String attributeName, Object attributeValue) {
         if (attributeValue == null) {
             removeAttribute(attributeName);
@@ -92,25 +92,25 @@ public class MapSession implements ExpiringSession, Serializable {
             this.sessionAttrs.put(attributeName, attributeValue);
         }
     }
-
+    
     public void removeAttribute(String attributeName) {
         this.sessionAttrs.remove(attributeName);
     }
-
+    
     public void setCreationTime(long creationTime) {
         this.creationTime = creationTime;
     }
-
+    
     public void setId(String id) {
         this.id = id;
     }
-
+    
     public boolean equals(Object obj) {
         return obj instanceof Session && this.id.equals(((Session) obj).getId());
     }
-
+    
     public int hashCode() {
         return this.id.hashCode();
     }
-
+    
 }

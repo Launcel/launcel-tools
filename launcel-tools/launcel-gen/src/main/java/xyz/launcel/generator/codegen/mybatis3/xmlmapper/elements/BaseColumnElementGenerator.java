@@ -21,11 +21,12 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 import xyz.launcel.generator.api.dom.xml.LTextElement;
 import xyz.launcel.generator.api.dom.xml.LXmlElement;
+import xyz.launcel.lang.StringUtils;
 
 import java.util.Iterator;
 
-import static xyz.launcel.generator.api.dom.OutputUtilities.newLine;
-import static xyz.launcel.generator.api.dom.OutputUtilities.xmlIndent;
+import static xyz.launcel.generator.api.utils.OutputUtils.newLine;
+import static xyz.launcel.generator.api.utils.OutputUtils.xmlIndent;
 
 /**
  * @author Launcel
@@ -40,20 +41,37 @@ public class BaseColumnElementGenerator extends AbstractXmlElementGenerator {
     public void addElements(XmlElement parentElement) {
         LXmlElement answer = new LXmlElement("sql");
 
-//        answer.addAttribute(new Attribute("id", introspectedTable.getBaseColumnListId()));
         answer.addAttribute(new Attribute("id", "BaseColumn"));
 
         context.getCommentGenerator().addComment(answer);
 
         StringBuilder sb = new StringBuilder();
+        boolean hasLen = false;
         Iterator<IntrospectedColumn> iter = introspectedTable.getNonBLOBColumns().iterator();
         while (iter.hasNext()) {
-            sb.append(MyBatis3FormattingUtilities.getSelectListPhrase(iter.next()));
+            String column = MyBatis3FormattingUtilities.getSelectListPhrase(iter.next());
+            StringBuilder aliasColumn = new StringBuilder();
+            if (column.contains("_")) {
+                hasLen = true;
+                String[] columnSeg = column.split("_");
+                for (int i = 0; i < columnSeg.length; i++) {
+                    if (i == 0) {
+                        aliasColumn.append(columnSeg[i]);
+                    } else {
+                        aliasColumn.append(StringUtils.capitalize(columnSeg[i]));
+                    }
+                }
+            }
+            sb.append(column);
+            if (hasLen) {
+                sb.append(" as ").append(aliasColumn);
+            }
             if (iter.hasNext()) {
                 sb.append(",");
                 newLine(sb);
                 xmlIndent(sb, 2);
             }
+            hasLen = false;
         }
 
         if (sb.length() > 0) {
@@ -64,4 +82,6 @@ public class BaseColumnElementGenerator extends AbstractXmlElementGenerator {
             parentElement.addElement(answer);
         }
     }
+
+
 }

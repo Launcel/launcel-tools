@@ -5,12 +5,12 @@ package xyz.launcel.annotation;
  */
 public interface Group {
 
-    @interface get { }
+    @interface Select { }
 
-    @interface update { }
+    @interface Update { }
 
-    @interface add { }
+    @interface Add { }
 
-    @interface delete { }
+    @interface Delete { }
 
 }

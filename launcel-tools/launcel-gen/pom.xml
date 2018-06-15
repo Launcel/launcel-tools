@@ -3,25 +3,23 @@
     <parent>
         <artifactId>launcel-tools</artifactId>
         <groupId>xyz.launcel</groupId>
-        <version>1.0</version>
+        <version>1.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>launcel-gen</artifactId>
     <packaging>jar</packaging>
 
-    <name>launcel-gen</name>
-    <url>http://maven.apache.org</url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.mybatis.generator</groupId>
             <artifactId>mybatis-generator-core</artifactId>
             <version>1.3.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>xyz.launcel</groupId>
+            <artifactId>launcel-core</artifactId>
         </dependency>
     </dependencies>
 </project>

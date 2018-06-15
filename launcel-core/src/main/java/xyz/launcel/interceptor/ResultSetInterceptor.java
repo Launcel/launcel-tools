@@ -28,26 +28,26 @@ import java.util.Properties;
  * Created by xuyang in 2017/10/24
  */
 @Deprecated
-@Intercepts({@Signature(type = ResultSetHandler.class, method = "handleResultSets", args = {Statement.class})})
+@Intercepts({ @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = { Statement.class }) })
 public class ResultSetInterceptor extends BaseLogger implements Interceptor, Serializable {
     private static final long serialVersionUID = -8563836654060071116L;
-
-    private static String[] superMethod = {"selectKey", "select", "queryPaging", "list"};
-
+    
+    private static String[] superMethod = { "selectKey", "select", "queryPaging", "list" };
+    
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         @SuppressWarnings("unused")
-		Statement stmt = (Statement) invocation.getArgs()[0];
+        Statement stmt = (Statement) invocation.getArgs()[0];
         ResultSetHandler target = (ResultSetHandler) invocation.getTarget();
         //利用反射获取到DefaultResultSetHandler的ParameterHandler属性，从而获取到ParameterObject
-        MetaObject metaObject = SystemMetaObject.forObject(target);
+        MetaObject      metaObject      = SystemMetaObject.forObject(target);
         MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("mappedStatement");
-        String selectId = mappedStatement.getId();
-        String[] splitString = selectId.split("\\.");
+        String          selectId        = mappedStatement.getId();
+        String[]        splitString     = selectId.split("\\.");
         selectId = splitString[splitString.length - 1];
         Class<?> clazz;
         if (Arrays.asList(superMethod).contains(selectId)) {
-            info("调用 BaseDAO");
+            INFO("调用 BaseDAO");
             BoundSql boundSql = (BoundSql) metaObject.getValue("boundSql");
             @SuppressWarnings("unchecked")
             Map<String, Object> parameter = (Map<String, Object>) boundSql.getParameterObject();
@@ -63,7 +63,7 @@ public class ResultSetInterceptor extends BaseLogger implements Interceptor, Ser
         }
         return clazz != null;// && ModelClassUtil.getClasses().contains(clazz) ? handleResultSet(stmt, clazz) : invocation.proceed();
     }
-
+    
     @Override
     public Object plugin(Object target) {
         if (target instanceof ResultSetHandler)
@@ -71,15 +71,15 @@ public class ResultSetInterceptor extends BaseLogger implements Interceptor, Ser
         else
             return target;
     }
-
+    
     @Override
     public void setProperties(Properties properties) {
-
+    
     }
-
+    
     @SuppressWarnings("unused")
-	private Object handleResultSet(Statement stmt, Class<?> javaClass) throws SQLException {
-        ResultSet rs = null;
+    private Object handleResultSet(Statement stmt, Class<?> javaClass) throws SQLException {
+        ResultSet    rs   = null;
         List<Object> list = new ArrayList<>();
         try {
             rs = stmt.getResultSet();
@@ -104,5 +104,5 @@ public class ResultSetInterceptor extends BaseLogger implements Interceptor, Ser
         }
         return list;
     }
-
+    
 }

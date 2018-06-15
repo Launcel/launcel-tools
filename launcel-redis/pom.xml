@@ -8,14 +8,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>launcel-redis</artifactId>
+    <version>${build.version}</version>
     <packaging>jar</packaging>
-
-    <name>launcel-redis</name>
-    <url>http://maven.apache.org</url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <dependencies>
 
@@ -23,6 +17,18 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
             <version>1.8.9.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context-support</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
@@ -37,9 +43,15 @@
         </dependency>
 
         <dependency>
+            <groupId>biz.paluch.redis</groupId>
+            <artifactId>lettuce</artifactId>
+            <version>4.4.4.Final</version>
+        </dependency>
+
+        <dependency>
             <groupId>xyz.launcel</groupId>
             <artifactId>launcel-core</artifactId>
-            <version>1.1</version>
+            <version>${build.version}</version>
         </dependency>
 
     </dependencies>

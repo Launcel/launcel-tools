@@ -9,8 +9,7 @@ import java.lang.annotation.Target;
  */
 @Target({})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniqueConstraint
-{
+public @interface UniqueConstraint {
     String name() default "";
 
     String[] columnNames();

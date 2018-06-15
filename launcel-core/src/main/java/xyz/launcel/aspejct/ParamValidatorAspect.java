@@ -9,7 +9,7 @@ import xyz.launcel.annotation.Limit;
 import xyz.launcel.annotation.ParamValidate;
 import xyz.launcel.annotation.Types;
 import xyz.launcel.lang.RegUtil;
-import xyz.launcel.log.BaseLogger;
+import xyz.launcel.log.RootLogger;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -23,16 +23,16 @@ import java.util.Objects;
 //@Aspect
 //@Component
 @Deprecated
-public class ParamValidatorAspect extends BaseLogger {
-
+public class ParamValidatorAspect {
+    
     @Pointcut("@annotation(xyz.launcel.annotation.Validate)")
     public void initValidate() {
     }
-
+    
     @Before("initValidate()")
     public void prepardArgs(JoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Method method = signature.getMethod();
+        Method          method    = signature.getMethod();
         // 获得方法的参数
         Parameter[] params = method.getParameters();
         /**
@@ -53,24 +53,24 @@ public class ParamValidatorAspect extends BaseLogger {
                     } catch (IllegalAccessException e) {
                         throw new IllegalArgumentException("_DEFINE_ERROR_CODE_004");
                     } catch (InstantiationException e) {
-                        error("不可能的错误，{} 实例化错误", params[i].getType());
+                        RootLogger.ERROR("不可能的错误，{} 实例化错误", params[i].getType().getName());
                     }
                 }
             }
             i++;
         }
     }
-
+    
     private void verifyGroup(Parameter p, Class<?> group) throws InstantiationException, IllegalAccessException {
-        Class<?> clazz = p.getType();
-        Field[] fields = clazz.getDeclaredFields();
+        Class<?> clazz  = p.getType();
+        Field[]  fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             field.setAccessible(true);
             verifyLimit(field, clazz.newInstance(), group);
             field.setAccessible(false);
         }
     }
-
+    
     private void verifyLimit(Field f, Object o, Class<?> group) throws IllegalAccessException {
         //查看是否具有指定类型的注释：
         if (!f.isAnnotationPresent(Limit.class))
@@ -89,20 +89,20 @@ public class ParamValidatorAspect extends BaseLogger {
         else
             checkFiled(f, o, l);
     }
-
+    
     private void checkFiled(Field f, Object o, Limit l) throws IllegalAccessException {
-        Object value = f.get(o);
+        Object value   = f.get(o);
         String message = f.getName() + " : " + l.message();
         verifyBlank(value, message);
         Types tc = l.type();
         verifyType(value, message, tc);
     }
-
-
+    
+    
     private void verifyBlank(Object o, String message) {
         Assert.isTrue(Objects.nonNull(o), message);
     }
-
+    
     private void verifyType(Object o, String message, Types tc) {
         if (tc == Types.string) {
             Assert.isTrue(Objects.nonNull(o), message);

@@ -15,7 +15,7 @@ public class QueryPagingElementGenerator extends AbstractXmlElementGenerator {
 
     public void addElements(XmlElement parentElement) {
         LXmlElement answer = new LXmlElement("select");
-        answer.addAttribute(new Attribute("id", "queryPaging"));
+        answer.addAttribute(new Attribute("id", "queryPage"));
         answer.addAttribute(new Attribute("resultType", this.introspectedTable.getBaseResultMapId()));
         this.context.getCommentGenerator().addComment(answer);
         StringBuilder sb = new StringBuilder();
