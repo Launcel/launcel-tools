@@ -1,10 +1,10 @@
 package xyz.launcel.jdbc;
 
-import xyz.launcel.constant.SessionConstant;
+import xyz.launcel.constant.SessionFactoryConstant;
 import xyz.launcel.hook.ApplicationContextHook;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.BaseLogger;
-import xyz.launcel.prop.RoleDataSourceRef;
+import xyz.launcel.prop.RoleDataSourceHolder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +24,7 @@ public class JdbcRole extends BaseLogger {
 
     public Set<String> getRoles(String username) {
         try {
-            connection = ((RoleDataSourceRef) ApplicationContextHook.getBean(SessionConstant.roleDateSourceName)).getHikariDataSource().getConnection();
+            connection = ((RoleDataSourceHolder) ApplicationContextHook.getBean(SessionFactoryConstant.roleDateSourceName)).getHikariDataSource().getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }

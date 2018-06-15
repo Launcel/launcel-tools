@@ -34,7 +34,6 @@ public class GlobalExceptionHandle {
     public Response professionException(ProfessionException x) {
         return responseInfo(x.getMessage());
     }
-    //        getLog().error("missingServletRequestParameterException---Host {} ERROR: {}", req.getRemoteHost(), e.getLocalizedMessage());
 
     @ExceptionHandler(value = SQLException.class)
     public Response sqlException(SQLException x) {

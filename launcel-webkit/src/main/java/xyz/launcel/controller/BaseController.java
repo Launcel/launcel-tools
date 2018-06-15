@@ -1,54 +1,47 @@
 package xyz.launcel.controller;
 
-import org.springframework.web.bind.annotation.ModelAttribute;
 import xyz.launcel.dao.Paging;
-import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.BaseLogger;
 import xyz.launcel.response.Response;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
 
 public abstract class BaseController extends BaseLogger {
 
-    private ThreadLocal<HttpServletRequest> request = new ThreadLocal<>();
+    @Inject
+    private HttpServletRequest httpServletRequest;
 
-    private ThreadLocal<HttpServletResponse> response = new ThreadLocal<>();
+    @Inject
+    private HttpServletResponse httpServletResponse;
 
-    @ModelAttribute
-    protected void init(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        try {
-            httpServletRequest.setCharacterEncoding("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            ExceptionFactory.error("编码转换失败");
-        }
-        httpServletResponse.setCharacterEncoding("UTF-8");
-        request.set(httpServletRequest);
-        response.set(httpServletResponse);
-    }
+//    @ModelAttribute
+//    protected void init(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+//        try {
+//            httpServletRequest.setCharacterEncoding("UTF-8");
+//        } catch (UnsupportedEncodingException e) {
+//            ExceptionFactory.error("编码转换失败");
+//        }
+//        httpServletResponse.setCharacterEncoding("UTF-8");
+//    }
 
     protected <T> Paging<T> initPaging() {
-        String pageNoStr = getReqLocal().getParameter("pageNo");
-        String rowStr = getReqLocal().getParameter("maxRow");
-//        String lowerIdStr = getRequest().getParameter("lowerId");
-//        String largeIdStr = getRequest().getParameter("largeId");
+        String pageNoStr = httpServletRequest.getParameter("pageNo");
+        String rowStr = httpServletRequest.getParameter("maxRow");
 
         Integer pageNo = Integer.valueOf(StringUtils.isNotBlank(pageNoStr) ? pageNoStr.trim() : "1");
         Integer maxRow = Integer.valueOf(StringUtils.isNotBlank(rowStr) ? rowStr.trim() : "15");
-//        Integer lowerId = Integer.valueOf(StringUtils.isNotBlank(lowerIdStr) ? lowerIdStr.trim() : "1");
-//        Integer largeId = Integer.valueOf(StringUtils.isNotBlank(largeIdStr) ? largeIdStr.trim() : "1");
-//        return new Paging<>(pageNo, maxRow, lowerId, largeId);
         return new Paging<>(pageNo, maxRow);
     }
 
-    protected final HttpServletRequest getReqLocal() {
-        return request.get();
+    protected final HttpServletRequest getRequest() {
+        return this.httpServletRequest;
     }
 
-    protected final HttpServletResponse getRespLocal() {
-        return response.get();
+    protected final HttpServletResponse getResponse() {
+        return this.httpServletResponse;
     }
 
     protected final Response getSuccess(Object o) {

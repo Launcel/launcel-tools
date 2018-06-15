@@ -1,11 +1,11 @@
 package xyz.launcel.prop;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import xyz.launcel.constant.SessionConstant;
+import xyz.launcel.constant.SessionFactoryConstant;
 
 import java.util.List;
 
-@ConfigurationProperties(prefix = SessionConstant.mybatisConfigPrefix)
+@ConfigurationProperties(prefix = SessionFactoryConstant.mybatisConfigPrefix)
 public class MybatisProperties {
 
     private MybatisPropertie main;
