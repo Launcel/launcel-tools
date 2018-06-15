@@ -1,59 +1,54 @@
 package xyz.launcel.service.impl;
 
 import xyz.launcel.dao.BaseDAO;
-import xyz.launcel.dao.Page;
+import xyz.launcel.dao.Paging;
+import xyz.launcel.log.BaseLogger;
 import xyz.launcel.service.BaseService;
 
 import java.util.List;
 
-public abstract class BaseServiceImpl implements BaseService {
-    
-    //noinspection unchecked
-    protected abstract <T> BaseDAO<T> getDAO();
-    
+public abstract class BaseServiceImpl<T> extends BaseLogger implements BaseService<T> {
+
+    protected abstract BaseDAO<T> getDAO();
+
     @Override
-    public <T> int add(T t) {
+    public int add(T t) {
         return getDAO().add(t);
     }
-    
+
     @Override
-    public <T> int update(T t) {
+    public int update(T t) {
         return getDAO().update(t);
     }
-    
+
     @Override
-    public int delete(Integer id) {
-        return getDAO().delete(id);
+    public int delete(Integer t) {
+        return getDAO().delete(t);
     }
-    
+
     @Override
-    public <T> T query(T t) {
-        //noinspection unchecked
-        return (T) getDAO().query(t);
+    public T query(T t) {
+        return getDAO().query(t);
     }
-    
+
     @Override
-    public <T> T get(Integer id) {
-        //noinspection unchecked
-        return (T) getDAO().get(id);
+    public T get(Integer id) {
+        return getDAO().get(id);
     }
-    
+
     @Override
-    public <T> Integer count(T t) {
+    public Integer count(T t) {
         return getDAO().count(t);
     }
-    
+
     @Override
-    public <T> Page<T> queryPage(T t, Page<T> page) {
-        Integer total  = getDAO().count(t);
-        if (total != null && total > 0) {
-            Page    p    = new Page(page.getPageNo(), page.getMaxRow());
-            //noinspection unchecked
-            List<T> list = getDAO().queryPage(t, p);
-            page.setTotal(total);
-            page.setList(list);
-        }
-        return page;
+    public void queryPage(T t, Paging<T> paging) {
+        Integer total = getDAO().count(t);
+        if (total == null || total <= 0)
+            return;
+        paging.setTotal(total);
+        List<T> list = getDAO().queryPage(t, paging);
+        paging.setList(list);
     }
-    
+
 }

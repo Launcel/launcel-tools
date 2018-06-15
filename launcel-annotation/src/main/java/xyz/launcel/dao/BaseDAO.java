@@ -17,7 +17,7 @@ public interface BaseDAO<T> {
 
     Integer count(@Param("param") T t);
 
-    List<T> queryPage(@Param("param") T t, @Param("page") Page<T> page);
+    List<T> queryPage(@Param("param") T t, @Param("page") Paging<T> page);
 
     T get(Integer id);
 

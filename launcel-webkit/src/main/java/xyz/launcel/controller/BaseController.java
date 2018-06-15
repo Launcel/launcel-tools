@@ -17,16 +17,6 @@ public abstract class BaseController extends BaseLogger {
     @Inject
     private HttpServletResponse httpServletResponse;
 
-//    @ModelAttribute
-//    protected void init(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-//        try {
-//            httpServletRequest.setCharacterEncoding("UTF-8");
-//        } catch (UnsupportedEncodingException e) {
-//            ExceptionFactory.error("编码转换失败");
-//        }
-//        httpServletResponse.setCharacterEncoding("UTF-8");
-//    }
-
     protected <T> Paging<T> initPaging() {
         String pageNoStr = httpServletRequest.getParameter("pageNo");
         String rowStr = httpServletRequest.getParameter("maxRow");
@@ -44,12 +34,18 @@ public abstract class BaseController extends BaseLogger {
         return this.httpServletResponse;
     }
 
-    protected final Response getSuccess(Object o) {
-        return Response.getResponse().setSuccess(o);
+    protected Response getSuccess(Object o) {
+        return new Response(true, o);
     }
 
-    protected final Response getFail() {
-        return Response.getResponse().setFail();
+    protected Response getFail() {
+        Response response = new Response();
+        response.setIsOk(false);
+        return response;
+    }
+
+    protected Response getFail(String msg) {
+        return new Response(false, msg);
     }
 
 }

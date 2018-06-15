@@ -5,13 +5,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import xyz.launcel.exception.ProfessionException;
 import xyz.launcel.exception.SystemError;
-import xyz.launcel.lang.Json;
 import xyz.launcel.response.Response;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by xuyang in 2017/9/22
@@ -32,32 +29,29 @@ public class GlobalExceptionHandle {
 
     @ExceptionHandler(value = ProfessionException.class)
     public Response professionException(ProfessionException x) {
-        return responseInfo(x.getMessage());
+        return response(x.getMessage());
     }
 
     @ExceptionHandler(value = SQLException.class)
     public Response sqlException(SQLException x) {
         x.printStackTrace();
-        return response("系统内服错误!");
+        return response("网络错误!");
     }
 
     @ExceptionHandler(value = IOException.class)
     public Response ioException(IOException x) {
         x.printStackTrace();
-        return response("系统内服错误!");
+        return response("网络错误!");
     }
 
     @ExceptionHandler(SystemError.class)
     public Response systemError(Error x) {
         x.printStackTrace();
-        return response("系统内服错误!");
+        return response("网络错误!");
     }
 
     private Response response(String str) {
-        return Response.getResponse().setFail(str);
+        return new Response(false, str);
     }
 
-    private Response responseInfo(String str) {
-        return Json.parseObject(str, Response.class);
-    }
 }

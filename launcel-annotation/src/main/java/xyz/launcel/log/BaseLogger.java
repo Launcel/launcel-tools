@@ -44,4 +44,9 @@ public class BaseLogger {
         log.error(format, arguments);
     }
 
+
+    private static String appender(String msg)
+    {
+        return "\n------------------------------------------------------------------------\n\t{}" + msg + "\n------------------------------------------------------------------------";
+    }
 }
