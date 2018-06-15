@@ -16,7 +16,7 @@ import java.util.regex.Matcher;
 public class JavaDAOMapperRenamePlugin extends AbstractRenamePlugin {
     private Boolean useBaseDAO = false;
     private Boolean useGeneralizate = false;
-    private String baseDAOPackage = "xyz.launcel.dao.BaseDAO";
+    private String baseDAOPackage = "xyz.launcel.dao.BaseRepository";
 
     public JavaDAOMapperRenamePlugin() {
     }

@@ -3,6 +3,7 @@ package xyz.launcel.lang;
 import org.springframework.beans.BeanUtils;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.exception.ProfessionException;
+import xyz.launcel.exception.SystemException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,9 +12,7 @@ import java.util.List;
 public class BeanCopy
 {
 
-    private BeanCopy()
-    {
-    }
+    private BeanCopy() { }
 
     private static <T> T mapProperties(Object source, T target, String... ignoreProperties)
     {
@@ -40,7 +39,7 @@ public class BeanCopy
         }
         catch (ReflectiveOperationException e)
         {
-            throw new ProfessionException("_DEFINE_ERROR_CODE_010", targetClass.getSimpleName() + "实例化异常");
+            throw new SystemException("_DEFINE_ERROR_CODE_011", targetClass.getSimpleName() + "实例化异常");
         }
     }
 
@@ -51,7 +50,7 @@ public class BeanCopy
 
     public static <T> List<T> map(Collection<?> source, Class<T> targetClass, String... ignoreProperties)
     {
-        if (CollectionUtils.isEmpty(source)) { ExceptionFactory.create("_DEFINE_ERROR_CODE_009", "集合中没有数据"); }
+        if (CollectionUtils.isEmpty(source)) { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "集合中没有数据"); }
         try
         {
             List<T> targetList = new ArrayList<>();
@@ -61,7 +60,7 @@ public class BeanCopy
         }
         catch (ReflectiveOperationException e)
         {
-            throw new ProfessionException("_DEFINE_ERROR_CODE_010", targetClass.getSimpleName() + "实例化异常");
+            throw new SystemException("_DEFINE_ERROR_CODE_011", targetClass.getSimpleName() + "实例化异常");
         }
     }
 }

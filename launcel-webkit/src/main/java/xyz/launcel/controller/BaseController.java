@@ -26,7 +26,6 @@ public abstract class BaseController extends BaseLogger
 
         Integer pageNo = StringUtils.isNotBlank(pageNoStr) ? Integer.valueOf(pageNoStr.trim()) : 1;
         Integer maxRow = StringUtils.isNotBlank(rowStr) ? Integer.valueOf(rowStr.trim()) : Integer.MAX_VALUE;
-        //noinspection unchecked
         return new Page<>(pageNo, maxRow);
     }
 

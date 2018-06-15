@@ -124,13 +124,13 @@ public interface AMapUtils
                     this.lng = parse(lng);
                     radLng = getRadian(lng);
                 }
-                else { ExceptionFactory.create("-101", "经度值不在范围内"); }
+                else { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "经度值不在范围内"); }
                 if (lat >= -90d && lat <= 90d)
                 {
                     this.lat = lat;
                     radLat = getRadian(lat);
                 }
-                else { ExceptionFactory.create("-102", "纬度值不在范围内"); }
+                else { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "纬度值不在范围内"); }
             }
         }
 

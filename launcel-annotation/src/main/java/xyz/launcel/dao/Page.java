@@ -39,9 +39,7 @@ public class Page<T> implements Serializable
 
     private transient Set<String> groupBy;
 
-    public Page()
-    {
-    }
+    public Page() { }
 
     public Page(Integer pageNo)
     {

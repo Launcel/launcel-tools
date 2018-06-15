@@ -1,4 +1,4 @@
-package xyz.launcel.json;
+package xyz.launcel.json.builder;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -64,10 +64,7 @@ public class PrimyGsonBuilder
     {
 
         @Override
-        public void write(JsonWriter out, Object value)
-        {
-
-        }
+        public void write(JsonWriter out, Object value) { }
 
         @Override
         public Object read(JsonReader in) throws IOException

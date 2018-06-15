@@ -1,6 +1,6 @@
 package xyz.launcel.lang;
 
-import xyz.launcel.exception.ProfessionException;
+import xyz.launcel.exception.ExceptionFactory;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -57,7 +57,7 @@ public interface CollectionUtils
         }
         else if (object == null)
         {
-            throw new IllegalArgumentException("Unsupported object type: null");
+            ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "Unsupported object type: null");
         }
         else
         {
@@ -67,9 +67,10 @@ public interface CollectionUtils
             }
             catch (IllegalArgumentException ex)
             {
-                throw new ProfessionException("_DEFINE_ERROR_CODE_011", "Unsupported object type" + object.getClass().getName());
+                ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "Unsupported object type" + object.getClass().getName());
             }
         }
+        return false;
     }
 
     /**

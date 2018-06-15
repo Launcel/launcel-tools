@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import xyz.launcel.config.SecurityConfig;
 import xyz.launcel.exception.ExceptionFactory;
+import xyz.launcel.exception.SystemException;
 import xyz.launcel.interceptor.RoleInterceptor;
 import xyz.launcel.jdbc.JdbcRole;
 import xyz.launcel.lang.CollectionUtils;
@@ -34,7 +35,7 @@ public class SecurityAutoConfiguration extends WebMvcConfigurerAdapter
     private void initSecurityConfig()
     {
         if (CollectionUtils.isEmpty(securityListProperties.getList()))
-        { ExceptionFactory.create("_SECURITY_ERROR_CODE_001"); }
+        { throw new SystemException("_SECURITY_ERROR_CODE_011", "权限路径未配置"); }
         SecurityConfig.setUris(securityListProperties.getList());
     }
 

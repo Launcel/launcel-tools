@@ -48,7 +48,7 @@ public class ExceptionHelp
                 if (RootLogger.isDebug()) { RootLogger.DEBUG("  >>>   错误信息加载完毕！"); }
             }
         }
-        catch (IOException e) { throw new ProfessionException("  >>>   错误信息文件加载失败!"); }
+        catch (IOException e) { throw new SystemException("  >>>   错误信息文件加载失败!"); }
     }
 
     protected static Map<String, String> getMessage(String code)

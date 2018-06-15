@@ -1,6 +1,7 @@
 package xyz.launcel.lang;
 
 import xyz.launcel.exception.ExceptionFactory;
+import xyz.launcel.exception.SystemException;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -12,7 +13,7 @@ public interface RegUtil
     {
         if (Objects.isNull(text))
         {
-            ExceptionFactory.create("_DEFINE_ERROR_CODE_008", "正则校验数据为空");
+            throw new SystemException("_DEFINE_ERROR_CODE_011", "正则校验数据为空");
         }
         return Pattern.compile(pattern).matcher(text).matches();
     }

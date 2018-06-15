@@ -1,6 +1,6 @@
 package xyz.launcel.service.impl;
 
-import xyz.launcel.dao.BaseDAO;
+import xyz.launcel.dao.BaseRepository;
 import xyz.launcel.dao.Page;
 import xyz.launcel.service.BaseService;
 
@@ -12,51 +12,51 @@ import java.util.List;
 public abstract class BaseServiceImpl implements BaseService
 {
 
-    protected abstract <T> BaseDAO getDAO();
+    protected abstract BaseRepository getRepository();
 
     @Override
-    public <T> int add(T t)
+    public <T, P> int add(P p)
     {
-        return getDAO().add(t);
+        return getRepository().add(p);
     }
 
     @Override
-    public <T> int update(T t)
+    public <T, P> int update(P p)
     {
-        return getDAO().update(t);
+        return getRepository().update(p);
     }
 
     @Override
     public int delete(Integer id)
     {
-        return getDAO().delete(id);
+        return getRepository().delete(id);
     }
 
     @Override
-    public <T> T query(T t)
+    public <T, P> T query(P p)
     {
-        return getDAO().query(t);
+        return getRepository().query(p);
     }
 
     @Override
     public <T> T get(Integer id)
     {
-        return getDAO().get(id);
+        return getRepository().get(id);
     }
 
     @Override
-    public <T> Integer count(T t)
+    public <T, P> Integer count(P p)
     {
-        return getDAO().count(t);
+        return getRepository().count(p);
     }
 
     @Override
-    public <T> Page<T> queryPage(T t, Page<T> page)
+    public <T, P> Page<T> queryPage(P p, Page<T> page)
     {
-        Integer total = getDAO().count(t);
+        Integer total = getRepository().count(p);
         if (total != null && total > 0)
         {
-            List<T> list = getDAO().queryPage(t, page);
+            List<T> list = getRepository().queryPage(p, page);
             page.setTotal(total);
             page.setList(list);
         }

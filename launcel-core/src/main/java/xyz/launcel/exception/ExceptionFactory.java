@@ -19,19 +19,19 @@ public interface ExceptionFactory
         throw new ProfessionException(map.values().toString());
     }
 
-    static void error(String code)
-    {
-        Map<String, String> map = ExceptionHelp.getMessage(code);
-        RootLogger.ERROR("\t{}", Json.toJson(map).replaceAll("\\{", "[").replaceAll("}", "]"));
-        throw new SystemError(map.values().toString());
-    }
-
-    static void error(String code, String msg)
-    {
-        String sb = "\t[" + code + " : " + msg + "]";
-        RootLogger.ERROR(sb);
-        throw new SystemError(msg);
-    }
+    //    static void error(String code)
+    //    {
+    //        Map<String, String> map = ExceptionHelp.getMessage(code);
+    //        RootLogger.ERROR("\t{}", Json.toJson(map).replaceAll("\\{", "[").replaceAll("}", "]"));
+    //        throw new SystemError(map.values().toString());
+    //    }
+    //
+    //    static void error(String code, String msg)
+    //    {
+    //        String sb = "\t[" + code + " : " + msg + "]";
+    //        RootLogger.ERROR(sb);
+    //        throw new SystemError(msg);
+    //    }
 
     static void create(String code, String msg)
     {

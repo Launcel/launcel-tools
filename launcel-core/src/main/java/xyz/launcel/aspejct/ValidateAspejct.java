@@ -4,6 +4,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import xyz.launcel.annotation.Validate;
 import xyz.launcel.exception.ExceptionFactory;
+import xyz.launcel.exception.SystemException;
 import xyz.launcel.json.Json;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.lang.ValidateUtils;
@@ -54,7 +55,7 @@ class ValidateAspejct extends BaseLogger
                 }
                 catch (ReflectiveOperationException e)
                 {
-                    ExceptionFactory.error("进行反射校验失败");
+                    throw new SystemException("_DEFINE_ERROR_CODE_010", "进行反射校验失败");
                 }
             }
         }

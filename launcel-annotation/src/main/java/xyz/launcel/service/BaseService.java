@@ -8,18 +8,18 @@ import xyz.launcel.dao.Page;
 public interface BaseService
 {
 
-    <T> int add(T t);
+    <T, P> int add(P p);
 
-    <T> int update(T t);
+    <T, P> int update(P p);
 
     int delete(Integer id);
 
-    <T> T query(T t);
+    <T, P> T query(P p);
 
     <T> T get(Integer id);
 
-    <T> Integer count(T t);
+    <T, P> Integer count(P p);
 
-    <T> Page<T> queryPage(T t, Page<T> page);
+    <T, P> Page<T> queryPage(P p, Page<T> page);
 
 }

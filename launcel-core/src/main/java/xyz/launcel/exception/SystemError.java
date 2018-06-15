@@ -2,6 +2,9 @@ package xyz.launcel.exception;
 
 import xyz.launcel.log.RootLogger;
 
+/**
+ * 默认框架的异常代码为 _DEFINE_ERROR_CODE_010
+ */
 public class SystemError extends Error
 {
     private static final long serialVersionUID = 2414220843000433011L;

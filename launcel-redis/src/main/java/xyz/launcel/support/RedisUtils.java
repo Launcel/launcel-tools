@@ -4,7 +4,7 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import redis.clients.jedis.JedisCommands;
-import xyz.launcel.exception.ExceptionFactory;
+import xyz.launcel.exception.SystemException;
 import xyz.launcel.hook.ApplicationContextHook;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.properties.RedisProperties;
@@ -45,7 +45,7 @@ public class RedisUtils
     {
         if (key.length <= 0)
         {
-            ExceptionFactory.create("_REDIS__ERROR_CODE_001", "redis key is null");
+            throw new SystemException("_REDIS__ERROR_CODE_011", "redis key is null");
         }
         for (String str : key)
         {
@@ -61,7 +61,7 @@ public class RedisUtils
         }
         else
         {
-            ExceptionFactory.create("_REDIS__ERROR_CODE_004", "redis cannot find the value of this key");
+            throw new SystemException("_REDIS__ERROR_CODE_011", "redis cannot find the value of this key");
         }
     }
 
@@ -141,7 +141,7 @@ public class RedisUtils
         vidate(value);
         if (!exits(key))
         {
-            ExceptionFactory.create("_REDIS__ERROR_CODE_004", "redis cannot find the value of this key");
+            throw new SystemException("_REDIS__ERROR_CODE_011", "redis cannot find the value of this key");
         }
         //        return template.execute((RedisCallback<String>) connection ->
         //                Arrays.toString(connection.getSet(SafeEncoder.encode(key), SafeEncoder.encode(Json.toJson(value)))));
@@ -179,15 +179,15 @@ public class RedisUtils
     {
         if (StringUtils.isBlank(key))
         {
-            ExceptionFactory.create("_REDIS__ERROR_CODE_001", "redis key is null");
+            throw new SystemException("_REDIS__ERROR_CODE_011","redis key is null");
         }
         if (Objects.isNull(value))
         {
-            ExceptionFactory.create("_REDIS__ERROR_CODE_002", "redis value is null");
+            throw new SystemException("_REDIS__ERROR_CODE_011","redis value is null");
         }
         if (expTime == null || expTime <= 0)
         {
-            ExceptionFactory.create("_REDIS__ERROR_CODE_003", "redis expTime is error");
+            throw new SystemException("_REDIS__ERROR_CODE_011","redis expTime is error");
         }
     }
 

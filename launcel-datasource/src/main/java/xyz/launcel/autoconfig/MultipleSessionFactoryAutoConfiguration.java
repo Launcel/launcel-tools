@@ -1,7 +1,6 @@
 package xyz.launcel.autoconfig;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.BeansException;
@@ -24,7 +23,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.validation.BindingResult;
 import xyz.launcel.aspejct.ServerAspejct;
 import xyz.launcel.constant.SessionFactoryConstant;
-import xyz.launcel.exception.ExceptionFactory;
+import xyz.launcel.exception.SystemError;
 import xyz.launcel.hook.BeanDefinitionRegistryTool;
 import xyz.launcel.interceptor.PageInterceptor;
 import xyz.launcel.json.Json;
@@ -38,6 +37,7 @@ import xyz.launcel.properties.RoleDataSourceHolder;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,8 +62,7 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
         }
         else
         {
-            ExceptionFactory.error(">>>  datasource propertie config or mybatis propertie config is null !!");
-            System.exit(-1);
+            throw new SystemError("_DEFINE_ERROR_CODE_010",">>>  datasource propertie config or mybatis propertie config is null !!");
         }
         RootLogger.WARN("SessionFactory registry success");
     }
@@ -74,8 +73,7 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
 
         if (Objects.isNull(mybatisPropertie))
         {
-            ExceptionFactory.error(">>>  mybatis propertie config not find ref-name :" + dataSourcePropertie.getName() + " !!");
-            System.exit(-1);
+            throw new SystemError("_DEFINE_ERROR_CODE_010",">>>  mybatis propertie config not find ref-name :" + dataSourcePropertie.getName() + " !!");
         }
 
         String           sqlSessionFactoryBeanName = dataSourcePropertie.getName() + SessionFactoryConstant.sessionFactoryName;
@@ -108,18 +106,18 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
         sqlSession.addPropertyValue(SessionFactoryConstant.configLocationName, "classpath:mybatis/mybatis-config.xml");
         sqlSession.addPropertyValue(SessionFactoryConstant.typeAliasesPackageName, mybatisPropertie.getAliasesPackage());
 
-        List<Interceptor> interceptors = new ArrayList<>(2);
-        interceptors.add(new PageInterceptor());
-        if (isDebugSql) { interceptors.add(new PageInterceptor()); }
+//        List<Interceptor> interceptors = new ArrayList<>(2);
+//        interceptors.add(new PageInterceptor());
+//        if (isDebugSql) { interceptors.add(new PageInterceptor()); }
 
-        sqlSession.addPropertyValue(SessionFactoryConstant.pluginName, interceptors);
+        sqlSession.addPropertyValue(SessionFactoryConstant.pluginName, Collections.singletonList(new PageInterceptor()));
         try
         {
             sqlSession.addPropertyValue(SessionFactoryConstant.mapperLocationName, new PathMatchingResourcePatternResolver().getResources(mybatisPropertie.getMapperResource()));
         }
         catch (IOException e)
         {
-            ExceptionFactory.error(">>>  connot load resource :" + mybatisPropertie.getMapperResource() + " !!");
+            throw new SystemError("_DEFINE_ERROR_CODE_010",">>>  connot load resource :" + mybatisPropertie.getMapperResource() + " !!");
         }
         BeanDefinitionRegistryTool.registryBean(sqlSessionFactoryBeanName, registry, sqlSessionAbd);
     }
@@ -207,8 +205,7 @@ public class MultipleSessionFactoryAutoConfiguration extends BaseLogger implemen
         BindingResult bindingResult = dataBinder.getBindingResult();
         if (bindingResult.hasErrors())
         {
-            ExceptionFactory.error("多数据源绑定失败！");
-            System.exit(-1);
+            throw new SystemError("_DEFINE_ERROR_CODE_010","多数据源绑定失败！");
         }
     }
 

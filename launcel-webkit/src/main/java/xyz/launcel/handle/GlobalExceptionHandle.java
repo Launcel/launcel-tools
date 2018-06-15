@@ -1,10 +1,12 @@
 package xyz.launcel.handle;
 
+import com.sun.tools.hat.internal.model.Root;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import xyz.launcel.exception.ProfessionException;
 import xyz.launcel.exception.SystemError;
+import xyz.launcel.exception.SystemException;
 import xyz.launcel.log.RootLogger;
 import xyz.launcel.response.Response;
 
@@ -24,22 +26,34 @@ public class GlobalExceptionHandle
     @ExceptionHandler(value = Throwable.class)
     public Response throwable(Throwable x)
     {
-        x.printStackTrace();
+        RootLogger.ERROR(x.getMessage());
         return response(message);
     }
 
     @ExceptionHandler(value = NullPointerException.class)
     public Response nullPointerException(NullPointerException x)
     {
-        x.printStackTrace();
+        if (RootLogger.isDebug()) {
+            RootLogger.DEBUG(x.getMessage());
+        }
         return response(x.getMessage());
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)
     public Response illegalArgumentException(IllegalArgumentException x)
     {
-        x.printStackTrace();
+        if (RootLogger.isDebug())
+        {
+            RootLogger.DEBUG(x.getMessage());
+        }
         return response(x.getMessage());
+    }
+
+    @ExceptionHandler(value = SystemException.class)
+    public Response systemException(SystemException x)
+    {
+        x.printStackTrace();
+        return response(message);
     }
 
     @ExceptionHandler(value = ProfessionException.class)
@@ -55,7 +69,7 @@ public class GlobalExceptionHandle
     @ExceptionHandler(SystemError.class)
     public Response systemError(Error x)
     {
-        x.printStackTrace();
+        RootLogger.ERROR(x.getMessage());
         return response(message);
     }
 

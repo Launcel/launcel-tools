@@ -1,5 +1,7 @@
 package xyz.launcel.lang;
 
+import xyz.launcel.exception.SystemException;
+
 import java.util.Arrays;
 import java.util.Random;
 import java.util.UUID;
@@ -80,11 +82,11 @@ public final class StringUtils
         if (count == 0) { return ""; }
         else if (count < 0)
         {
-            throw new IllegalArgumentException("Requested random string length " + count + " is less than 0.");
+            throw new SystemException("_DEFINE_ERROR_CODE_011", "Requested random string length " + count + " is less than 0.");
         }
         if (chars != null && chars.length == 0)
         {
-            throw new IllegalArgumentException("The chars array must not be empty");
+            throw new SystemException("_DEFINE_ERROR_CODE_011", "The chars array must not be empty");
         }
 
         if (start == 0 && end == 0)
@@ -104,7 +106,7 @@ public final class StringUtils
         {
             if (end <= start)
             {
-                throw new IllegalArgumentException("Parameter end (" + end + ") must be greater than start (" + start + ")");
+                throw new SystemException("_DEFINE_ERROR_CODE_011", "Parameter end (" + end + ") must be greater than start (" + start + ")");
             }
         }
 

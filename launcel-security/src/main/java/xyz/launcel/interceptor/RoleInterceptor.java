@@ -31,7 +31,7 @@ public class RoleInterceptor implements HandlerInterceptor
         boolean     flat    = SecurityConfig.isTransit(uri, session);
         if (!flat)
         {
-            ExceptionFactory.create("_SECURITY_ERROR_CODE_001", "没有相应的权限");
+            ExceptionFactory.create("_SECURITY_ERROR_CODE_012", "没有相应的权限");
         }
         return flat;
     }

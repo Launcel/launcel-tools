@@ -17,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import xyz.launcel.aspejct.ControllerParamValidateAspejct;
 import xyz.launcel.handle.GlobalExceptionHandle;
-import xyz.launcel.json.PrimyGsonBuilder;
+import xyz.launcel.json.builder.PrimyGsonBuilder;
 import xyz.launcel.properties.CorsProperties;
 import xyz.launcel.properties.JsonConverterProperties;
 import xyz.launcel.properties.UploadProperties;
