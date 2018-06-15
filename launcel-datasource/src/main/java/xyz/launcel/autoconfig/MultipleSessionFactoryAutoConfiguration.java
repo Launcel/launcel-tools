@@ -22,7 +22,6 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.validation.BindingResult;
 import xyz.launcel.aspejct.ServerAspejct;
-import xyz.launcel.constant.SessionFactoryConstant;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.hook.BeanDefinitionRegistryTool;
 import xyz.launcel.interceptor.PageInterceptor;
@@ -32,6 +31,7 @@ import xyz.launcel.prop.DataSourceProperties.DataSourcePropertie;
 import xyz.launcel.prop.MybatisProperties;
 import xyz.launcel.prop.MybatisProperties.MybatisPropertie;
 import xyz.launcel.prop.RoleDataSourceHolder;
+import xyz.launcel.constant.SessionFactoryConstant;
 
 import java.io.IOException;
 import java.util.ArrayList;
