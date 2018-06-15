@@ -11,21 +11,19 @@ public class BaseLogger {
     }
 
     protected void info(String format, Object... arguments) {
-        log.info(format, arguments);
+        log.info(appender(format), arguments);
     }
 
     protected void info(String msg) {
-        log.info("\n------------------------------------------------------------------------\n\t{}",
-                msg + "\n------------------------------------------------------------------------");
+        log.info(appender(msg));
     }
 
     protected void debug(String format, Object... arguments) {
-        log.debug(format, arguments);
+        log.debug(appender(format), arguments);
     }
 
     protected void debug(String msg) {
-        log.debug("\n------------------------------------------------------------------------\n\t{}",
-                msg + "\n------------------------------------------------------------------------");
+        log.debug(appender(msg));
     }
 
     protected boolean isDebugEnabled() {
@@ -33,20 +31,20 @@ public class BaseLogger {
     }
 
     protected void warn(String format, Object... arguments) {
-        log.warn(format, arguments);
+        log.warn(appender(format), arguments);
     }
 
     protected void warn(String msg) {
-        log.warn(msg);
+        log.warn(appender(msg));
     }
 
     protected void error(String format, Object... arguments) {
-        log.error(format, arguments);
+        log.error(appender(format), arguments);
     }
 
 
     private static String appender(String msg)
     {
-        return "\n------------------------------------------------------------------------\n\t{}" + msg + "\n------------------------------------------------------------------------";
+        return "\n------------------------------------------------------------------------\n\t" + msg + "\n------------------------------------------------------------------------";
     }
 }
