@@ -1,10 +1,9 @@
 package xyz.launcel.lang;
 
 import xyz.launcel.dao.Page;
+import xyz.launcel.exception.SystemException;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,17 +17,26 @@ public class SQLHelp
 
     public static Page getPaging(Map<String, Object> parameter)
     {
-        Page   p = null;
-        Object o;
-        if (parameter.containsKey("page"))
+        Page p = null;
+        try
         {
-            o = getParam(parameter, "page");
+            if (parameter.containsKey("page"))
+            {
+                p = (Page) getParam(parameter, "page");
+            }
+            else
+            {
+                for (Object value : parameter.values())
+                {
+                    if (value instanceof Page)
+                    {
+                        p = (Page) value;
+                        break;
+                    }
+                }
+            }
         }
-        else
-        {
-            o = getParam(parameter, "param1");
-        }
-        if (o instanceof Page) { p = (Page) o; }
+        catch (ClassCastException x) { throw new SystemException("_DEFINE_ERROR_CODE_011", "page对象转换出错"); }
         return p == null ? new Page(Integer.MAX_VALUE) : p;
     }
 
@@ -51,7 +59,7 @@ public class SQLHelp
         if (CollectionUtils.isNotEmpty(p.getGroupBy()))
         {
             sb.append(" GROUP BY ");
-            final Set<Integer> indexSet = new HashSet<>();
+            final Set<Integer> indexSet = new HashSet<>(1);
             indexSet.add(1);
             p.getGroupBy().forEach(groupSet -> {
                 if (indexSet.contains(1))

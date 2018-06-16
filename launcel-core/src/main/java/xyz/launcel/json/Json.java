@@ -17,6 +17,7 @@ package xyz.launcel.json;
 //}
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 import xyz.launcel.exception.SystemException;
 import xyz.launcel.json.builder.PrimyGsonBuilder;
 
@@ -38,7 +39,7 @@ public class Json
         try
         {
             return gson.fromJson(jsonObject, clazz);
-        } catch (Exception x) {
+        } catch (JsonParseException x) {
             throw new SystemException("_DEFINE_ERROR_CODE_011","Json转换异常");
         }
     }

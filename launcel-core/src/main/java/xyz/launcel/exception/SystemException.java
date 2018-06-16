@@ -7,6 +7,8 @@ import xyz.launcel.log.RootLogger;
  */
 public class SystemException extends RuntimeException
 {
+    private static final long serialVersionUID = -1597189035906555024L;
+
     protected SystemException() {
         super();
     }
@@ -17,7 +19,7 @@ public class SystemException extends RuntimeException
 
     public SystemException(String code, String msg) {
         this(msg);
-        String sb = "\t[" + code + " : " + msg + "]";
+        String sb = "[" + code + " : " + msg + "]";
         RootLogger.ERROR(sb);
     }
 
