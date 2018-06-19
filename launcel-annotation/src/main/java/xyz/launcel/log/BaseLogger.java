@@ -10,35 +10,35 @@ public class BaseLogger {
         return log;
     }
 
-    protected void info(String format, Object... arguments) {
+    protected void INFO(String format, Object... arguments) {
         log.info(appender(format), arguments);
     }
 
-    protected void info(String msg) {
+    protected void INFO(String msg) {
         log.info(appender(msg));
     }
 
-    protected void debug(String format, Object... arguments) {
+    protected void DEBUG(String format, Object... arguments) {
         log.debug(appender(format), arguments);
     }
 
-    protected void debug(String msg) {
+    protected void DEBUG(String msg) {
         log.debug(appender(msg));
     }
 
-    protected boolean isDebugEnabled() {
+    protected boolean isDebug() {
         return log.isDebugEnabled();
     }
 
-    protected void warn(String format, Object... arguments) {
+    protected void WARN(String format, Object... arguments) {
         log.warn(appender(format), arguments);
     }
 
-    protected void warn(String msg) {
+    protected void WARN(String msg) {
         log.warn(appender(msg));
     }
 
-    protected void error(String format, Object... arguments) {
+    protected void ERROR(String format, Object... arguments) {
         log.error(appender(format), arguments);
     }
 
