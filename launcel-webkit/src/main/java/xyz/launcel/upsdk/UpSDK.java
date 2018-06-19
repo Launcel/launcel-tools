@@ -93,8 +93,8 @@ public class UpSDK
 
     private void checkSize(Long size)
     {
-        if (size < (properties.getMinSize())) { ExceptionFactory.create("上传的文件太小"); }
-        if (size > properties.getMaxSize()) { ExceptionFactory.create("上传的文件大小超过限制"); }
+        if (size < (properties.getMinSize())) { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的文件太小"); }
+        if (size > properties.getMaxSize()) { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的文件大小超过限制"); }
     }
 
     /**
@@ -106,8 +106,8 @@ public class UpSDK
     {
         //        InputStream in = file.getInputStream();
         byte[] b = new byte[4];
-        if (in == null) { ExceptionFactory.create("上传的为无法识别的文件"); }
-        if ((in != null ? in.read(b, 0, b.length) : 0) < 4) { ExceptionFactory.create("上传的文件太小"); }
+        if (in == null) { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为无法识别的文件"); }
+        if ((in != null ? in.read(b, 0, b.length) : 0) < 4) { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的文件太小"); }
         StringBuilder sb = new StringBuilder();
         String        hv;
         for (byte b1 : b)
@@ -117,7 +117,7 @@ public class UpSDK
             sb.append(hv);
         }
         if (properties.getContentType().contains(sb.toString())) { return; }
-        ExceptionFactory.create("上传的为不能接收的文件类型");
+        ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为不能接收的文件类型");
     }
 
     private String getExt(String originalName)
@@ -125,7 +125,7 @@ public class UpSDK
         Integer index = originalName.lastIndexOf(".");
         if (index <= 0)
         {
-            ExceptionFactory.create("上传的为无法识别的文件");
+            ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为无法识别的文件");
         }
         String ext = originalName.substring(index + 1);
         checkFile(ext);
@@ -135,7 +135,7 @@ public class UpSDK
     private void checkFile(String ext)
     {
         if (properties.getFileType().contains(ext.toLowerCase())) { return; }
-        ExceptionFactory.create("上传的为不能接收的文件类型");
+        ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为不能接收的文件类型");
     }
 
     private String getNewName(String oldName)    { return getNewFileName(getExt(oldName)); }
