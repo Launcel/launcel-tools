@@ -26,11 +26,15 @@ public class ExcelUtils
         if (titles.length > 0 && CollectionUtils.isNotEmpty(list))
         {
             response.setHeader("content-Type", "application/vnd.ms-excel");
-            response.setHeader("Content-Disposition", "attachment;filename=" + new String((TimeFormatUtil.YYYY_MM_DD(new Date()) + "_" + fileName).getBytes(), Charset.forName("UTF-8")) + ".xlsx" + "\" ");
+            String fileNameTmp = TimeFormatUtil.YYYY_MM_DD(new Date()) + "_" + fileName + ".xlsx";
+            fileName = new String(fileNameTmp.getBytes(), Charset.forName("UTF-8"));
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+            response.setHeader("Cache-Control", "no-cache");
             try
             {
                 ServletOutputStream out = response.getOutputStream();
                 writeXSSFWorkbook(titles, list).write(out);
+                out.flush();
                 out.close();
             }
             catch (IOException e)
@@ -47,22 +51,23 @@ public class ExcelUtils
 
     private static XSSFWorkbook writeXSSFWorkbook(String[] titles, List<List<Object>> list)
     {
-        XSSFWorkbook  workbook = new XSSFWorkbook();
-        XSSFSheet     sheet    = workbook.createSheet("sheet1");
-        XSSFRow       row      = sheet.createRow(0);
-        XSSFCellStyle style    = workbook.createCellStyle();
-        XSSFFont      font     = workbook.createFont();
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFFont     font     = workbook.createFont();
         font.setFontHeightInPoints((short) 11);
         font.setFontName("宋体");
         font.setBold(true);
 
+        XSSFCellStyle style = workbook.createCellStyle();
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setFillForegroundColor(HSSFColor.HSSFColorPredefined.GREY_80_PERCENT.getIndex());
         style.setFont(font);
-        XSSFCell cell;
+
+        XSSFSheet sheet = workbook.createSheet("sheet1");
+        XSSFRow   row   = sheet.createRow(0);
+        XSSFCell  cell;
         for (int i = 0; i < titles.length; i++)
         {
-            cell = row.createCell((short) i);
+            cell = row.createCell(i);
             cell.setCellValue(titles[i]);
             cell.setCellStyle(style);
         }
@@ -79,7 +84,7 @@ public class ExcelUtils
             {
                 ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "导出的数据中，存在数据列不一致");
             }
-            XSSFRow row = sheet.createRow(i + 1);
+            XSSFRow      row   = sheet.createRow(i + 1);
             List<Object> clist = list.get(i);
             for (int n = 0; n < clist.size(); n++)
             {
