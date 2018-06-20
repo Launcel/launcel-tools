@@ -25,7 +25,7 @@ public class ExcelUtils
     {
         if (titles.length > 0 && CollectionUtils.isNotEmpty(list))
         {
-            response.setHeader("content-Type", "application/vnd.ms-excel");
+            response.setContentType("application/ms-excel;charset=UTF-8");
             String fileNameTmp = TimeFormatUtil.YYYY_MM_DD(new Date()) + "_" + fileName + ".xlsx";
             fileName = new String(fileNameTmp.getBytes(), Charset.forName("UTF-8"));
             response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
@@ -77,13 +77,8 @@ public class ExcelUtils
 
     private static void writeDataRow(List<List<Object>> list, XSSFSheet sheet)
     {
-        int length = list.get(0).size();
         for (int i = 0; i < list.size(); i++)
         {
-            if (i > 0 && list.get(i).size() != length)
-            {
-                ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "导出的数据中，存在数据列不一致");
-            }
             XSSFRow      row   = sheet.createRow(i + 1);
             List<Object> clist = list.get(i);
             for (int n = 0; n < clist.size(); n++)
@@ -95,7 +90,7 @@ public class ExcelUtils
                 }
                 else
                 {
-                    row.createCell((short) n).setCellValue(clist.get(n).toString());
+                    row.createCell((short) n).setCellValue(String.valueOf(value));
                 }
             }
         }
