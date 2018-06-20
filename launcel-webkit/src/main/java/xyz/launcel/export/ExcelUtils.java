@@ -58,7 +58,7 @@ public class ExcelUtils
         font.setBold(true);
 
         style.setAlignment(HorizontalAlignment.CENTER);
-        style.setFillForegroundColor(HSSFColor.GREY_80_PERCENT.index);
+        style.setFillForegroundColor(HSSFColor.HSSFColorPredefined.GREY_80_PERCENT.getIndex());
         style.setFont(font);
         XSSFCell cell;
         for (int i = 0; i < titles.length; i++)
@@ -67,11 +67,11 @@ public class ExcelUtils
             cell.setCellValue(titles[i]);
             cell.setCellStyle(style);
         }
-        writeDataRow(list, sheet, row);
+        writeDataRow(list, sheet);
         return workbook;
     }
 
-    private static void writeDataRow(List<List<Object>> list, XSSFSheet sheet, XSSFRow row)
+    private static void writeDataRow(List<List<Object>> list, XSSFSheet sheet)
     {
         int length = list.get(0).size();
         for (int i = 0; i < list.size(); i++)
@@ -80,7 +80,7 @@ public class ExcelUtils
             {
                 ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "导出的数据中，存在数据列不一致");
             }
-            row = sheet.createRow(i + 1);
+            XSSFRow row = sheet.createRow(i + 1);
             List<Object> clist = list.get(i);
             for (int n = 0; n < clist.size(); n++)
             {
