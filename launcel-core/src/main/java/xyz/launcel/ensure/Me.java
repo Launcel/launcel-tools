@@ -11,8 +11,7 @@ import java.util.Collection;
 
 public final class Me {
 
-    private Me() {
-    }
+    private Me() { }
 
     public static BooleanAssert that(Boolean flat) {
         return new BooleanAssert(flat);

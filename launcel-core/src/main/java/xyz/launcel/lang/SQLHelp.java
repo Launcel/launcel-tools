@@ -1,50 +1,65 @@
 package xyz.launcel.lang;
 
-import xyz.launcel.dao.Page;
+import xyz.launcel.dao.Paging;
 
 import java.util.Map;
 
 /**
  * Created by xuyang in 2017/10/12
  */
-public class SQLHelp {
-    
-    private SQLHelp() {
+public class SQLHelp
+{
+
+    private SQLHelp()
+    {
     }
-    
-    public static Page getPaging(Map<String, Object> parameter) {
-        Page   p = null;
+
+    @SuppressWarnings("rawtypes")
+    public static Paging getPaging(Map<String, Object> parameter)
+    {
+        Paging p = null;
         Object o;
-        if (parameter.containsKey("page")) {
+        if (parameter.containsKey("page"))
+        {
             o = getParam(parameter, "page");
-        } else {
+        }
+        else
+        {
             o = getParam(parameter, "param1");
         }
-        if (o instanceof Page) {
-            p = (Page) o;
+        if (o instanceof Paging)
+        {
+            p = (Paging) o;
         }
-        return p == null ? new Page(Integer.MAX_VALUE) : p;
+        return p == null ? new Paging(15) : p;
     }
-    
-    public static Class<?> getClazz(Map<String, Object> parameter) {
+
+    public static Class<?> getClazz(Map<String, Object> parameter)
+    {
         Class<?> clazz = null;
         Object   o     = getParam(parameter, "clazz");
-        if (o instanceof Class) {
+        if (o instanceof Class)
+        {
             clazz = (Class<?>) o;
         }
         return clazz;
     }
-    
-    private static Object getParam(Map<String, Object> parameter, String param) {
+
+    private static Object getParam(Map<String, Object> parameter, String param)
+    {
         return parameter != null ? (parameter.isEmpty() ? null : parameter.get(param)) : null;
     }
-    
-    public static String concatSql(String boundSql, Page<?> p) {
+
+    public static String concatSql(String boundSql, Paging<?> p)
+    {
         StringBuilder sb = new StringBuilder(boundSql);
         sb.append(" LIMIT ");
-        if (p.getOffset() > 0) {
+        if (p.getOffset() > 0)
+        {
             sb.append(p.getOffset()).append(",").append(p.getMaxRow());
-        } else {
+        }
+        else
+        {
             sb.append(p.getMaxRow());
         }
         return sb.toString();

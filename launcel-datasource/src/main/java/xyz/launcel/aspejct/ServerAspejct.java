@@ -5,13 +5,14 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import xyz.launcel.annotation.AnnotationConston;
 
 @Aspect
 public class ServerAspejct extends ValidateAspejct {
     
-    private final String point = "execution(public * xyz.launcel..*.service.*.*(..))";
+//    private final String point = "execution(public * xyz.launcel..*.service.*.*(..))";
     
-    @Pointcut(point)
+    @Pointcut(AnnotationConston.point)
     public void init() {
     }
     

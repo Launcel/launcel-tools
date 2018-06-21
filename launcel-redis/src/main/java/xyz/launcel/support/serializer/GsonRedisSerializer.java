@@ -3,7 +3,7 @@ package xyz.launcel.support.serializer;
 import com.google.gson.GsonBuilder;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
-import xyz.launcel.json.PrimyGsonBuilder;
+import xyz.launcel.json.support.PrimyGsonBuilder;
 
 import java.io.UnsupportedEncodingException;
 

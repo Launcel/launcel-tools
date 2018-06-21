@@ -28,17 +28,18 @@ import java.util.Properties;
  * Created by xuyang in 2017/10/24
  */
 @Deprecated
-@Intercepts({ @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = { Statement.class }) })
-public class ResultSetInterceptor extends BaseLogger implements Interceptor, Serializable {
+@Intercepts({@Signature(type = ResultSetHandler.class, method = "handleResultSets", args = {Statement.class})})
+public class ResultSetInterceptor extends BaseLogger implements Interceptor, Serializable
+{
     private static final long serialVersionUID = -8563836654060071116L;
-    
-    private static String[] superMethod = { "selectKey", "select", "queryPaging", "list" };
-    
+
+    private static List<String> superMethod = Arrays.asList("selectKey", "select", "queryPaging", "list");
+
     @Override
-    public Object intercept(Invocation invocation) throws Throwable {
-        @SuppressWarnings("unused")
-        Statement stmt = (Statement) invocation.getArgs()[0];
-        ResultSetHandler target = (ResultSetHandler) invocation.getTarget();
+    public Object intercept(Invocation invocation) throws Throwable
+    {
+        @SuppressWarnings("unused") Statement stmt   = (Statement) invocation.getArgs()[0];
+        ResultSetHandler                      target = (ResultSetHandler) invocation.getTarget();
         //利用反射获取到DefaultResultSetHandler的ParameterHandler属性，从而获取到ParameterObject
         MetaObject      metaObject      = SystemMetaObject.forObject(target);
         MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("mappedStatement");
@@ -46,15 +47,17 @@ public class ResultSetInterceptor extends BaseLogger implements Interceptor, Ser
         String[]        splitString     = selectId.split("\\.");
         selectId = splitString[splitString.length - 1];
         Class<?> clazz;
-        if (Arrays.asList(superMethod).contains(selectId)) {
-            INFO("调用 BaseDAO");
-            BoundSql boundSql = (BoundSql) metaObject.getValue("boundSql");
-            @SuppressWarnings("unchecked")
-            Map<String, Object> parameter = (Map<String, Object>) boundSql.getParameterObject();
+        if (superMethod.contains(selectId))
+        {
+            info("调用 BaseDAO");
+            BoundSql                                           boundSql  = (BoundSql) metaObject.getValue("boundSql");
+            @SuppressWarnings("unchecked") Map<String, Object> parameter = (Map<String, Object>) boundSql.getParameterObject();
             if (parameter == null)
                 return invocation.proceed();
             clazz = SQLHelp.getClazz(parameter);
-        } else {
+        }
+        else
+        {
             List<ResultMap> resultMaps = mappedStatement.getResultMaps();
             if (resultMaps.isEmpty())
                 return invocation.proceed();
@@ -63,40 +66,46 @@ public class ResultSetInterceptor extends BaseLogger implements Interceptor, Ser
         }
         return clazz != null;// && ModelClassUtil.getClasses().contains(clazz) ? handleResultSet(stmt, clazz) : invocation.proceed();
     }
-    
+
     @Override
-    public Object plugin(Object target) {
+    public Object plugin(Object target)
+    {
         if (target instanceof ResultSetHandler)
             return Plugin.wrap(target, this);
         else
             return target;
     }
-    
+
     @Override
-    public void setProperties(Properties properties) {
-    
+    public void setProperties(Properties properties)
+    {
+
     }
-    
+
     @SuppressWarnings("unused")
-    private Object handleResultSet(Statement stmt, Class<?> javaClass) throws SQLException {
+    private Object handleResultSet(Statement stmt, Class<?> javaClass) throws SQLException
+    {
         ResultSet    rs   = null;
         List<Object> list = new ArrayList<>();
-        try {
+        try
+        {
             rs = stmt.getResultSet();
-//                if (rs != null && javaClass != null) {
-//                    Table table = TableMapping.one().getTable(javaClass);
-//                    while (rs.next()) {
-//                        Object obj = javaClass.newInstance();
-//                        for (Map.Entry<String, String> entry : table.getColumnField().entrySet()) {
-//                            Field field = obj.getClass().getDeclaredField(entry.getValue());
-//                            field.setAccessible(true);
-//                            Object value = ModelClassUtil.ValidateObject(field.getType(), rs.getObject(entry.getKey()));
-//                            field.set(obj, value);
-//                        }
-//                        list.add(obj);
-//                    }
-//                }
-        } finally {
+            //                if (rs != null && javaClass != null) {
+            //                    Table table = TableMapping.one().getTable(javaClass);
+            //                    while (rs.next()) {
+            //                        Object obj = javaClass.newInstance();
+            //                        for (Map.Entry<String, String> entry : table.getColumnField().entrySet()) {
+            //                            Field field = obj.getClass().getDeclaredField(entry.getValue());
+            //                            field.setAccessible(true);
+            //                            Object value = ModelClassUtil.ValidateObject(field.getType(), rs.getObject(entry.getKey()));
+            //                            field.set(obj, value);
+            //                        }
+            //                        list.add(obj);
+            //                    }
+            //                }
+        }
+        finally
+        {
             if (rs != null)
                 rs.close();
             if (stmt != null)
@@ -104,5 +113,5 @@ public class ResultSetInterceptor extends BaseLogger implements Interceptor, Ser
         }
         return list;
     }
-    
+
 }

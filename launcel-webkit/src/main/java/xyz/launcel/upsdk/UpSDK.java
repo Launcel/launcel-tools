@@ -84,7 +84,6 @@ public class UpSDK {
             }
         }
         try {
-//            file.transferTo(dir);
             BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(getGenPath(newName)));
             out.write(file.getBytes());
             out.flush();

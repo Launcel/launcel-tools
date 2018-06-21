@@ -15,32 +15,26 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public interface DozerUtil {
-    
-    class DozerMapperInstance {
-        private static Mapper dozer = ApplicationContextHook.getBean("dozer");
+public class DozerUtil
+{
+
+    private static Mapper dozer = ApplicationContextHook.getBean("dozer");
+
+
+    static <T> T map(Object source, Class<T> destinationClass)
+    {
+        return dozer.map(source, destinationClass);
     }
-    
-    
-    static <T> T map(Object source, Class<T> targetClass) {
-        return DozerMapperInstance.dozer.map(source, targetClass);
-    }
-    
-    
-    /**
-     * transform list to anthor list
-     *
-     * @param var1 param list
-     * @param var2 result list of the class instance
-     * @param <T>
-     * @return
-     */
-    static <T> List<T> map(Collection<?> var1, Class<T> targetClass) {
+
+
+    static <T> List<T> map(Collection<?> var1, Class<T> var2)
+    {
         if (CollectionUtils.isEmpty(var1))
             ExceptionFactory.create("_DEFINE_ERROR_CODE_009", "集合中没有数据");
         List<T> var2List = new ArrayList<>();
-        for (Object aVar1 : var1) {
-            T var = DozerMapperInstance.dozer.map(aVar1, targetClass);
+        for (Object aVar1 : var1)
+        {
+            T var = dozer.map(aVar1, var2);
             var2List.add(var);
         }
         return var2List;

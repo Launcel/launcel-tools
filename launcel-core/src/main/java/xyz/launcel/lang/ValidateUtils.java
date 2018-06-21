@@ -3,6 +3,7 @@ package xyz.launcel.lang;
 import xyz.launcel.annotation.Limit;
 import xyz.launcel.annotation.Types;
 import xyz.launcel.exception.ExceptionFactory;
+import xyz.launcel.log.RootLogger;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
@@ -94,7 +95,8 @@ public final class ValidateUtils {
                 break;
         }
         if (!msg.equals(name)) {
-            ExceptionFactory.create(message, msg);
+            RootLogger.error(msg);
+            ExceptionFactory.create(message);
         }
     }
 }

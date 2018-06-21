@@ -4,7 +4,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import xyz.launcel.annotation.Validate;
 import xyz.launcel.exception.ExceptionFactory;
-import xyz.launcel.json.Json;
+import xyz.launcel.lang.Json;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.lang.ValidateUtils;
 import xyz.launcel.log.BaseLogger;
@@ -21,7 +21,7 @@ class ValidateAspejct extends BaseLogger {
             return;
         }
         if (isDebug()) {
-            DEBUG("调用了：" + signature.getDeclaringTypeName() + "." + method.getName() + " 方法 ：参数 \n" + Json.toJson(joinPoint.getArgs()));
+            debug("调用了：" + signature.getDeclaringTypeName() + "." + method.getName() + " 方法 ：参数 \n" + Json.toJson(joinPoint.getArgs()));
         }
         Parameter[] params = method.getParameters();
         String      group  = StringUtils.capitalize(joinPoint.getSignature().getName());
@@ -41,7 +41,7 @@ class ValidateAspejct extends BaseLogger {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method          method    = signature.getMethod();
         if (isDebug()) {
-            DEBUG("调用：" + signature.getDeclaringTypeName() + "." + method.getName() + " 方法结束 ：结果 \n" + Json.toJson(object));
+            debug("调用：" + signature.getDeclaringTypeName() + "." + method.getName() + " 方法结束 ：结果 \n" + Json.toJson(object));
         }
     }
 }

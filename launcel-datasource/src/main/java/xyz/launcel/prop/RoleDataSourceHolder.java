@@ -1,7 +1,5 @@
 package xyz.launcel.prop;
 
-import com.zaxxer.hikari.HikariDataSource;
-
 import javax.sql.DataSource;
 
 public class RoleDataSourceHolder
