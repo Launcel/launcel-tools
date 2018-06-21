@@ -98,11 +98,11 @@ public class UpSDK {
     private void checkSize(Long size) {
 //        if (file.getSize() < (properties.getMinSize() * 2 << 19)) {
         if (size < (properties.getMinSize())) {
-            ExceptionFactory.create("文件太小");
+            ExceptionFactory.create("_DEFINE_ERROR_CODE_011", "文件太小");
         }
 //        if (file.getSize() > properties.getMaxSize() * 2 << 19) {
         if (size > properties.getMaxSize()) {
-            ExceptionFactory.create("文件大小超过限制");
+            ExceptionFactory.create("_DEFINE_ERROR_CODE_011","文件大小超过限制");
         }
     }
     
@@ -115,10 +115,10 @@ public class UpSDK {
 //        InputStream in = file.getInputStream();
         byte[] b = new byte[4];
         if (in == null) {
-            ExceptionFactory.create("无法识别的文件");
+            ExceptionFactory.create("_DEFINE_ERROR_CODE_011","无法识别的文件");
         }
         if ((in != null ? in.read(b, 0, b.length) : 0) < 4) {
-            ExceptionFactory.create("文件太小");
+            ExceptionFactory.create("_DEFINE_ERROR_CODE_011","文件太小");
         }
         StringBuilder sb = new StringBuilder();
         String        hv;
@@ -131,13 +131,13 @@ public class UpSDK {
         if (properties.getContentType().contains(sb.toString())) {
             return;
         }
-        ExceptionFactory.create("不能接收的文件类型");
+        ExceptionFactory.create("_DEFINE_ERROR_CODE_011","不能接收的文件类型");
     }
     
     private String getExt(String originalName) {
         Integer index = originalName.lastIndexOf(".");
         if (index <= 0) {
-            ExceptionFactory.create("无法识别的文件");
+            ExceptionFactory.create("_DEFINE_ERROR_CODE_011","无法识别的文件");
         }
         String ext = originalName.substring(index + 1);
         checkFile(ext);
@@ -148,7 +148,7 @@ public class UpSDK {
         if (properties.getFileType().contains(ext.toLowerCase())) {
             return;
         }
-        ExceptionFactory.create("不能接收的文件类型");
+        ExceptionFactory.create("_DEFINE_ERROR_CODE_011","不能接收的文件类型");
     }
     
     private String getNewName(String oldName) {

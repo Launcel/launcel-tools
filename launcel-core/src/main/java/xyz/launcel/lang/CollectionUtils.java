@@ -1,5 +1,6 @@
 package xyz.launcel.lang;
 
+import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.exception.ProfessionException;
 
 import java.lang.reflect.Array;
@@ -43,9 +44,10 @@ public interface CollectionUtils {
             try {
                 return Array.getLength(object) == 0;
             } catch (IllegalArgumentException ex) {
-                throw new ProfessionException("_DEFINE_ERROR_CODE_011", "Unsupported object type" + object.getClass().getName());
+                ExceptionFactory.create("_DEFINE_ERROR_CODE_011", "Unsupported object type" + object.getClass().getName());
             }
         }
+        return false;
     }
     
 }

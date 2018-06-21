@@ -21,13 +21,13 @@ public class DozerUtil
     private static Mapper dozer = ApplicationContextHook.getBean("dozer");
 
 
-    static <T> T map(Object source, Class<T> destinationClass)
+    public static <T> T map(Object source, Class<T> destinationClass)
     {
         return dozer.map(source, destinationClass);
     }
 
 
-    static <T> List<T> map(Collection<?> var1, Class<T> var2)
+    public static <T> List<T> map(Collection<?> var1, Class<T> var2)
     {
         if (CollectionUtils.isEmpty(var1))
             ExceptionFactory.create("_DEFINE_ERROR_CODE_009", "集合中没有数据");

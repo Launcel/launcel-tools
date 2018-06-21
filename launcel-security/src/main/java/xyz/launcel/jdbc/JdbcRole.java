@@ -23,7 +23,7 @@ public class JdbcRole extends BaseLogger {
     
     public Set<String> getRoles(String username) {
         try {
-            connection = ((RoleDataSourceHolder) ApplicationContextHook.getBean(SessionFactoryConstant.roleDateSourceName)).getHikariDataSource().getConnection();
+            connection = ((RoleDataSourceHolder) ApplicationContextHook.getBean(SessionFactoryConstant.roleDateSourceName)).getDataSource().getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -85,9 +85,9 @@ public class JdbcRole extends BaseLogger {
                 conn.close();
             } catch (SQLException e) {
                 if (isDebug())
-                    DEBUG("Could not close JDBC Connection");
+                    debug("Could not close JDBC Connection");
             }
-        }
+    }
     }
     
     private void close(PreparedStatement ps) {
@@ -96,7 +96,7 @@ public class JdbcRole extends BaseLogger {
                 ps.close();
             } catch (SQLException e) {
                 if (isDebug())
-                    DEBUG("Could not close JDBC PreparedStatement");
+                    debug("Could not close JDBC PreparedStatement");
             }
         }
     }
@@ -107,7 +107,7 @@ public class JdbcRole extends BaseLogger {
                 rs.close();
             } catch (SQLException e) {
                 if (isDebug())
-                    DEBUG("Could not close JDBC ResultSet");
+                    debug("Could not close JDBC ResultSet");
             }
         }
     }
