@@ -12,7 +12,7 @@ public class ControllerParamValidateAspejct extends ValidateAspejct {
 
 //    private final String point = "execution(public * xyz.launcel..*.controller.*.*(..))";
     
-    @Pointcut(AnnotationConston.point)
+    @Pointcut(AnnotationConston.mapping)
     public void init() {
     }
     
