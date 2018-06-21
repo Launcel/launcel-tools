@@ -57,7 +57,7 @@ public class Paging<T> implements Serializable {
     }
 
     public void setMaxRow(Integer maxRow) {
-        this.maxRow = (maxRow == null || maxRow < 5 || maxRow > 20) ? 15 : maxRow;
+        this.maxRow = (maxRow == null || maxRow < 1) ? 15 : maxRow;
     }
 
     public int getPageNo() {
@@ -65,7 +65,7 @@ public class Paging<T> implements Serializable {
     }
 
     public void setPageNo(Integer pageNo) {
-        this.pageNo = (null == pageNo || pageNo < 1) ? 15 : pageNo;
+        this.pageNo = (null == pageNo || pageNo < 1) ? 1 : pageNo;
     }
 
     public int getTotal() {

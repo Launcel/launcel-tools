@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class ExcelUtils
 {
@@ -84,13 +85,20 @@ public class ExcelUtils
             for (int n = 0; n < clist.size(); n++)
             {
                 Object value = clist.get(n);
-                if (value instanceof Date)
+                if (Objects.isNull(value))
                 {
-                    row.createCell((short) n).setCellValue(TimeFormatUtil.YYYY_MM_DD((Date) value));
+                    row.createCell((short) n).setCellValue("");
                 }
                 else
                 {
-                    row.createCell((short) n).setCellValue(String.valueOf(value));
+                    if (value instanceof Date)
+                    {
+                        row.createCell((short) n).setCellValue(TimeFormatUtil.YYYY_MM_DD((Date) value));
+                    }
+                    else
+                    {
+                        row.createCell((short) n).setCellValue(String.valueOf(value));
+                    }
                 }
             }
         }
