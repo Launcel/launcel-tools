@@ -44,7 +44,8 @@ public class PageInterceptor extends BaseLogger implements Interceptor, Serializ
             {
                 return invocation.proceed();
             }
-            @SuppressWarnings("unchecked") Map<String, Object> parameter = (Map<String, Object>) boundSql.getParameterObject();
+            @SuppressWarnings("unchecked")
+            Map<String, Object> parameter = (Map<String, Object>) boundSql.getParameterObject();
             if (parameter.isEmpty())
             {
                 return invocation.proceed();

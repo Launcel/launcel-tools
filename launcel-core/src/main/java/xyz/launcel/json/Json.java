@@ -1,4 +1,4 @@
-package xyz.launcel.lang;
+package xyz.launcel.json;
 
 import com.google.gson.Gson;
 import xyz.launcel.json.support.PrimyGsonBuilder;

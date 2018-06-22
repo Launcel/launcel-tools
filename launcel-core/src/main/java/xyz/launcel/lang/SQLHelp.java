@@ -1,6 +1,7 @@
 package xyz.launcel.lang;
 
 import xyz.launcel.dao.Paging;
+import xyz.launcel.exception.ExceptionFactory;
 
 import java.util.Map;
 
@@ -10,38 +11,38 @@ import java.util.Map;
 public class SQLHelp
 {
 
-    private SQLHelp()
-    {
-    }
+    private SQLHelp() { }
 
-    @SuppressWarnings("rawtypes")
     public static Paging getPaging(Map<String, Object> parameter)
     {
         Paging p = null;
-        Object o;
-        if (parameter.containsKey("page"))
+        try
         {
-            o = getParam(parameter, "page");
+            if (parameter.containsKey("page"))
+            {
+                p = (Paging) getParam(parameter, "page");
+            }
+            else
+            {
+                for (Object value : parameter.values())
+                {
+                    if (value instanceof Paging)
+                    {
+                        p = (Paging) value;
+                        break;
+                    }
+                }
+            }
         }
-        else
-        {
-            o = getParam(parameter, "param1");
-        }
-        if (o instanceof Paging)
-        {
-            p = (Paging) o;
-        }
-        return p == null ? new Paging(15) : p;
+        catch (ClassCastException x) { ExceptionFactory.create("_DEFINE_ERROR_CODE_011", "page对象转换出错"); }
+        return p == null ? new Paging(Integer.MAX_VALUE) : p;
     }
 
     public static Class<?> getClazz(Map<String, Object> parameter)
     {
         Class<?> clazz = null;
         Object   o     = getParam(parameter, "clazz");
-        if (o instanceof Class)
-        {
-            clazz = (Class<?>) o;
-        }
+        if (o instanceof Class) { clazz = (Class<?>) o; }
         return clazz;
     }
 

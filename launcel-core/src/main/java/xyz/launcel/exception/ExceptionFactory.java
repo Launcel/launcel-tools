@@ -1,6 +1,6 @@
 package xyz.launcel.exception;
 
-import xyz.launcel.lang.Json;
+import xyz.launcel.json.Json;
 import xyz.launcel.log.RootLogger;
 
 import java.util.Map;

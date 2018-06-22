@@ -1,6 +1,6 @@
 package xyz.launcel.config;
 
-import xyz.launcel.lang.Json;
+import xyz.launcel.json.Json;
 import xyz.launcel.lang.CollectionUtils;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.RootLogger;

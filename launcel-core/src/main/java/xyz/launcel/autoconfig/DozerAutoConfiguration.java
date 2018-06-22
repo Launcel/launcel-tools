@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import xyz.launcel.lang.Json;
+import xyz.launcel.json.Json;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.BaseLogger;
 import xyz.launcel.prop.DozerProperties;
