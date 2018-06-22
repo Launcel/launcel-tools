@@ -1,6 +1,5 @@
 package xyz.launcel.handle;
 
-import com.sun.tools.hat.internal.model.Root;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -9,9 +8,6 @@ import xyz.launcel.exception.SystemError;
 import xyz.launcel.exception.SystemException;
 import xyz.launcel.log.RootLogger;
 import xyz.launcel.response.Response;
-
-import java.io.IOException;
-import java.sql.SQLException;
 
 /**
  * Created by xuyang in 2017/9/22
