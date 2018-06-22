@@ -45,7 +45,7 @@ public class ExceptionHelp
                     if (inr != null) { inr.close(); }
                     if (in != null) { in.close(); }
                 }
-                if (RootLogger.isDebug()) { RootLogger.DEBUG("  >>>   错误信息加载完毕！"); }
+                if (RootLogger.isDebug()) { RootLogger.debug("  >>>   错误信息加载完毕！"); }
             }
         }
         catch (IOException e) { throw new SystemException("  >>>   错误信息文件加载失败!"); }

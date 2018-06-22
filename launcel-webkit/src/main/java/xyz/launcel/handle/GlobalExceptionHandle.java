@@ -26,7 +26,7 @@ public class GlobalExceptionHandle
     @ExceptionHandler(value = Throwable.class)
     public Response throwable(Throwable x)
     {
-        RootLogger.ERROR(x.getMessage());
+        RootLogger.error(x.getMessage());
         return response(message);
     }
 
@@ -34,7 +34,7 @@ public class GlobalExceptionHandle
     public Response nullPointerException(NullPointerException x)
     {
         if (RootLogger.isDebug()) {
-            RootLogger.DEBUG(x.getMessage());
+            RootLogger.debug(x.getMessage());
         }
         return response(x.getMessage());
     }
@@ -44,7 +44,7 @@ public class GlobalExceptionHandle
     {
         if (RootLogger.isDebug())
         {
-            RootLogger.DEBUG(x.getMessage());
+            RootLogger.debug(x.getMessage());
         }
         return response(x.getMessage());
     }
@@ -61,7 +61,7 @@ public class GlobalExceptionHandle
     {
         if (RootLogger.isDebug())
         {
-            RootLogger.DEBUG(x.getMessage());
+            RootLogger.debug(x.getMessage());
         }
         return response(x.getMessage());
     }
@@ -69,7 +69,7 @@ public class GlobalExceptionHandle
     @ExceptionHandler(SystemError.class)
     public Response systemError(Error x)
     {
-        RootLogger.ERROR(x.getMessage());
+        RootLogger.error(x.getMessage());
         return response(message);
     }
 

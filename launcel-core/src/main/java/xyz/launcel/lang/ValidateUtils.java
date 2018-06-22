@@ -12,7 +12,7 @@ import java.lang.reflect.Parameter;
 public final class ValidateUtils
 {
 
-    private ValidateUtils() {}
+    private ValidateUtils() { }
 
     public static void validateLimit(Object object, String group) throws IllegalAccessException
     {
@@ -103,7 +103,7 @@ public final class ValidateUtils
         {
             if (!msg.equals(name))
             {
-                RootLogger.ERROR(msg);
+                RootLogger.error(msg);
                 ExceptionFactory.create(message);
             }
         }

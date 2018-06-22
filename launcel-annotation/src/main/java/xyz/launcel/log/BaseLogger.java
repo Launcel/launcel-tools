@@ -8,20 +8,22 @@ public class BaseLogger
 
     protected String getName()                          { return RootLogger.getName(); }
 
-    protected void INFO(String format, Object... args)  { RootLogger.INFO(format, args); }
+    protected void info(String format, Object... args)  { RootLogger.info(format, args); }
 
-    protected void INFO(String msg)                     { RootLogger.INFO(msg); }
+    protected void info(String msg)                     { RootLogger.info(msg); }
 
-    protected void DEBUG(String format, Object... args) { RootLogger.INFO(format, args); }
+    protected void debug(String format, Object... args) { RootLogger.debug(format, args); }
 
-    protected void DEBUG(String msg)                    { RootLogger.INFO(msg); }
+    protected void debug(String msg)                    { RootLogger.debug(msg); }
 
     protected boolean isDebug()                         { return RootLogger.isDebug(); }
 
-    protected void WARN(String format, Object... args)  { RootLogger.WARN(format, args); }
+    protected void warn(String format, Object... args)  { RootLogger.warn(format, args); }
 
-    protected void WARN(String msg)                     { RootLogger.WARN(msg); }
+    protected void warn(String msg)                     { RootLogger.warn(msg); }
 
-    protected void ERROR(String format, Object... args) { RootLogger.ERROR(format, args); }
+    protected void error(String msg)                    { RootLogger.error(msg); }
+
+    protected void error(String format, Object... args) { RootLogger.error(format, args); }
 
 }

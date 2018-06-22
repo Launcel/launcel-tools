@@ -20,7 +20,7 @@ public class SystemException extends RuntimeException
     public SystemException(String code, String msg) {
         this(msg);
         String sb = "[" + code + " : " + msg + "]";
-        RootLogger.ERROR(sb);
+        RootLogger.error(sb);
     }
 
     protected SystemException(String message, Throwable cause) {

@@ -12,7 +12,7 @@ import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import xyz.launcel.lang.SQLHelp;
-import xyz.launcel.log.BaseLogger;
+import xyz.launcel.log.RootLogger;
 
 import java.io.Serializable;
 import java.sql.ResultSet;
@@ -29,7 +29,7 @@ import java.util.Properties;
  */
 @Deprecated
 @Intercepts({@Signature(type = ResultSetHandler.class, method = "handleResultSets", args = {Statement.class})})
-public class ResultSetInterceptor extends BaseLogger implements Interceptor, Serializable
+public class ResultSetInterceptor implements Interceptor, Serializable
 {
     private static final long serialVersionUID = -8563836654060071116L;
 
@@ -49,7 +49,7 @@ public class ResultSetInterceptor extends BaseLogger implements Interceptor, Ser
         Class<?> clazz;
         if (Arrays.asList(superMethod).contains(selectId))
         {
-            INFO("调用 BaseRepository");
+            RootLogger.debug("调用 BaseRepository");
             BoundSql                                           boundSql  = (BoundSql) metaObject.getValue("boundSql");
             @SuppressWarnings("unchecked") Map<String, Object> parameter = (Map<String, Object>) boundSql.getParameterObject();
             if (parameter == null)

@@ -58,7 +58,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     }
 
 
-    public JedisPoolConfig jedisPoolConfig()
+    private JedisPoolConfig jedisPoolConfig()
     {
         JedisPoolConfig pool = new JedisPoolConfig();
         pool.setMinIdle(properties.getMinIdle());
@@ -118,25 +118,25 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
             @Override
             public void handleCacheGetError(RuntimeException e, Cache cache, Object key)
             {
-                RootLogger.ERROR("redis异常：key=[{}]", key.toString());
+                RootLogger.error("redis异常：key=[{}]", key.toString());
             }
 
             @Override
             public void handleCachePutError(RuntimeException e, Cache cache, Object key, Object value)
             {
-                RootLogger.ERROR("redis异常：key=[{}]", key.toString());
+                RootLogger.error("redis异常：key=[{}]", key.toString());
             }
 
             @Override
             public void handleCacheEvictError(RuntimeException e, Cache cache, Object key)
             {
-                RootLogger.ERROR("redis异常：key=[{}]", key.toString());
+                RootLogger.error("redis异常：key=[{}]", key.toString());
             }
 
             @Override
             public void handleCacheClearError(RuntimeException e, Cache cache)
             {
-                RootLogger.ERROR("redis异常：", e.getMessage());
+                RootLogger.error("redis异常：", e.getMessage());
             }
         };
     }

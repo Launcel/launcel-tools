@@ -3,7 +3,7 @@ package xyz.launcel.jdbc;
 import xyz.launcel.constant.SessionFactoryConstant;
 import xyz.launcel.hook.ApplicationContextHook;
 import xyz.launcel.lang.StringUtils;
-import xyz.launcel.log.BaseLogger;
+import xyz.launcel.log.RootLogger;
 import xyz.launcel.properties.RoleDataSourceHolder;
 
 import java.sql.Connection;
@@ -14,11 +14,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class JdbcRole extends BaseLogger
+public class JdbcRole
 {
 
-    protected String authenticationQuery = "select password from users where username = ?";
-    protected String userRoleQuery       = "select role_name from user_roles where username = ?";
+    private String authenticationQuery = "select password from users where username = ?";
+    private String userRoleQuery       = "select role_name from user_roles where username = ?";
 
     private Connection connection;
 
@@ -43,7 +43,7 @@ public class JdbcRole extends BaseLogger
         Set<String>       roleNames = new LinkedHashSet<>();
         try
         {
-            ps = conn.prepareStatement(userRoleQuery);
+            ps = conn.prepareStatement(getUserRoleQuery());
             ps.setString(1, username);
             rs = ps.executeQuery();
             while (rs.next())
@@ -108,8 +108,8 @@ public class JdbcRole extends BaseLogger
             }
             catch (SQLException e)
             {
-                if (isDebug())
-                    DEBUG("Could not close JDBC Connection");
+                if (RootLogger.isDebug())
+                    RootLogger.debug("Could not close JDBC Connection");
             }
         }
     }
@@ -124,8 +124,8 @@ public class JdbcRole extends BaseLogger
             }
             catch (SQLException e)
             {
-                if (isDebug())
-                    DEBUG("Could not close JDBC PreparedStatement");
+                if (RootLogger.isDebug())
+                    RootLogger.debug("Could not close JDBC PreparedStatement");
             }
         }
     }
@@ -140,8 +140,8 @@ public class JdbcRole extends BaseLogger
             }
             catch (SQLException e)
             {
-                if (isDebug())
-                    DEBUG("Could not close JDBC ResultSet");
+                if (RootLogger.isDebug())
+                    RootLogger.debug("Could not close JDBC ResultSet");
             }
         }
     }

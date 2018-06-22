@@ -25,7 +25,7 @@ public class RoleInterceptor implements HandlerInterceptor
         String uri = request.getServletPath();
         if (RootLogger.isDebug())
         {
-            RootLogger.DEBUG("request uri is : " + uri);
+            RootLogger.debug("request uri is : " + uri);
         }
         HttpSession session = request.getSession(false);
         boolean     flat    = SecurityConfig.isTransit(uri, session);
@@ -61,7 +61,7 @@ public class RoleInterceptor implements HandlerInterceptor
                 // do role : save in redis
                 if (RootLogger.isDebug())
                 {
-                    RootLogger.DEBUG("roles is : " + Json.toJson(userRoles));
+                    RootLogger.debug("roles is : " + Json.toJson(userRoles));
                 }
                 if (CollectionUtils.isNotEmpty(userRoles))
                 {

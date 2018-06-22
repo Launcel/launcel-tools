@@ -17,23 +17,23 @@ public class RootLogger
     public static String getName()                          { return log.getName(); }
 
 
-    public static void INFO(String format, Object... args)  { log.info(appenders(format), args); }
+    public static void info(String format, Object... args)  { log.info(appenders(format), args); }
 
-    public static void INFO(String msg)                     { log.info(appenders(msg)); }
+    public static void info(String msg)                     { log.info(appenders(msg)); }
 
-    public static void DEBUG(String format, Object... args) { log.debug(appenders(format), args); }
+    public static void debug(String format, Object... args) { log.debug(appenders(format), args); }
 
-    public static void DEBUG(String msg)                    { log.debug(appenders(msg)); }
+    public static void debug(String msg)                    { log.debug(appenders(msg)); }
 
     public static boolean isDebug()                         { return log.isDebugEnabled(); }
 
-    public static void WARN(String format, Object... args)  { log.warn(appenders(format), args); }
+    public static void warn(String format, Object... args)  { log.warn(appenders(format), args); }
 
-    public static void WARN(String msg)                     { log.warn(appenders(msg)); }
+    public static void warn(String msg)                     { log.warn(appenders(msg)); }
 
-    public static void ERROR(String msg)                    { log.error(appenders(msg));}
+    public static void error(String msg)                    { log.error(appenders(msg));}
 
-    public static void ERROR(String format, Object... args) { log.error(appenders(format), args); }
+    public static void error(String format, Object... args) { log.error(appenders(format), args); }
 
     private static String appenders(String format)
     {

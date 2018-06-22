@@ -82,13 +82,13 @@ public class SecurityConfig
     {
         if (RootLogger.isDebug())
         {
-            RootLogger.DEBUG("match : " + Json.toJson(maxMatchMap));
+            RootLogger.debug("match : " + Json.toJson(maxMatchMap));
         }
         List<Map.Entry<String, Integer>> list = new ArrayList<>(maxMatchMap.entrySet());
         list.sort((Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) -> o2.getValue().compareTo(o1.getValue()));
         if (RootLogger.isDebug())
         {
-            RootLogger.DEBUG("the match uri is : " + list.get(0).getKey() + " , match weight is : " + list.get(0).getValue());
+            RootLogger.debug("the match uri is : " + list.get(0).getKey() + " , match weight is : " + list.get(0).getValue());
         }
         return list.get(0).getKey();
     }
@@ -105,7 +105,8 @@ public class SecurityConfig
     {
         if (roles.contains("anon")) { return true; }
         if (session == null) { return false; }
-        @SuppressWarnings("unchecked") Set<String> userRoles = (Set<String>) session.getAttribute("role");
+        @SuppressWarnings("unchecked")
+        Set<String> userRoles = (Set<String>) session.getAttribute("role");
         for (String userRole : userRoles)
         {
             if (roles.contains(userRole)) { return true; }

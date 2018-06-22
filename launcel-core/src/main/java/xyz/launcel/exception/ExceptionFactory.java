@@ -15,7 +15,7 @@ public interface ExceptionFactory
     static void create(String code)
     {
         Map<String, String> map = ExceptionHelp.getMessage(code);
-        RootLogger.ERROR("{}", Json.toJson(map).replaceAll("\\{", "[").replaceAll("}", "]"));
+        RootLogger.error("{}", Json.toJson(map).replaceAll("\\{", "[").replaceAll("}", "]"));
         throw new ProfessionException(map.values().toString());
     }
 
@@ -36,7 +36,7 @@ public interface ExceptionFactory
     static void create(String code, String msg)
     {
         String sb = "[" + code + " : " + msg + "]";
-        RootLogger.ERROR(sb);
+        RootLogger.error(sb);
         throw new ProfessionException(msg);
     }
 }

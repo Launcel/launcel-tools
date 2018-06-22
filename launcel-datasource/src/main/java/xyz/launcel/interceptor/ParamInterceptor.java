@@ -50,7 +50,7 @@ public class ParamInterceptor implements Interceptor
                 //                System.out.println("=============================================================\n");
                 //                System.out.println("SQL：[" + sql + "]执行耗时[" + sqlCost + "ms]");
                 //                System.out.println("=============================================================");
-                RootLogger.INFO("SQL：[{}],执行耗时[{}ms]", sql, sqlCost);
+                RootLogger.info("SQL：[{}],执行耗时[{}ms]", sql, sqlCost);
             }
         }
     }

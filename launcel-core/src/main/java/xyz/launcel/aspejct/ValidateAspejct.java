@@ -3,12 +3,11 @@ package xyz.launcel.aspejct;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import xyz.launcel.annotation.Validate;
-import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.exception.SystemException;
 import xyz.launcel.json.Json;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.lang.ValidateUtils;
-import xyz.launcel.log.BaseLogger;
+import xyz.launcel.log.RootLogger;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -17,18 +16,18 @@ import java.util.Objects;
 /**
  * @author launcel
  */
-class ValidateAspejct extends BaseLogger
+class ValidateAspejct
 {
 
     void preparedArgs(JoinPoint joinPoint)
     {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method          method    = signature.getMethod();
-        if (isDebug())
+        if (RootLogger.isDebug())
         {
             if (method.getName().toLowerCase().contains("upload"))
             {
-                DEBUG("调用了：{}.upload* 方法,可能是上传文件,不输出参数,如有误,请重命名该方法,不要包含upload关键字", signature.getDeclaringTypeName());
+                RootLogger.debug("调用了：{}.upload* 方法,可能是上传文件,不输出参数,如有误,请重命名该方法,不要包含upload关键字", signature.getDeclaringTypeName());
                 return;
             }
             else
@@ -39,7 +38,7 @@ class ValidateAspejct extends BaseLogger
                 {
                     params = Json.toJson(temp);
                 }
-                DEBUG("调用了：{}.{} 方法 ：参数 \n{}", signature.getDeclaringTypeName(), method.getName(), params);
+                RootLogger.debug("调用了：{}.{} 方法 ：参数 \n{}", signature.getDeclaringTypeName(), method.getName(), params);
             }
         }
         Parameter[] params = method.getParameters();
@@ -65,11 +64,11 @@ class ValidateAspejct extends BaseLogger
     {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method          method    = signature.getMethod();
-        if (isDebug())
+        if (RootLogger.isDebug())
         {
             String returns = "";
             if (Objects.nonNull(object)) { returns = Json.toJson(object); }
-            DEBUG("调用了：{}.{} 方法结束 ：结果 \n{}", signature.getDeclaringTypeName(), method.getName(), returns);
+            RootLogger.debug("调用了：{}.{} 方法结束 ：结果 \n{}", signature.getDeclaringTypeName(), method.getName(), returns);
         }
     }
 }

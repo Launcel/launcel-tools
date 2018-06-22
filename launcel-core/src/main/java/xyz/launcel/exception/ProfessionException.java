@@ -20,7 +20,7 @@ public class ProfessionException extends RuntimeException {
     public ProfessionException(String code, String msg) {
         this(msg);
         String sb = "[" + code + " : " + msg + "]";
-        RootLogger.ERROR(sb);
+        RootLogger.error(sb);
     }
     
     protected ProfessionException(String message, Throwable cause) {

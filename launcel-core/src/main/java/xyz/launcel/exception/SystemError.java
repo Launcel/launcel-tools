@@ -23,7 +23,7 @@ public class SystemError extends Error
     {
         this(msg);
         String sb = "[" + code + " : " + msg + "]";
-        RootLogger.ERROR(sb);
+        RootLogger.error(sb);
     }
 
     SystemError(String message, Throwable cause)
