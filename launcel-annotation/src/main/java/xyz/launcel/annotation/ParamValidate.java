@@ -14,5 +14,5 @@ import java.lang.annotation.Target;
 @Inherited
 public @interface ParamValidate
 {
-    Class<?> group() default void.class;
+//    Class<?> group();
 }
