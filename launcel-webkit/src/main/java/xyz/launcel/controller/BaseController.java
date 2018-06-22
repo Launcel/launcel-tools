@@ -47,5 +47,4 @@ public abstract class BaseController extends BaseLogger {
     protected Response getFail(String msg) {
         return new Response(false, msg);
     }
-
 }

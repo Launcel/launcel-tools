@@ -4,5 +4,9 @@ public interface AnnotationConston
 {
     String point = "@annotation(xyz.launcel.annotation.ValidateMethod)";
 
-    String mapping = "@annotation(org.springframework.web.bind.annotation.RequestMapping)";
+    String mapping = "@annotation(org.springframework.web.bind.annotation.RequestMapping) " +
+            "|| @annotation(org.springframework.web.bind.annotation.GetMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.PostMapping) " +
+            "|| @annotation(org.springframework.web.bind.annotation.PutMapping) " +
+            "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)";
 }
