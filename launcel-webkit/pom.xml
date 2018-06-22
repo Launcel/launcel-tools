@@ -47,14 +47,14 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-            <optional>true</optional>
+            <!--<optional>true</optional>-->
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
-            <optional>true</optional>
+            <!--<optional>true</optional>-->
             <scope>compile</scope>
         </dependency>
 
