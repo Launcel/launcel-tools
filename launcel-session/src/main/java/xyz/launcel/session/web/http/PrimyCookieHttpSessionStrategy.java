@@ -106,8 +106,9 @@ public class PrimyCookieHttpSessionStrategy implements MultiHttpSessionStrategy,
 
     private Set<String> getSessionIdsWritten(HttpServletRequest request)
     {
-        String                                     SESSION_IDS_WRITTEN_ATTR = "xyz.launcel.session.web.http.PrimyCookieHttpSessionStrategy.SESSIONS_WRITTEN_ATTR";
-        @SuppressWarnings("unchecked") Set<String> sessionsWritten          = (Set<String>) request.getAttribute(SESSION_IDS_WRITTEN_ATTR);
+        String SESSION_IDS_WRITTEN_ATTR = "xyz.launcel.session.web.http.PrimyCookieHttpSessionStrategy.SESSIONS_WRITTEN_ATTR";
+        @SuppressWarnings("unchecked")
+        Set<String> sessionsWritten = (Set<String>) request.getAttribute(SESSION_IDS_WRITTEN_ATTR);
         if (sessionsWritten == null)
         {
             sessionsWritten = new HashSet<>();

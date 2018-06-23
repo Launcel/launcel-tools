@@ -67,7 +67,7 @@ public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter
         super.configureMessageConverters(converters);
     }
 
-    @ConditionalOnProperty(prefix = "web.cors", value = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "web.cors", value = "enabled", havingValue = "true", matchIfMissing = false)
     @Override
     public void addCorsMappings(CorsRegistry registry)
     {
@@ -83,19 +83,19 @@ public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter
         super.configureContentNegotiation(configurer);
     }
 
-    @ConditionalOnProperty(prefix = "web.global-exception", value = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "web.global-exception", value = "enabled", havingValue = "true", matchIfMissing = false)
     @Bean
     public GlobalExceptionHandle globalExceptionHandle() { return new GlobalExceptionHandle(); }
 
-    @ConditionalOnProperty(prefix = "web.aspejct", value = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "web.aspejct", value = "enabled", havingValue = "true", matchIfMissing = false)
     @Bean
     public ControllerParamValidateAspejct controllerParamValidateAspejct() { return new ControllerParamValidateAspejct(); }
 
-    @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true", matchIfMissing = false)
     @Bean(name = "upSDK")
     public UpSDK upSDK() { return new UpSDK(uploadProperties); }
 
-    @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true", matchIfMissing = false)
     @Bean
     @Primary
     MultipartConfigElement multipartConfigElement()
