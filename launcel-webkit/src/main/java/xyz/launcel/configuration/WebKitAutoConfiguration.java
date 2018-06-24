@@ -56,18 +56,11 @@ public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter
         GsonHttpMessageConverter converter   = new GsonHttpMessageConverter();
         GsonBuilder              gsonBuilder = new PrimyGsonBuilder().setDateFormat(jsonConverterProperties.getDateFormat()).getGsonBuilder();
         converter.setGson(gsonBuilder.create());
-
-        //        FastJsonConfig fastJsonConfig = new FastJsonConfig();
-        //        fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteDateUseDateFormat, SerializerFeature.PrettyFormat);
-        //        fastJsonConfig.setDateFormat(jsonConverterProperties.getDateFormat());
-        //        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
-        //        converter.setFastJsonConfig(fastJsonConfig);
         converters.add(converter);
-
         super.configureMessageConverters(converters);
     }
 
-    @ConditionalOnProperty(prefix = "web.cors", value = "enabled", havingValue = "true", matchIfMissing = false)
+    @ConditionalOnProperty(prefix = "web.cors", value = "enabled", havingValue = "true")
     @Override
     public void addCorsMappings(CorsRegistry registry)
     {
@@ -83,22 +76,22 @@ public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter
         super.configureContentNegotiation(configurer);
     }
 
-    @ConditionalOnProperty(prefix = "web.global-exception", value = "enabled", havingValue = "true", matchIfMissing = false)
+    @ConditionalOnProperty(prefix = "web.global-exception", value = "enabled", havingValue = "true")
     @Bean
     public GlobalExceptionHandle globalExceptionHandle() { return new GlobalExceptionHandle(); }
 
-    @ConditionalOnProperty(prefix = "web.aspejct", value = "enabled", havingValue = "true", matchIfMissing = false)
+    @ConditionalOnProperty(prefix = "web.aspejct", value = "enabled", havingValue = "true")
     @Bean
     public ControllerParamValidateAspejct controllerParamValidateAspejct() { return new ControllerParamValidateAspejct(); }
 
-    @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true", matchIfMissing = false)
+    @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
     @Bean(name = "upSDK")
     public UpSDK upSDK() { return new UpSDK(uploadProperties); }
 
-    @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true", matchIfMissing = false)
+    @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
     @Bean
     @Primary
-    MultipartConfigElement multipartConfigElement()
+    public MultipartConfigElement multipartConfigElement()
     {
         MultipartConfigFactory factory = new MultipartConfigFactory();
         factory.setMaxFileSize(uploadProperties.getMaxSize());
