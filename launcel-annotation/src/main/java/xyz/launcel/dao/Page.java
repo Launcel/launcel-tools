@@ -20,7 +20,7 @@ public class Page<T> implements Serializable
 
     private List<T> list;
 
-    private transient Integer maxRow = Integer.MAX_VALUE;
+    private transient Integer row = Integer.MAX_VALUE;
 
     private transient Integer lowerId;
 
@@ -46,27 +46,27 @@ public class Page<T> implements Serializable
         this.pageNo = pageNo;
     }
 
-    public Page(int maxRow)
+    public Page(int row)
     {
         this.pageNo = 1;
-        this.maxRow = maxRow;
+        this.row = row;
     }
 
-    public Page(Integer pageNo, Integer maxRow)
+    public Page(Integer pageNo, Integer row)
     {
         this.pageNo = pageNo;
-        this.maxRow = maxRow;
+        this.row = row;
     }
 
-    public Page(int maxRow, int lowerId)
+    public Page(int row, int lowerId)
     {
-        this.maxRow = maxRow;
+        this.row = row;
         this.lowerId = lowerId;
     }
 
-    public Page(int maxRow, Integer largeId)
+    public Page(int row, Integer largeId)
     {
-        this.maxRow = maxRow;
+        this.row = row;
         this.largeId = largeId;
     }
 
@@ -86,7 +86,7 @@ public class Page<T> implements Serializable
 
     public int getOffset()
     {
-        return (this.pageNo - 1) * this.maxRow;
+        return (this.pageNo - 1) * this.row;
     }
 
     public List<T> getList()
@@ -95,9 +95,9 @@ public class Page<T> implements Serializable
     }
 
 
-    public int getMaxRow()
+    public int getRow()
     {
-        return this.maxRow;
+        return this.row;
     }
 
 
@@ -128,9 +128,9 @@ public class Page<T> implements Serializable
         this.list = list;
     }
 
-    public void setMaxRow(Integer maxRow)
+    public void setRow(Integer row)
     {
-        this.maxRow = (maxRow == null || maxRow < 5 || maxRow > 20) ? 15 : maxRow;
+        this.row = (row == null || row < 5 || row > 20) ? 15 : row;
     }
 
     public void setPageNo(Integer pageNo)
@@ -140,7 +140,7 @@ public class Page<T> implements Serializable
 
     public void setTotal(Integer total)
     {
-        this.total = (getMaxRow() == 0) ? 1 : (int) Math.ceil(total * 1.0D / this.maxRow);
+        this.total = (getRow() == 0) ? 1 : (int) Math.ceil(total * 1.0D / this.row);
     }
 
     public void setLargeId(Integer largeId)

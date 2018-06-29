@@ -15,15 +15,15 @@ public class Response implements Serializable
 
     public Boolean getIsOk()               { return isOk; }
 
-    public void setIsOk(Boolean ok)        { isOk = ok; }
+    public Response setIsOk(Boolean ok)        { isOk = ok; return this; }
 
     public Object getData()                { return data; }
 
-    public void setData(Object object)     { this.data = object; }
+    public Response setData(Object object)     { this.data = object; return this; }
 
     public String getMessage()             { return message; }
 
-    public void setMessage(String message) { this.message = message; }
+    public Response setMessage(String message) { this.message = message; return this;}
 
     public Response(Boolean isOk, Object data, String message)
     {
@@ -37,6 +37,7 @@ public class Response implements Serializable
         this.isOk = isOk;
         this.data = data;
     }
+
 
     public Response(String message, Object data)
     {

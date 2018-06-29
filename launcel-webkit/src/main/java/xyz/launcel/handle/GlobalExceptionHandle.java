@@ -29,7 +29,8 @@ public class GlobalExceptionHandle
     @ExceptionHandler(value = NullPointerException.class)
     public Response nullPointerException(NullPointerException x)
     {
-        if (RootLogger.isDebug()) {
+        if (RootLogger.isDebug())
+        {
             RootLogger.debug(x.getMessage());
         }
         return response(x.getMessage());

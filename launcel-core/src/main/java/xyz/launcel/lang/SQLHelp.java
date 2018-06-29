@@ -80,8 +80,8 @@ public class SQLHelp
             });
         }
         sb.append(" LIMIT ");
-        if (p.getOffset() > 0) { sb.append(p.getOffset()).append(",").append(p.getMaxRow()); }
-        else { sb.append(p.getMaxRow()); }
+        if (p.getOffset() > 0) { sb.append(p.getOffset()).append(",").append(p.getRow()); }
+        else { sb.append(p.getRow()); }
 
         return sb.toString();
     }
