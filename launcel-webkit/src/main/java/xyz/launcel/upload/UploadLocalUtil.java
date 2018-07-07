@@ -1,8 +1,9 @@
-package xyz.launcel.upsdk;
+package xyz.launcel.upload;
 
 import org.springframework.web.multipart.MultipartFile;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.lang.StringUtils;
+import xyz.launcel.log.RootLogger;
 import xyz.launcel.properties.UploadProperties;
 
 import java.io.BufferedOutputStream;
@@ -13,22 +14,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @author Launcel
  */
-public class UpSDK
+public class UploadLocalUtil
 {
 
 
-    private UploadProperties properties;
+    private static UploadProperties properties;
 
-    public UpSDK(UploadProperties properties) { this.properties = properties; }
+    public static void init(UploadProperties properties) { UploadLocalUtil.properties = properties; }
 
-    public UpSDK()                            {}
-
-    public String upload(File file)
+    public static String save(File file)
     {
+        if (Objects.isNull(properties))
+        {
+            RootLogger.error("没有设置相关上传配置...");
+            return null;
+        }
+
         try
         {
             InputStream in = new FileInputStream(file);
@@ -55,7 +61,7 @@ public class UpSDK
         return null;
     }
 
-    private void check(InputStream in, Long size)
+    private static void check(InputStream in, Long size)
     {
         try { checkContent(in); }
         catch (IOException e) { e.printStackTrace(); }
@@ -91,7 +97,7 @@ public class UpSDK
         return null;
     }
 
-    private void checkSize(Long size)
+    private static void checkSize(Long size)
     {
         if (size < (properties.getMinSize())) { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的文件太小"); }
         if (size > properties.getMaxSize()) { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的文件大小超过限制"); }
@@ -102,12 +108,15 @@ public class UpSDK
      *
      * @param in
      */
-    private void checkContent(InputStream in) throws IOException
+    private static void checkContent(InputStream in) throws IOException
     {
         //        InputStream in = file.getInputStream();
         byte[] b = new byte[4];
         if (in == null) { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为无法识别的文件"); }
-        if ((in != null ? in.read(b, 0, b.length) : 0) < 4) { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的文件太小"); }
+        if ((in != null ? in.read(b, 0, b.length) : 0) < 4)
+        {
+            ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的文件太小");
+        }
         StringBuilder sb = new StringBuilder();
         String        hv;
         for (byte b1 : b)
@@ -120,7 +129,7 @@ public class UpSDK
         ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为不能接收的文件类型");
     }
 
-    private String getExt(String originalName)
+    private static String getExt(String originalName)
     {
         Integer index = originalName.lastIndexOf(".");
         if (index <= 0)
@@ -132,21 +141,21 @@ public class UpSDK
         return ext;
     }
 
-    private void checkFile(String ext)
+    private static void checkFile(String ext)
     {
         if (properties.getFileType().contains(ext.toLowerCase())) { return; }
         ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为不能接收的文件类型");
     }
 
-    private String getNewName(String oldName)    { return getNewFileName(getExt(oldName)); }
+    private static String getNewName(String oldName)    { return getNewFileName(getExt(oldName)); }
 
-    private String getSavePath(String newName)   { return File.separator + newName; }
+    private static String getSavePath(String newName)   { return File.separator + newName; }
 
-    private String getGenPath(String newName)    { return properties.getPath() + getSavePath(newName); }
+    private static String getGenPath(String newName)    { return properties.getPath() + getSavePath(newName); }
 
-    private String getDomainPath(String newName) { return properties.getDomain() + getSavePath(newName); }
+    private static String getDomainPath(String newName) { return properties.getDomain() + getSavePath(newName); }
 
-    private String getNewFileName(String ext)
+    private static String getNewFileName(String ext)
     {
         return new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd").format(new Date()) + File.separator + StringUtils.getUUID() + "." + ext;
     }

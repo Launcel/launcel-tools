@@ -17,9 +17,9 @@ public class SystemException extends RuntimeException
         super(message);
     }
 
-    public SystemException(String code, String msg) {
-        this(msg);
-        String sb = "[" + code + " : " + msg + "]";
+    public SystemException(String code, String message) {
+        this(message);
+        String sb = "[" + code + " : " + message + "]";
         RootLogger.error(sb);
     }
 

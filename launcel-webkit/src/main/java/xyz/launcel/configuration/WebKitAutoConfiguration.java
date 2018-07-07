@@ -21,7 +21,7 @@ import xyz.launcel.json.builder.PrimyGsonBuilder;
 import xyz.launcel.properties.CorsProperties;
 import xyz.launcel.properties.JsonConverterProperties;
 import xyz.launcel.properties.UploadProperties;
-import xyz.launcel.upsdk.UpSDK;
+import xyz.launcel.upload.UploadLocalUtil;
 
 import javax.servlet.MultipartConfigElement;
 import java.util.List;
@@ -85,8 +85,7 @@ public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter
     public ControllerParamValidateAspejct controllerParamValidateAspejct() { return new ControllerParamValidateAspejct(); }
 
     @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
-    @Bean(name = "upSDK")
-    public UpSDK upSDK() { return new UpSDK(uploadProperties); }
+    public void upSDK() { UploadLocalUtil.init(uploadProperties); }
 
     @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
     @Bean

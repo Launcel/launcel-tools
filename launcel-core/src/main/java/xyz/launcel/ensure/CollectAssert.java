@@ -19,14 +19,17 @@ public class CollectAssert
     public void isEmpty(String message)
     {
         if (CollectionUtils.isEmpty(collection))
+        {
             ExceptionFactory.create(message);
+        }
     }
 
 
     public void notEmpty(String message)
     {
         if (CollectionUtils.isNotEmpty(collection))
+        {
             ExceptionFactory.create(message);
+        }
     }
-
 }

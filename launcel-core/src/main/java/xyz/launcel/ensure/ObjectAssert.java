@@ -16,13 +16,11 @@ public class ObjectAssert
 
     public void isNull(String message)
     {
-        if (Objects.isNull(flat))
-            ExceptionFactory.create(message);
+        if (Objects.isNull(flat)) { ExceptionFactory.create(message); }
     }
 
     public void notNull(String message)
     {
-        if (Objects.nonNull(flat))
-            ExceptionFactory.create(message);
+        if (Objects.nonNull(flat)) { ExceptionFactory.create(message); }
     }
 }

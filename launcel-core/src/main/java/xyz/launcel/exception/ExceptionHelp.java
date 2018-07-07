@@ -2,6 +2,7 @@ package xyz.launcel.exception;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import xyz.launcel.lang.CollectionUtils;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.RootLogger;
 
@@ -33,11 +34,14 @@ public class ExceptionHelp
                 InputStreamReader inr = null;
                 try
                 {
-                    for (Resource resource : resources)
+                    if (!CollectionUtils.sizeIsEmpty(resources))
                     {
-                        in = resource.getInputStream();
-                        inr = new InputStreamReader(in, "UTF-8");
-                        props.load(inr);
+                        for (Resource resource : resources)
+                        {
+                            in = resource.getInputStream();
+                            inr = new InputStreamReader(in, "UTF-8");
+                            props.load(inr);
+                        }
                     }
                 }
                 finally
