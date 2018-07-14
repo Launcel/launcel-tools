@@ -35,7 +35,7 @@ public class ExcelUtils
         if (titles.length > 0 && CollectionUtils.isNotEmpty(list))
         {
             response.setContentType("application/ms-excel;charset=UTF-8");
-            String fileNameTmp = TimeFormatUtil.YYYY_MM_DD(new Date()) + "_" + fileName + ".xlsx";
+            String fileNameTmp = TimeFormatUtil.format(new Date(), "yyyy-MM-dd") + "_" + fileName + ".xlsx";
             try
             {
                 fileName = new String(fileNameTmp.getBytes("ISO8859_1"), Charset.forName("UTF-8"));
@@ -106,7 +106,7 @@ public class ExcelUtils
                 }
                 else if (value instanceof Date)
                 {
-                    row.createCell((short) n).setCellValue(TimeFormatUtil.YYYY_MM_DD((Date) value));
+                    row.createCell((short) n).setCellValue(TimeFormatUtil.format((Date) value, "yyyy-MM-dd"));
                 }
                 else
                 {

@@ -85,9 +85,6 @@ public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter
     public ControllerParamValidateAspejct controllerParamValidateAspejct() { return new ControllerParamValidateAspejct(); }
 
     @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
-    public void upSDK() { UploadLocalUtil.init(uploadProperties); }
-
-    @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
     @Bean
     @Primary
     public MultipartConfigElement multipartConfigElement()
@@ -95,6 +92,7 @@ public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter
         MultipartConfigFactory factory = new MultipartConfigFactory();
         factory.setMaxFileSize(uploadProperties.getMaxSize());
         factory.setMaxRequestSize(100);
+        UploadLocalUtil.init(uploadProperties);
         return factory.createMultipartConfig();
     }
 
