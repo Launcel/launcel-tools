@@ -61,7 +61,7 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
         }
         else
         {
-            throw new SystemError("_DEFINE_ERROR_CODE_010",">>>  datasource propertie config or mybatis propertie config is null !!");
+            throw new SystemError("_DEFINE_ERROR_CODE_010", ">>>  datasource propertie config or mybatis propertie config is null !!");
         }
         RootLogger.warn("SessionFactory registry success");
     }
@@ -72,7 +72,7 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
 
         if (Objects.isNull(mybatisPropertie))
         {
-            throw new SystemError("_DEFINE_ERROR_CODE_010",">>>  mybatis propertie config not find ref-name :" + dataSourcePropertie.getName() + " !!");
+            throw new SystemError("_DEFINE_ERROR_CODE_010", ">>>  mybatis propertie config not find ref-name :" + dataSourcePropertie.getName() + " !!");
         }
 
         String           sqlSessionFactoryBeanName = dataSourcePropertie.getName() + SessionFactoryConstant.sessionFactoryName;
@@ -105,9 +105,9 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
         sqlSession.addPropertyValue(SessionFactoryConstant.configLocationName, "classpath:mybatis/mybatis-config.xml");
         sqlSession.addPropertyValue(SessionFactoryConstant.typeAliasesPackageName, mybatisPropertie.getAliasesPackage());
 
-//        List<Interceptor> interceptors = new ArrayList<>(2);
-//        interceptors.add(new PageInterceptor());
-//        if (isDebugSql) { interceptors.add(new PageInterceptor()); }
+        //        List<Interceptor> interceptors = new ArrayList<>(2);
+        //        interceptors.add(new PageInterceptor());
+        //        if (isDebugSql) { interceptors.add(new PageInterceptor()); }
 
         sqlSession.addPropertyValue(SessionFactoryConstant.pluginName, Collections.singletonList(new PageInterceptor()));
         try
@@ -116,7 +116,7 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
         }
         catch (IOException e)
         {
-            throw new SystemError("_DEFINE_ERROR_CODE_010",">>>  connot load resource :" + mybatisPropertie.getMapperResource() + " !!");
+            throw new SystemError("_DEFINE_ERROR_CODE_010", ">>>  connot load resource :" + mybatisPropertie.getMapperResource() + " !!");
         }
         BeanDefinitionRegistryTool.registryBean(sqlSessionFactoryBeanName, registry, sqlSessionAbd);
     }
@@ -204,7 +204,7 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
         BindingResult bindingResult = dataBinder.getBindingResult();
         if (bindingResult.hasErrors())
         {
-            throw new SystemError("_DEFINE_ERROR_CODE_010","多数据源绑定失败！");
+            throw new SystemError("_DEFINE_ERROR_CODE_010", "多数据源绑定失败！");
         }
     }
 

@@ -42,7 +42,8 @@ public class PageInterceptor implements Interceptor, Serializable
             // 分页参数作为参数对象 parameter 的一个属性
             String sql = boundSql.getSql();
             if (StringUtils.isBlank(sql)) { return invocation.proceed(); }
-            @SuppressWarnings("unchecked") Map<String, Object> parameter = (Map<String, Object>) boundSql.getParameterObject();
+            @SuppressWarnings("unchecked")
+            Map<String, Object> parameter = (Map<String, Object>) boundSql.getParameterObject();
             if (parameter.isEmpty()) { return invocation.proceed(); }
             Page<?> p       = SQLHelp.getPaging(parameter);
             String  pageSql = SQLHelp.concatSql(sql, p);
