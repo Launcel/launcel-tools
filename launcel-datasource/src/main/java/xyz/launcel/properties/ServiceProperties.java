@@ -1,15 +1,16 @@
 package xyz.launcel.properties;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import xyz.launcel.constant.SessionFactoryConstant;
 
+@Getter
+@Setter
 @ConfigurationProperties(prefix = SessionFactoryConstant.serviceaAspejctPrefix)
 public class ServiceProperties
 {
-
     private Boolean enabled = false;
 
-    public Boolean getEnabled()             { return enabled; }
-
-    public void setEnabled(Boolean enabled) { this.enabled = enabled; }
 }

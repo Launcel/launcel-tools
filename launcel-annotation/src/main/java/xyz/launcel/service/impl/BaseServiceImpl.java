@@ -1,6 +1,7 @@
 package xyz.launcel.service.impl;
 
 import xyz.launcel.dao.BaseRepository;
+import xyz.launcel.dao.IdEntity;
 import xyz.launcel.dao.Page;
 import xyz.launcel.service.BaseService;
 
@@ -15,13 +16,14 @@ public abstract class BaseServiceImpl implements BaseService
     protected abstract BaseRepository getRepository();
 
     @Override
-    public <T, P> int add(P p)
+    public <T extends IdEntity> int add(T p)
     {
-        return getRepository().add(p);
+        getRepository().add(p);
+        return p.getId();
     }
 
     @Override
-    public <T, P> int update(P p)
+    public <T extends IdEntity> int update(T p)
     {
         return getRepository().update(p);
     }
@@ -33,34 +35,33 @@ public abstract class BaseServiceImpl implements BaseService
     }
 
     @Override
-    public <T, P> T query(P p)
+    public Integer count(Object o)
     {
-        return getRepository().query(p);
+        return getRepository().count(o);
     }
 
     @Override
-    public <T> T get(Integer id)
+    public <T extends IdEntity> T get(Integer id)
     {
         return getRepository().get(id);
     }
 
     @Override
-    public <T, P> Integer count(P p)
+    public <T extends IdEntity> T query(Object o)
     {
-        return getRepository().count(p);
+        return getRepository().query(o);
     }
 
     @Override
-    public <T, P> Page<T> queryPage(P p, Page<T> page)
+    public <T extends IdEntity> Page<T> queryPage(Object o, Page<T> page)
     {
-        Integer total = getRepository().count(p);
+        Integer total = getRepository().count(o);
         if (total != null && total > 0)
         {
-            List<T> list = getRepository().queryPage(p, page);
+            List<T> list = getRepository().queryPage(o, page);
             page.setTotal(total);
             page.setList(list);
         }
         return page;
     }
-
 }

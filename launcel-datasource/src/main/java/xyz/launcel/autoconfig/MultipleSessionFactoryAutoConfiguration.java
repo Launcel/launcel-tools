@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefiniti
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.bind.PropertySourceUtils;
 import org.springframework.boot.bind.RelaxedDataBinder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -44,12 +46,13 @@ import java.util.Objects;
 
 @Configuration
 @EnableConfigurationProperties(value = {DataSourceProperties.class, MybatisProperties.class})
+@EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRegistryPostProcessor, EnvironmentAware
 {
 
     private          List<DataSourcePropertie>     multipleDataSource    = new ArrayList<>();
     private          Map<String, MybatisPropertie> multipleMybatis       = new HashMap<>();
-    private volatile Boolean                       isFirstRoleDataSource = true;
+    private volatile boolean                       isFirstRoleDataSource = true;
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException

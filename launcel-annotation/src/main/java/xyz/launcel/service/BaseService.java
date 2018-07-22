@@ -1,5 +1,6 @@
 package xyz.launcel.service;
 
+import xyz.launcel.dao.IdEntity;
 import xyz.launcel.dao.Page;
 
 /**
@@ -8,18 +9,18 @@ import xyz.launcel.dao.Page;
 public interface BaseService
 {
 
-    <T, P> int add(P p);
+    <T extends IdEntity> int add(T o);
 
-    <T, P> int update(P p);
+    <T extends IdEntity> int update(T o);
+
+    <T extends IdEntity> T get(Integer id);
 
     int delete(Integer id);
 
-    <T, P> T query(P p);
+    <T extends IdEntity> T query(Object o);
 
-    <T> T get(Integer id);
+    <T extends IdEntity> Integer count(Object o);
 
-    <T, P> Integer count(P p);
-
-    <T, P> Page<T> queryPage(P p, Page<T> page);
+    <T extends IdEntity> Page<T> queryPage(Object o, Page<T> page);
 
 }

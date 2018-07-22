@@ -11,18 +11,18 @@ import java.util.List;
 public interface BaseRepository
 {
 
-    <T, P> T query(@Param("param") P p);
+    <T extends IdEntity> int add(T o);
 
-    <T, P> int add(P p);
+    <T extends IdEntity> int update(T o);
 
-    <T, P> int update(P p);
+    <T extends IdEntity> T get(Integer id);
 
     int delete(Integer id);
 
-    <T, P> Integer count(@Param("param") P p);
+    <T extends IdEntity> T query(@Param("param") Object o);
 
-    <T, P> List<T> queryPage(@Param("param") P p, @Param("page") Page<T> page);
+    Integer count(@Param("param") Object o);
 
-    <T> T get(Integer id);
+    <T extends IdEntity> List<T> queryPage(@Param("param") Object o, @Param("page") Page<T> page);
 
 }

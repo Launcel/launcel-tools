@@ -1,10 +1,15 @@
 package xyz.launcel.properties;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import xyz.launcel.constant.SessionFactoryConstant;
 
 import java.util.List;
 
+@Getter
+@Setter
 @ConfigurationProperties(prefix = SessionFactoryConstant.mybatisConfigPrefix)
 public class MybatisProperties
 {
@@ -13,26 +18,9 @@ public class MybatisProperties
 
     private List<MybatisPropertie> others;
 
-    public MybatisPropertie getMain()
-    {
-        return main;
-    }
-
-    public void setMain(MybatisPropertie main)
-    {
-        this.main = main;
-    }
-
-    public List<MybatisPropertie> getOthers()
-    {
-        return others;
-    }
-
-    public void setOthers(List<MybatisPropertie> others)
-    {
-        this.others = others;
-    }
-
+    @Getter
+    @Setter
+    @NoArgsConstructor
     public static class MybatisPropertie
     {
 
@@ -44,45 +32,6 @@ public class MybatisProperties
 
         private String mapperPackage;
 
-        public String getRefName()
-        {
-            return refName;
-        }
-
-        public void setRefName(String refName)
-        {
-            this.refName = refName;
-        }
-
-        public String getAliasesPackage()
-        {
-            return aliasesPackage;
-        }
-
-        public void setAliasesPackage(String aliasesPackage)
-        {
-            this.aliasesPackage = aliasesPackage;
-        }
-
-        public String getMapperResource()
-        {
-            return mapperResource;
-        }
-
-        public void setMapperResource(String mapperResource)
-        {
-            this.mapperResource = mapperResource;
-        }
-
-        public String getMapperPackage()
-        {
-            return mapperPackage;
-        }
-
-        public void setMapperPackage(String mapperPackage)
-        {
-            this.mapperPackage = mapperPackage;
-        }
     }
 
 
