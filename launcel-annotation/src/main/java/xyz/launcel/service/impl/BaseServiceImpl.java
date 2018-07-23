@@ -16,14 +16,14 @@ public abstract class BaseServiceImpl implements BaseService
     protected abstract BaseRepository getRepository();
 
     @Override
-    public <T extends IdEntity> int add(T p)
+    public <T> int add(T p)
     {
-        getRepository().add(p);
-        return p.getId();
+        return getRepository().add(p);
+        //        return p.getId();
     }
 
     @Override
-    public <T extends IdEntity> int update(T p)
+    public <T> int update(T p)
     {
         return getRepository().update(p);
     }
@@ -41,19 +41,19 @@ public abstract class BaseServiceImpl implements BaseService
     }
 
     @Override
-    public <T extends IdEntity> T get(Integer id)
+    public <T> T get(Integer id)
     {
         return getRepository().get(id);
     }
 
     @Override
-    public <T extends IdEntity> T query(Object o)
+    public <T> T query(Object o)
     {
         return getRepository().query(o);
     }
 
     @Override
-    public <T extends IdEntity> Page<T> queryPage(Object o, Page<T> page)
+    public <T> Page<T> queryPage(Object o, Page<T> page)
     {
         Integer total = getRepository().count(o);
         if (total != null && total > 0)

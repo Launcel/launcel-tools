@@ -71,7 +71,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
 
     @Bean(name = "redisConnectionFactory")
     @ConditionalOnMissingBean(name = "redisConnectionFactory")
-    public JedisConnectionFactory jedisConnectionFactory()
+    public RedisConnectionFactory jedisConnectionFactory()
     {
         JedisConnectionFactory factory = new JedisConnectionFactory();
         factory.setDatabase(properties.getDatabase());
@@ -87,11 +87,11 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     @Primary
     @Bean(name = "redisTemplate")
     @ConditionalOnBean(name = "redisConnectionFactory")
-    RedisTemplate<String, Object> redisTemplate(@Named("redisConnectionFactory") JedisConnectionFactory jedisConnectionFactory)
+    public RedisTemplate<String, ?> redisTemplate(@Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
     {
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(jedisConnectionFactory);
-        GsonRedisSerializer<Object> serializer = new GsonRedisSerializer<>(Object.class);
+        RedisTemplate<String, ?> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory);
+        GsonRedisSerializer<?> serializer = new GsonRedisSerializer<>(Object.class);
         template.setKeySerializer(serializer);
         template.setValueSerializer(serializer);
         template.setDefaultSerializer(serializer);
@@ -104,7 +104,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
 
     @Primary
     @Bean
-    public CacheManager cacheManager(RedisTemplate<String, Object> redisTemplate)
+    public CacheManager cacheManager(RedisTemplate<String, ?> redisTemplate)
     {
         return new RedisCacheManager(redisTemplate);
     }

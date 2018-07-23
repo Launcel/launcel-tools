@@ -48,7 +48,7 @@ public class SecurityAutoConfiguration extends WebMvcConfigurerAdapter
     }
 
     @Bean
-    JdbcRole jdbcRole()
+    public JdbcRole jdbcRole()
     {
         if (Objects.isNull(jdbcRolePropertites)) { return null; }
         JdbcRole jdbcRole = new JdbcRole();

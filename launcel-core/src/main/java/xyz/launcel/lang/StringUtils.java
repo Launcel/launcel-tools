@@ -57,7 +57,7 @@ public final class StringUtils
 
     public static String getUUID() { return UUID.randomUUID().toString().replaceAll("-", ""); }
 
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static Stream spiltStream(String strings, String split) { return Arrays.stream(strings.split(split)).filter(StringUtils::isNotBlank); }
 
     private static final Random RANDOM = new Random();

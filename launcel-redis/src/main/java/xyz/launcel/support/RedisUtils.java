@@ -20,7 +20,7 @@ public class RedisUtils
 {
 
     private static RedisTemplate<String, Object> template   = ApplicationContextHook.getBean("redisTemplate");
-    private static Long                          expireTime = ApplicationContextHook.getBean(RedisProperties.class).getExptime();
+    private static long                          expireTime = ApplicationContextHook.getBean(RedisProperties.class).getExptime();
 
     public static RedisTemplate<String, Object> getTemplate()
     {
@@ -76,10 +76,11 @@ public class RedisUtils
         return getTemplate().hasKey(key);
     }
 
-    public static Object get(final String key)
+    public static <T> T get(final String key)
     {
         vidate(key);
-        return getTemplate().opsForValue().get(key);
+        //noinspection unchecked
+        return (T) getTemplate().opsForValue().get(key);
     }
 
     public static boolean set(final String key, final Object value)
@@ -136,7 +137,7 @@ public class RedisUtils
         return getTemplate().execute((RedisCallback<String>) connection -> getCommands(connection).setex(key, expTime.intValue(), value));
     }
 
-    public static Object getAndSet(final String key, final Object value)
+    public static <T> T getAndSet(final String key, final T value)
     {
         vidate(value);
         if (!exits(key))
@@ -145,7 +146,8 @@ public class RedisUtils
         }
         //        return template.execute((RedisCallback<String>) connection ->
         //                Arrays.toString(connection.getSet(SafeEncoder.encode(key), SafeEncoder.encode(Json.toJson(value)))));
-        return getTemplate().opsForValue().getAndSet(key, value);
+        //noinspection unchecked
+        return (T) getTemplate().opsForValue().getAndSet(key, value);
     }
 
     public static Long getExpTime(final String key)
@@ -179,15 +181,15 @@ public class RedisUtils
     {
         if (StringUtils.isBlank(key))
         {
-            throw new SystemException("_REDIS__ERROR_CODE_011","redis key is null");
+            throw new SystemException("_REDIS__ERROR_CODE_011", "redis key is null");
         }
         if (Objects.isNull(value))
         {
-            throw new SystemException("_REDIS__ERROR_CODE_011","redis value is null");
+            throw new SystemException("_REDIS__ERROR_CODE_011", "redis value is null");
         }
         if (expTime == null || expTime <= 0)
         {
-            throw new SystemException("_REDIS__ERROR_CODE_011","redis expTime is error");
+            throw new SystemException("_REDIS__ERROR_CODE_011", "redis expTime is error");
         }
     }
 

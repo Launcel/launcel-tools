@@ -27,17 +27,16 @@ public class SecurityConfig
         return uris;
     }
 
-    @SuppressWarnings({"unchecked"})
     public static void setUris(Map<String, String[]> uriProp)
     {
         if (uriProp.isEmpty()) {return;}
         uriProp.forEach((key, value) -> uris.put(key, new HashSet<>(Arrays.asList(value))));
     }
 
-    @SuppressWarnings("unchecked")
     public static boolean isTransit(String requestUriString, HttpSession session)
     {
         if (requestUriString.isEmpty()) { return true; }
+        @SuppressWarnings("unchecked")
         List<String> requestUris = (List<String>) StringUtils.spiltStream(requestUriString, "/").collect(Collectors.toList());
         if (CollectionUtils.isEmpty(requestUris)) { return true; }
         Set<String>          tempRoleUris = new HashSet<>(uris.keySet());
@@ -52,6 +51,7 @@ public class SecurityConfig
                 {
                     return validateRole(uris.get(tempRoleUri), session);
                 }
+                @SuppressWarnings("unchecked")
                 List<String> roleUris = (List<String>) StringUtils.spiltStream(tempRoleUri, "/").collect(Collectors.toList());
                 if (null != roleUris.get(i))
                 {
