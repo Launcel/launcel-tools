@@ -16,10 +16,10 @@ public abstract class BaseServiceImpl implements BaseService
     protected abstract BaseRepository getRepository();
 
     @Override
-    public <T> int add(T p)
+    public <T extends IdEntity> int add(T p)
     {
-        return getRepository().add(p);
-        //        return p.getId();
+        getRepository().add(p);
+        return p.getId();
     }
 
     @Override

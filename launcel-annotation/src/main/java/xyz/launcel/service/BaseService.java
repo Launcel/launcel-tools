@@ -9,7 +9,7 @@ import xyz.launcel.dao.Page;
 public interface BaseService
 {
 
-    <T> int add(T o);
+    <T extends IdEntity> int add(T o);
 
     <T> int update(T o);
 
