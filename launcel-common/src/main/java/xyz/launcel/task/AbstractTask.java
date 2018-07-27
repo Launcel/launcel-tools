@@ -7,9 +7,11 @@
 
 package xyz.launcel.task;
 
-public abstract class AbstractTask {
+public interface AbstractTask {
     
-    public void execute(Thread thread) {
-        thread.start();
-    }
+//    public void execute(Thread thread) {
+//        thread.start();
+//    }
+
+    void process();
 }

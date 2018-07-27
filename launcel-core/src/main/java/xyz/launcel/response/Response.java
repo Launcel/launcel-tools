@@ -1,10 +1,21 @@
 package xyz.launcel.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 
 /**
  * Created by Launcel in 2017/9/20
  */
+@Getter
+@Setter
+@Accessors(chain = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Response implements Serializable
 {
 
@@ -12,25 +23,6 @@ public class Response implements Serializable
     private              Boolean isOk             = true;
     private              Object  data             = null;
     private              String  message;
-
-    public Boolean getIsOk()               { return isOk; }
-
-    public Response setIsOk(Boolean ok)        { isOk = ok; return this; }
-
-    public Object getData()                { return data; }
-
-    public Response setData(Object object)     { this.data = object; return this; }
-
-    public String getMessage()             { return message; }
-
-    public Response setMessage(String message) { this.message = message; return this;}
-
-    public Response(Boolean isOk, Object data, String message)
-    {
-        this.isOk = isOk;
-        this.data = data;
-        this.message = message;
-    }
 
     public Response(Boolean isOk, Object data)
     {
@@ -53,5 +45,4 @@ public class Response implements Serializable
 
     public Response(Boolean isOk) { this.isOk = isOk; }
 
-    public Response()             { }
 }

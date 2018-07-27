@@ -40,9 +40,9 @@ public abstract class BaseController extends BaseLogger
         Integer row;
         try
         {
-            row = StringUtils.isNotBlank(rowString) ? Integer.valueOf(rowString.trim()) : Integer.MAX_VALUE;
+            row = StringUtils.isNotBlank(rowString) ? Integer.valueOf(rowString.trim()) : 20;
         } catch (Exception x) {
-            row = Integer.MAX_VALUE;
+            row = 20;
         }
         return new Page<>(pageNo, row);
     }

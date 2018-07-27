@@ -128,19 +128,22 @@ public class Page<T> implements Serializable
         this.list = list;
     }
 
-    public void setRow(Integer row)
+    public Page<T> setRow(Integer row)
     {
-        this.row = (row == null || row < 5 || row > 20) ? 15 : row;
+        this.row = (row == null || row < 5 || row > 25) ? 15 : row;
+        return this;
     }
 
-    public void setPageNo(Integer pageNo)
+    public Page<T> setPageNo(Integer pageNo)
     {
-        this.pageNo = (null == pageNo || pageNo < 1) ? 15 : pageNo;
+        this.pageNo = (null == pageNo || pageNo < 1) ? 1 : pageNo;
+        return this;
     }
 
-    public void setTotal(Integer total)
+    public Page<T> setTotal(Integer total)
     {
         this.total = (getRow() == 0) ? 1 : (int) Math.ceil(total * 1.0D / this.row);
+        return this;
     }
 
     public void setLargeId(Integer largeId)
@@ -159,15 +162,17 @@ public class Page<T> implements Serializable
         return orderBy;
     }
 
-    public void setOrderBy(String orderByCol, OrderSqlEnum orderRule)
+    public Page<T> setOrderBy(String orderByCol, OrderSqlEnum orderRule)
     {
         if (Objects.isNull(this.orderBy)) { this.orderBy = new LinkedHashMap<>(); }
         this.orderBy.put(orderByCol, orderRule);
+        return this;
     }
 
-    public void setOrderBy(LinkedHashMap<String, OrderSqlEnum> orderBy)
+    public Page<T> setOrderBy(LinkedHashMap<String, OrderSqlEnum> orderBy)
     {
         this.orderBy = orderBy;
+        return this;
     }
 
     public Set<String> getGroupBy()
@@ -175,14 +180,16 @@ public class Page<T> implements Serializable
         return groupBy;
     }
 
-    public void setGroupBy(Set<String> groupBy)
+    public Page<T> setGroupBy(Set<String> groupBy)
     {
         this.groupBy = groupBy;
+        return this;
     }
 
-    public void setGroupBy(String groupBy)
+    public Page<T> setGroupBy(String groupBy)
     {
         if (Objects.isNull(this.groupBy)) { this.groupBy = new HashSet<>(); }
         this.groupBy.add(groupBy);
+        return this;
     }
 }
