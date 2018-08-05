@@ -2,6 +2,7 @@ package xyz.launcel.upload;
 
 import org.springframework.web.multipart.MultipartFile;
 import xyz.launcel.exception.ExceptionFactory;
+import xyz.launcel.exception.ProfessionException;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.RootLogger;
 import xyz.launcel.properties.UploadProperties;
@@ -31,8 +32,7 @@ public class UploadLocalUtil
     {
         if (Objects.isNull(properties))
         {
-            RootLogger.error("没有设置相关上传配置...");
-            return null;
+            throw new ProfessionException("", "没有设置相关上传配置...");
         }
 
         try
@@ -71,7 +71,6 @@ public class UploadLocalUtil
 
     /**
      * @param file
-     *
      * @return net resource url
      */
     public String upload(MultipartFile file)

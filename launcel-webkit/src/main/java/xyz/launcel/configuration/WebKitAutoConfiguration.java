@@ -91,7 +91,7 @@ public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter
     {
         MultipartConfigFactory factory = new MultipartConfigFactory();
         factory.setMaxFileSize(uploadProperties.getMaxSize());
-        factory.setMaxRequestSize(100);
+        factory.setMaxRequestSize(uploadProperties.getMaxSize());
         UploadLocalUtil.init(uploadProperties);
         return factory.createMultipartConfig();
     }

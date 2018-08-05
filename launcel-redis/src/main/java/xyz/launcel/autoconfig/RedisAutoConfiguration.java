@@ -18,6 +18,7 @@ import org.springframework.data.redis.connection.lettuce.DefaultLettucePool;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettucePool;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import redis.clients.jedis.JedisPoolConfig;
 import xyz.launcel.lang.Base64;
 import xyz.launcel.log.RootLogger;
@@ -93,7 +94,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
         template.setConnectionFactory(redisConnectionFactory);
         GsonRedisSerializer<?> serializer = new GsonRedisSerializer<>(Object.class);
         template.setKeySerializer(serializer);
-        template.setValueSerializer(serializer);
+        template.setValueSerializer(new JdkSerializationRedisSerializer());
         template.setDefaultSerializer(serializer);
         template.setHashKeySerializer(serializer);
         template.setHashValueSerializer(serializer);

@@ -19,7 +19,7 @@ public enum DeviceType
 
     DeviceType() {}
 
-    public static DeviceType getDevice(String deviceName)
+    public static DeviceType getDevice(final String deviceName)
     {
         if (deviceName != null && !Objects.equals(deviceName, ""))
         {

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,11 +14,11 @@ import java.util.List;
 public class UploadProperties
 {
 
-    private Boolean enabled = false;
-    private String  domain  = "";
-    private Long    maxSize = (long) Integer.MAX_VALUE;
-    private Long    minSize = 1024L;
-    private String path;
+    private Boolean      enabled  = false;
+    private String       domain   = "";
+    private Long         maxSize  = (long) Integer.MAX_VALUE;
+    private Long         minSize  = 1024L;
+    private String       path     = File.separator + "Users" + File.separator + "tmp" + File.separator + "upload";
     /**
      * 多种文件类型
      */

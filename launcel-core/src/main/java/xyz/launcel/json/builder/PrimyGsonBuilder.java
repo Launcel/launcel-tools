@@ -33,8 +33,11 @@ public class PrimyGsonBuilder
         gsonBuilder = new GsonBuilder().setDateFormat(DateFormat.LONG).
                 serializeSpecialFloatingPointValues().setPrettyPrinting().
                 setLongSerializationPolicy(LongSerializationPolicy.DEFAULT).
-                registerTypeAdapter(new TypeToken<Map<String, Object>>()
-                {}.getType(), new PrimyJsonDeserializer());
+                registerTypeAdapter(new TypeToken<Map<String, Object>>() {}.getType(), new PrimyJsonDeserializer());
+
+//        gsonBuilder = new GsonBuilder().setDateFormat(DateFormat.LONG).
+//                serializeSpecialFloatingPointValues().setPrettyPrinting().
+//                setLongSerializationPolicy(LongSerializationPolicy.DEFAULT);
     }
 
     public GsonBuilder getGsonBuilder()
@@ -62,6 +65,10 @@ public class PrimyGsonBuilder
 
     static class MapTypeAdapter extends TypeAdapter<Object>
     {
+
+        public MapTypeAdapter()
+        {
+        }
 
         @Override
         public void write(JsonWriter out, Object value) { }

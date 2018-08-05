@@ -55,14 +55,8 @@ public class RedisUtils
 
     public static void remove(final String key)
     {
-        if (exits(key))
-        {
-            getTemplate().delete(key);
-        }
-        else
-        {
-            throw new SystemException("_REDIS__ERROR_CODE_011", "redis cannot find the value of this key");
-        }
+        vidate(key);
+        getTemplate().delete(key);
     }
 
     public static void bentchRemove(final String pattern)
@@ -93,7 +87,7 @@ public class RedisUtils
         return set(key, value, expTime, TimeUnit.SECONDS);
     }
 
-    public static boolean set(final String key, final Object value, final Long expTime, TimeUnit timeUnit)
+    public static boolean set(final String key, final Object value, final Long expTime, final TimeUnit timeUnit)
     {
         try
         {
@@ -120,32 +114,9 @@ public class RedisUtils
         return StringUtils.isBlank(str);
     }
 
-    /**
-     * RedisTemplate set方法默认使用的是jedis的setEX
-     */
-    public static String setEX(final String key, String value)
-    {
-        return setEX(key, value, getExpireTime());
-    }
-
-    /**
-     * RedisTemplate set方法默认使用的是jedis的setEX
-     */
-    public static String setEX(final String key, final String value, final Long expTime)
-    {
-        vidate(key, value, expTime);
-        return getTemplate().execute((RedisCallback<String>) connection -> getCommands(connection).setex(key, expTime.intValue(), value));
-    }
-
     public static <T> T getAndSet(final String key, final T value)
     {
         vidate(value);
-        if (!exits(key))
-        {
-            throw new SystemException("_REDIS__ERROR_CODE_011", "redis cannot find the value of this key");
-        }
-        //        return template.execute((RedisCallback<String>) connection ->
-        //                Arrays.toString(connection.getSet(SafeEncoder.encode(key), SafeEncoder.encode(Json.toJson(value)))));
         //noinspection unchecked
         return (T) getTemplate().opsForValue().getAndSet(key, value);
     }
