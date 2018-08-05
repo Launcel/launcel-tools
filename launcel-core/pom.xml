@@ -4,7 +4,7 @@
     <parent>
         <groupId>xyz.launcel</groupId>
         <artifactId>launcel-parent</artifactId>
-        <version>1.2</version>
+        <version>1.3</version>
     </parent>
 
     <developers>
@@ -18,7 +18,6 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>launcel-core</artifactId>
-    <version>${build.version}</version>
     <packaging>jar</packaging>
 
     <description>
@@ -30,9 +29,10 @@
 
     <dependencies>
 
+
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
+            <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
 
         <dependency>
@@ -62,15 +62,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>1.7.25</version>
-        </dependency>
-
-        <dependency>
             <groupId>xyz.launcel</groupId>
             <artifactId>launcel-annotation</artifactId>
-            <version>${build.version}</version>
+            <version>${parent.version}</version>
         </dependency>
 
         <dependency>
