@@ -27,7 +27,7 @@
             <dependency>
                 <groupId>xyz.launcel</groupId>
                 <artifactId>launcel-core</artifactId>
-                <version>${build.version}</version>
+                <version>${parent.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
