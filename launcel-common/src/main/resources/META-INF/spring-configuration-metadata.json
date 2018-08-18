@@ -1,0 +1,29 @@
+{
+    "groups": [
+        {
+            "name": "common.executor",
+            "type": "xyz.launcel.properties.ThreadPoolProperties",
+            "sourceType": "xyz.launcel.properties.ThreadPoolProperties"
+        }
+    ],
+    "properties": [
+        {
+            "name": "common.executor.core-pool-size",
+            "type": "java.lang.Integer",
+            "defaultValue": 1,
+            "sourceType": "xyz.launcel.properties.ThreadPoolProperties"
+        },
+        {
+            "name": "common.executor.max-pool-size",
+            "type": "java.lang.Integer",
+            "defaultValue": 8,
+            "sourceType": "xyz.launcel.properties.ThreadPoolProperties"
+        },
+        {
+            "name": "common.executor.queue-capacity",
+            "type": "java.lang.Integer",
+            "defaultValue": 10,
+            "sourceType": "xyz.launcel.properties.ThreadPoolProperties"
+        }
+    ]
+}

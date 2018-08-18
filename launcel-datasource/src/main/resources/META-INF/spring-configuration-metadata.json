@@ -2,7 +2,7 @@
   "groups": [
     {
       "name": "db.jdbc",
-      "type": "xyz.launcel.prop.DataSourceProperties",
+      "type": "xyz.launcel.properties.DataSourceProperties",
       "sourceType": "xyz.launcel.properties.DataSourceProperties"
     },
     {
