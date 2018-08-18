@@ -38,8 +38,9 @@ public class ResultSetInterceptor implements Interceptor, Serializable
     @Override
     public Object intercept(Invocation invocation) throws Throwable
     {
-        @SuppressWarnings("unused") Statement stmt   = (Statement) invocation.getArgs()[0];
-        ResultSetHandler                      target = (ResultSetHandler) invocation.getTarget();
+        @SuppressWarnings("unused")
+        Statement        stmt   = (Statement) invocation.getArgs()[0];
+        ResultSetHandler target = (ResultSetHandler) invocation.getTarget();
         //利用反射获取到DefaultResultSetHandler的ParameterHandler属性，从而获取到ParameterObject
         MetaObject      metaObject      = SystemMetaObject.forObject(target);
         MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("mappedStatement");
@@ -50,8 +51,9 @@ public class ResultSetInterceptor implements Interceptor, Serializable
         if (Arrays.asList(superMethod).contains(selectId))
         {
             RootLogger.debug("调用 BaseRepository");
-            BoundSql                                           boundSql  = (BoundSql) metaObject.getValue("boundSql");
-            @SuppressWarnings("unchecked") Map<String, Object> parameter = (Map<String, Object>) boundSql.getParameterObject();
+            BoundSql            boundSql  = (BoundSql) metaObject.getValue("boundSql");
+            @SuppressWarnings("unchecked")
+            Map<String, Object> parameter = (Map<String, Object>) boundSql.getParameterObject();
             if (parameter == null)
                 return invocation.proceed();
             clazz = SQLHelp.getClazz(parameter);

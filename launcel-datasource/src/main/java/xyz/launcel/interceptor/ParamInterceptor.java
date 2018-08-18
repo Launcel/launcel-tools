@@ -1,58 +1,138 @@
 package xyz.launcel.interceptor;
 
-import org.apache.ibatis.executor.parameter.ParameterHandler;
-import org.apache.ibatis.executor.statement.StatementHandler;
+import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
+import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
-import xyz.launcel.lang.StringUtils;
+import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.RowBounds;
+import org.apache.ibatis.type.TypeHandlerRegistry;
+import xyz.launcel.lang.CollectionUtils;
 import xyz.launcel.log.RootLogger;
 
-import java.lang.reflect.Field;
-import java.sql.PreparedStatement;
-import java.util.Collection;
-import java.util.HashMap;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 import java.util.Properties;
+import java.util.regex.Matcher;
 
-@Intercepts({@Signature(type = ParameterHandler.class, method = "setParameters", args = PreparedStatement.class)})
+@Intercepts({@Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}), @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})})
 public class ParamInterceptor implements Interceptor
 {
-
     @Override
     public Object intercept(Invocation invocation) throws Throwable
     {
-        StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
-        long             startTime        = System.nanoTime();
         try
         {
-            return invocation.proceed();
-        }
-        finally
-        {
-            long endTime = System.nanoTime();
-            long sqlCost = endTime - startTime;
-
-            BoundSql               boundSql             = statementHandler.getBoundSql();
-            String                 sql                  = boundSql.getSql();
-            Object                 parameterObject      = boundSql.getParameterObject();
-            List<ParameterMapping> parameterMappingList = boundSql.getParameterMappings();
-
-            // 格式化Sql语句，去除换行符，替换参数
-            sql = formatSql(sql, parameterObject, parameterMappingList);
-            if (StringUtils.isNotBlank(sql))
+            MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];  // 获取xml中的一个select/update/insert/delete节点，主要描述的是一条SQL语句
+            Object          parameter       = null;
+            // 获取参数，if语句成立，表示sql语句有参数，参数格式是map形式
+            if (invocation.getArgs().length > 1)
             {
-                //                System.out.println("=============================================================\n");
-                //                System.out.println("SQL：[" + sql + "]执行耗时[" + sqlCost + "ms]");
-                //                System.out.println("=============================================================");
-                RootLogger.info("SQL：[{}],执行耗时[{}ms]", sql, sqlCost);
+                parameter = invocation.getArgs()[1];
+            }
+            String        sqlId         = mappedStatement.getId(); // 获取到节点的id,即sql语句的id
+            BoundSql      boundSql      = mappedStatement.getBoundSql(parameter);  // BoundSql就是封装myBatis最终产生的sql类
+            Configuration configuration = mappedStatement.getConfiguration();  // 获取节点的配置
+            String        sql           = getSql(configuration, boundSql, sqlId); // 获取到最终的sql语句
+            RootLogger.debug("sql = " + sql);
+        }
+        catch (Exception x)
+        {
+            throw x;
+        }
+        return invocation.proceed();  // 执行完上面的任务后，不改变原有的sql执行过程
+    }
+
+    // 封装了一下sql语句，使得结果返回完整xml路径下的sql语句节点id + sql语句
+    private static String getSql(Configuration configuration, BoundSql boundSql, String sqlId)
+    {
+        String sql = showSql(configuration, boundSql);
+        return sqlId + ":" + sql;
+    }
+
+    /**
+     * 如果参数是String，则添加单引号， 如果是日期，则转换为时间格式器并加单引号； 对参数是null和不是null的情况作了处理<br>
+     */
+
+    private static String getParameterValue(Object obj)
+    {
+        String value;
+        if (obj instanceof String)
+        {
+            value = "'" + obj.toString() + "'";
+        }
+        else if (obj instanceof Date)
+        {
+            DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.CHINA);
+            value = "'" + formatter.format(new Date()) + "'";
+        }
+        else
+        {
+            if (obj != null)
+            {
+                value = obj.toString();
+            }
+            else
+            {
+                value = "";
+            }
+
+        }
+        return value;
+    }
+    // 进行？的替换
+
+    private static String showSql(Configuration configuration, BoundSql boundSql)
+    {
+        Object                 parameterObject   = boundSql.getParameterObject();
+        List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
+        // sql语句中多个空格都用一个空格代替
+        String sql = boundSql.getSql().replaceAll("[\\s]+", " ");
+        if (CollectionUtils.isNotEmpty(parameterMappings) && parameterObject != null)
+        {
+            // 获取类型处理器注册器，类型处理器的功能是进行java类型和数据库类型的转换
+            TypeHandlerRegistry typeHandlerRegistry = configuration.getTypeHandlerRegistry();
+            // 如果根据parameterObject.getClass(）可以找到对应的类型，则替换
+            if (typeHandlerRegistry.hasTypeHandler(parameterObject.getClass()))
+            {
+                sql = sql.replaceFirst("\\?", Matcher.quoteReplacement(getParameterValue(parameterObject)));
+            }
+            else
+            {
+                // MetaObject主要是封装了originalObject对象，提供了get和set的方法用于获取和设置originalObject的属性值,
+                // 主要支持对JavaBean、Collection、Map三种类型对象的操作
+                MetaObject metaObject = configuration.newMetaObject(parameterObject);
+                for (ParameterMapping parameterMapping : parameterMappings)
+                {
+                    String propertyName = parameterMapping.getProperty();
+                    if (metaObject.hasGetter(propertyName))
+                    {
+                        Object obj = metaObject.getValue(propertyName);
+                        sql = sql.replaceFirst("\\?", Matcher.quoteReplacement(getParameterValue(obj)));
+                    }
+                    else if (boundSql.hasAdditionalParameter(propertyName))
+                    {
+                        // 该分支是动态sql
+                        Object obj = boundSql.getAdditionalParameter(propertyName);
+                        sql = sql.replaceFirst("\\?", Matcher.quoteReplacement(getParameterValue(obj)));
+                    }
+                    else
+                    {
+                        sql = sql.replaceFirst("\\?", "缺失");
+                    }
+                }
             }
         }
+        return sql;
     }
 
     @Override
@@ -62,305 +142,6 @@ public class ParamInterceptor implements Interceptor
     }
 
     @Override
-    public void setProperties(Properties properties)
-    {
-
-    }
-
-    @SuppressWarnings("unchecked")
-    private String formatSql(String sql, Object parameterObject, List<ParameterMapping> parameterMappingList)
-    {
-        // 输入sql字符串空判断
-        if (sql == null || sql.length() == 0)
-        {
-            return "";
-        }
-
-        // 美化sql
-        sql = beautifySql(sql);
-
-        // 不传参数的场景，直接把Sql美化一下返回出去
-        if (parameterObject == null || parameterMappingList == null || parameterMappingList.size() == 0)
-        {
-            return sql;
-        }
-
-        // 定义一个没有替换过占位符的sql，用于出异常时返回
-        String sqlWithoutReplacePlaceholder = sql;
-
-        try
-        {
-            Class<?> parameterObjectClass = parameterObject.getClass();
-
-            // 如果参数是StrictMap且Value类型为Collection，获取key="list"的属性，这里主要是为了处理<foreach>循环时传入List这种参数的占位符替换
-            // 例如select * from xxx where id in <foreach collection="list">...</foreach>
-            if (isStrictMap(parameterObjectClass))
-            {
-                StrictMap<Collection<?>> strictMap = (StrictMap<Collection<?>>) parameterObject;
-
-                if (isList(strictMap.get("list").getClass()))
-                {
-                    sql = handleListParameter(sql, strictMap.get("list"));
-                }
-            }
-            else if (isMap(parameterObjectClass))
-            {
-                // 如果参数是Map则直接强转，通过map.get(key)方法获取真正的属性值
-                // 这里主要是为了处理<insert>、<delete>、<update>、<select>时传入parameterType为map的场景
-                Map<?, ?> paramMap = (Map<?, ?>) parameterObject;
-                sql = handleMapParameter(sql, paramMap, parameterMappingList);
-            }
-            else
-            {
-                // 通用场景，比如传的是一个自定义的对象或者八种基本数据类型之一或者String
-                sql = handleCommonParameter(sql, parameterMappingList, parameterObjectClass, parameterObject);
-            }
-        }
-        catch (Exception e)
-        {
-            // 占位符替换过程中出现异常，则返回没有替换过占位符但是格式美化过的sql，这样至少保证sql语句比BoundSql中的sql更好看
-            return sqlWithoutReplacePlaceholder;
-        }
-        return sql;
-    }
-
-    /**
-     * 美化Sql
-     */
-    private String beautifySql(String sql)
-    {
-        sql = sql.replace("\n", "").replace("\t", "").replace("  ", " ").replace("( ", "(").replace(" )", ")").replace(" ,", ",");
-
-        return sql;
-    }
-
-    /**
-     * 处理参数为List的场景
-     */
-    private String handleListParameter(String sql, Collection<?> col)
-    {
-        if (col != null && col.size() != 0)
-        {
-            for (Object obj : col)
-            {
-                String   value    = null;
-                Class<?> objClass = obj.getClass();
-
-                // 只处理基本数据类型、基本数据类型的包装类、String这三种
-                // 如果是复合类型也是可以的，不过复杂点且这种场景较少，写代码的时候要判断一下要拿到的是复合类型中的哪个属性
-                if (isPrimitiveOrPrimitiveWrapper(objClass))
-                {
-                    value = obj.toString();
-                }
-                else if (objClass.isAssignableFrom(String.class))
-                {
-                    value = "\"" + obj.toString() + "\"";
-                }
-                if (StringUtils.isNotBlank(value))
-                {
-                    sql = sql.replaceFirst("\\?", value);
-                }
-            }
-        }
-
-        return sql;
-    }
-
-    /**
-     * 处理参数为Map的场景
-     */
-    private String handleMapParameter(String sql, Map<?, ?> paramMap, List<ParameterMapping> parameterMappingList)
-    {
-        for (ParameterMapping parameterMapping : parameterMappingList)
-        {
-            Object propertyName  = parameterMapping.getProperty();
-            Object propertyValue = paramMap.get(propertyName);
-            if (propertyValue != null)
-            {
-                if (propertyValue.getClass().isAssignableFrom(String.class))
-                {
-                    propertyValue = "\"" + propertyValue + "\"";
-                }
-
-                sql = sql.replaceFirst("\\?", propertyValue.toString());
-            }
-        }
-
-        return sql;
-    }
-
-    /**
-     * 处理通用的场景
-     */
-    private String handleCommonParameter(String sql, List<ParameterMapping> parameterMappingList, Class<?> parameterObjectClass, Object parameterObject) throws Exception
-    {
-        for (ParameterMapping parameterMapping : parameterMappingList)
-        {
-            String propertyValue;
-            // 基本数据类型或者基本数据类型的包装类，直接toString即可获取其真正的参数值，其余直接取paramterMapping中的property属性即可
-            if (isPrimitiveOrPrimitiveWrapper(parameterObjectClass))
-            {
-                propertyValue = parameterObject.toString();
-            }
-            else
-            {
-                String propertyName = parameterMapping.getProperty();
-
-                Field field = parameterObjectClass.getDeclaredField(propertyName);
-                // 要获取Field中的属性值，这里必须将私有属性的accessible设置为true
-                field.setAccessible(true);
-                propertyValue = String.valueOf(field.get(parameterObject));
-                if (parameterMapping.getJavaType().isAssignableFrom(String.class))
-                {
-                    propertyValue = "\"" + propertyValue + "\"";
-                }
-            }
-
-            sql = sql.replaceFirst("\\?", propertyValue);
-        }
-
-        return sql;
-    }
-
-    /**
-     * 是否基本数据类型或者基本数据类型的包装类
-     */
-    private boolean isPrimitiveOrPrimitiveWrapper(Class<?> parameterObjectClass)
-    {
-        return parameterObjectClass.isPrimitive() || (parameterObjectClass.isAssignableFrom(Byte.class) || parameterObjectClass.isAssignableFrom(Short.class) || parameterObjectClass.isAssignableFrom(Integer.class) || parameterObjectClass.isAssignableFrom(Long.class) || parameterObjectClass.isAssignableFrom(Double.class) || parameterObjectClass.isAssignableFrom(Float.class) || parameterObjectClass.isAssignableFrom(Character.class) || parameterObjectClass.isAssignableFrom(Boolean.class));
-    }
-
-    /**
-     * 是否DefaultSqlSession的内部类StrictMap
-     */
-    private boolean isStrictMap(Class<?> parameterObjectClass)
-    {
-        return parameterObjectClass.isAssignableFrom(StrictMap.class);
-    }
-
-    /**
-     * 是否List的实现类
-     */
-    private boolean isList(Class<?> clazz)
-    {
-        Class<?>[] interfaceClasses = clazz.getInterfaces();
-        for (Class<?> interfaceClass : interfaceClasses)
-        {
-            if (interfaceClass.isAssignableFrom(List.class))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * 是否Map的实现类
-     */
-    private boolean isMap(Class<?> parameterObjectClass)
-    {
-        Class<?>[] interfaceClasses = parameterObjectClass.getInterfaces();
-        for (Class<?> interfaceClass : interfaceClasses)
-        {
-            if (interfaceClass.isAssignableFrom(Map.class))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-
-    protected static class StrictMap<V> extends HashMap<String, V>
-    {
-        private static final long serialVersionUID = -4950446264854982944L;
-        private final String name;
-
-        public StrictMap(String name, int initialCapacity, float loadFactor)
-        {
-            super(initialCapacity, loadFactor);
-            this.name = name;
-        }
-
-        public StrictMap(String name, int initialCapacity)
-        {
-            super(initialCapacity);
-            this.name = name;
-        }
-
-        public StrictMap(String name)
-        {
-            this.name = name;
-        }
-
-        public StrictMap(String name, Map<String, ? extends V> m)
-        {
-            super(m);
-            this.name = name;
-        }
-
-        public V put(String key, V value)
-        {
-            if (this.containsKey(key))
-            {
-                throw new IllegalArgumentException(this.name + " already contains value for " + key);
-            }
-            else
-            {
-                if (key.contains("."))
-                {
-                    String shortKey = this.getShortName(key);
-                    if (get(shortKey) == null)
-                    {
-                        put(shortKey, value);
-                    }
-                    else
-                    {
-                        //noinspection unchecked
-                        Ambiguity<V> ambiguity = new Ambiguity(shortKey);
-                        put(shortKey, ambiguity.getSubject());
-                    }
-                }
-
-                return put(key, value);
-            }
-        }
-
-        public V get(Object key)
-        {
-            V value = super.get(key);
-            if (value == null)
-            {
-                throw new IllegalArgumentException(this.name + " does not contain value for " + key);
-            }
-            else
-            {
-                return value;
-            }
-        }
-
-        private String getShortName(String key)
-        {
-            String[] keyParts = key.split("\\.");
-            return keyParts[keyParts.length - 1];
-        }
-
-        static class Ambiguity<V>
-        {
-            private final V subject;
-
-            Ambiguity(V subject)
-            {
-                this.subject = subject;
-            }
-
-            V getSubject()
-            {
-                return this.subject;
-            }
-        }
-    }
+    public void setProperties(Properties properties) {}
 
 }

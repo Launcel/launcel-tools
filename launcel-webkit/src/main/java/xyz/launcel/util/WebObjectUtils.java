@@ -1,7 +1,7 @@
 package xyz.launcel.util;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.io.IOUtils;
 import org.springframework.web.util.WebUtils;
 import xyz.launcel.json.Json;
@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class WebObjectUtils
 {
-    public static JsonObject parseParamFromRequest(HttpServletRequest request)
+    public static JSONObject parseParamFromRequest(HttpServletRequest request)
     {
         String              paramInput   = null;
         Map<String, Object> parameterMap = WebUtils.getParametersStartingWith(request, null);
@@ -38,6 +38,6 @@ public class WebObjectUtils
                 e.printStackTrace();
             }
         }
-        return new JsonParser().parse(paramInput).getAsJsonObject();
+        return JSON.parseObject(paramInput);
     }
 }

@@ -1,6 +1,7 @@
 package xyz.launcel.autoconfig;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.BeansException;
@@ -21,9 +22,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import xyz.launcel.aspejct.ServerAspejct;
+import xyz.launcel.bean.context.BeanDefinitionRegistryTool;
 import xyz.launcel.constant.SessionFactoryConstant;
 import xyz.launcel.exception.SystemError;
-import xyz.launcel.bean.context.BeanDefinitionRegistryTool;
 import xyz.launcel.interceptor.PageInterceptor;
 import xyz.launcel.json.Json;
 import xyz.launcel.lang.CollectionUtils;
@@ -35,8 +36,9 @@ import xyz.launcel.properties.MybatisProperties.MybatisPropertie;
 import xyz.launcel.properties.RoleDataSourceHolder;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -94,6 +96,7 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
         RootLogger.warn("SessionFactory registry success");
     }
 
+
     private void registBeans(DataSourcePropertie dataSourcePropertie, BeanDefinitionRegistry registry)
     {
         MybatisPropertie mybatisPropertie          = multipleMybatis.get(dataSourcePropertie.getName());
@@ -126,11 +129,11 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
         sqlSession.addPropertyValue(SessionFactoryConstant.configLocationName, "classpath:mybatis/mybatis-config.xml");
         sqlSession.addPropertyValue(SessionFactoryConstant.typeAliasesPackageName, mybatisPropertie.getAliasesPackage());
 
-        //        List<Interceptor> interceptors = new ArrayList<>(2);
-        //        interceptors.add(new PageInterceptor());
-        //        if (isDebugSql) { interceptors.add(new PageInterceptor()); }
+        List<Interceptor> interceptors = new ArrayList<>(2);
+        interceptors.add(new PageInterceptor());
+        if (isDebugSql) { interceptors.add(new PageInterceptor()); }
 
-        sqlSession.addPropertyValue(SessionFactoryConstant.pluginName, Collections.singletonList(new PageInterceptor()));
+        sqlSession.addPropertyValue(SessionFactoryConstant.pluginName, interceptors);
         try
         {
             sqlSession.addPropertyValue(SessionFactoryConstant.mapperLocationName, new PathMatchingResourcePatternResolver().getResources(mybatisPropertie.getMapperResource()));

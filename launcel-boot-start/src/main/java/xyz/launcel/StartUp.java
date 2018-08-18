@@ -16,7 +16,7 @@ import xyz.launcel.log.RootLogger;
 
 public interface StartUp
 {
-    static ConfigurableEnvironment run(String[] args, Class<?> appClass)
+    static ConfigurableEnvironment run(Class<?> appClass, String[] args)
     {
         SpringApplication app = new SpringApplication(appClass);
         app.setBannerMode(Banner.Mode.OFF);
