@@ -1,1 +1,1 @@
-org.springframework.context.ApplicationListener=xyz.launcel.listener.CommonListener
+org.springframework.context.ApplicationContextAware=xyz.launcel.bean.context.BeanSourceContextAware

@@ -1,6 +1,5 @@
 package xyz.launcel.lang;
 
-import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.exception.SystemException;
 
 import java.util.Objects;

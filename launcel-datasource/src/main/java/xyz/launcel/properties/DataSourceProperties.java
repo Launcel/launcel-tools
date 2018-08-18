@@ -4,8 +4,6 @@ import com.zaxxer.hikari.HikariConfig;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import xyz.launcel.constant.SessionFactoryConstant;
 import xyz.launcel.lang.Base64;
 
 import java.util.List;
@@ -16,7 +14,7 @@ import java.util.Properties;
  */
 @Getter
 @Setter
-@ConfigurationProperties(prefix = SessionFactoryConstant.dataSourceConfigPrefix)
+//@ConfigurationProperties(prefix = SessionFactoryConstant.dataSourceConfigPrefix)
 public class DataSourceProperties
 {
 

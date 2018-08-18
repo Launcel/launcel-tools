@@ -5,7 +5,7 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import redis.clients.jedis.JedisCommands;
 import xyz.launcel.exception.SystemException;
-import xyz.launcel.hook.ApplicationContextHook;
+import xyz.launcel.bean.context.SpringBeanUtil;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.properties.RedisProperties;
 
@@ -19,8 +19,8 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtils
 {
 
-    private static RedisTemplate<String, Object> template   = ApplicationContextHook.getBean("redisTemplate");
-    private static long                          expireTime = ApplicationContextHook.getBean(RedisProperties.class).getExptime();
+    private static RedisTemplate<String, Object> template   = SpringBeanUtil.getBean("redisTemplate");
+    private static long                          expireTime = SpringBeanUtil.getBean(RedisProperties.class).getExptime();
 
     public static RedisTemplate<String, Object> getTemplate()
     {

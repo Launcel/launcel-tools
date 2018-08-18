@@ -1,13 +1,12 @@
-package xyz.launcel.hook;
+package xyz.launcel.bean.context;
 
 import org.springframework.context.ApplicationContext;
 
-public class ApplicationContextHook
+public final class SpringBeanUtil
 {
-
     private static ApplicationContext context;
 
-    public static void setApplicationContext(ApplicationContext applicationContext)
+    protected static void setApplicationContext(ApplicationContext applicationContext)
     {
         context = applicationContext;
     }

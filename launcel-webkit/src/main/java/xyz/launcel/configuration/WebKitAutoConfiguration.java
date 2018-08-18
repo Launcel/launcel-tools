@@ -14,7 +14,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import xyz.launcel.aspejct.ControllerParamValidateAspejct;
 import xyz.launcel.handle.GlobalExceptionHandle;
 import xyz.launcel.json.builder.PrimyGsonBuilder;
@@ -29,7 +29,7 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 @EnableConfigurationProperties(value = {CorsProperties.class, JsonConverterProperties.class, UploadProperties.class})
-public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter
+public class WebKitAutoConfiguration implements WebMvcConfigurer
 {
 
     private final CorsProperties corsProperties;
@@ -57,7 +57,6 @@ public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter
         GsonBuilder              gsonBuilder = new PrimyGsonBuilder().setDateFormat(jsonConverterProperties.getDateFormat()).getGsonBuilder();
         converter.setGson(gsonBuilder.create());
         converters.add(converter);
-        super.configureMessageConverters(converters);
     }
 
     @ConditionalOnProperty(prefix = "web.cors", value = "enabled", havingValue = "true")
@@ -66,14 +65,12 @@ public class WebKitAutoConfiguration extends WebMvcConfigurerAdapter
     {
         registry.addMapping(corsProperties.getPathPattern()).allowedOrigins(corsProperties.getAllowedOrigins()).
                 allowCredentials(true).allowedMethods(corsProperties.getMethods()).maxAge(corsProperties.getMaxAge());
-        super.addCorsMappings(registry);
     }
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer)
     {
         configurer.defaultContentType(MediaType.APPLICATION_JSON_UTF8);
-        super.configureContentNegotiation(configurer);
     }
 
     @ConditionalOnProperty(prefix = "web.global-exception", value = "enabled", havingValue = "true")

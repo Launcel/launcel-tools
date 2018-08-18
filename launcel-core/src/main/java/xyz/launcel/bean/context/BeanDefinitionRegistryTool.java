@@ -5,7 +5,7 @@
  * Version: 1.0
  */
 
-package xyz.launcel.hook;
+package xyz.launcel.bean.context;
 
 import org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;

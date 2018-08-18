@@ -12,23 +12,21 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.bind.PropertySourceUtils;
-import org.springframework.boot.bind.RelaxedDataBinder;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.context.properties.bind.Bindable;
+import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.validation.BindingResult;
 import xyz.launcel.aspejct.ServerAspejct;
 import xyz.launcel.constant.SessionFactoryConstant;
 import xyz.launcel.exception.SystemError;
-import xyz.launcel.hook.BeanDefinitionRegistryTool;
+import xyz.launcel.bean.context.BeanDefinitionRegistryTool;
 import xyz.launcel.interceptor.PageInterceptor;
 import xyz.launcel.json.Json;
+import xyz.launcel.lang.CollectionUtils;
 import xyz.launcel.log.RootLogger;
 import xyz.launcel.properties.DataSourceProperties;
 import xyz.launcel.properties.DataSourceProperties.DataSourcePropertie;
@@ -37,30 +35,57 @@ import xyz.launcel.properties.MybatisProperties.MybatisPropertie;
 import xyz.launcel.properties.RoleDataSourceHolder;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 @Configuration
-@EnableConfigurationProperties(value = {DataSourceProperties.class, MybatisProperties.class})
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRegistryPostProcessor, EnvironmentAware
 {
+    private DataSourceProperties          multipleDataSource;
+    private Map<String, MybatisPropertie> multipleMybatis;
 
-    private          List<DataSourcePropertie>     multipleDataSource    = new ArrayList<>();
-    private          Map<String, MybatisPropertie> multipleMybatis       = new HashMap<>();
-    private volatile boolean                       isFirstRoleDataSource = true;
+
+    @Override
+    public void setEnvironment(Environment environment)
+    {
+        Binder binder = Binder.get(environment);
+        binderDataSource(binder);
+        binderMybatisConfig(binder);
+    }
+
+    private void binderDataSource(Binder binder)
+    {
+        DataSourceProperties dataSourceProperties = binder.bind(SessionFactoryConstant.dataSourceConfigPrefix, Bindable.of(DataSourceProperties.class)).get();
+    }
+
+    private void binderMybatisConfig(Binder binder)
+    {
+        MybatisProperties mybatisProperties = binder.bind(SessionFactoryConstant.mybatisConfigPrefix, Bindable.of(MybatisProperties.class)).get();
+        if (CollectionUtils.isEmpty(multipleMybatis))
+        {
+            multipleMybatis = new HashMap<>();
+        }
+        multipleMybatis.put(mybatisProperties.getMain().getRefName(), mybatisProperties.getMain());
+        if (CollectionUtils.isNotEmpty(mybatisProperties.getOthers()))
+        {
+            mybatisProperties.getOthers().forEach(mybatisPropertie -> multipleMybatis.put(mybatisPropertie.getRefName(), mybatisPropertie));
+        }
+    }
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException
     {
-        if (!multipleDataSource.isEmpty() && !multipleMybatis.isEmpty())
+        if (Objects.nonNull(multipleDataSource) && CollectionUtils.isNotEmpty(multipleMybatis))
         {
             RootLogger.info("multipleDataSource is : {}\nmultipleMybatis is : {}", Json.toJson(multipleDataSource), Json.toJson(multipleMybatis));
-            multipleDataSource.forEach(propertie -> registBeans(propertie, registry));
+            registBeans(multipleDataSource.getMain(), registry);
+            if (CollectionUtils.isNotEmpty(multipleDataSource.getOthers()))
+            {
+                multipleDataSource.getOthers().forEach(propertie -> registBeans(propertie, registry));
+            }
         }
         else
         {
@@ -71,13 +96,7 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
 
     private void registBeans(DataSourcePropertie dataSourcePropertie, BeanDefinitionRegistry registry)
     {
-        MybatisPropertie mybatisPropertie = multipleMybatis.get(dataSourcePropertie.getName());
-
-        if (Objects.isNull(mybatisPropertie))
-        {
-            throw new SystemError("_DEFINE_ERROR_CODE_010", ">>>  mybatis propertie config not find ref-name :" + dataSourcePropertie.getName() + " !!");
-        }
-
+        MybatisPropertie mybatisPropertie          = multipleMybatis.get(dataSourcePropertie.getName());
         String           sqlSessionFactoryBeanName = dataSourcePropertie.getName() + SessionFactoryConstant.sessionFactoryName;
         HikariDataSource dataSource                = new HikariDataSource(dataSourcePropertie.getHikariConfig());
 
@@ -89,10 +108,9 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
         {
             registTransactal(dataSourcePropertie.getName(), registry, dataSource);
         }
-        if (dataSourcePropertie.getRoleDataSource() && isFirstRoleDataSource)
+        if (dataSourcePropertie.getRoleDataSource())
         {
             registDataSource(registry, dataSource);
-            isFirstRoleDataSource = false;
         }
     }
 
@@ -168,48 +186,6 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException { }
-
-    @Override
-    public void setEnvironment(Environment environment)
-    {
-        ConfigurableEnvironment env                   = (ConfigurableEnvironment) environment;
-        Map<String, Object>     multipleDataSourceMap = PropertySourceUtils.getSubProperties(env.getPropertySources(), SessionFactoryConstant.dataSourceConfigPrefix);
-        Map<String, Object>     multipleMybatisMap    = PropertySourceUtils.getSubProperties(env.getPropertySources(), SessionFactoryConstant.mybatisConfigPrefix);
-        dataBinderDataSource(multipleDataSourceMap);
-        dataBinderMapper(multipleMybatisMap);
-    }
-
-    private void dataBinderDataSource(Map<String, Object> map)
-    {
-        DataSourceProperties dataSourceProperties = new DataSourceProperties();
-        RelaxedDataBinder    dataBinder           = new RelaxedDataBinder(dataSourceProperties);
-        // 设置数据源属性
-        dataBinder(dataBinder, map);
-        multipleDataSource.add(dataSourceProperties.getMain());
-        if (dataSourceProperties.getOthers() != null) { multipleDataSource.addAll(dataSourceProperties.getOthers()); }
-    }
-
-    private void dataBinderMapper(Map<String, Object> map)
-    {
-        MybatisProperties mybatisProperties = new MybatisProperties();
-        RelaxedDataBinder dataBinder        = new RelaxedDataBinder(mybatisProperties);
-        dataBinder(dataBinder, map);
-        multipleMybatis.put(mybatisProperties.getMain().getRefName(), mybatisProperties.getMain());
-        if (mybatisProperties.getOthers() != null)
-        {
-            mybatisProperties.getOthers().forEach(mybatisPropertie -> multipleMybatis.put(mybatisPropertie.getRefName(), mybatisPropertie));
-        }
-    }
-
-    private void dataBinder(RelaxedDataBinder dataBinder, Map<String, Object> map)
-    {
-        dataBinder.bind(new MutablePropertyValues(map));
-        BindingResult bindingResult = dataBinder.getBindingResult();
-        if (bindingResult.hasErrors())
-        {
-            throw new SystemError("_DEFINE_ERROR_CODE_010", "多数据源绑定失败！");
-        }
-    }
 
     @ConditionalOnProperty(prefix = "service.aspejct", value = "enabled", havingValue = "true", matchIfMissing = true)
     @Bean

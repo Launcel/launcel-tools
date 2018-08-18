@@ -1,7 +1,7 @@
 package xyz.launcel.jdbc;
 
 import xyz.launcel.constant.SessionFactoryConstant;
-import xyz.launcel.hook.ApplicationContextHook;
+import xyz.launcel.bean.context.SpringBeanUtil;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.RootLogger;
 import xyz.launcel.properties.RoleDataSourceHolder;
@@ -26,7 +26,7 @@ public class JdbcRole
     {
         try
         {
-            connection = ((RoleDataSourceHolder) ApplicationContextHook.getBean(SessionFactoryConstant.roleDateSourceName)).getDataSource().getConnection();
+            connection = ((RoleDataSourceHolder) SpringBeanUtil.getBean(SessionFactoryConstant.roleDateSourceName)).getDataSource().getConnection();
         }
         catch (SQLException e)
         {

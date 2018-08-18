@@ -1,6 +1,6 @@
 package xyz.launcel.jdbc;
 
-import xyz.launcel.hook.ApplicationContextHook;
+import xyz.launcel.bean.context.SpringBeanUtil;
 
 import java.util.Objects;
 
@@ -11,8 +11,8 @@ public class SimpleJdbcRole
 
     static
     {
-        if (ApplicationContextHook.hasBean("jdbcRole") && Objects.nonNull(ApplicationContextHook.getBean("jdbcRole")))
-            jdbcRole = ApplicationContextHook.getBean("jdbcRole");
+        if (SpringBeanUtil.hasBean("jdbcRole") && Objects.nonNull(SpringBeanUtil.getBean("jdbcRole")))
+            jdbcRole = SpringBeanUtil.getBean("jdbcRole");
     }
 
     public static JdbcRole getJdbcRole()
