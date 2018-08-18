@@ -11,7 +11,9 @@ import org.springframework.cache.interceptor.CacheErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.DefaultLettucePool;
@@ -26,6 +28,7 @@ import xyz.launcel.properties.RedisProperties;
 import xyz.launcel.support.serializer.GsonRedisSerializer;
 
 import javax.inject.Named;
+import java.time.Duration;
 
 @EnableCaching
 @Configuration
@@ -88,9 +91,9 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     @Primary
     @Bean(name = "redisTemplate")
     @ConditionalOnBean(name = "redisConnectionFactory")
-    public RedisTemplate<String, ?> redisTemplate(@Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
+    public RedisTemplate<String, Object> redisTemplate(@Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
     {
-        RedisTemplate<String, ?> template = new RedisTemplate<>();
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
         GsonRedisSerializer<?> serializer = new GsonRedisSerializer<>(Object.class);
         template.setKeySerializer(serializer);
@@ -105,9 +108,11 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
 
     @Primary
     @Bean
-    public CacheManager cacheManager(RedisTemplate<String, ?> redisTemplate)
+    public CacheManager cacheManager(@Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
     {
-        return new RedisCacheManager(redisTemplate);
+        // 设置缓存有效期一小时
+        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(1));
+        return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory)).cacheDefaults(redisCacheConfiguration).build();
     }
 
     @Bean

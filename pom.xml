@@ -18,6 +18,7 @@
         <module>launcel-test</module>
         <module>launcel-tools</module>
         <module>launcel-common</module>
+        <module>launcel-logger</module>
     </modules>
 
 

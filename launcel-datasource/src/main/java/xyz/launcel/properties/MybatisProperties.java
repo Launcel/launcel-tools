@@ -22,8 +22,7 @@ public class MybatisProperties
     public static class MybatisPropertie
     {
 
-        private String refName;
-
+        private String refName = "main";
         private String aliasesPackage;
 
         private String mapperResource;
