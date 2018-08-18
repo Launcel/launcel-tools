@@ -7,8 +7,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import xyz.launcel.properties.ThreadPoolProperties;
 
-import java.util.concurrent.Executor;
-
 /**
  * Created by launcel on 2018/8/6.
  */
@@ -25,7 +23,7 @@ public class AsyncTaskAutoConfiguration
     }
 
     @Bean(name = "executor")
-    public Executor taskExecutor()
+    public ThreadPoolTaskExecutor taskExecutor()
     {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(poolProperties.getCorePoolSize());
