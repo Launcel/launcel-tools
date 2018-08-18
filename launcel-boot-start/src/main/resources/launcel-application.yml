@@ -16,5 +16,4 @@ spring:
 
 ##########################################
 logging:
-  level:
-    root: ERROR
+  config: classpath:logback.xml
