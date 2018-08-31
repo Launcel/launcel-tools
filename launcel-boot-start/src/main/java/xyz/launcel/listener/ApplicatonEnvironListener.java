@@ -33,7 +33,7 @@ public class ApplicatonEnvironListener implements SpringApplicationRunListener, 
     public void environmentPrepared(ConfigurableEnvironment environment)
     {
         YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
-        yaml.setResources(new ClassPathResource("launcel-application.yml"));//class引入
+        yaml.setResources(new ClassPathResource("launcel-application.yml"));
         MutablePropertySources source  = environment.getPropertySources();
         PropertySource         propert = new PropertiesPropertySource("launcel-application", yaml.getObject());
         source.addFirst(propert);

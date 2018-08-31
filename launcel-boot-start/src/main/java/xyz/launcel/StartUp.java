@@ -7,15 +7,10 @@
 
 package xyz.launcel;
 
-import com.alibaba.fastjson.JSON;
-import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.util.StringUtils;
 import xyz.launcel.log.RootLogger;
 
