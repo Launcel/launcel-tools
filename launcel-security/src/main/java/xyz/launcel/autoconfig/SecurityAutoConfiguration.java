@@ -5,9 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import xyz.launcel.config.SecurityConfig;
-import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.exception.SystemException;
 import xyz.launcel.interceptor.RoleInterceptor;
 import xyz.launcel.jdbc.JdbcRole;
@@ -20,7 +19,7 @@ import java.util.Objects;
 @EnableWebMvc
 @Configuration
 @EnableConfigurationProperties(value = {SecurityListProperties.class, JdbcRolePropertites.class})
-public class SecurityAutoConfiguration extends WebMvcConfigurerAdapter
+public class SecurityAutoConfiguration implements WebMvcConfigurer
 {
     private final SecurityListProperties securityListProperties;
     private final JdbcRolePropertites    jdbcRolePropertites;
@@ -44,7 +43,7 @@ public class SecurityAutoConfiguration extends WebMvcConfigurerAdapter
     public void addInterceptors(InterceptorRegistry registry)
     {
         registry.addInterceptor(new RoleInterceptor()).excludePathPatterns(securityListProperties.getExcludePaths());
-        super.addInterceptors(registry);
+//        super.addInterceptors(registry);
     }
 
     @Bean

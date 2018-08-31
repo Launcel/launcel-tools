@@ -26,6 +26,7 @@ import xyz.launcel.bean.context.BeanDefinitionRegistryTool;
 import xyz.launcel.constant.SessionFactoryConstant;
 import xyz.launcel.exception.SystemError;
 import xyz.launcel.interceptor.PageInterceptor;
+import xyz.launcel.interceptor.ParamInterceptor;
 import xyz.launcel.json.Json;
 import xyz.launcel.lang.CollectionUtils;
 import xyz.launcel.log.RootLogger;
@@ -46,8 +47,8 @@ import java.util.Objects;
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRegistryPostProcessor, EnvironmentAware
 {
-    private DataSourceProperties          multipleDataSource;
-    private Map<String, MybatisPropertie> multipleMybatis;
+    private DataSourceProperties multipleDataSource;
+    private Map<String, MybatisPropertie> multipleMybatis = new HashMap<>();
 
 
     @Override
@@ -60,16 +61,12 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
 
     private void binderDataSource(Binder binder)
     {
-        DataSourceProperties dataSourceProperties = binder.bind(SessionFactoryConstant.dataSourceConfigPrefix, Bindable.of(DataSourceProperties.class)).get();
+        multipleDataSource = binder.bind(SessionFactoryConstant.dataSourceConfigPrefix, Bindable.of(DataSourceProperties.class)).get();
     }
 
     private void binderMybatisConfig(Binder binder)
     {
         MybatisProperties mybatisProperties = binder.bind(SessionFactoryConstant.mybatisConfigPrefix, Bindable.of(MybatisProperties.class)).get();
-        if (CollectionUtils.isEmpty(multipleMybatis))
-        {
-            multipleMybatis = new HashMap<>();
-        }
         multipleMybatis.put(mybatisProperties.getMain().getRefName(), mybatisProperties.getMain());
         if (CollectionUtils.isNotEmpty(mybatisProperties.getOthers()))
         {
@@ -113,7 +110,7 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
         }
         if (dataSourcePropertie.getRoleDataSource())
         {
-            registDataSource(registry, dataSource);
+            registDataSource(dataSource);
         }
     }
 
@@ -131,7 +128,7 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
 
         List<Interceptor> interceptors = new ArrayList<>(2);
         interceptors.add(new PageInterceptor());
-        if (isDebugSql) { interceptors.add(new PageInterceptor()); }
+        if (isDebugSql) { interceptors.add(new ParamInterceptor()); }
 
         sqlSession.addPropertyValue(SessionFactoryConstant.pluginName, interceptors);
         try
@@ -148,14 +145,9 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
     /**
      * 注册当前 dataSource 以便其他程序中使用该 dataSource
      */
-    private void registDataSource(BeanDefinitionRegistry registry, HikariDataSource hikariDataSource)
+    private void registDataSource(HikariDataSource hikariDataSource)
     {
-        AnnotatedGenericBeanDefinition roleDataSourceAbd = BeanDefinitionRegistryTool.decorateAbd(RoleDataSourceHolder.class);
-        MutablePropertyValues          roleDataSource    = roleDataSourceAbd.getPropertyValues();
-
-        roleDataSource.addPropertyValue(SessionFactoryConstant.dataSourceName, hikariDataSource);
-
-        BeanDefinitionRegistryTool.registryBean(SessionFactoryConstant.roleDateSourceName, registry, roleDataSourceAbd);
+        RoleDataSourceHolder.setDataSource(hikariDataSource);
     }
 
     /**

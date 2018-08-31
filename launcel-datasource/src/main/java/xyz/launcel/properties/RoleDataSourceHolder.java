@@ -1,16 +1,19 @@
 package xyz.launcel.properties;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.sql.DataSource;
 
-@Getter
-@Setter
 public class RoleDataSourceHolder
 {
 
-    private DataSource dataSource;
+    private static DataSource dataSource;
 
+    public static DataSource getDataSource()
+    {
+        return dataSource;
+    }
+
+    public static void setDataSource(DataSource dataSource)
+    {
+        RoleDataSourceHolder.dataSource = dataSource;
+    }
 }

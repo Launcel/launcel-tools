@@ -19,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import xyz.launcel.aspejct.ControllerParamValidateAspejct;
 import xyz.launcel.handle.GlobalExceptionHandle;
 import xyz.launcel.properties.CorsProperties;
+import xyz.launcel.properties.JsonConverterProperties;
 import xyz.launcel.properties.UploadProperties;
 import xyz.launcel.upload.UploadLocalUtil;
 
@@ -27,22 +28,21 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-@EnableConfigurationProperties(value = {CorsProperties.class, UploadProperties.class})
+@EnableConfigurationProperties(value = {CorsProperties.class, UploadProperties.class, JsonConverterProperties.class})
 public class WebKitAutoConfiguration implements WebMvcConfigurer
 {
 
     private final CorsProperties corsProperties;
 
-//    private final JsonConverterProperties jsonConverterProperties;
+    private final JsonConverterProperties jsonConverterProperties;
 
     private final UploadProperties uploadProperties;
 
-    public WebKitAutoConfiguration(CorsProperties corsProperties, UploadProperties uploadProperties)
-                                   //, JsonConverterProperties jsonConverterProperties, )
+    public WebKitAutoConfiguration(CorsProperties corsProperties, UploadProperties uploadProperties, JsonConverterProperties jsonConverterProperties)
     {
         this.corsProperties = corsProperties;
         this.uploadProperties = uploadProperties;
-//        this.jsonConverterProperties = jsonConverterProperties;
+        this.jsonConverterProperties = jsonConverterProperties;
     }
 
     /**
@@ -61,6 +61,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
         FastJsonConfig               fastJsonConfig               = new FastJsonConfig();
         fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
         fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteDateUseDateFormat);
+        fastJsonConfig.setDateFormat(jsonConverterProperties.getDateFormat());
         converters.add(fastJsonHttpMessageConverter);
     }
 

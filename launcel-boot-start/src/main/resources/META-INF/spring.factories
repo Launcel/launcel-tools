@@ -1,0 +1,1 @@
+org.springframework.boot.SpringApplicationRunListener=xyz.launcel.listener.ApplicatonEnvironListener

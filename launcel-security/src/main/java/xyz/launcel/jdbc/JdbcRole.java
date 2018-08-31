@@ -1,7 +1,7 @@
 package xyz.launcel.jdbc;
 
-import xyz.launcel.constant.SessionFactoryConstant;
-import xyz.launcel.bean.context.SpringBeanUtil;
+import lombok.Getter;
+import lombok.Setter;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.RootLogger;
 import xyz.launcel.properties.RoleDataSourceHolder;
@@ -14,6 +14,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Getter
+@Setter
 public class JdbcRole
 {
 
@@ -26,7 +28,7 @@ public class JdbcRole
     {
         try
         {
-            connection = ((RoleDataSourceHolder) SpringBeanUtil.getBean(SessionFactoryConstant.roleDateSourceName)).getDataSource().getConnection();
+            connection = RoleDataSourceHolder.getDataSource().getConnection();
         }
         catch (SQLException e)
         {
@@ -66,36 +68,6 @@ public class JdbcRole
             close(conn);
         }
         return roleNames;
-    }
-
-    public Connection getConnection()
-    {
-        return connection;
-    }
-
-    public void setConnection(Connection connection)
-    {
-        this.connection = connection;
-    }
-
-    public String getUserRoleQuery()
-    {
-        return userRoleQuery;
-    }
-
-    public void setUserRoleQuery(String userRoleQuery)
-    {
-        this.userRoleQuery = userRoleQuery;
-    }
-
-    public String getAuthenticationQuery()
-    {
-        return authenticationQuery;
-    }
-
-    public void setAuthenticationQuery(String authenticationQuery)
-    {
-        this.authenticationQuery = authenticationQuery;
     }
 
     private void close(Connection conn)
