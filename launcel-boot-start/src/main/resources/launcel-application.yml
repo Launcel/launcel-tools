@@ -1,3 +1,6 @@
+server:
+  port: 8080
+##########################################
 
 spring:
   resources:
@@ -17,3 +20,6 @@ spring:
 ##########################################
 logging:
   config: classpath:logback.xml
+  level:
+    root: error
+

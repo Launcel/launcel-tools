@@ -1,5 +1,7 @@
 package xyz.launcel.listener;
 
+import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringApplicationRunListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.PriorityOrdered;
@@ -7,15 +9,22 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.env.PropertySource;
-
-import java.io.IOException;
-import java.util.Properties;
+import org.springframework.core.io.ClassPathResource;
 
 /**
  * Created by launcel on 2018/8/18.
  */
 public class ApplicatonEnvironListener implements SpringApplicationRunListener, PriorityOrdered
 {
+    private final SpringApplication application;
+
+    private final String[] args;
+
+    public ApplicatonEnvironListener(SpringApplication application, String[] args)
+    {
+        this.application = application;
+        this.args = args;
+    }
 
     @Override
     public void starting() { }
@@ -23,21 +32,11 @@ public class ApplicatonEnvironListener implements SpringApplicationRunListener, 
     @Override
     public void environmentPrepared(ConfigurableEnvironment environment)
     {
-        Properties properties = new Properties();
-        try
-        {
-            //demo.properties就是我们自定义的配置文件，extension是自定义目录
-            properties.load(this.getClass().getClassLoader().getResourceAsStream("launcel-application.yml"));
-            PropertySource propertySource = new PropertiesPropertySource("launcel", properties);
-            //PropertySource是资源加载的核心
-            MutablePropertySources propertySources = environment.getPropertySources();
-            //这里添加最后
-            propertySources.addLast(propertySource);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
+        yaml.setResources(new ClassPathResource("launcel-application.yml"));//class引入
+        MutablePropertySources source  = environment.getPropertySources();
+        PropertySource         propert = new PropertiesPropertySource("launcel-application", yaml.getObject());
+        source.addFirst(propert);
     }
 
     @Override
@@ -58,6 +57,6 @@ public class ApplicatonEnvironListener implements SpringApplicationRunListener, 
     @Override
     public int getOrder()
     {
-        return 5;
+        return 1;
     }
 }
