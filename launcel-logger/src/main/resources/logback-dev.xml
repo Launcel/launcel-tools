@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
 
-    <property name="log_dir" value="data/appLogs"/>
-    <property name="maxHistory" value="5"/>
-
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
@@ -24,11 +21,9 @@
     </logger>
     <logger name="jdbc.sqlonly" additivity="false" level="DEBUG">
         <appender-ref ref="STDOUT"/>
-        <!--<appender-ref ref="FILE"/>-->
     </logger>
     <logger name="jdbc.sqltiming" additivity="false" level="ERROR">
         <appender-ref ref="STDOUT"/>
-        <!--<appender-ref ref="FILE"/>-->
     </logger>
     <logger name="org.springframework" additivity="false" level="ERROR">
         <appender-ref ref="STDOUT"/>
@@ -45,7 +40,6 @@
 
     <root level="ERROR">
         <appender-ref ref="STDOUT"/>
-        <!--<appender-ref ref="FILE"/>-->
     </root>
 
 

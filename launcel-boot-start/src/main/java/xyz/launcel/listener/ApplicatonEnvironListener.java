@@ -36,7 +36,7 @@ public class ApplicatonEnvironListener implements SpringApplicationRunListener, 
         yaml.setResources(new ClassPathResource("launcel-application.yml"));
         MutablePropertySources source  = environment.getPropertySources();
         PropertySource         propert = new PropertiesPropertySource("launcel-application", yaml.getObject());
-        source.addLast(propert);
+        source.addFirst(propert);
     }
 
     @Override

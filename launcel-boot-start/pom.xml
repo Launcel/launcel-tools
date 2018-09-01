@@ -55,7 +55,17 @@
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-core</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>xyz.launcel</groupId>
+            <artifactId>launcel-logger</artifactId>
+            <version>${parent.version}</version>
         </dependency>
 
         <!--<dependency>-->
