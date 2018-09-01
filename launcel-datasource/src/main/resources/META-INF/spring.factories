@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=xyz.launcel.autoconfig.MultipleSessionFactoryAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=xyz.launcel.autoconfig.DataSourceAutoConfiguration

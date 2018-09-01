@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class DataSourceConfigMap
+class DataSourceConfigMap
 {
     private String           name;
     private Boolean          enableTransactal;
