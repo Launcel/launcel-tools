@@ -9,8 +9,8 @@ spring:
     expose-spring-macro-helpers: false
     expose-session-attributes: true
     request-context-attribute: request
-  profiles:
-    active: prod
+#  profiles:
+#    active: prod
   jpa:
     hibernate:
       naming:
@@ -20,7 +20,9 @@ spring:
 
 ##########################################
 logging:
-  config: classpath:logback.xml
+  config: classpath:logback-dev.xml
 #  level:
 #    root: error
+
+
 
