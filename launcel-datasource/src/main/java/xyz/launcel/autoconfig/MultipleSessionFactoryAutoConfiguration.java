@@ -183,7 +183,7 @@ public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRe
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException { }
 
-    @ConditionalOnProperty(prefix = "service.aspejct", value = "enabled", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = SessionFactoryConstant.serviceaAspejctPrefix, value = "enabled", havingValue = "true", matchIfMissing = true)
     @Bean
     public ServerAspejct serverAspejct() { return new ServerAspejct(); }
 

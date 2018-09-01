@@ -25,6 +25,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import xyz.launcel.aspejct.DataSourceSwitchAspect;
 import xyz.launcel.aspejct.ServerAspejct;
 import xyz.launcel.bean.context.BeanDefinitionRegistryTool;
 import xyz.launcel.constant.SessionFactoryConstant;
@@ -108,7 +109,8 @@ public class DynamicSessionFactoryAutoConfiguration implements EnvironmentAware,
     {
         DynamicDataSource   dynamicDataSources = new DynamicDataSource();
         Map<Object, Object> targetDataSources  = new HashMap<>();
-        if (CollectionUtils.isEmpty(dataSourceConfigMapList)) {
+        if (CollectionUtils.isEmpty(dataSourceConfigMapList))
+        {
             throw new SystemError("_DEFINE_ERROR_CODE_010", ">>>  datasource propertie config or mybatis propertie config is null !!");
         }
         dataSourceConfigMapList.forEach(dataSourceConfigMap -> targetDataSources.put(dataSourceConfigMap.getName(), dataSourceConfigMap.getDataSource()));
@@ -154,9 +156,13 @@ public class DynamicSessionFactoryAutoConfiguration implements EnvironmentAware,
         isDebugSql = false;
     }
 
-    @ConditionalOnProperty(prefix = "service.aspejct", value = "enabled", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = SessionFactoryConstant.serviceaAspejctPrefix, value = "enabled", havingValue = "true", matchIfMissing = true)
     @Bean
     public ServerAspejct serverAspejct() { return new ServerAspejct(); }
+
+    @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true")
+    @Bean
+    public DataSourceSwitchAspect dataSourceSwitchAspect() { return new DataSourceSwitchAspect(); }
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException
@@ -185,9 +191,6 @@ public class DynamicSessionFactoryAutoConfiguration implements EnvironmentAware,
     }
 
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException
-    {
-
-    }
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException { }
 
 }
