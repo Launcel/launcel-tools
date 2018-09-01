@@ -14,12 +14,20 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@NoArgsConstructor
-@AllArgsConstructor
-class DataSourceConfigMap
+public class DataSourceConfigMap
 {
     private String           name;
     private Boolean          enableTransactal;
     private Boolean          roleDataSource;
     private HikariDataSource dataSource;
+
+    DataSourceConfigMap() { }
+
+    DataSourceConfigMap(String name, Boolean enableTransactal, Boolean roleDataSource, HikariDataSource dataSource)
+    {
+        this.name = name;
+        this.enableTransactal = enableTransactal;
+        this.roleDataSource = roleDataSource;
+        this.dataSource = dataSource;
+    }
 }
