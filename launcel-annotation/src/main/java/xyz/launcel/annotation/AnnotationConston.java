@@ -10,4 +10,6 @@ public interface AnnotationConston
             "|| @annotation(org.springframework.web.bind.annotation.PostMapping)" +
             "|| @annotation(org.springframework.web.bind.annotation.PutMapping)" +
             "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)";
+
+    String dataSource = "@annotation(xyz.launcel.annotation.DataSource)";
 }

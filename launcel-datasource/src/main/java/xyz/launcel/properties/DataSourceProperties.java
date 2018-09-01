@@ -20,6 +20,7 @@ import java.util.Properties;
 public class DataSourceProperties
 {
 
+    private Boolean useDynamicDataSource = false;
     private DataSourcePropertie main;
 
     private List<DataSourcePropertie> others;

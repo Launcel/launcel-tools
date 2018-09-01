@@ -45,6 +45,7 @@ import java.util.Objects;
 
 @Configuration
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
+@ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true", matchIfMissing = true)
 public class MultipleSessionFactoryAutoConfiguration implements BeanDefinitionRegistryPostProcessor, EnvironmentAware
 {
     private DataSourceProperties multipleDataSource;

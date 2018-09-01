@@ -18,7 +18,7 @@ public class DbContextHolder
     /**
      * 取得当前数据源
      */
-    public static String getDbType()
+    static String getDbType()
     {
         return contextHolder.get();
     }
@@ -26,7 +26,7 @@ public class DbContextHolder
     /**
      * 清除上下文数据
      */
-    private static void clearDbType()
+    public static void clearDbType()
     {
         contextHolder.remove();
     }

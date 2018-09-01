@@ -28,7 +28,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import xyz.launcel.aspejct.ServerAspejct;
 import xyz.launcel.bean.context.BeanDefinitionRegistryTool;
 import xyz.launcel.constant.SessionFactoryConstant;
-import xyz.launcel.ensure.Me;
+import xyz.launcel.exception.SystemError;
 import xyz.launcel.holder.DataSourceConfigMap;
 import xyz.launcel.holder.DynamicDataSource;
 import xyz.launcel.interceptor.PageInterceptor;
@@ -51,9 +51,9 @@ import java.util.Objects;
  */
 @Configuration
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
+@ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true")
 public class DynamicSessionFactoryAutoConfiguration implements EnvironmentAware, BeanDefinitionRegistryPostProcessor
 {
-    //    private List<DataSourceProperties.DataSourcePropertie> dynamicDataSourceList = new ArrayList<>();
     private List<DataSourceConfigMap> dataSourceConfigMapList = new ArrayList<>();
     private MybatisProperties.MybatisPropertie mybatisPropertie;
     private boolean isDebugSql = false;
@@ -71,7 +71,6 @@ public class DynamicSessionFactoryAutoConfiguration implements EnvironmentAware,
         DataSourceProperties multipleDataSource = binder.bind(SessionFactoryConstant.dataSourceConfigPrefix, Bindable.of(DataSourceProperties.class)).get();
         if (Objects.nonNull(multipleDataSource.getMain()))
         {
-            //            dynamicDataSourceList.add(multipleDataSource.getMain());
             DataSourceProperties.DataSourcePropertie main       = multipleDataSource.getMain();
             HikariDataSource                         dataSource = new HikariDataSource(main.getHikariConfig());
             dataSourceConfigMapList.add(new DataSourceConfigMap(main.getName(), main.getEnableTransactal(), main.getRoleDataSource(), dataSource));
@@ -83,7 +82,6 @@ public class DynamicSessionFactoryAutoConfiguration implements EnvironmentAware,
         }
         if (CollectionUtils.isNotEmpty(multipleDataSource.getOthers()))
         {
-            //            multipleDataSource.getOthers().forEach(dataSourcePropertie -> dynamicDataSourceList.add(dataSourcePropertie));
             multipleDataSource.getOthers().forEach(other ->
             {
                 isDebugSql(other);
@@ -110,9 +108,9 @@ public class DynamicSessionFactoryAutoConfiguration implements EnvironmentAware,
     {
         DynamicDataSource   dynamicDataSources = new DynamicDataSource();
         Map<Object, Object> targetDataSources  = new HashMap<>();
-        //        Me.that(dynamicDataSourceList).isEmpty("");
-        Me.that(dataSourceConfigMapList).isEmpty("");
-        //        dynamicDataSourceList.forEach(dataSourcePropertie -> targetDataSources.put(dataSourcePropertie.getName(), new HikariDataSource(dataSourcePropertie.getHikariConfig())));
+        if (CollectionUtils.isEmpty(dataSourceConfigMapList)) {
+            throw new SystemError("_DEFINE_ERROR_CODE_010", ">>>  datasource propertie config or mybatis propertie config is null !!");
+        }
         dataSourceConfigMapList.forEach(dataSourceConfigMap -> targetDataSources.put(dataSourceConfigMap.getName(), dataSourceConfigMap.getDataSource()));
         dynamicDataSources.setTargetDataSources(targetDataSources);
         dynamicDataSources.setDefaultTargetDataSource(dataSourceConfigMapList.get(0));
@@ -131,7 +129,6 @@ public class DynamicSessionFactoryAutoConfiguration implements EnvironmentAware,
         sqlSessionFactory.setMapperLocations(resourceLoader.getResources(mybatisPropertie.getMapperResource()));
         List<Interceptor> interceptors = new ArrayList<>(2);
         interceptors.add(new PageInterceptor());
-        //        if (isDebugSql()) { interceptors.add(new ParamInterceptor()); }
         if (isDebugSql) { interceptors.add(new ParamInterceptor()); }
         sqlSessionFactory.setPlugins((Interceptor[]) interceptors.toArray());
         return sqlSessionFactory.getObject();
@@ -146,18 +143,6 @@ public class DynamicSessionFactoryAutoConfiguration implements EnvironmentAware,
         configurer.setBasePackage(mybatisPropertie.getMapperPackage());
         return configurer;
     }
-
-    //    private boolean isDebugSql()
-    //    {
-    //        for (DataSourceProperties.DataSourcePropertie dataSourcePropertie : dynamicDataSourceList)
-    //        {
-    //            if (!dataSourcePropertie.getDebugSql())
-    //            {
-    //                return false;
-    //            }
-    //        }
-    //        return true;
-    //    }
 
     private void isDebugSql(DataSourceProperties.DataSourcePropertie dataSourcePropertie)
     {
