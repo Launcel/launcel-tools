@@ -1,7 +1,0 @@
-logging:
-  config: classpath:logback-prod.xml
-  level:
-    root: error
-
-
-
