@@ -3,12 +3,14 @@ package xyz.launcel.properties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import xyz.launcel.constant.SessionFactoryConstant;
 
 import java.util.List;
 
 @Getter
 @Setter
-//@ConfigurationProperties(prefix = SessionFactoryConstant.mybatisConfigPrefix)
+@ConfigurationProperties(prefix = SessionFactoryConstant.mybatisConfigPrefix)
 public class MybatisProperties
 {
 
