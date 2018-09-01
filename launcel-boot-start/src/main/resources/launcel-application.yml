@@ -11,12 +11,16 @@ spring:
     request-context-attribute: request
   profiles:
     active: prod
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
 ##########################################
 
 ##########################################
 logging:
   config: classpath:logback.xml
-  level:
-    root: error
+#  level:
+#    root: error
 

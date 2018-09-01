@@ -57,6 +57,6 @@ public class ApplicatonEnvironListener implements SpringApplicationRunListener, 
     @Override
     public int getOrder()
     {
-        return 1;
+        return LOWEST_PRECEDENCE;
     }
 }
