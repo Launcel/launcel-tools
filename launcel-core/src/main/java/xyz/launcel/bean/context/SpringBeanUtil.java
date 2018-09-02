@@ -6,7 +6,7 @@ public final class SpringBeanUtil
 {
     private static ApplicationContext context;
 
-    protected static void setApplicationContext(ApplicationContext applicationContext)
+    static void setApplicationContext(ApplicationContext applicationContext)
     {
         context = applicationContext;
     }
