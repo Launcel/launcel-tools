@@ -10,6 +10,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
@@ -42,8 +43,8 @@ import java.util.Map;
  * Created by launcel on 2018/9/1.
  */
 @Configuration
-@EnableAutoConfiguration(exclude = org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration.class)
-public class DataSourceAutoConfiguration implements BeanDefinitionRegistryPostProcessor, EnvironmentAware
+@EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
+public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistryPostProcessor, EnvironmentAware
 {
     private DataSourcePropertiesBinderTool binderFacory;
 

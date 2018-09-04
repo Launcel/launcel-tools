@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=xyz.launcel.autoconfig.DataSourceAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=xyz.launcel.autoconfig.DynamicDataSourceAutoConfiguration
