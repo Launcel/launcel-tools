@@ -10,6 +10,7 @@ package xyz.launcel.properties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -17,9 +18,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "web.role")
+@ConfigurationProperties(prefix = "jdbc.role")
 public class JdbcRolePropertites
 {
+    @NonNull
     private String authenticationQuery;
+    @NonNull
     private String userRoleQuery;
 }

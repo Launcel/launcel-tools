@@ -3,6 +3,7 @@ package xyz.launcel.properties;
 import com.zaxxer.hikari.HikariConfig;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import xyz.launcel.constant.SessionFactoryConstant;
@@ -21,6 +22,7 @@ public class DataSourceProperties
 {
 
     private Boolean useDynamicDataSource = false;
+    @NonNull
     private DataSourcePropertie main;
 
     private List<DataSourcePropertie> others;
@@ -30,12 +32,15 @@ public class DataSourceProperties
     @NoArgsConstructor
     public static class DataSourcePropertie
     {
+        @NonNull
         private String  name                  = "main";
         // private String  driverClassName     = "net.sf.log4jdbc.DriverSpy";
         private String  driverClass           = "org.mariadb.jdbc.Driver";
         // private String  url                 = "jdbc:log4jdbc:mysql://localhost:3306/wx-shop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false";
+        @NonNull
         private String  url                   = "jdbc:mariadb://localhost:3306/test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false";
         private String  username              = "root";
+        @NonNull
         private String  password              = "MTIzNDU2";
         private Integer minIdle               = 1;
         // 连接池中允许的最大连接数。缺省值：10；推荐的公式：((core_count * 2) + effective_spindle_count)

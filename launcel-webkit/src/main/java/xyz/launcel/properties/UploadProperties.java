@@ -1,6 +1,7 @@
 package xyz.launcel.properties;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -15,6 +16,7 @@ public class UploadProperties
 {
 
     private Boolean      enabled  = false;
+    @NonNull
     private String       domain   = "";
     private Long         maxSize  = (long) Integer.MAX_VALUE;
     private Long         minSize  = 1024L;

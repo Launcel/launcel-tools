@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "web.security")
+@ConfigurationProperties(prefix = "security.url")
 public class SecurityListProperties
 {
     private Map<String, String[]> list;
