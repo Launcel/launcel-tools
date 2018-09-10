@@ -61,7 +61,8 @@ public class SQLHelp
             sb.append(" GROUP BY ");
             final Set<Integer> indexSet = new HashSet<>(1);
             indexSet.add(1);
-            p.getGroupBy().forEach(groupSet -> {
+            p.getGroupBy().forEach(groupSet ->
+            {
                 if (indexSet.contains(1))
                 {
                     sb.append(groupSet);
@@ -74,14 +75,29 @@ public class SQLHelp
         {
             sb.append(" ORDER BY ");
             String headColName = CollectionUtils.getHead(p.getOrderBy()).getKey();
-            p.getOrderBy().forEach((colName, order) -> {
-                if (colName.equals(headColName)) { sb.append(colName).append(" ").append(order.name()); }
-                else { sb.append(",").append(colName).append(" ").append(order.name()); }
+            p.getOrderBy().forEach((colName, order) ->
+            {
+                if (colName.equals(headColName))
+                {
+                    sb.append(colName).append(" ").append(order.name());
+                }
+                else
+                {
+                    sb.append(",").append(colName).append(" ").append(order.name());
+                }
             });
         }
+
         sb.append(" LIMIT ");
-        if (p.getOffset() > 0) { sb.append(p.getOffset()).append(",").append(p.getRow()); }
-        else { sb.append(p.getRow()); }
+
+        if (p.getOffset() > 0)
+        {
+            sb.append(p.getOffset()).append(",").append(p.getRow());
+        }
+        else
+        {
+            sb.append(p.getRow());
+        }
 
         return sb.toString();
     }

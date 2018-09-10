@@ -1,6 +1,8 @@
 package xyz.launcel.lang;
 
 
+import lombok.NonNull;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -14,7 +16,7 @@ public class MD5
 
     private MD5() { }
 
-    private static String generateSalt(String input)
+    private static String generateSalt(@NonNull String input)
     {
         byte[] code;
         try
@@ -26,7 +28,7 @@ public class MD5
         return bi.abs().toString(32).toUpperCase();
     }
 
-    public static String generate(String input, String salt)
+    public static String generate(@NonNull String input, String salt)
     {
         if (StringUtils.isBlank(salt)) { salt = ""; }
         return generateSalt(salt + generateSalt(input));

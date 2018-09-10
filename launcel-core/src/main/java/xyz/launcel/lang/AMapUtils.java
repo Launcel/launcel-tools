@@ -1,5 +1,8 @@
 package xyz.launcel.lang;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.log.RootLogger;
 
@@ -38,6 +41,8 @@ public interface AMapUtils
         return s;
     }
 
+    @Getter
+    @Setter
     class Point
     {
 
@@ -54,10 +59,12 @@ public interface AMapUtils
         /**
          * 纬度
          */
+        @NonNull
         private double lat;
         /**
          * 经度
          */
+        @NonNull
         private double lng;
         /**
          * 纬度弧度
@@ -68,46 +75,6 @@ public interface AMapUtils
          */
         private double radLng;
 
-        private double getLat()
-        {
-            return lat;
-        }
-
-        private void setLat(double lat)
-        {
-            this.lat = lat;
-        }
-
-        public double getLng()
-        {
-            return lng;
-        }
-
-        private void setLng(double lng)
-        {
-            this.lng = lng;
-        }
-
-        public double getRadLat()
-        {
-            return radLat;
-        }
-
-        private void setRadLat(double radLat)
-        {
-            this.radLat = radLat;
-        }
-
-        public double getRadLng()
-        {
-            return radLng;
-        }
-
-        private void setRadLng(double radLng)
-        {
-            this.radLng = radLng;
-        }
-
         Point(double lat, double lng)
         {
             this(lat, lng, true);
@@ -117,18 +84,21 @@ public interface AMapUtils
         {
             if (check)
             {
-                if (lng >= -180d && lng <= 180d)
+                if (lng < -180d && lng > 180d)
                 {
-                    this.lng = parse(lng);
-                    radLng = getRadian(lng);
+                    ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "经度值不在范围内");
                 }
-                else { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "经度值不在范围内"); }
-                if (lat >= -90d && lat <= 90d)
+
+                if (lat < -90d && lat > 90d)
                 {
-                    this.lat = lat;
-                    radLat = getRadian(lat);
+                    ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "纬度值不在范围内");
                 }
-                else { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "纬度值不在范围内"); }
+
+                this.lng = parse(lng);
+                radLng = getRadian(lng);
+
+                this.lat = lat;
+                radLat = getRadian(lat);
             }
         }
 
