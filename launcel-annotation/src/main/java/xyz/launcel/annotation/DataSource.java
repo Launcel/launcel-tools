@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * Created by launcel on 2018/9/1.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
+@Target(ElementType.METHOD)
 @Documented
 public @interface DataSource
 {

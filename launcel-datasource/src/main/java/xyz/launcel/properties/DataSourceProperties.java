@@ -32,7 +32,6 @@ public class DataSourceProperties
     @NoArgsConstructor
     public static class DataSourcePropertie
     {
-        @NonNull
         private String  name                  = "main";
         // private String  driverClassName     = "net.sf.log4jdbc.DriverSpy";
         private String  driverClass           = "org.mariadb.jdbc.Driver";

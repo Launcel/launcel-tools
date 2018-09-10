@@ -24,7 +24,6 @@ public class MybatisProperties
     @NoArgsConstructor
     public static class MybatisPropertie
     {
-        @NonNull
         private String refName = "main";
         @NonNull
         private String aliasesPackage;
