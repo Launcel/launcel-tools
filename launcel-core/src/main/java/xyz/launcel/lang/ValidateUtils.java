@@ -8,55 +8,73 @@ import xyz.launcel.log.RootLogger;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
+import java.util.Arrays;
 
 public final class ValidateUtils
 {
 
     private ValidateUtils() { }
 
-    public static void validateLimit(Object object, String group) throws IllegalAccessException
+    public static void validateLimit(Object object, String group)
     {
         Field[] fields = object.getClass().getDeclaredFields();
-        for (Field field : fields)
+        Arrays.stream(fields).forEach(field ->
         {
             field.setAccessible(true);
             if (field.isAnnotationPresent(Limit.class))
             {
-                Object value = field.get(object);
-                validateGroup(field, value, group);
+                try
+                {
+                    Object value = field.get(object);
+                    validateGroup(field, value, group);
+                }
+                catch (IllegalAccessException x)
+                {
+                    RootLogger.error(x.getLocalizedMessage());
+                }
             }
             field.setAccessible(false);
-        }
+        });
     }
 
     @Deprecated
-    public static void validateLimit(Parameter parameter, String group) throws ReflectiveOperationException
+    public static void validateLimit(Parameter parameter, String group)
     {
         Class<?> clazz  = parameter.getType();
         Field[]  fields = clazz.getDeclaredFields();
-        for (Field field : fields)
+        Arrays.stream(fields).forEach(field ->
         {
             field.setAccessible(true);
-            if (field.isAnnotationPresent(Limit.class)) { validateGroup(field, clazz.newInstance(), group); }
+            if (field.isAnnotationPresent(Limit.class))
+            {
+                try
+                {
+                    validateGroup(field, clazz.newInstance(), group);
+                }
+                catch (ReflectiveOperationException x)
+                {
+                    RootLogger.error(x.getLocalizedMessage());
+                }
+            }
             field.setAccessible(false);
-        }
+        });
     }
 
     private static void validateGroup(Field f, Object value, String group)
     {
         Limit l = f.getAnnotation(Limit.class);
-        if (l.group().length > 0)
+        if (l.group().length < 0)
         {
-            for (Class<?> aClass : l.group())
-            {
-                if (aClass.getSimpleName().equals(group)) { checkFiled(value, l, f); }
-            }
-        }
-        else
-        {
-            // 全部校验
             checkFiled(value, l, f);
+            return;
         }
+        Arrays.stream(l.group()).forEach(aClass ->
+        {
+            if (aClass.getSimpleName().equals(group))
+            {
+                checkFiled(value, l, f);
+            }
+        });
     }
 
     private static void checkFiled(Object value, Limit l, Field f)

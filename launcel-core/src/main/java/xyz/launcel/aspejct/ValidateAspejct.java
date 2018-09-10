@@ -11,6 +11,7 @@ import xyz.launcel.log.RootLogger;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -30,32 +31,21 @@ class ValidateAspejct
                 RootLogger.debug("调用了：{}.upload* 方法,可能是上传文件,不输出参数,如有误,请重命名该方法,不要包含upload关键字", signature.getDeclaringTypeName());
                 return;
             }
-            else
-            {
-                String   params = "";
-                Object[] temp   = joinPoint.getArgs();
-                if (Objects.nonNull(temp) && temp.length > 0)
-                {
-                    params = Json.toJson(temp);
-                }
-                RootLogger.debug("调用了：{}.{} 方法 ：参数 \n{}", signature.getDeclaringTypeName(), method.getName(), params);
-            }
+            String   params = "";
+            Object[] temp   = joinPoint.getArgs();
+            if (Objects.nonNull(temp) && temp.length > 0)
+            { params = Json.toJson(temp); }
+            RootLogger.debug("调用了：{}.{} 方法 ：参数 \n{}", signature.getDeclaringTypeName(), method.getName(), params);
         }
         Parameter[] params = method.getParameters();
         String      group  = StringUtils.capitalize(joinPoint.getSignature().getName());
+
         for (int i = 0; i < params.length; i++)
         {
             if (params[i].isAnnotationPresent(Validate.class))
             {
-                try
-                {
-                    Object object = joinPoint.getArgs()[i];
-                    ValidateUtils.validateLimit(object, group);
-                }
-                catch (ReflectiveOperationException e)
-                {
-                    throw new SystemException("_DEFINE_ERROR_CODE_010", "进行反射校验失败");
-                }
+                Object object = joinPoint.getArgs()[i];
+                ValidateUtils.validateLimit(object, group);
             }
         }
     }
@@ -67,7 +57,8 @@ class ValidateAspejct
         if (RootLogger.isDebug())
         {
             String returns = "";
-            if (Objects.nonNull(object)) { returns = Json.toJson(object); }
+            if (Objects.nonNull(object))
+            { returns = Json.toJson(object); }
             RootLogger.debug("调用了：{}.{} 方法结束 ：结果 \n{}", signature.getDeclaringTypeName(), method.getName(), returns);
         }
     }
