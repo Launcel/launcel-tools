@@ -1,5 +1,6 @@
 package xyz.launcel.lang;
 
+import lombok.NonNull;
 import org.springframework.beans.BeanUtils;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.exception.ProfessionException;
@@ -14,7 +15,7 @@ public final class BeanCopy
 
     private BeanCopy() { }
 
-    private static <T> T mapProperties(Object source, T target, String... ignoreProperties)
+    private static <T> T mapProperties(@NonNull Object source, T target, String... ignoreProperties)
     {
         BeanUtils.copyProperties(source, target, ignoreProperties);
         return target;
@@ -50,7 +51,8 @@ public final class BeanCopy
 
     public static <T> List<T> map(Collection<?> source, Class<T> targetClass, String... ignoreProperties)
     {
-        if (CollectionUtils.isEmpty(source)) { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "集合中没有数据"); }
+        if (CollectionUtils.isEmpty(source))
+        { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "集合中没有数据"); }
         try
         {
             List<T> targetList = new ArrayList<>();
