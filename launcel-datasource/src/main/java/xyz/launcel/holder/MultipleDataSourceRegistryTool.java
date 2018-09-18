@@ -35,7 +35,8 @@ public class MultipleDataSourceRegistryTool
     private final Map<String, MybatisProperties.MybatisPropertie> multipleMybatis;
     private final DataSourceProperties                            dataSourceProperties;
 
-    public MultipleDataSourceRegistryTool(Map<String, MybatisProperties.MybatisPropertie> multipleMybatis, DataSourceProperties dataSourceProperties)
+    public MultipleDataSourceRegistryTool(
+            Map<String, MybatisProperties.MybatisPropertie> multipleMybatis, DataSourceProperties dataSourceProperties)
     {
         this.multipleMybatis = multipleMybatis;
         this.dataSourceProperties = dataSourceProperties;
@@ -44,20 +45,24 @@ public class MultipleDataSourceRegistryTool
     public void registrMultipleBean(BeanDefinitionRegistry registry)
     {
         if (Objects.isNull(dataSourceProperties) && CollectionUtils.isEmpty(multipleMybatis))
-            throw new SystemError("_DEFINE_ERROR_CODE_010", ">>>  datasource propertie config or mybatis propertie config is null !!");
-        RootLogger.info("dataSourceProperties is : {}\nmultipleMybatis is : {}", Json.toJson(dataSourceProperties), Json.toJson(multipleMybatis));
+            throw new SystemError("_DEFINE_ERROR_CODE_010",
+                                  ">>>  datasource propertie config or mybatis propertie config is null !!");
+        RootLogger.info("dataSourceProperties is : {}\nmultipleMybatis is : {}", Json.toJson(dataSourceProperties),
+                        Json.toJson(multipleMybatis));
         registMultipeDataSource(dataSourceProperties.getMain(), registry);
         if (CollectionUtils.isNotEmpty(dataSourceProperties.getOthers()))
             dataSourceProperties.getOthers().forEach(propertie -> registMultipeDataSource(propertie, registry));
     }
 
-    private void registMultipeDataSource(DataSourceProperties.DataSourcePropertie dataSourcePropertie, BeanDefinitionRegistry registry)
+    private void registMultipeDataSource(
+            DataSourceProperties.DataSourcePropertie dataSourcePropertie, BeanDefinitionRegistry registry)
     {
-        MybatisProperties.MybatisPropertie mybatisPropertie          = multipleMybatis.get(dataSourcePropertie.getName());
-        String                             sqlSessionFactoryBeanName = dataSourcePropertie.getName() + SessionFactoryConstant.sessionFactoryName;
-        HikariDataSource                   dataSource                = new HikariDataSource(dataSourcePropertie.getHikariConfig());
+        MybatisProperties.MybatisPropertie mybatisPropertie = multipleMybatis.get(dataSourcePropertie.getName());
+        String sqlSessionFactoryBeanName = dataSourcePropertie.getName() + SessionFactoryConstant.sessionFactoryName;
+        HikariDataSource dataSource = new HikariDataSource(dataSourcePropertie.getHikariConfig());
 
-        registSessionFactory(registry, dataSource, mybatisPropertie, sqlSessionFactoryBeanName, dataSourcePropertie.getDebugSql());
+        registSessionFactory(registry, dataSource, mybatisPropertie, sqlSessionFactoryBeanName,
+                             dataSourcePropertie.getDebugSql());
         registMapperScannerConfigurer(registry, mybatisPropertie, sqlSessionFactoryBeanName);
 
         if (dataSourcePropertie.getEnableTransactal())
@@ -69,14 +74,18 @@ public class MultipleDataSourceRegistryTool
     /**
      * 注册 sessionFactory
      */
-    private void registSessionFactory(BeanDefinitionRegistry registry, HikariDataSource hikariDataSource, MybatisProperties.MybatisPropertie mybatisPropertie, String sqlSessionFactoryBeanName, boolean isDebugSql)
+    private void registSessionFactory(
+            BeanDefinitionRegistry registry, HikariDataSource hikariDataSource,
+            MybatisProperties.MybatisPropertie mybatisPropertie, String sqlSessionFactoryBeanName, boolean isDebugSql)
     {
-        AnnotatedGenericBeanDefinition sqlSessionAbd = BeanDefinitionRegistryTool.decorateAbd(SqlSessionFactoryBean.class);
-        MutablePropertyValues          sqlSession    = sqlSessionAbd.getPropertyValues();
+        AnnotatedGenericBeanDefinition sqlSessionAbd =
+                BeanDefinitionRegistryTool.decorateAbd(SqlSessionFactoryBean.class);
+        MutablePropertyValues sqlSession = sqlSessionAbd.getPropertyValues();
 
         sqlSession.addPropertyValue(SessionFactoryConstant.dataSourceName, hikariDataSource);
         sqlSession.addPropertyValue(SessionFactoryConstant.configLocationName, "classpath:mybatis/mybatis-config.xml");
-        sqlSession.addPropertyValue(SessionFactoryConstant.typeAliasesPackageName, mybatisPropertie.getAliasesPackage());
+        sqlSession
+                .addPropertyValue(SessionFactoryConstant.typeAliasesPackageName, mybatisPropertie.getAliasesPackage());
 
         List<Interceptor> interceptors = new ArrayList<>(2);
         interceptors.add(new PageInterceptor());
@@ -85,11 +94,14 @@ public class MultipleDataSourceRegistryTool
         sqlSession.addPropertyValue(SessionFactoryConstant.pluginName, interceptors);
         try
         {
-            sqlSession.addPropertyValue(SessionFactoryConstant.mapperLocationName, new PathMatchingResourcePatternResolver().getResources(mybatisPropertie.getMapperResource()));
+            sqlSession.addPropertyValue(SessionFactoryConstant.mapperLocationName,
+                                        new PathMatchingResourcePatternResolver()
+                                                .getResources(mybatisPropertie.getMapperResource()));
         }
         catch (IOException e)
         {
-            throw new SystemError("_DEFINE_ERROR_CODE_010", ">>>  connot load resource :" + mybatisPropertie.getMapperResource() + " !!");
+            throw new SystemError("_DEFINE_ERROR_CODE_010",
+                                  ">>>  connot load resource :" + mybatisPropertie.getMapperResource() + " !!");
         }
         BeanDefinitionRegistryTool.registryBean(sqlSessionFactoryBeanName, registry, sqlSessionAbd);
     }
@@ -97,13 +109,17 @@ public class MultipleDataSourceRegistryTool
     /**
      * 注册 MapperScannerConfigurer
      */
-    private void registMapperScannerConfigurer(BeanDefinitionRegistry registry, MybatisProperties.MybatisPropertie mybatisPropertie, String sqlSessionFactoryBeanName)
+    private void registMapperScannerConfigurer(
+            BeanDefinitionRegistry registry, MybatisProperties.MybatisPropertie mybatisPropertie,
+            String sqlSessionFactoryBeanName)
     {
-        AnnotatedGenericBeanDefinition abd                     = BeanDefinitionRegistryTool.decorateAbd(MapperScannerConfigurer.class);
-        MutablePropertyValues          mapperScannerConfigurer = abd.getPropertyValues();
+        AnnotatedGenericBeanDefinition abd = BeanDefinitionRegistryTool.decorateAbd(MapperScannerConfigurer.class);
+        MutablePropertyValues mapperScannerConfigurer = abd.getPropertyValues();
 
-        mapperScannerConfigurer.addPropertyValue(SessionFactoryConstant.sqlSessionFactoryName, sqlSessionFactoryBeanName);
-        mapperScannerConfigurer.addPropertyValue(SessionFactoryConstant.basePackageName, mybatisPropertie.getMapperPackage());
+        mapperScannerConfigurer
+                .addPropertyValue(SessionFactoryConstant.sqlSessionFactoryName, sqlSessionFactoryBeanName);
+        mapperScannerConfigurer
+                .addPropertyValue(SessionFactoryConstant.basePackageName, mybatisPropertie.getMapperPackage());
         String mybatisBeanName = mybatisPropertie.getRefName() + SessionFactoryConstant.mybatisName;
 
         BeanDefinitionRegistryTool.registryBean(mybatisBeanName, registry, abd);
@@ -115,12 +131,14 @@ public class MultipleDataSourceRegistryTool
      */
     public static void registTransactal(String key, BeanDefinitionRegistry registry, HikariDataSource hikariDataSource)
     {
-        AnnotatedGenericBeanDefinition transactalAbd            = BeanDefinitionRegistryTool.decorateAbd(DataSourceTransactionManager.class);
-        MutablePropertyValues          transactaDataSourceValue = transactalAbd.getPropertyValues();
+        AnnotatedGenericBeanDefinition transactalAbd =
+                BeanDefinitionRegistryTool.decorateAbd(DataSourceTransactionManager.class);
+        MutablePropertyValues transactaDataSourceValue = transactalAbd.getPropertyValues();
 
         transactaDataSourceValue.addPropertyValue(SessionFactoryConstant.dataSourceName, hikariDataSource);
         transactaDataSourceValue.addPropertyValue("enforceReadOnly", false);
 
-        BeanDefinitionRegistryTool.registryBean(key + SessionFactoryConstant.transactionManagerName, registry, transactalAbd);
+        BeanDefinitionRegistryTool
+                .registryBean(key + SessionFactoryConstant.transactionManagerName, registry, transactalAbd);
     }
 }

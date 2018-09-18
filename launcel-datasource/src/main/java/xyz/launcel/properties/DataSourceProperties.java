@@ -37,7 +37,8 @@ public class DataSourceProperties
         private String  driverClass           = "org.mariadb.jdbc.Driver";
         // private String  url                 = "jdbc:log4jdbc:mysql://localhost:3306/wx-shop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false";
         @NonNull
-        private String  url                   = "jdbc:mariadb://localhost:3306/test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false";
+        private String  url                   =
+                "jdbc:mariadb://localhost:3306/test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false";
         private String  username              = "root";
         @NonNull
         private String  password              = "MTIzNDU2";

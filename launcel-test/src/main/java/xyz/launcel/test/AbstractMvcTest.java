@@ -24,7 +24,9 @@ public abstract class AbstractMvcTest extends AbstractTest
 
     private void setup()
     {
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac).alwaysExpect(MockMvcResultMatchers.status().isOk()).alwaysDo(MockMvcResultHandlers.print()).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
+                                 .alwaysExpect(MockMvcResultMatchers.status().isOk())
+                                 .alwaysDo(MockMvcResultHandlers.print()).build();
     }
 
     private MockMvc getMockMvc()
@@ -89,7 +91,8 @@ public abstract class AbstractMvcTest extends AbstractTest
         }
     }
 
-    private MockHttpServletRequestBuilder builder(String uri, Map<String, String> params, String requestMethod)
+    private MockHttpServletRequestBuilder builder(
+            String uri, Map<String, String> params, String requestMethod)
     {
         if ("get".equals(requestMethod.toLowerCase()))
         {
@@ -113,7 +116,8 @@ public abstract class AbstractMvcTest extends AbstractTest
         }
     }
 
-    private MockHttpServletRequestBuilder addParam(MockHttpServletRequestBuilder builder, Map<String, String> params)
+    private MockHttpServletRequestBuilder addParam(
+            MockHttpServletRequestBuilder builder, Map<String, String> params)
     {
         for (Map.Entry<String, String> entry : params.entrySet())
         {

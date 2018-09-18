@@ -24,7 +24,8 @@ public class SecurityAutoConfiguration implements WebMvcConfigurer
     private final SecurityListProperties securityListProperties;
     private final JdbcRolePropertites    jdbcRolePropertites;
 
-    public SecurityAutoConfiguration(SecurityListProperties securityListProperties, JdbcRolePropertites jdbcRolePropertites)
+    public SecurityAutoConfiguration(
+            SecurityListProperties securityListProperties, JdbcRolePropertites jdbcRolePropertites)
     {
         this.securityListProperties = securityListProperties;
         this.jdbcRolePropertites = jdbcRolePropertites;
@@ -43,7 +44,7 @@ public class SecurityAutoConfiguration implements WebMvcConfigurer
     public void addInterceptors(InterceptorRegistry registry)
     {
         registry.addInterceptor(new RoleInterceptor()).excludePathPatterns(securityListProperties.getExcludePaths());
-//        super.addInterceptors(registry);
+        //        super.addInterceptors(registry);
     }
 
     @Bean

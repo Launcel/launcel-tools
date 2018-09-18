@@ -2,6 +2,7 @@ package xyz.launcel.request;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.io.Serializable;
  */
 @Setter
 @Getter
+@ToString
 @Accessors(chain = true)
 public class BaseRequest implements Serializable
 {
@@ -24,6 +26,5 @@ public class BaseRequest implements Serializable
      * ios, androd, h5,xcx
      */
     private String device;
-
 
 }

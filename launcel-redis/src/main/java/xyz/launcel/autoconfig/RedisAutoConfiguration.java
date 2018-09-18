@@ -96,7 +96,8 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     @Primary
     @Bean(name = "redisTemplate")
     @ConditionalOnBean(name = "redisConnectionFactory")
-    public RedisTemplate<String, Object> redisTemplate(@Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
+    public RedisTemplate<String, Object> redisTemplate(
+            @Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
     {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
@@ -117,8 +118,10 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     public CacheManager cacheManager(@Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
     {
         // 设置缓存有效期一小时
-        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(1));
-        return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory)).cacheDefaults(redisCacheConfiguration).build();
+        RedisCacheConfiguration redisCacheConfiguration =
+                RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(1));
+        return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory))
+                                .cacheDefaults(redisCacheConfiguration).build();
     }
 
     @Bean

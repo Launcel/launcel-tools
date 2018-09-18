@@ -36,7 +36,9 @@ public class DataSourcePropertiesBinderTool
 
     public void binderDataSource(Binder binder)
     {
-        dataSourceProperties = binder.bind(SessionFactoryConstant.dataSourceConfigPrefix, Bindable.of(DataSourceProperties.class)).get();
+        dataSourceProperties =
+                binder.bind(SessionFactoryConstant.dataSourceConfigPrefix, Bindable.of(DataSourceProperties.class))
+                      .get();
         if (Objects.nonNull(dataSourceProperties) && dataSourceProperties.getUseDynamicDataSource())
             binderDynamicDataSource(dataSourceProperties);
     }
@@ -49,7 +51,9 @@ public class DataSourcePropertiesBinderTool
             HikariDataSource                         dataSource = new HikariDataSource(main.getHikariConfig());
             if (Objects.isNull(dynamicDataSourceConfigMapList))
                 dynamicDataSourceConfigMapList = new ArrayList<>();
-            dynamicDataSourceConfigMapList.add(new DataSourceConfigMap(main.getName(), main.getEnableTransactal(), main.getRoleDataSource(), dataSource));
+            dynamicDataSourceConfigMapList
+                    .add(new DataSourceConfigMap(main.getName(), main.getEnableTransactal(), main.getRoleDataSource(),
+                                                 dataSource));
             if (main.getRoleDataSource())
                 RoleDataSourceHolder.setDataSource(dataSource);
             isDebugSql(dataSourceProperties.getMain());
@@ -57,20 +61,25 @@ public class DataSourcePropertiesBinderTool
         if (CollectionUtils.isNotEmpty(dataSourceProperties.getOthers()))
         {
             dataSourceProperties.getOthers().forEach(other ->
-            {
-                isDebugSql(other);
-                HikariDataSource dataSource = new HikariDataSource(other.getHikariConfig());
-                dynamicDataSourceConfigMapList.add(new DataSourceConfigMap(other.getName(), other.getEnableTransactal(), other.getRoleDataSource(), dataSource));
-                if (other.getRoleDataSource())
-                    RoleDataSourceHolder.setDataSource(dataSource);
-            });
+                 {
+                     isDebugSql(other);
+                     HikariDataSource dataSource = new HikariDataSource(other.getHikariConfig());
+                     dynamicDataSourceConfigMapList.add(new DataSourceConfigMap(other.getName(),
+                                                                                other.getEnableTransactal(),
+                                                                                other.getRoleDataSource(),
+                                                                                dataSource));
+                     if (other.getRoleDataSource())
+                         RoleDataSourceHolder.setDataSource(dataSource);
+                 });
         }
     }
 
     public void binderMybatisConfig(Binder binder)
     {
-        MybatisProperties mybatisProperties = binder.bind(SessionFactoryConstant.mybatisConfigPrefix, Bindable.of(MybatisProperties.class)).get();
-        if (Objects.isNull(mybatisProperties) || Objects.isNull(mybatisProperties.getMain()) || CollectionUtils.isEmpty(mybatisProperties.getOthers()))
+        MybatisProperties mybatisProperties =
+                binder.bind(SessionFactoryConstant.mybatisConfigPrefix, Bindable.of(MybatisProperties.class)).get();
+        if (Objects.isNull(mybatisProperties) || Objects.isNull(mybatisProperties.getMain()) ||
+                CollectionUtils.isEmpty(mybatisProperties.getOthers()))
             System.exit(-1);
         if (dataSourceProperties.getUseDynamicDataSource())
         {
@@ -91,7 +100,8 @@ public class DataSourcePropertiesBinderTool
             multipleMybatis = new HashMap<>();
         multipleMybatis.put(mybatisProperties.getMain().getRefName(), mybatisProperties.getMain());
         if (CollectionUtils.isNotEmpty(mybatisProperties.getOthers()))
-            mybatisProperties.getOthers().forEach(mybatisPropertie -> multipleMybatis.put(mybatisPropertie.getRefName(), mybatisPropertie));
+            mybatisProperties.getOthers().forEach(
+                    mybatisPropertie -> multipleMybatis.put(mybatisPropertie.getRefName(), mybatisPropertie));
     }
 
     private void isDebugSql(DataSourceProperties.DataSourcePropertie dataSourcePropertie)

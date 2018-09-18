@@ -1,5 +1,10 @@
 package xyz.launcel.dao;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 import xyz.launcel.annotation.OrderSqlEnum;
 
 import java.io.Serializable;
@@ -11,21 +16,26 @@ import java.util.Set;
 
 /**
  * @param <T>
- *
  * @author launcel
  */
+@Accessors(chain = true)
+@NoArgsConstructor
+@ToString(exclude = {"row", "lowerId", "largeId", "offset", "orderBy", "groupBy"})
 public class Page<T> implements Serializable
 {
     private static final long serialVersionUID = -8522433864030332281L;
 
+    @Getter
+    @Setter
     private List<T> list;
-
+    @Getter
     private transient Integer row = Integer.MAX_VALUE;
 
+    @Getter
     private transient Integer lowerId;
-
+    @Getter
     private transient Integer largeId;
-
+    @Getter
     private Integer pageNo = 1;
 
     /**
@@ -35,20 +45,15 @@ public class Page<T> implements Serializable
 
     private transient int offset;
 
+    @Setter
+    @Getter
     private transient LinkedHashMap<String, OrderSqlEnum> orderBy;
 
+    @Getter
     private transient Set<String> groupBy;
-
-    public Page() { }
-
-    public Page(Integer pageNo)
-    {
-        this.pageNo = pageNo;
-    }
 
     public Page(int row)
     {
-        this.pageNo = 1;
         this.row = row;
     }
 
@@ -58,17 +63,17 @@ public class Page<T> implements Serializable
         this.row = row;
     }
 
-    public Page(int row, int lowerId)
-    {
-        this.row = row;
-        this.lowerId = lowerId;
-    }
-
-    public Page(int row, Integer largeId)
-    {
-        this.row = row;
-        this.largeId = largeId;
-    }
+//    public Page(int row, int lowerId)
+//    {
+//        this.row = row;
+//        this.lowerId = lowerId;
+//    }
+//
+//    public Page(int row, Integer largeId)
+//    {
+//        this.row = row;
+//        this.largeId = largeId;
+//    }
 
     public Page(Integer total, List<T> list)
     {
@@ -89,44 +94,7 @@ public class Page<T> implements Serializable
         return (this.pageNo - 1) * this.row;
     }
 
-    public List<T> getList()
-    {
-        return list;
-    }
-
-
-    public int getRow()
-    {
-        return this.row;
-    }
-
-
-    public int getPageNo()
-    {
-        return this.pageNo;
-    }
-
-
-    public int getTotal()
-    {
-        return this.total;
-    }
-
-    public Integer getLargeId()
-    {
-        return largeId;
-    }
-
-    public Integer getLowerId()
-    {
-        return lowerId;
-    }
     /*-------------------setter-----------------------*/
-
-    public void setList(List<T> list)
-    {
-        this.list = list;
-    }
 
     public Page<T> setRow(Integer row)
     {
@@ -157,32 +125,10 @@ public class Page<T> implements Serializable
         this.lowerId = (null == lowerId || lowerId < 0) ? 1 : lowerId;
     }
 
-    public LinkedHashMap<String, OrderSqlEnum> getOrderBy()
-    {
-        return orderBy;
-    }
-
     public Page<T> setOrderBy(String orderByCol, OrderSqlEnum orderRule)
     {
         if (Objects.isNull(this.orderBy)) { this.orderBy = new LinkedHashMap<>(); }
         this.orderBy.put(orderByCol, orderRule);
-        return this;
-    }
-
-    public Page<T> setOrderBy(LinkedHashMap<String, OrderSqlEnum> orderBy)
-    {
-        this.orderBy = orderBy;
-        return this;
-    }
-
-    public Set<String> getGroupBy()
-    {
-        return groupBy;
-    }
-
-    public Page<T> setGroupBy(Set<String> groupBy)
-    {
-        this.groupBy = groupBy;
         return this;
     }
 

@@ -34,11 +34,13 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
 
     private final CorsProperties corsProperties;
 
-    private final JsonConverterProperties jsonConverterProperties;
-
     private final UploadProperties uploadProperties;
 
-    public WebKitAutoConfiguration(CorsProperties corsProperties, UploadProperties uploadProperties, JsonConverterProperties jsonConverterProperties)
+    private final JsonConverterProperties jsonConverterProperties;
+
+    public WebKitAutoConfiguration(
+            CorsProperties corsProperties, UploadProperties uploadProperties,
+            JsonConverterProperties jsonConverterProperties)
     {
         this.corsProperties = corsProperties;
         this.uploadProperties = uploadProperties;
@@ -48,11 +50,13 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     /**
      * 用 gson 替换 jackson
      */
-    @ConditionalOnProperty(prefix = "web.json-converter", value = "enabled", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "web.json-converter", value = "enabled", havingValue = "true",
+            matchIfMissing = true)
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
     {
-        converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
+        converters
+                .removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
         //        GsonHttpMessageConverter converter   = new GsonHttpMessageConverter();
         //        GsonBuilder              gsonBuilder = new PrimyGsonBuilder().setDateFormat(jsonConverterProperties.getDateFormat()).getGsonBuilder();
         //        converter.setGson(gsonBuilder.create());

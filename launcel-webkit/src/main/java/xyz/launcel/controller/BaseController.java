@@ -7,7 +7,6 @@ import xyz.launcel.log.BaseLogger;
 import xyz.launcel.properties.WebAspejctProperties;
 import xyz.launcel.response.Response;
 
-import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,11 +14,15 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class BaseController extends BaseLogger
 {
 
-    @Inject
-    private HttpServletRequest HttpRequest;
+    private final HttpServletRequest HttpRequest;
 
-    @Inject
-    private HttpServletResponse HttpResponse;
+    private final HttpServletResponse HttpResponse;
+
+    public BaseController(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
+    {
+        HttpRequest = httpRequest;
+        HttpResponse = httpResponse;
+    }
 
     @ModelAttribute
     public void init()
@@ -33,24 +36,18 @@ public abstract class BaseController extends BaseLogger
         String pageNoString = getRequest().getParameter("pageNo");
         String rowString    = getRequest().getParameter("row");
 
-        Integer pageNo;
+        Integer pageNo = 1;
         try
         {
             pageNo = StringUtils.isNotBlank(pageNoString) ? Integer.valueOf(pageNoString.trim()) : 1;
         }
-        catch (Exception x)
-        {
-            pageNo = 1;
-        }
-        Integer row;
+        catch (Exception ignore) { }
+        Integer row = 20;
         try
         {
             row = StringUtils.isNotBlank(rowString) ? Integer.valueOf(rowString.trim()) : 20;
         }
-        catch (Exception x)
-        {
-            row = 20;
-        }
+        catch (Exception ignore) {}
         return new Page<>(pageNo, row);
     }
 
