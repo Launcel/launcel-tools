@@ -5,15 +5,6 @@
 
 package xyz.launcel.export;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -26,11 +17,21 @@ import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.lang.CollectionUtils;
 import xyz.launcel.lang.TimeFormatUtil;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+
 public class ExcelUtils
 {
     public ExcelUtils() { }
 
-    public static void exportExcel(HttpServletResponse response, String fileName, String[] titles, List<List<Object>> list)
+    public static void exportExcel(
+            HttpServletResponse response, String fileName, String[] titles, List<List<Object>> list)
     {
         if (titles.length > 0 && CollectionUtils.isNotEmpty(list))
         {
@@ -99,17 +100,15 @@ public class ExcelUtils
 
             for (int n = 0; n < clist.size(); ++n)
             {
+                row.createCell((short) n).setCellValue("");
                 Object value = clist.get(n);
-                if (Objects.isNull(value))
+                if (Objects.nonNull(value))
                 {
-                    row.createCell((short) n).setCellValue("");
-                }
-                else if (value instanceof Date)
-                {
-                    row.createCell((short) n).setCellValue(TimeFormatUtil.format((Date) value, "yyyy-MM-dd"));
-                }
-                else
-                {
+                    if (value instanceof Date)
+                    {
+                        row.createCell((short) n).setCellValue(TimeFormatUtil.format((Date) value, "yyyy-MM-dd"));
+                        continue;
+                    }
                     row.createCell((short) n).setCellValue(String.valueOf(value));
                 }
             }

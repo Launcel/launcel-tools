@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import xyz.launcel.exception.ProfessionException;
 import xyz.launcel.exception.SystemError;
 import xyz.launcel.exception.SystemException;
-import xyz.launcel.log.RootLogger;
 import xyz.launcel.response.Response;
 
 /**
@@ -22,51 +21,42 @@ public class GlobalExceptionHandle
     @ExceptionHandler(value = Throwable.class)
     public Response throwable(Throwable x)
     {
-        RootLogger.error(x.getMessage());
+        x.getCause().printStackTrace();
         return response(message);
     }
 
     @ExceptionHandler(value = NullPointerException.class)
     public Response nullPointerException(NullPointerException x)
     {
-        if (RootLogger.isDebug())
-        {
-            RootLogger.debug(x.getMessage());
-        }
+        x.getCause().printStackTrace();
         return response(x.getMessage());
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)
     public Response illegalArgumentException(IllegalArgumentException x)
     {
-        if (RootLogger.isDebug())
-        {
-            RootLogger.debug(x.getMessage());
-        }
+        x.getCause().printStackTrace();
         return response(x.getMessage());
     }
 
     @ExceptionHandler(value = SystemException.class)
     public Response systemException(SystemException x)
     {
-        x.printStackTrace();
+        x.getCause().printStackTrace();
         return response(message);
     }
 
     @ExceptionHandler(value = ProfessionException.class)
     public Response professionException(ProfessionException x)
     {
-        if (RootLogger.isDebug())
-        {
-            RootLogger.debug(x.getMessage());
-        }
+        x.getCause().printStackTrace();
         return response(x.getMessage());
     }
 
     @ExceptionHandler(SystemError.class)
     public Response systemError(Error x)
     {
-        RootLogger.error(x.getMessage());
+        x.getCause().printStackTrace();
         return response(message);
     }
 

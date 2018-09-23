@@ -31,16 +31,13 @@ import java.util.List;
 @EnableConfigurationProperties(value = {CorsProperties.class, UploadProperties.class, JsonConverterProperties.class})
 public class WebKitAutoConfiguration implements WebMvcConfigurer
 {
-
-    private final CorsProperties corsProperties;
-
-    private final UploadProperties uploadProperties;
-
+    private final CorsProperties          corsProperties;
+    private final UploadProperties        uploadProperties;
     private final JsonConverterProperties jsonConverterProperties;
 
-    public WebKitAutoConfiguration(
-            CorsProperties corsProperties, UploadProperties uploadProperties,
-            JsonConverterProperties jsonConverterProperties)
+    public WebKitAutoConfiguration(CorsProperties corsProperties,
+                                   UploadProperties uploadProperties,
+                                   JsonConverterProperties jsonConverterProperties)
     {
         this.corsProperties = corsProperties;
         this.uploadProperties = uploadProperties;

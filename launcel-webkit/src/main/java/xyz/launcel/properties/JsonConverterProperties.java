@@ -9,8 +9,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "web.json-converter")
 public class JsonConverterProperties
 {
-
     private Boolean enabled    = true;
     private String  dateFormat = "yyyy-MM-dd HH:mm:ss";
-
 }

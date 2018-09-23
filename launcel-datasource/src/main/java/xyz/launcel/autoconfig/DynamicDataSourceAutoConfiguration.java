@@ -94,8 +94,7 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
             havingValue = "true")
     @Bean(name = "sqlSessionFactory")
     @DependsOn(value = "dataSource")
-    public SqlSessionFactory sqlSessionFactory(
-            @Named(value = "dataSource") DataSource dataSource) throws Exception
+    public SqlSessionFactory sqlSessionFactory(@Named(value = "dataSource") DataSource dataSource) throws Exception
     {
         SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
         sqlSessionFactory.setDataSource(dataSource);

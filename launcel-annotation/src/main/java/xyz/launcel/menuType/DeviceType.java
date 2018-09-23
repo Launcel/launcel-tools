@@ -13,7 +13,9 @@ public enum DeviceType
 
     PC,
 
-    Wechat,;
+    Wechat,
+
+    ;
 
     DeviceType() {}
 

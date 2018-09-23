@@ -37,17 +37,19 @@ public abstract class BaseController extends BaseLogger
         String rowString    = getRequest().getParameter("row");
 
         Integer pageNo = 1;
+        Integer row    = 20;
         try
         {
-            pageNo = StringUtils.isNotBlank(pageNoString) ? Integer.valueOf(pageNoString.trim()) : 1;
+            if (StringUtils.isNotBlank(pageNoString))
+            {
+                pageNo = Integer.valueOf(pageNoString.trim());
+            }
+            if (StringUtils.isNotBlank(rowString))
+            {
+                row = Integer.valueOf(rowString.trim());
+            }
         }
         catch (Exception ignore) { }
-        Integer row = 20;
-        try
-        {
-            row = StringUtils.isNotBlank(rowString) ? Integer.valueOf(rowString.trim()) : 20;
-        }
-        catch (Exception ignore) {}
         return new Page<>(pageNo, row);
     }
 
@@ -64,7 +66,6 @@ public abstract class BaseController extends BaseLogger
                 }
             }
         }
-
         return null;
     }
 
