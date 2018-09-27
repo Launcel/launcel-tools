@@ -7,22 +7,17 @@ import xyz.launcel.log.BaseLogger;
 import xyz.launcel.properties.WebAspejctProperties;
 import xyz.launcel.response.Response;
 
+import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public abstract class BaseController extends BaseLogger
 {
-
-    private final HttpServletRequest HttpRequest;
-
-    private final HttpServletResponse HttpResponse;
-
-    public BaseController(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
-    {
-        HttpRequest = httpRequest;
-        HttpResponse = httpResponse;
-    }
+    @Inject
+    private HttpServletRequest  HttpRequest;
+    @Inject
+    private HttpServletResponse HttpResponse;
 
     @ModelAttribute
     public void init()

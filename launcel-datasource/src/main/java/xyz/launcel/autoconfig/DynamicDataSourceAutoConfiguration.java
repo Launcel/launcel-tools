@@ -56,24 +56,18 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
     }
 
     @Override
-    public void postProcessBeanDefinitionRegistry(
-            BeanDefinitionRegistry registry) throws BeansException
+    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException
     {
         if (binderFacory.getDataSourceProperties().getUseDynamicDataSource())
         {
-            binderFacory.getDynamicDataSourceConfigMapList().forEach(
-                    dataSourceConfigMap -> MultipleDataSourceRegistryTool
-                            .registTransactal(dataSourceConfigMap.getName(), registry,
-                                              dataSourceConfigMap.getDataSource()));
+            binderFacory.getDynamicDataSourceConfigMapList().forEach(dataSourceConfigMap -> MultipleDataSourceRegistryTool.registTransactal(dataSourceConfigMap.getName(), registry, dataSourceConfigMap.getDataSource()));
             return;
         }
-        new MultipleDataSourceRegistryTool(binderFacory.getMultipleMybatis(), binderFacory.getDataSourceProperties())
-                .registrMultipleBean(registry);
+        new MultipleDataSourceRegistryTool(binderFacory.getMultipleMybatis(), binderFacory.getDataSourceProperties()).registrMultipleBean(registry);
         RootLogger.warn("SessionFactory registry success");
     }
 
-    @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source",
-            havingValue = "true")
+    @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true")
     @Bean(name = "dataSource")
     @Primary
     public DataSource multipleDataSource()
@@ -81,17 +75,14 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
         DynamicDataSource   dynamicDataSources = new DynamicDataSource();
         Map<Object, Object> targetDataSources  = new HashMap<>();
         if (CollectionUtils.isEmpty(binderFacory.getDynamicDataSourceConfigMapList()))
-            throw new SystemError("_DEFINE_ERROR_CODE_010",
-                                  ">>>  datasource propertie config or mybatis propertie config is null !!");
-        binderFacory.getDynamicDataSourceConfigMapList().forEach(dataSourceConfigMap -> targetDataSources
-                .put(dataSourceConfigMap.getName(), dataSourceConfigMap.getDataSource()));
+            throw new SystemError("_DEFINE_ERROR_CODE_010", ">>>  datasource propertie config or mybatis propertie config is null !!");
+        binderFacory.getDynamicDataSourceConfigMapList().forEach(dataSourceConfigMap -> targetDataSources.put(dataSourceConfigMap.getName(), dataSourceConfigMap.getDataSource()));
         dynamicDataSources.setTargetDataSources(targetDataSources);
         dynamicDataSources.setDefaultTargetDataSource(binderFacory.getDynamicDataSourceConfigMapList().get(0));
         return dynamicDataSources;
     }
 
-    @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source",
-            havingValue = "true")
+    @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true")
     @Bean(name = "sqlSessionFactory")
     @DependsOn(value = "dataSource")
     public SqlSessionFactory sqlSessionFactory(@Named(value = "dataSource") DataSource dataSource) throws Exception
@@ -101,17 +92,16 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
         ResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
         sqlSessionFactory.setConfigLocation(resourceLoader.getResource("classpath:mybatis/mybatis-config.xml"));
         sqlSessionFactory.setTypeAliasesPackage(binderFacory.getDynamicMybatisPropertie().getAliasesPackage());
-        sqlSessionFactory.setMapperLocations(
-                resourceLoader.getResources(binderFacory.getDynamicMybatisPropertie().getMapperResource()));
+        sqlSessionFactory.setMapperLocations(resourceLoader.getResources(binderFacory.getDynamicMybatisPropertie().getMapperResource()));
         List<Interceptor> interceptors = new ArrayList<>(2);
         interceptors.add(new PageInterceptor());
-        if (binderFacory.debugSql()) { interceptors.add(new ParamInterceptor()); }
+        if (binderFacory.debugSql())
+        { interceptors.add(new ParamInterceptor()); }
         sqlSessionFactory.setPlugins((Interceptor[]) interceptors.toArray());
         return sqlSessionFactory.getObject();
     }
 
-    @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source",
-            havingValue = "true")
+    @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true")
     @Bean
     @DependsOn(value = "sqlSessionFactory")
     public MapperScannerConfigurer mapperScannerConfigurer()
@@ -122,20 +112,17 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
         return configurer;
     }
 
-    @ConditionalOnProperty(prefix = SessionFactoryConstant.serviceaAspejctPrefix, value = "enabled",
-            havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = SessionFactoryConstant.serviceaAspejctPrefix, value = "enabled", havingValue = "true", matchIfMissing = true)
     @Bean
     public ServerAspejct serverAspejct() { return new ServerAspejct(); }
 
-    @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source",
-            havingValue = "true")
+    @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true")
     @Bean
     public DataSourceSwitchAspect dataSourceSwitchAspect() { return new DataSourceSwitchAspect(); }
 
 
     @Override
-    public void postProcessBeanFactory(
-            ConfigurableListableBeanFactory beanFactory) throws BeansException
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException
     { }
 
 

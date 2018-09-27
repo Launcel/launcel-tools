@@ -3,6 +3,7 @@ package xyz.launcel.configuration;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
@@ -29,31 +30,22 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 @EnableConfigurationProperties(value = {CorsProperties.class, UploadProperties.class, JsonConverterProperties.class})
+@RequiredArgsConstructor
 public class WebKitAutoConfiguration implements WebMvcConfigurer
 {
     private final CorsProperties          corsProperties;
     private final UploadProperties        uploadProperties;
     private final JsonConverterProperties jsonConverterProperties;
 
-    public WebKitAutoConfiguration(CorsProperties corsProperties,
-                                   UploadProperties uploadProperties,
-                                   JsonConverterProperties jsonConverterProperties)
-    {
-        this.corsProperties = corsProperties;
-        this.uploadProperties = uploadProperties;
-        this.jsonConverterProperties = jsonConverterProperties;
-    }
 
     /**
      * 用 gson 替换 jackson
      */
-    @ConditionalOnProperty(prefix = "web.json-converter", value = "enabled", havingValue = "true",
-            matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "web.json-converter", value = "enabled", havingValue = "true", matchIfMissing = true)
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
     {
-        converters
-                .removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
+        converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
         //        GsonHttpMessageConverter converter   = new GsonHttpMessageConverter();
         //        GsonBuilder              gsonBuilder = new PrimyGsonBuilder().setDateFormat(jsonConverterProperties.getDateFormat()).getGsonBuilder();
         //        converter.setGson(gsonBuilder.create());

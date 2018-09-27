@@ -30,8 +30,7 @@ public class ExcelUtils
 {
     public ExcelUtils() { }
 
-    public static void exportExcel(
-            HttpServletResponse response, String fileName, String[] titles, List<List<Object>> list)
+    public static void exportExcel(HttpServletResponse response, String fileName, String[] titles, List<List<Object>> list)
     {
         if (titles.length > 0 && CollectionUtils.isNotEmpty(list))
         {
