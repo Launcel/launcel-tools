@@ -6,9 +6,7 @@ public interface SessionFactoryConstant
     String dataSourceConfigPrefix       = "db.jdbc";
     String mybatisConfigPrefix          = "db.mybatis";
     String dataSourceName               = "dataSource";
-    String roleDataSourceName           = "roleDataSource";
     String sessionFactoryName           = "SqlSessionFactory";
-    String sessionFactoryDataSourceName = "DataSource";
     String configLocationName           = "configLocation";
     String typeAliasesPackageName       = "typeAliasesPackage";
     String pluginName                   = "plugins";
@@ -16,7 +14,6 @@ public interface SessionFactoryConstant
     String mybatisName                  = "MapperScannerConfigurer";
     String sqlSessionFactoryName        = "sqlSessionFactoryBeanName";
     String basePackageName              = "basePackage";
-    String roleDateSourceName           = "roleDataSource";
     String transactionManagerName       = "TransactionManager";
 
 }
