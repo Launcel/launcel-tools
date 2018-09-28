@@ -92,9 +92,10 @@ public class DataSourcePropertiesBinderTool
     {
         if (Objects.isNull(multipleMybatis))
             multipleMybatis = new HashMap<>();
-        multipleMybatis.put(mybatisProperties.getMain().getRefName(), mybatisProperties.getMain());
+        multipleMybatis.put(mybatisProperties.getMain().getDataSourceName(), mybatisProperties.getMain());
         if (CollectionUtils.isNotEmpty(mybatisProperties.getOthers()))
-            mybatisProperties.getOthers().forEach(mybatisPropertie -> multipleMybatis.put(mybatisPropertie.getRefName(), mybatisPropertie));
+            mybatisProperties.getOthers()
+                    .forEach(mybatisPropertie -> multipleMybatis.put(mybatisPropertie.getDataSourceName(), mybatisPropertie));
     }
 
     private void isDebugSql(DataSourceProperties.DataSourcePropertie dataSourcePropertie)

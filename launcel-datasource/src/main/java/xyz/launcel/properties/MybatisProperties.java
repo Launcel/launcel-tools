@@ -22,7 +22,7 @@ public class MybatisProperties
     @Setter
     public static class MybatisPropertie
     {
-        private String refName = "main";
+        private String dataSourceName = "main";
         @NonNull
         private String aliasesPackage;
         @NonNull
