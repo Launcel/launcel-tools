@@ -18,8 +18,7 @@ public final class ValidateUtils
     public static void validateLimit(Object object, String group)
     {
         Field[] fields = object.getClass().getDeclaredFields();
-        Arrays.stream(fields).forEach(field ->
-        {
+        Arrays.stream(fields).forEach(field -> {
             field.setAccessible(true);
             if (field.isAnnotationPresent(Limit.class))
             {
@@ -42,8 +41,7 @@ public final class ValidateUtils
     {
         Class<?> clazz  = parameter.getType();
         Field[]  fields = clazz.getDeclaredFields();
-        Arrays.stream(fields).forEach(field ->
-        {
+        Arrays.stream(fields).forEach(field -> {
             field.setAccessible(true);
             if (field.isAnnotationPresent(Limit.class))
             {
@@ -68,8 +66,7 @@ public final class ValidateUtils
             checkFiled(value, l, f);
             return;
         }
-        Arrays.stream(l.group()).forEach(aClass ->
-        {
+        Arrays.stream(l.group()).forEach(aClass -> {
             if (aClass.getSimpleName().equals(group))
             {
                 checkFiled(value, l, f);
@@ -141,11 +138,11 @@ public final class ValidateUtils
 
         if (StringUtils.isNotBlank(l.minValue()))
         {
-            Me.that(Double.valueOf(l.minValue()).compareTo(Double.valueOf(value)) < 0).isTrue(name + "小于" + l.minValue());
+            Me.bulider(Double.valueOf(l.minValue()).compareTo(Double.valueOf(value)) < 0).isTrue(name + "小于" + l.minValue());
         }
         if (StringUtils.isNotBlank(l.maxValue()))
         {
-            Me.that(Double.valueOf(l.maxValue()).compareTo(Double.valueOf(value)) > 0).isTrue(name + "大于" + l.maxValue());
+            Me.bulider(Double.valueOf(l.maxValue()).compareTo(Double.valueOf(value)) > 0).isTrue(name + "大于" + l.maxValue());
         }
     }
 }

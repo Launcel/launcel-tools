@@ -13,27 +13,27 @@ import java.util.Map;
 public interface Me
 {
 
-    static BooleanAssert that(Boolean flat)
+    static BooleanAssert bulider(Boolean flat)
     {
         return new BooleanAssert(flat);
     }
 
-    static ObjectAssert that(Object o)
+    static ObjectAssert bulider(Object o)
     {
         return new ObjectAssert(o);
     }
 
-    static StringAssert that(String str)
+    static StringAssert bulider(String str)
     {
         return new StringAssert(str);
     }
 
-    static CollectAssert that(Collection<?> collection)
+    static CollectAssert bulider(Collection<?> collection)
     {
         return new CollectAssert(collection);
     }
 
-    static MapAssert that(Map<?, ?> map)
+    static MapAssert bulider(Map<?, ?> map)
     {
         return new MapAssert(map);
     }

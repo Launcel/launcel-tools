@@ -59,10 +59,9 @@ public class SQLHelp
         if (CollectionUtils.isNotEmpty(p.getGroupBy()))
         {
             sb.append(" GROUP BY ");
-            final Set<Integer> indexSet = new HashSet<>(1);
+            Set<Integer> indexSet = new HashSet<>(1);
             indexSet.add(1);
-            p.getGroupBy().forEach(groupSet ->
-            {
+            p.getGroupBy().forEach(groupSet -> {
                 if (indexSet.contains(1))
                 {
                     sb.append(groupSet);
@@ -75,8 +74,7 @@ public class SQLHelp
         {
             sb.append(" ORDER BY ");
             String headColName = CollectionUtils.getHead(p.getOrderBy()).getKey();
-            p.getOrderBy().forEach((colName, order) ->
-            {
+            p.getOrderBy().forEach((colName, order) -> {
                 if (colName.equals(headColName))
                 {
                     sb.append(colName).append(" ").append(order.name());

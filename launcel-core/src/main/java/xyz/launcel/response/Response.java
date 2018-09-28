@@ -1,10 +1,10 @@
 package xyz.launcel.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -13,9 +13,9 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-@Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Response implements Serializable
 {
 

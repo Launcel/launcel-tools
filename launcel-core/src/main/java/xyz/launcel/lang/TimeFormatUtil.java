@@ -40,6 +40,7 @@ public class TimeFormatUtil
      * 获取某日期的月份
      *
      * @param date
+     *
      * @return
      */
     public static Integer getMonth(Date date)
@@ -54,6 +55,7 @@ public class TimeFormatUtil
      * 获取某日期的日数
      *
      * @param date
+     *
      * @return
      */
     public static Integer getDay(Date date)
@@ -67,6 +69,7 @@ public class TimeFormatUtil
      * 获取指定日期所在周的第一天
      *
      * @param date
+     *
      * @return
      */
     public static Date getFirstDayOfWeek(Date date)
@@ -82,6 +85,7 @@ public class TimeFormatUtil
      * 获取指定日期所在周的最后一天
      *
      * @param date
+     *
      * @return
      */
     public static Date getLastDayOfWeek(Date date)
@@ -96,10 +100,9 @@ public class TimeFormatUtil
     /**
      * 获取某年某周的第一天
      *
-     * @param year
-     *         目标年份
-     * @param week
-     *         目标周数
+     * @param year 目标年份
+     * @param week 目标周数
+     *
      * @return
      */
     public static Date getFirstDayOfWeek(int year, int week)
@@ -118,10 +121,9 @@ public class TimeFormatUtil
     /**
      * 获取某年某周的最后一天
      *
-     * @param year
-     *         目标年份
-     * @param week
-     *         目标周数
+     * @param year 目标年份
+     * @param week 目标周数
+     *
      * @return
      */
     public static Date getLastDayOfWeek(int year, int week)
@@ -140,10 +142,9 @@ public class TimeFormatUtil
     /**
      * 获取某年某月的第一天
      *
-     * @param year
-     *         目标年份
-     * @param month
-     *         目标月份
+     * @param year  目标年份
+     * @param month 目标月份
+     *
      * @return
      */
     public static Date getFirstDayOfMonth(int year, int month)
@@ -166,10 +167,9 @@ public class TimeFormatUtil
     /**
      * 获取某年某月的最后一天
      *
-     * @param year
-     *         目标年份
-     * @param month
-     *         目标月份
+     * @param year  目标年份
+     * @param month 目标月份
+     *
      * @return
      */
     public static Date getLastDayOfMonth(int year, int month)
@@ -191,6 +191,7 @@ public class TimeFormatUtil
      * 获取某个日期为星期几
      *
      * @param date
+     *
      * @return String "星期*"
      */
     public static String getDayWeekOfDate1(Date date)
@@ -210,6 +211,7 @@ public class TimeFormatUtil
      * 获得指定日期的星期几数
      *
      * @param date
+     *
      * @return int
      */
     public static Integer getDayWeekOfDate2(Date date)
@@ -222,26 +224,18 @@ public class TimeFormatUtil
     /**
      * 获得指定时间加减参数后的日期(不计算则输入0)
      *
-     * @param date
-     *         指定日期
-     * @param year
-     *         年数，可正可负
-     * @param month
-     *         月数，可正可负
-     * @param day
-     *         天数，可正可负
-     * @param hour
-     *         小时数，可正可负
-     * @param minute
-     *         分钟数，可正可负
-     * @param second
-     *         秒数，可正可负
-     * @param millisecond
-     *         毫秒数，可正可负
+     * @param date        指定日期
+     * @param year        年数，可正可负
+     * @param month       月数，可正可负
+     * @param day         天数，可正可负
+     * @param hour        小时数，可正可负
+     * @param minute      分钟数，可正可负
+     * @param second      秒数，可正可负
+     * @param millisecond 毫秒数，可正可负
+     *
      * @return 计算后的日期
      */
-    public static Date addDate(
-            Date date, int year, int month, int day, int hour, int minute, int second, int millisecond)
+    public static Date addDate(Date date, int year, int month, int day, int hour, int minute, int second, int millisecond)
     {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
@@ -261,6 +255,7 @@ public class TimeFormatUtil
      *
      * @param startDate
      * @param endDate
+     *
      * @return
      */
     public static Long getDistanceTimestamp(Date startDate, Date endDate)
@@ -271,10 +266,9 @@ public class TimeFormatUtil
     /**
      * 获得两个时间相差距离多少天多少小时多少分多少秒
      *
-     * @param str1
-     *         时间参数 1 格式：1990-01-01 12:00:00
-     * @param str2
-     *         时间参数 2 格式：2009-01-01 12:00:00
+     * @param str1 时间参数 1 格式：1990-01-01 12:00:00
+     * @param str2 时间参数 2 格式：2009-01-01 12:00:00
+     *
      * @return long[] 返回值为：{天, 时, 分, 秒}
      */
     public static long[] getDistanceTime(Date one, Date two)
@@ -302,10 +296,9 @@ public class TimeFormatUtil
     /**
      * 解析两个日期之间的所有月份
      *
-     * @param beginDateStr
-     *         开始日期，至少精确到yyyy-MM
-     * @param endDateStr
-     *         结束日期，至少精确到yyyy-MM
+     * @param beginDateStr 开始日期，至少精确到yyyy-MM
+     * @param endDateStr   结束日期，至少精确到yyyy-MM
+     *
      * @return yyyy-MM日期集合
      */
     public static List<String> getMonthListOfDate(String beginDateStr, String endDateStr)
@@ -356,10 +349,9 @@ public class TimeFormatUtil
     /**
      * 解析两个日期段之间的所有日期
      *
-     * @param beginDateStr
-     *         开始日期  ，至少精确到yyyy-MM-dd
-     * @param endDateStr
-     *         结束日期  ，至少精确到yyyy-MM-dd
+     * @param beginDateStr 开始日期  ，至少精确到yyyy-MM-dd
+     * @param endDateStr   结束日期  ，至少精确到yyyy-MM-dd
+     *
      * @return yyyy-MM-dd日期集合
      */
     public static List<String> getDayListOfDate(String beginDateStr, String endDateStr)

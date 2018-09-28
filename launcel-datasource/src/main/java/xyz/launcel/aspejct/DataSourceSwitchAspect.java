@@ -40,7 +40,7 @@ public class DataSourceSwitchAspect
     }
 
     @AfterReturning(pointcut = "init()")
-    public void after(JoinPoint joinPoint)
+    public void after()
     {
         DbContextHolder.clearDbType();
     }

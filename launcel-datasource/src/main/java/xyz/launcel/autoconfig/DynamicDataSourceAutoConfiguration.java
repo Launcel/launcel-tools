@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.lang.NonNull;
 import xyz.launcel.aspejct.DataSourceSwitchAspect;
 import xyz.launcel.aspejct.ServerAspejct;
 import xyz.launcel.constant.SessionFactoryConstant;
@@ -47,7 +48,7 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
     private DataSourcePropertiesBinderTool binderFacory;
 
     @Override
-    public void setEnvironment(Environment environment)
+    public void setEnvironment(@NonNull Environment environment)
     {
         Binder binder = Binder.get(environment);
         binderFacory = new DataSourcePropertiesBinderTool();
@@ -56,14 +57,17 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
     }
 
     @Override
-    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException
+    public void postProcessBeanDefinitionRegistry(@NonNull BeanDefinitionRegistry registry) throws BeansException
     {
         if (binderFacory.getDataSourceProperties().getUseDynamicDataSource())
         {
-            binderFacory.getDynamicDataSourceConfigMapList().forEach(dataSourceConfigMap -> MultipleDataSourceRegistryTool.registTransactal(dataSourceConfigMap.getName(), registry, dataSourceConfigMap.getDataSource()));
+            binderFacory.getDynamicDataSourceConfigMapList()
+                    .forEach(dataSourceConfigMap -> MultipleDataSourceRegistryTool.registTransactal(dataSourceConfigMap.getName(), registry,
+                            dataSourceConfigMap.getDataSource()));
             return;
         }
-        new MultipleDataSourceRegistryTool(binderFacory.getMultipleMybatis(), binderFacory.getDataSourceProperties()).registrMultipleBean(registry);
+        new MultipleDataSourceRegistryTool(binderFacory.getMultipleMybatis(), binderFacory.getDataSourceProperties()).registrMultipleBean(
+                registry);
         RootLogger.warn("SessionFactory registry success");
     }
 
@@ -76,7 +80,8 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
         Map<Object, Object> targetDataSources  = new HashMap<>();
         if (CollectionUtils.isEmpty(binderFacory.getDynamicDataSourceConfigMapList()))
             throw new SystemError("_DEFINE_ERROR_CODE_010", ">>>  datasource propertie config or mybatis propertie config is null !!");
-        binderFacory.getDynamicDataSourceConfigMapList().forEach(dataSourceConfigMap -> targetDataSources.put(dataSourceConfigMap.getName(), dataSourceConfigMap.getDataSource()));
+        binderFacory.getDynamicDataSourceConfigMapList()
+                .forEach(dataSourceConfigMap -> targetDataSources.put(dataSourceConfigMap.getName(), dataSourceConfigMap.getDataSource()));
         dynamicDataSources.setTargetDataSources(targetDataSources);
         dynamicDataSources.setDefaultTargetDataSource(binderFacory.getDynamicDataSourceConfigMapList().get(0));
         return dynamicDataSources;
@@ -112,7 +117,8 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
         return configurer;
     }
 
-    @ConditionalOnProperty(prefix = SessionFactoryConstant.serviceaAspejctPrefix, value = "enabled", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = SessionFactoryConstant.serviceaAspejctPrefix, value = "enabled", havingValue = "true",
+            matchIfMissing = true)
     @Bean
     public ServerAspejct serverAspejct() { return new ServerAspejct(); }
 
@@ -122,7 +128,7 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
 
 
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException
+    public void postProcessBeanFactory(@NonNull ConfigurableListableBeanFactory beanFactory) throws BeansException
     { }
 
 

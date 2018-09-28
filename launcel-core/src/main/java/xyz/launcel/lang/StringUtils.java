@@ -58,7 +58,11 @@ public final class StringUtils
     public static String getUUID() { return UUID.randomUUID().toString().replaceAll("-", ""); }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public static Stream spiltStream(String strings, String split) { return Arrays.stream(strings.split(split)).filter(StringUtils::isNotBlank); }
+    public static Stream spiltStream(String strings, String split)
+    {
+        return Arrays.stream(strings.split(split))
+                .filter(StringUtils::isNotBlank);
+    }
 
     private static final Random RANDOM = new Random();
 
@@ -77,7 +81,8 @@ public final class StringUtils
         return random(count, start, end, letters, numbers, null, RANDOM);
     }
 
-    private static String random(int count, int start, int end, final boolean letters, final boolean numbers, final char[] chars, final Random random)
+    private static String random(int count, int start, int end, final boolean letters, final boolean numbers, final char[] chars,
+                                 final Random random)
     {
         if (count == 0) { return ""; }
         else if (count < 0)
@@ -106,7 +111,8 @@ public final class StringUtils
         {
             if (end <= start)
             {
-                throw new SystemException("_DEFINE_ERROR_CODE_011", "Parameter end (" + end + ") must be greater than start (" + start + ")");
+                throw new SystemException("_DEFINE_ERROR_CODE_011",
+                        "Parameter end (" + end + ") must be greater than start (" + start + ")");
             }
         }
 

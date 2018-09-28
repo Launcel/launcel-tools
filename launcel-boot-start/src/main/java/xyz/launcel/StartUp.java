@@ -1,22 +1,16 @@
-/**
- * Copyright (C), 2018
- * Author: Launcel
- * Date: 18.1.17
- * Version: 1.0
- */
-
 package xyz.launcel;
 
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.lang.NonNull;
 import org.springframework.util.StringUtils;
 import xyz.launcel.log.RootLogger;
 
 public interface StartUp
 {
-    static ConfigurableEnvironment run(Class<?> appClass, String[] args)
+    static ConfigurableEnvironment run(@NonNull Class<?> appClass, String[] args)
     {
         SpringApplication app = new SpringApplication(appClass);
         app.setBannerMode(Banner.Mode.OFF);
@@ -26,7 +20,6 @@ public interface StartUp
         RootLogger.error("\tapp port is : \t{}", port + "\n\t\turl is : \t" + "http://localhost:" + port);
         return env;
     }
-
 
 
 }

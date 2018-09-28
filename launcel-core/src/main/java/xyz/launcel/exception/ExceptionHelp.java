@@ -9,6 +9,7 @@ import xyz.launcel.log.RootLogger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -39,7 +40,7 @@ public class ExceptionHelp
                         for (Resource resource : resources)
                         {
                             in = resource.getInputStream();
-                            inr = new InputStreamReader(in, "UTF-8");
+                            inr = new InputStreamReader(in, StandardCharsets.UTF_8);
                             props.load(inr);
                         }
                     }
@@ -55,7 +56,7 @@ public class ExceptionHelp
         catch (IOException e) { throw new SystemException("  >>>   错误信息文件加载失败!"); }
     }
 
-    protected static Map<String, String> getMessage(String code)
+    static Map<String, String> getMessage(String code)
     {
         Map<String, String> map   = new HashMap<>();
         String              value = props.getProperty(code);

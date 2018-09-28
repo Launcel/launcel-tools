@@ -3,7 +3,6 @@ package xyz.launcel.lang;
 import lombok.NonNull;
 import org.springframework.beans.BeanUtils;
 import xyz.launcel.exception.ExceptionFactory;
-import xyz.launcel.exception.ProfessionException;
 import xyz.launcel.exception.SystemException;
 
 import java.util.ArrayList;
@@ -21,15 +20,18 @@ public final class BeanCopy
         return target;
     }
 
-    private static <T> T mapProperties(Object source, T target)                      { return mapProperties(source, target, (String[]) null); }
+    private static <T> T mapProperties(Object source, T target)
+    {
+        return mapProperties(source, target, (String[]) null);
+    }
 
-    public static void map(Object source, Object target)                             { map(source, target, (String[]) null); }
+    public static void copy(Object source, Object target)                             { copy(source, target, (String[]) null); }
 
-    public static void map(Object source, Object target, String... ignoreProperties) { mapProperties(source, target, ignoreProperties); }
+    public static void copy(Object source, Object target, String... ignoreProperties) { mapProperties(source, target, ignoreProperties); }
 
-    public static <T> T map(Object source, Class<T> targetClass)                     { return map(source, targetClass, (String[]) null); }
+    public static <T> T copy(Object source, Class<T> targetClass)                     { return copy(source, targetClass, (String[]) null); }
 
-    public static <T> T map(Object source, Class<T> targetClass, String... ignoreProperties)
+    public static <T> T copy(Object source, Class<T> targetClass, String... ignoreProperties)
     {
         T target;
         try
@@ -44,12 +46,12 @@ public final class BeanCopy
         }
     }
 
-    public static <T> List<T> map(Collection<?> source, Class<T> targetClass)
+    public static <T> List<T> copy(Collection<?> source, Class<T> targetClass)
     {
-        return map(source, targetClass, (String[]) null);
+        return copy(source, targetClass, (String[]) null);
     }
 
-    public static <T> List<T> map(Collection<?> source, Class<T> targetClass, String... ignoreProperties)
+    public static <T> List<T> copy(Collection<?> source, Class<T> targetClass, String... ignoreProperties)
     {
         if (CollectionUtils.isEmpty(source))
         { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "集合中没有数据"); }

@@ -1,5 +1,6 @@
 package xyz.launcel.autoconfig;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,14 +14,10 @@ import xyz.launcel.properties.ThreadPoolProperties;
 @Configuration
 @EnableAsync
 @EnableConfigurationProperties(value = {ThreadPoolProperties.class})
+@RequiredArgsConstructor
 public class AsyncTaskAutoConfiguration
 {
     private final ThreadPoolProperties poolProperties;
-
-    public AsyncTaskAutoConfiguration(ThreadPoolProperties poolProperties)
-    {
-        this.poolProperties = poolProperties;
-    }
 
     @Bean(name = "executor")
     public ThreadPoolTaskExecutor taskExecutor()

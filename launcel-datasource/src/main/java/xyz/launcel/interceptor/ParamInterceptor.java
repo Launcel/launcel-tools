@@ -24,10 +24,8 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.regex.Matcher;
 
-@Intercepts({
-        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
-        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})
-})
+@Intercepts({@Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}), @Signature(
+        type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})})
 public class ParamInterceptor implements Interceptor
 {
     @Override
@@ -42,13 +40,13 @@ public class ParamInterceptor implements Interceptor
             parameter = invocation.getArgs()[1];
         }
         // 获取到节点的id,即sql语句的id
-        String        sqlId         = mappedStatement.getId();
+        String sqlId = mappedStatement.getId();
         // BoundSql就是封装myBatis最终产生的sql类
-        BoundSql      boundSql      = mappedStatement.getBoundSql(parameter);
+        BoundSql boundSql = mappedStatement.getBoundSql(parameter);
         // 获取节点的配置
         Configuration configuration = mappedStatement.getConfiguration();
         // 获取到最终的sql语句
-        String        sql           = getSql(configuration, boundSql, sqlId);
+        String sql = getSql(configuration, boundSql, sqlId);
         RootLogger.debug("sql = " + sql);
         return invocation.proceed();
     }
@@ -107,7 +105,8 @@ public class ParamInterceptor implements Interceptor
                 if (boundSql.hasAdditionalParameter(propertyName))
                 {
                     // 该分支是动态sql
-                    sql = sql.replaceFirst("\\?", Matcher.quoteReplacement(getParameterValue(boundSql.getAdditionalParameter(propertyName))));
+                    sql = sql.replaceFirst("\\?",
+                            Matcher.quoteReplacement(getParameterValue(boundSql.getAdditionalParameter(propertyName))));
                     continue;
                 }
                 sql = sql.replaceFirst("\\?", "缺失");

@@ -8,11 +8,26 @@
 package xyz.launcel.annotation;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * Created by Launcel in 2017/9/27
  */
+@Getter
+@AllArgsConstructor
 public enum Types
 {
 
-    number, string, decimal, email, tel, qq, ip
+    number("整数"),
+    string("字符"),
+    decimal("小数"),
+    email("邮箱"),
+    tel("手机号"),
+    qq("qq号码"),
+    ip("ip地址");
+
+    private String desc;
+
+
 }

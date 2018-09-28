@@ -24,8 +24,7 @@ public class SecurityAutoConfiguration implements WebMvcConfigurer
     private final SecurityListProperties securityListProperties;
     private final JdbcRolePropertites    jdbcRolePropertites;
 
-    public SecurityAutoConfiguration(
-            SecurityListProperties securityListProperties, JdbcRolePropertites jdbcRolePropertites)
+    public SecurityAutoConfiguration(SecurityListProperties securityListProperties, JdbcRolePropertites jdbcRolePropertites)
     {
         this.securityListProperties = securityListProperties;
         this.jdbcRolePropertites = jdbcRolePropertites;

@@ -31,6 +31,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.version>1.8</project.build.version>
         <encode.type>${project.build.sourceEncoding}</encode.type>
         <spring.version>5.0.8.RELEASE</spring.version>
         <spring.boot.version>2.0.4.RELEASE</spring.boot.version>
@@ -254,8 +255,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.7.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${project.build.version}</source>
+                    <target>${project.build.version}</target>
                     <encoding>${encode.type}</encoding>
                 </configuration>
             </plugin>

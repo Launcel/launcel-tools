@@ -1,5 +1,8 @@
 package xyz.launcel.controller;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import xyz.launcel.dao.Page;
 import xyz.launcel.lang.StringUtils;
@@ -12,12 +15,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Getter(value = AccessLevel.PROTECTED)
 public abstract class BaseController extends BaseLogger
 {
     @Inject
-    private HttpServletRequest  HttpRequest;
+    private HttpServletRequest  request;
     @Inject
-    private HttpServletResponse HttpResponse;
+    private HttpServletResponse response;
 
     @ModelAttribute
     public void init()
@@ -67,16 +71,6 @@ public abstract class BaseController extends BaseLogger
     protected String getHeaderString(String name)
     {
         return getRequest().getHeader(name);
-    }
-
-    protected HttpServletRequest getRequest()
-    {
-        return HttpRequest;
-    }
-
-    protected HttpServletResponse getResponse()
-    {
-        return HttpResponse;
     }
 
     protected Response getSuccess()
