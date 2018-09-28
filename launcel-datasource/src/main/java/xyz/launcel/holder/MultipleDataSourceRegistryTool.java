@@ -110,7 +110,7 @@ public class MultipleDataSourceRegistryTool
 
         mapperScannerConfigurer.addPropertyValue(SessionFactoryConstant.sqlSessionFactoryName, sqlSessionFactoryBeanName);
         mapperScannerConfigurer.addPropertyValue(SessionFactoryConstant.basePackageName, mybatisPropertie.getMapperPackage());
-        String mybatisBeanName = mybatisPropertie.getRefName() + SessionFactoryConstant.mybatisName;
+        String mybatisBeanName = mybatisPropertie.getDataSourceName() + SessionFactoryConstant.mybatisName;
 
         BeanDefinitionRegistryTool.registryBean(mybatisBeanName, registry, abd);
     }
