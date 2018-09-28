@@ -32,4 +32,6 @@ public class RedisProperties
     private Long    exptime   = 600L;
     private Integer timeout   = 300;
 
+    private String valueSerializer = "org.springframework.data.redis.serializer.JdkSerializationRedisSerializer";
+
 }

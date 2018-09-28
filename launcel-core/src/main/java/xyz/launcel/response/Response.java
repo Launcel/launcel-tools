@@ -2,17 +2,13 @@ package xyz.launcel.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.io.Serializable;
 
 /**
  * Created by Launcel in 2017/9/20
  */
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

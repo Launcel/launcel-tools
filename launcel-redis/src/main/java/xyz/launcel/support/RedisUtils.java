@@ -37,9 +37,7 @@ public class RedisUtils
         RedisUtils.expireTime = expireTime;
     }
 
-    private RedisUtils()
-    {
-    }
+    private RedisUtils() { }
 
     public static void remove(final String... key)
     {
@@ -110,7 +108,8 @@ public class RedisUtils
     public static Boolean setNX(final String key, final String value, final Long expTime)
     {
         vidate(key, value);
-        String str = getTemplate().execute((RedisCallback<String>) connection -> getCommands(connection).set(key, value, "NX", "PX", expTime));
+        String str = getTemplate().execute(
+                (RedisCallback<String>) connection -> getCommands(connection).set(key, value, "NX", "PX", expTime));
         return StringUtils.isBlank(str);
     }
 
@@ -145,7 +144,7 @@ public class RedisUtils
 
     private static void vidate(final String key, final Long expTime)
     {
-        vidate(key, true, 1L);
+        vidate(key, true, expTime);
     }
 
     private static void vidate(final String key, final Object value, final Long expTime)
@@ -164,5 +163,10 @@ public class RedisUtils
         }
     }
 
+    public static void addHashValue(String bigKey, String smallKey, Object value)
+    {
+        getTemplate().opsForHash().put(bigKey, smallKey, value);
+
+    }
 
 }

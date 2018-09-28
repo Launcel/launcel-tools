@@ -22,6 +22,7 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import xyz.launcel.lang.Base64;
 import xyz.launcel.log.RootLogger;
@@ -83,15 +84,24 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     @Primary
     @Bean(name = "redisTemplate")
     @ConditionalOnBean(name = "redisConnectionFactory")
-    public RedisTemplate<String, Object> redisTemplate(
-            @Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
+    public RedisTemplate<String, Object> redisTemplate(@Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
     {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
         FastJsonRedisSerializer<?> serializer            = new FastJsonRedisSerializer<>(Object.class);
         StringRedisSerializer      stringRedisSerializer = new StringRedisSerializer();
         template.setKeySerializer(stringRedisSerializer);
-        template.setValueSerializer(new JdkSerializationRedisSerializer());
+        try
+        {
+            Class<?>        clazz                = Class.forName(properties.getValueSerializer());
+            RedisSerializer redisValueSerializer = (RedisSerializer) clazz.getDeclaredConstructor().newInstance();
+            template.setValueSerializer(redisValueSerializer);
+        }
+        catch (ReflectiveOperationException e)
+        {
+            RootLogger.error("redis value serializer init error, there will be use jdk serializer");
+            template.setValueSerializer(new JdkSerializationRedisSerializer());
+        }
         template.setDefaultSerializer(serializer);
         template.setHashKeySerializer(stringRedisSerializer);
         template.afterPropertiesSet();
@@ -104,8 +114,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     public CacheManager cacheManager(@Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
     {
         // 设置缓存有效期一小时
-        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofHours(1));
+        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(1));
         return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory))
                 .cacheDefaults(redisCacheConfiguration)
                 .build();
