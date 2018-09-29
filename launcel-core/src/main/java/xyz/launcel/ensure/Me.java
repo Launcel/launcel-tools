@@ -1,10 +1,3 @@
-/**
- * Copyright (C), 2017
- * Author: Launcel
- * Date: 17.11.17
- * Version: 1.0
- */
-
 package xyz.launcel.ensure;
 
 import java.util.Collection;
@@ -13,27 +6,27 @@ import java.util.Map;
 public interface Me
 {
 
-    static BooleanAssert bulider(Boolean flat)
+    static BooleanAssert builder(Boolean flat)
     {
         return new BooleanAssert(flat);
     }
 
-    static ObjectAssert bulider(Object o)
+    static ObjectAssert builder(Object o)
     {
         return new ObjectAssert(o);
     }
 
-    static StringAssert bulider(String str)
+    static StringAssert builder(String str)
     {
         return new StringAssert(str);
     }
 
-    static CollectAssert bulider(Collection<?> collection)
+    static CollectAssert builder(Collection<?> collection)
     {
         return new CollectAssert(collection);
     }
 
-    static MapAssert bulider(Map<?, ?> map)
+    static MapAssert builder(Map<?, ?> map)
     {
         return new MapAssert(map);
     }

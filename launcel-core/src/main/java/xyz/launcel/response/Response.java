@@ -1,8 +1,9 @@
 package xyz.launcel.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -11,7 +12,8 @@ import java.io.Serializable;
  */
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@ToString
+@Getter
 public class Response implements Serializable
 {
 
@@ -40,5 +42,10 @@ public class Response implements Serializable
     }
 
     public Response(Boolean isOk) { this.isOk = isOk; }
+
+    public static ResponseBuilder builder()
+    {
+        return new ResponseBuilder();
+    }
 
 }

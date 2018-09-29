@@ -138,11 +138,11 @@ public final class ValidateUtils
 
         if (StringUtils.isNotBlank(l.minValue()))
         {
-            Me.bulider(Double.valueOf(l.minValue()).compareTo(Double.valueOf(value)) < 0).isTrue(name + "小于" + l.minValue());
+            Me.builder(Double.valueOf(l.minValue()).compareTo(Double.valueOf(value)) < 0).isTrue(name + "小于" + l.minValue());
         }
         if (StringUtils.isNotBlank(l.maxValue()))
         {
-            Me.bulider(Double.valueOf(l.maxValue()).compareTo(Double.valueOf(value)) > 0).isTrue(name + "大于" + l.maxValue());
+            Me.builder(Double.valueOf(l.maxValue()).compareTo(Double.valueOf(value)) > 0).isTrue(name + "大于" + l.maxValue());
         }
     }
 }
