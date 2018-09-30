@@ -3,7 +3,6 @@ package xyz.launcel.response;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -12,7 +11,7 @@ import java.io.Serializable;
  */
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+//@ToString
 @Getter
 public class Response implements Serializable
 {
