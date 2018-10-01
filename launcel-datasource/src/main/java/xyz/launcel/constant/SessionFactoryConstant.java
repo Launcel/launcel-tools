@@ -14,6 +14,5 @@ public interface SessionFactoryConstant
     String mybatisName                  = "MapperScannerConfigurer";
     String sqlSessionFactoryName        = "sqlSessionFactoryBeanName";
     String basePackageName              = "basePackage";
-    String transactionManagerName       = "TransactionManager";
 
 }
