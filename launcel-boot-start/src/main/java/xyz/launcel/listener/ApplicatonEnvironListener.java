@@ -11,6 +11,8 @@ import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 
+import java.util.Objects;
+
 /**
  * Created by launcel on 2018/8/18.
  */
@@ -33,9 +35,12 @@ public class ApplicatonEnvironListener implements SpringApplicationRunListener, 
     {
         YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
         yaml.setResources(new ClassPathResource("launcel-application.yml"));
-        MutablePropertySources source  = environment.getPropertySources();
-        PropertySource         propert = new PropertiesPropertySource("launcel-application", yaml.getObject());
-        source.addFirst(propert);
+        if (!Objects.nonNull(yaml.getObject()))
+        {
+            MutablePropertySources source  = environment.getPropertySources();
+            PropertySource         propert = new PropertiesPropertySource("launcel-application", yaml.getObject());
+            source.addFirst(propert);
+        }
     }
 
     @Override
