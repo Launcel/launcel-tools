@@ -2,9 +2,11 @@ package xyz.launcel.response;
 
 public class ResponseBuilder
 {
-    private Boolean isOk = true;
-    private Object  data = null;
-    private String  message;
+    private Boolean isOk    = true;
+    private Object  data    = null;
+    private String  message = "";
+    private String  code    = "0";
+
 
     ResponseBuilder builder()
     {
@@ -29,9 +31,15 @@ public class ResponseBuilder
         return this;
     }
 
+    public ResponseBuilder code(String code)
+    {
+        this.code = code;
+        return this;
+    }
+
     public Response build()
     {
-        return new Response(this.isOk, this.data, this.message);
+        return new Response(this.isOk, this.data, this.message, this.code);
     }
 
 }

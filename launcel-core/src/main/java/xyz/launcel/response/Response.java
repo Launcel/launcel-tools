@@ -16,10 +16,12 @@ import java.io.Serializable;
 public class Response implements Serializable
 {
 
-    private static final long    serialVersionUID = 5158014804552796478L;
-    private              Boolean isOk             = true;
-    private              Object  data             = null;
-    private              String  message;
+    private static final long serialVersionUID = 5158014804552796478L;
+
+    private Boolean isOk    = true;
+    private Object  data    = null;
+    private String  message = "";
+    private String  code    = "0";
 
     public Response(Boolean isOk, Object data)
     {

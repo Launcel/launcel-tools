@@ -2,13 +2,11 @@ package xyz.launcel.controller;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import xyz.launcel.dao.Page;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.BaseLogger;
 import xyz.launcel.properties.WebAspejctProperties;
-import xyz.launcel.response.Response;
 
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;
@@ -71,26 +69,6 @@ public abstract class BaseController extends BaseLogger
     protected String getHeaderString(String name)
     {
         return getRequest().getHeader(name);
-    }
-
-    protected Response getSuccess()
-    {
-        return new Response(true);
-    }
-
-    protected Response getSuccess(String msg)
-    {
-        return new Response(msg, true);
-    }
-
-    protected Response getFail()
-    {
-        return new Response(false);
-    }
-
-    protected Response getFail(String msg)
-    {
-        return new Response(msg, false);
     }
 
 }

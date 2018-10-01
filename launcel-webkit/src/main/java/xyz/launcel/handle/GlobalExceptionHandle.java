@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import xyz.launcel.exception.ProfessionException;
 import xyz.launcel.exception.SystemError;
 import xyz.launcel.exception.SystemException;
+import xyz.launcel.log.RootLogger;
 import xyz.launcel.response.Response;
 
 /**
@@ -21,48 +22,48 @@ public class GlobalExceptionHandle
     @ExceptionHandler(value = Throwable.class)
     public Response throwable(Throwable x)
     {
-        x.getCause().printStackTrace();
+        RootLogger.error("error info : {}", x.getCause());
         return response(message);
     }
 
     @ExceptionHandler(value = NullPointerException.class)
     public Response nullPointerException(NullPointerException x)
     {
-        x.getCause().printStackTrace();
+        RootLogger.error("error info : {}", x.getCause());
         return response(x.getMessage());
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)
     public Response illegalArgumentException(IllegalArgumentException x)
     {
-        x.getCause().printStackTrace();
+        RootLogger.error("error info : {}", x.getCause());
         return response(x.getMessage());
     }
 
     @ExceptionHandler(value = SystemException.class)
     public Response systemException(SystemException x)
     {
-        x.getCause().printStackTrace();
+        RootLogger.error("error info : {}", x.getCause());
         return response(message);
     }
 
     @ExceptionHandler(value = ProfessionException.class)
     public Response professionException(ProfessionException x)
     {
-        x.getCause().printStackTrace();
+        RootLogger.error("error info : {}", x.getCause());
         return response(x.getMessage());
     }
 
     @ExceptionHandler(SystemError.class)
     public Response systemError(Error x)
     {
-        x.getCause().printStackTrace();
+        RootLogger.error("error info : {}", x.getCause());
         return response(message);
     }
 
     private Response response(String str)
     {
-        return new Response(str, false);
+        return Response.builder().message(str).isOk(false).code("-1").build();
     }
 
 }
