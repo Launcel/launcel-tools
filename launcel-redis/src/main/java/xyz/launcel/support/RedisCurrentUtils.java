@@ -9,14 +9,17 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
 import xyz.launcel.bean.context.SpringBeanUtil;
 import xyz.launcel.exception.SystemException;
+import xyz.launcel.json.Json;
 import xyz.launcel.lang.CollectionUtils;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.properties.RedisProperties;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <b>普通情况下，建议用RedisConnection(RedisTemplate是基于RedisConnection) 操作，pipeline性能高，</b><br/>
@@ -44,11 +47,34 @@ public class RedisCurrentUtils
     {
         if (CollectionUtils.isEmpty(keys))
             throw new SystemException("_REDIS__ERROR_CODE_011", "redis key is null");
+
         template.executePipelined((RedisCallback<Void>) conn -> {
             conn.openPipeline();
             keys.stream().filter(StringUtils::isNotBlank).forEach(key -> conn.del(serializerKey(key)));
             return null;
         });
+    }
+
+    public static int batchAdd(final Map<String, Object> map)
+    {
+        AtomicInteger atc = new AtomicInteger(0);
+        if (CollectionUtils.isNotEmpty(map))
+        {
+            template.executePipelined((RedisCallback<Void>) conn -> {
+                conn.openPipeline();
+                map.forEach((key, value) -> {
+                    if (StringUtils.isNotBlank(key))
+                    {
+                        Boolean result = conn.set(serializerKey(key), serializerKey(Json.toJson(value)),
+                                Expiration.from(expireTime, TimeUnit.MINUTES), RedisStringCommands.SetOption.upsert());
+                        if (result != null && result)
+                            atc.incrementAndGet();
+                    }
+                });
+                return null;
+            });
+        }
+        return atc.get();
     }
 
     public static boolean exits(final String key)
@@ -63,7 +89,7 @@ public class RedisCurrentUtils
     {
         vidate(key, value);
 
-        return template.execute((RedisCallback<Boolean>) conn -> getCommands(conn).set(serializerKey(key), serializerKey(value),
+        return template.execute((RedisCallback<Boolean>) conn -> conn.set(serializerKey(key), serializerKey(value),
                 Expiration.from(expTime, TimeUnit.SECONDS), RedisStringCommands.SetOption.ifAbsent()));
     }
 
