@@ -82,7 +82,7 @@ public class SecurityConfig
     {
         if (RootLogger.isDebug())
         {
-            RootLogger.debug("match : " + Json.toJson(maxMatchMap));
+            RootLogger.debug("match : " + Json.toString(maxMatchMap));
         }
         List<Map.Entry<String, Integer>> list = new ArrayList<>(maxMatchMap.entrySet());
         list.sort((Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) -> o2.getValue().compareTo(o1.getValue()));

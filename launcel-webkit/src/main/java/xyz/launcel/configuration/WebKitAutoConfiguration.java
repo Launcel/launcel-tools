@@ -1,8 +1,5 @@
 package xyz.launcel.configuration;
 
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.support.config.FastJsonConfig;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -12,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -19,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import xyz.launcel.aspejct.ControllerParamValidateAspejct;
 import xyz.launcel.handle.GlobalExceptionHandle;
+import xyz.launcel.json.builder.DefaultGson;
 import xyz.launcel.properties.CorsProperties;
 import xyz.launcel.properties.JsonConverterProperties;
 import xyz.launcel.properties.UploadProperties;
@@ -46,16 +45,19 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
     {
         converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
-        //        GsonHttpMessageConverter converter   = new GsonHttpMessageConverter();
-        //        GsonBuilder              gsonBuilder = new PrimyGsonBuilder().setDateFormat(jsonConverterProperties.getDateFormat()).getGsonBuilder();
-        //        converter.setGson(gsonBuilder.create());
-        //        converters.add(converter);
-        FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
-        FastJsonConfig               fastJsonConfig               = new FastJsonConfig();
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteDateUseDateFormat);
-        fastJsonConfig.setDateFormat(jsonConverterProperties.getDateFormat());
-        converters.add(fastJsonHttpMessageConverter);
+        GsonHttpMessageConverter gsonConverter = new GsonHttpMessageConverter();
+        gsonConverter.setGson(DefaultGson.builder()
+                .dateFormat(jsonConverterProperties.getDateFormat())
+                .version(jsonConverterProperties.getVersion())
+                .build()
+                .create());
+        converters.add(gsonConverter);
+        //        FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
+        //        FastJsonConfig               fastJsonConfig               = new FastJsonConfig();
+        //        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
+        //        fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteDateUseDateFormat);
+        //        fastJsonConfig.setDateFormat(jsonConverterProperties.getDateFormat());
+        //        converters.add(fastJsonHttpMessageConverter);
     }
 
     @ConditionalOnProperty(prefix = "web.cors", value = "enabled", havingValue = "true")

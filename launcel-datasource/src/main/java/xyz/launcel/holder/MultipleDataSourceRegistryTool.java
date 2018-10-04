@@ -46,8 +46,8 @@ public class MultipleDataSourceRegistryTool
     {
         if (Objects.isNull(dataSourceProperties) && CollectionUtils.isEmpty(multipleMybatis))
             throw new SystemError("_DEFINE_ERROR_CODE_010", ">>>  datasource propertie config or mybatis propertie config is null !!");
-        RootLogger.info("dataSourceProperties is : {}\nmultipleMybatis is : {}", Json.toJson(dataSourceProperties),
-                Json.toJson(multipleMybatis));
+        RootLogger.info("dataSourceProperties is : {}\nmultipleMybatis is : {}", Json.toString(dataSourceProperties),
+                Json.toString(multipleMybatis));
         registMultipeDataSource(dataSourceProperties.getMain(), registry);
         if (CollectionUtils.isNotEmpty(dataSourceProperties.getOthers()))
             dataSourceProperties.getOthers().forEach(propertie -> registMultipeDataSource(propertie, registry));

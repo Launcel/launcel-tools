@@ -197,7 +197,6 @@
             </dependency>
 
 
-
             <!-- aspectj start -->
 
             <dependency>
@@ -229,13 +228,6 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>1.2.47</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>1.18.0</version>
-                <scope>provided</scope>
             </dependency>
 
             <dependency>
@@ -288,6 +280,22 @@
                     </execution>
                 </executions>
             </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+                <!--<version>${spring.boot.version}</version>-->
+                <!--<configuration>-->
+                    <!--<mainClass>${}</mainClass>-->
+                    <!--<layout>ZIP</layout>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>repackage</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 </project>

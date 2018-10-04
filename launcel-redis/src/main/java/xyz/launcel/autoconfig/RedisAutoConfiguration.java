@@ -1,6 +1,5 @@
 package xyz.launcel.autoconfig;
 
-import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -27,6 +26,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import xyz.launcel.lang.Base64;
 import xyz.launcel.log.RootLogger;
 import xyz.launcel.properties.RedisProperties;
+import xyz.launcel.support.serializer.GsonRedisSerializer;
 
 import javax.inject.Named;
 import java.time.Duration;
@@ -88,8 +88,9 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
-        FastJsonRedisSerializer<?> serializer            = new FastJsonRedisSerializer<>(Object.class);
-        StringRedisSerializer      stringRedisSerializer = new StringRedisSerializer();
+        //                FastJsonRedisSerializer<?> serializer            = new FastJsonRedisSerializer<>(Object.class);
+        GsonRedisSerializer<?> serializer            = new GsonRedisSerializer<>(Object.class);
+        StringRedisSerializer  stringRedisSerializer = new StringRedisSerializer();
         template.setKeySerializer(stringRedisSerializer);
         try
         {

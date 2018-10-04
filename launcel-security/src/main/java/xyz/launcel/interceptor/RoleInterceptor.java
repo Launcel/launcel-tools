@@ -61,7 +61,7 @@ public class RoleInterceptor implements HandlerInterceptor
                 // do role : save in redis
                 if (RootLogger.isDebug())
                 {
-                    RootLogger.debug("roles is : " + Json.toJson(userRoles));
+                    RootLogger.debug("roles is : " + Json.toString(userRoles));
                 }
                 if (CollectionUtils.isNotEmpty(userRoles))
                 {

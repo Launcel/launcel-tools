@@ -51,6 +51,7 @@ public class RedisCurrentUtils
         template.executePipelined((RedisCallback<Void>) conn -> {
             conn.openPipeline();
             keys.stream().filter(StringUtils::isNotBlank).forEach(key -> conn.del(serializerKey(key)));
+            conn.closePipeline();
             return null;
         });
     }
@@ -65,12 +66,13 @@ public class RedisCurrentUtils
                 map.forEach((key, value) -> {
                     if (StringUtils.isNotBlank(key))
                     {
-                        Boolean result = conn.set(serializerKey(key), serializerKey(Json.toJson(value)),
+                        Boolean result = conn.set(serializerKey(key), serializerKey(Json.toString(value)),
                                 Expiration.from(expireTime, TimeUnit.MINUTES), RedisStringCommands.SetOption.upsert());
                         if (result != null && result)
                             atc.incrementAndGet();
                     }
                 });
+                conn.closePipeline();
                 return null;
             });
         }

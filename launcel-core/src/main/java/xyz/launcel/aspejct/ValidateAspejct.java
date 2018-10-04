@@ -32,7 +32,7 @@ class ValidateAspejct
             String   params = "";
             Object[] temp   = joinPoint.getArgs();
             if (Objects.nonNull(temp) && temp.length > 0)
-            { params = Json.toJson(temp); }
+            { params = Json.toString(temp); }
             RootLogger.debug("调用了：{}.{} 方法 ：参数 \n{}", signature.getDeclaringTypeName(), method.getName(), params);
         }
         Parameter[] params = method.getParameters();
@@ -56,7 +56,7 @@ class ValidateAspejct
         {
             String returns = "";
             if (Objects.nonNull(object))
-            { returns = Json.toJson(object); }
+            { returns = Json.toString(object); }
             RootLogger.debug("调用了：{}.{} 方法结束 ：结果 \n{}", signature.getDeclaringTypeName(), method.getName(), returns);
         }
     }
