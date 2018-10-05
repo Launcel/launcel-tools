@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -17,9 +18,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import xyz.launcel.aspejct.ControllerParamValidateAspejct;
 import xyz.launcel.handle.GlobalExceptionHandle;
-import xyz.launcel.json.builder.DefaultGson;
+import xyz.launcel.json.builder.DefaultGsonBuilder;
 import xyz.launcel.properties.CorsProperties;
-import xyz.launcel.properties.JsonConverterProperties;
 import xyz.launcel.properties.UploadProperties;
 import xyz.launcel.upload.UploadLocalUtil;
 
@@ -28,29 +28,24 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-@EnableConfigurationProperties(value = {CorsProperties.class, UploadProperties.class, JsonConverterProperties.class})
+@EnableConfigurationProperties(value = {CorsProperties.class, UploadProperties.class})
 @RequiredArgsConstructor
 public class WebKitAutoConfiguration implements WebMvcConfigurer
 {
-    private final CorsProperties          corsProperties;
-    private final UploadProperties        uploadProperties;
-    private final JsonConverterProperties jsonConverterProperties;
-
+    private final CorsProperties   corsProperties;
+    private final UploadProperties uploadProperties;
 
     /**
      * 用 gson 替换 jackson
      */
-    @ConditionalOnProperty(prefix = "web.json-converter", value = "enabled", havingValue = "true", matchIfMissing = true)
+    @DependsOn("beanSourceContextAware")
+    @ConditionalOnProperty(prefix = "common.json-converter", value = "enabled", havingValue = "true", matchIfMissing = true)
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
     {
         converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
         GsonHttpMessageConverter gsonConverter = new GsonHttpMessageConverter();
-        gsonConverter.setGson(DefaultGson.builder()
-                .dateFormat(jsonConverterProperties.getDateFormat())
-                .version(jsonConverterProperties.getVersion())
-                .build()
-                .create());
+        gsonConverter.setGson(DefaultGsonBuilder.create());
         converters.add(gsonConverter);
         //        FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
         //        FastJsonConfig               fastJsonConfig               = new FastJsonConfig();

@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
-import xyz.launcel.json.builder.DefaultGson;
+import xyz.launcel.json.builder.DefaultGsonBuilder;
 
 import java.nio.charset.StandardCharsets;
 
@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 @AllArgsConstructor
 public class GsonRedisSerializer<T> implements RedisSerializer<T>
 {
-    private GsonBuilder gsonBuilder = DefaultGson.getGsonBuilder();
+    private GsonBuilder gsonBuilder = DefaultGsonBuilder.getGsonBuilder();
 
     private Class<T> type;
 

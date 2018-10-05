@@ -3,7 +3,7 @@ package xyz.launcel.json;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import xyz.launcel.exception.SystemException;
-import xyz.launcel.json.builder.DefaultGson;
+import xyz.launcel.json.builder.DefaultGsonBuilder;
 import xyz.launcel.json.builder.GenericsParameterizedType;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public class Json
 
     private Json() {}
 
-    private static Gson gson = new DefaultGson().create();
+    private static Gson gson = DefaultGsonBuilder.create();
 
     public static Gson me()
     { return gson; }
@@ -34,7 +34,15 @@ public class Json
 
     public static <T> List<T> parseArray(final String json, final Class<T> t)
     {
-        return gson.fromJson(json, new GenericsParameterizedType(t));
+        try
+        {
+            return gson.fromJson(json, new GenericsParameterizedType(t));
+        }
+        catch (JsonParseException x)
+        {
+            throw new SystemException("_DEFINE_ERROR_CODE_011", "Json转换异常");
+        }
+
     }
 
     //    public static <T> List<T> toObjectList(final String json, final Class<T> t)

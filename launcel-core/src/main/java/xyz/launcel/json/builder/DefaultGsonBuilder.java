@@ -9,39 +9,39 @@ import lombok.NoArgsConstructor;
 import java.util.Map;
 
 @NoArgsConstructor
-public class DefaultGson
+public class DefaultGsonBuilder
 {
-    private        DateFormat  dateFormat          = DateFormat.LONG_STRING;
-    private        boolean     floatingPointValues = true;
-    private        boolean     formatPrint         = true;
-    private        boolean     serializeNull       = true;
-    private        Double      version             = null;
-    private static GsonBuilder gsonBuilder         = new GsonBuilder().registerTypeAdapter(
-            new TypeToken<Map<String, Object>>() {}.getType(), new JsonMapDeserializer());
+    private        DateFormat  dateFormat;
+    private        boolean     floatingPointValue;
+    private        boolean     formatPrint;
+    private        boolean     serializeNull;
+    private        Double      version;
+    private static GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, Object>>() {}.getType(),
+            new JsonMapDeserializer());
 
 
-    public DefaultGson(DateFormat dateFormat, boolean floatingPointValues, boolean formatPrint, boolean serializeNull, Double version)
+    private DefaultGsonBuilder(DateFormat dateFormat, boolean floatingPointValue, boolean formatPrint, boolean serializeNull,
+                               Double version)
     {
         this.dateFormat = dateFormat;
-        this.floatingPointValues = floatingPointValues;
+        this.floatingPointValue = floatingPointValue;
         this.formatPrint = formatPrint;
         this.serializeNull = serializeNull;
         this.version = version;
         setGsonBuilder();
     }
 
-    public static DefaultGsonBuilder builder()
+    public static DefaultBuilder builder()
     {
-        return new DefaultGsonBuilder();
+        return new DefaultBuilder();
     }
 
     private void setGsonBuilder()
     {
-        if (floatingPointValues)
+        if (floatingPointValue)
             gsonBuilder.serializeSpecialFloatingPointValues();
         if (formatPrint)
             gsonBuilder.setPrettyPrinting();
-
         gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm:ss");
         if (dateFormat == DateFormat.LONG)
         {
@@ -66,55 +66,52 @@ public class DefaultGson
         return gsonBuilder;
     }
 
-    public Gson create()
+    public static Gson create()
     {
         return gsonBuilder.create();
     }
 
-    public static class DefaultGsonBuilder
+    public static class DefaultBuilder
     {
-        private DateFormat dateFormat = DateFormat.LONG_STRING;
+        private DateFormat dateFormat          = DateFormat.LONG_STRING;
+        private boolean    floatingPointValues = true;
+        private boolean    formatPrint         = true;
+        private boolean    serializeNull       = true;
+        private Double     version             = null;
 
-        private boolean floatingPointValues;
-
-        private boolean formatPrint;
-
-        private boolean serializeNull = true;
-        private Double  version;
-
-        public DefaultGsonBuilder dateFormat(DateFormat dateFormat)
+        public DefaultBuilder dateFormat(DateFormat dateFormat)
         {
             this.dateFormat = dateFormat;
             return this;
         }
 
-        public DefaultGsonBuilder floatingPointValues(boolean floatingPointValues)
+        public DefaultBuilder floatingPointValues(boolean floatingPointValues)
         {
             this.floatingPointValues = floatingPointValues;
             return this;
         }
 
-        public DefaultGsonBuilder formatPrint(boolean formatPrint)
+        public DefaultBuilder formatPrint(boolean formatPrint)
         {
             this.formatPrint = formatPrint;
             return this;
         }
 
-        public DefaultGsonBuilder serializeNull(boolean serializeNull)
+        public DefaultBuilder serializeNull(boolean serializeNull)
         {
             this.serializeNull = serializeNull;
             return this;
         }
 
-        public DefaultGsonBuilder version(Double version)
+        public DefaultBuilder version(Double version)
         {
             this.version = version;
             return this;
         }
 
-        public DefaultGson build()
+        public void build()
         {
-            return new DefaultGson(dateFormat, floatingPointValues, formatPrint, serializeNull, version);
+            new DefaultGsonBuilder(dateFormat, floatingPointValues, formatPrint, serializeNull, version);
         }
 
     }
