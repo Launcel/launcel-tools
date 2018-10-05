@@ -109,9 +109,9 @@ public class DefaultGsonBuilder
             return this;
         }
 
-        public void build()
+        public DefaultGsonBuilder build()
         {
-            new DefaultGsonBuilder(dateFormat, floatingPointValues, formatPrint, serializeNull, version);
+            return new DefaultGsonBuilder(dateFormat, floatingPointValues, formatPrint, serializeNull, version);
         }
 
     }

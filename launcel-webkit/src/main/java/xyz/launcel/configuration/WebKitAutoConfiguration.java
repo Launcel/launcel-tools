@@ -6,7 +6,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -20,6 +19,7 @@ import xyz.launcel.aspejct.ControllerParamValidateAspejct;
 import xyz.launcel.handle.GlobalExceptionHandle;
 import xyz.launcel.json.builder.DefaultGsonBuilder;
 import xyz.launcel.properties.CorsProperties;
+import xyz.launcel.properties.JsonProperties;
 import xyz.launcel.properties.UploadProperties;
 import xyz.launcel.upload.UploadLocalUtil;
 
@@ -28,23 +28,30 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-@EnableConfigurationProperties(value = {CorsProperties.class, UploadProperties.class})
+@EnableConfigurationProperties(value = {CorsProperties.class, UploadProperties.class, JsonProperties.class})
 @RequiredArgsConstructor
 public class WebKitAutoConfiguration implements WebMvcConfigurer
 {
     private final CorsProperties   corsProperties;
     private final UploadProperties uploadProperties;
+    private final JsonProperties   jsonPropertie;
 
     /**
      * 用 gson 替换 jackson
      */
-    @DependsOn("beanSourceContextAware")
-    @ConditionalOnProperty(prefix = "common.json-converter", value = "enabled", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "web.json-converter", value = "enabled", havingValue = "true", matchIfMissing = true)
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
     {
         converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
         GsonHttpMessageConverter gsonConverter = new GsonHttpMessageConverter();
+        DefaultGsonBuilder.builder()
+                .dateFormat(jsonPropertie.getDateFormat())
+                .floatingPointValues(jsonPropertie.getFloatingPointValue())
+                .formatPrint(jsonPropertie.getFormatPrint())
+                .serializeNull(jsonPropertie.getSerializeNull())
+                .version(jsonPropertie.getVersion())
+                .build();
         gsonConverter.setGson(DefaultGsonBuilder.create());
         converters.add(gsonConverter);
         //        FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();

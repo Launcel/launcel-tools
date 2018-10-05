@@ -7,7 +7,7 @@ import xyz.launcel.json.builder.DefaultGsonBuilder;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "common.json-converter")
+@ConfigurationProperties(prefix = "web.json-converter")
 public class JsonProperties
 {
     private Boolean                       enabled            = true;
