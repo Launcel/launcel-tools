@@ -66,7 +66,7 @@ public class DefaultGsonBuilder
         return gsonBuilder;
     }
 
-    public static Gson create()
+    public Gson create()
     {
         return gsonBuilder.create();
     }

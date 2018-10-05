@@ -13,7 +13,7 @@ public class Json
 
     private Json() {}
 
-    private static Gson gson = DefaultGsonBuilder.create();
+    private static Gson gson = DefaultGsonBuilder.getGsonBuilder().create();
 
     public static Gson me()
     { return gson; }
@@ -62,11 +62,6 @@ public class Json
     //            return null;
     //        }
     //}
-
-    //    public static <T> T fromJson(String json, Type type)
-    //    {
-    //        return gson.fromJson(json, type);
-    //    }
 }
 
 //import com.alibaba.fastjson.JSON;

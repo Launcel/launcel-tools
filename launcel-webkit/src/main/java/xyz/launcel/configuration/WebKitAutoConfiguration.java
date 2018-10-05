@@ -1,5 +1,6 @@
 package xyz.launcel.configuration;
 
+import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -45,21 +46,16 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     {
         converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
         GsonHttpMessageConverter gsonConverter = new GsonHttpMessageConverter();
-        DefaultGsonBuilder.builder()
+        Gson gson = DefaultGsonBuilder.builder()
                 .dateFormat(DefaultGsonBuilder.DateFormat.getByName(jsonPropertie.getDateFormat()))
                 .floatingPointValues(jsonPropertie.getFloatingPointValue())
                 .formatPrint(jsonPropertie.getFormatPrint())
                 .serializeNull(jsonPropertie.getSerializeNull())
                 .version(jsonPropertie.getVersion())
-                .build();
-        gsonConverter.setGson(DefaultGsonBuilder.create());
+                .build()
+                .create();
+        gsonConverter.setGson(gson);
         converters.add(gsonConverter);
-        //        FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
-        //        FastJsonConfig               fastJsonConfig               = new FastJsonConfig();
-        //        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
-        //        fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteDateUseDateFormat);
-        //        fastJsonConfig.setDateFormat(jsonConverterProperties.getDateFormat());
-        //        converters.add(fastJsonHttpMessageConverter);
     }
 
     @ConditionalOnProperty(prefix = "web.cors", value = "enabled", havingValue = "true")
