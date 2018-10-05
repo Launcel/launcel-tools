@@ -11,7 +11,6 @@ import java.io.Serializable;
  */
 @AllArgsConstructor
 @NoArgsConstructor
-//@ToString
 @Getter
 public class Response implements Serializable
 {
@@ -22,27 +21,6 @@ public class Response implements Serializable
     private Object  data    = null;
     private String  message = "";
     private String  code    = "0";
-
-    public Response(Boolean isOk, Object data)
-    {
-        this.isOk = isOk;
-        this.data = data;
-    }
-
-
-    public Response(String message, Object data)
-    {
-        this.data = data;
-        this.message = message;
-    }
-
-    public Response(String message, Boolean isOk)
-    {
-        this.isOk = isOk;
-        this.message = message;
-    }
-
-    public Response(Boolean isOk) { this.isOk = isOk; }
 
     public static ResponseBuilder builder()
     {
