@@ -46,7 +46,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
         converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
         GsonHttpMessageConverter gsonConverter = new GsonHttpMessageConverter();
         DefaultGsonBuilder.builder()
-                .dateFormat(jsonPropertie.getDateFormat())
+                .dateFormat(DefaultGsonBuilder.DateFormat.getByName(jsonPropertie.getDateFormat()))
                 .floatingPointValues(jsonPropertie.getFloatingPointValue())
                 .formatPrint(jsonPropertie.getFormatPrint())
                 .serializeNull(jsonPropertie.getSerializeNull())
