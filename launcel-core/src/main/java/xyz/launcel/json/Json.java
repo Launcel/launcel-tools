@@ -13,10 +13,7 @@ public class Json
 
     private Json() {}
 
-    private static Gson gson = DefaultGsonBuilder.getGsonBuilder().create();
-
-    public static Gson me()
-    { return gson; }
+    private static Gson gson = DefaultGsonBuilder.create();
 
     public static String toString(Object object) { return gson.toJson(object); }
 

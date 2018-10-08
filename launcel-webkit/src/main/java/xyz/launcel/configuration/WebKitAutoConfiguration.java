@@ -1,6 +1,5 @@
 package xyz.launcel.configuration;
 
-import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -46,15 +45,14 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     {
         converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
         GsonHttpMessageConverter gsonConverter = new GsonHttpMessageConverter();
-        Gson gson = DefaultGsonBuilder.builder()
+        DefaultGsonBuilder.builder()
                 .dateFormat(DefaultGsonBuilder.DateFormat.getByName(jsonPropertie.getDateFormat()))
                 .floatingPointValues(jsonPropertie.getFloatingPointValue())
                 .formatPrint(jsonPropertie.getFormatPrint())
                 .serializeNull(jsonPropertie.getSerializeNull())
                 .version(jsonPropertie.getVersion())
-                .build()
-                .create();
-        gsonConverter.setGson(gson);
+                .build();
+        gsonConverter.setGson(DefaultGsonBuilder.create());
         converters.add(gsonConverter);
     }
 

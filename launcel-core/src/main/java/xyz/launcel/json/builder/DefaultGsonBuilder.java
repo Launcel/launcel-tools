@@ -16,6 +16,7 @@ public class DefaultGsonBuilder
     private        boolean     formatPrint;
     private        boolean     serializeNull;
     private        Double      version;
+    private static Gson        gson        = null;
     private static GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, Object>>() {}.getType(),
             new JsonMapDeserializer());
 
@@ -34,6 +35,13 @@ public class DefaultGsonBuilder
     public static DefaultBuilder builder()
     {
         return new DefaultBuilder();
+    }
+
+    public static Gson create()
+    {
+        if (gson == null)
+            gson = gsonBuilder.create();
+        return gson;
     }
 
     private void setGsonBuilder()
@@ -64,11 +72,6 @@ public class DefaultGsonBuilder
     public static GsonBuilder getGsonBuilder()
     {
         return gsonBuilder;
-    }
-
-    public Gson create()
-    {
-        return gsonBuilder.create();
     }
 
     public static class DefaultBuilder
@@ -109,9 +112,9 @@ public class DefaultGsonBuilder
             return this;
         }
 
-        public DefaultGsonBuilder build()
+        public void build()
         {
-            return new DefaultGsonBuilder(dateFormat, floatingPointValues, formatPrint, serializeNull, version);
+            new DefaultGsonBuilder(dateFormat, floatingPointValues, formatPrint, serializeNull, version);
         }
 
     }
