@@ -13,60 +13,59 @@ public class BatchUtils
 {
     private static SqlSessionFactory sqlSessionFactory = SpringBeanUtil.getBean("sqlSessionFactory");
 
-    static <T> void batchAdd(List<T> list, Class<? extends BaseRepository> mapper)
+    static <T> int batchAdd(List<T> list, Class<? extends BaseRepository> mapper)
     {
-        if (CollectionUtils.isEmpty(list))
-            return;
-        int        size    = list.size();
-        int        step    = 0;
-        SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
-        try
-        {
-            BaseRepository repository = session.getMapper(mapper);
-            for (int i = 0; i < size; i++)
-            {
-                T t = list.get(i);
-                if (step < 99 || i >= size - 1)
-                {
-                    repository.add(t);
-                    session.commit();
-                    session.clearCache();
-                    step = 0;
-                }
-                step++;
-            }
-        }
-        catch (Exception x)
-        {
-            session.rollback();
-        }
-        finally
-        {
-            session.close();
-        }
+        return batch(list, mapper, 1);
     }
 
-    static <T> void batchUpdate(List<T> list, Class<? extends BaseRepository> mapper)
+    static <T> int batchUpdate(List<T> list, Class<? extends BaseRepository> mapper)
+    {
+        return batch(list, mapper, 2);
+    }
+
+    static int batchDel(List<Integer> ids, Class<? extends BaseRepository> mapper)
+    {
+        return batch(ids, mapper, 3);
+    }
+
+    private static <T> int batch(List<T> list, Class<? extends BaseRepository> mapper, int type)
     {
         if (CollectionUtils.isEmpty(list))
-            return;
+            return 0;
         int        size    = list.size();
         int        step    = 0;
+        int        result  = 0;
         SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
         try
         {
             BaseRepository repository = session.getMapper(mapper);
             for (int i = 0; i < size; i++)
             {
-                T t = list.get(i);
-                if (step < 99 || i >= size - 1)
+                T l = list.get(i);
+                if (step < 99)
                 {
-                    repository.update(t);
+                    switch (type)
+                    {
+                        case 1:
+                            result += repository.add(l);
+                            break;
+                        case 2:
+                            result += repository.update(l);
+                            break;
+                        case 3:
+                            result += repository.delete((Integer) l);
+                            break;
+                        default:
+                            break;
+                    }
+                    step++;
+                }
+                if (step >= 100 || i == size - 1)
+                {
                     session.commit();
                     session.clearCache();
                     step = 0;
                 }
-                step++;
             }
         }
         catch (Exception x)
@@ -78,40 +77,7 @@ public class BatchUtils
             session.clearCache();
             session.close();
         }
-    }
-
-    static void batchDel(List<Integer> ids, Class<? extends BaseRepository> mapper)
-    {
-        if (CollectionUtils.isEmpty(ids))
-            return;
-        int        size    = ids.size();
-        int        step    = 0;
-        SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
-        try
-        {
-            BaseRepository repository = session.getMapper(mapper);
-            for (int i = 0; i < size; i++)
-            {
-                Integer id = ids.get(i);
-                if (step < 99 || i >= size - 1)
-                {
-                    repository.delete(id);
-                    session.commit();
-                    session.clearCache();
-                    step = 0;
-                }
-                step++;
-            }
-        }
-        catch (Exception x)
-        {
-            session.rollback();
-        }
-        finally
-        {
-            session.clearCache();
-            session.close();
-        }
+        return result;
     }
 
 }
