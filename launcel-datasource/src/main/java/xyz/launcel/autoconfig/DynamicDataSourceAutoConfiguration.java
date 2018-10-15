@@ -17,7 +17,6 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.lang.NonNull;
 import xyz.launcel.aspejct.DataSourceSwitchAspect;
 import xyz.launcel.aspejct.ServerAspejct;
@@ -35,8 +34,6 @@ import javax.inject.Named;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by launcel on 2018/9/1.
@@ -50,7 +47,7 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
     @Override
     public void setEnvironment(@NonNull Environment environment)
     {
-        Binder binder = Binder.get(environment);
+        var binder = Binder.get(environment);
         binderFacory = new DataSourcePropertiesBinderTool();
         binderFacory.binderDataSource(binder);
         binderFacory.binderMybatisConfig(binder);
@@ -76,8 +73,8 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
     @Primary
     public DataSource multipleDataSource()
     {
-        DynamicDataSource   dynamicDataSources = new DynamicDataSource();
-        Map<Object, Object> targetDataSources  = new HashMap<>();
+        var dynamicDataSources = new DynamicDataSource();
+        var targetDataSources  = new HashMap<Object, Object>();
         if (CollectionUtils.isEmpty(binderFacory.getDynamicDataSourceConfigMapList()))
             throw new SystemError("_DEFINE_ERROR_CODE_010", ">>>  datasource propertie config or mybatis propertie config is null !!");
         binderFacory.getDynamicDataSourceConfigMapList()
@@ -92,13 +89,13 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
     @DependsOn(value = "dataSource")
     public SqlSessionFactory sqlSessionFactory(@Named(value = "dataSource") DataSource dataSource) throws Exception
     {
-        SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
+        var sqlSessionFactory = new SqlSessionFactoryBean();
+        var resourceLoader    = new PathMatchingResourcePatternResolver();
         sqlSessionFactory.setDataSource(dataSource);
-        ResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
         sqlSessionFactory.setConfigLocation(resourceLoader.getResource("classpath:mybatis/mybatis-config.xml"));
         sqlSessionFactory.setTypeAliasesPackage(binderFacory.getDynamicMybatisPropertie().getAliasesPackage());
         sqlSessionFactory.setMapperLocations(resourceLoader.getResources(binderFacory.getDynamicMybatisPropertie().getMapperResource()));
-        List<Interceptor> interceptors = new ArrayList<>(2);
+        var interceptors = new ArrayList<Interceptor>(2);
         interceptors.add(new PageInterceptor());
         if (binderFacory.debugSql())
         { interceptors.add(new ParamInterceptor()); }
@@ -111,7 +108,7 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
     @DependsOn(value = "sqlSessionFactory")
     public MapperScannerConfigurer mapperScannerConfigurer()
     {
-        MapperScannerConfigurer configurer = new MapperScannerConfigurer();
+        var configurer = new MapperScannerConfigurer();
         configurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
         configurer.setBasePackage(binderFacory.getDynamicMybatisPropertie().getMapperPackage());
         return configurer;

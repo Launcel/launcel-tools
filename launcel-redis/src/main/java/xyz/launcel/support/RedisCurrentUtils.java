@@ -2,7 +2,6 @@ package xyz.launcel.support;
 
 import lombok.Getter;
 import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.connection.RedisKeyCommands;
 import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -25,21 +24,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <b>普通情况下，建议用RedisConnection(RedisTemplate是基于RedisConnection) 操作，pipeline性能高，</b><br/>
  * 控制并发数据时，用Commands,见setNX方法<b>(但只能处理String类型)</b>
  */
-public class RedisCurrentUtils
+public final class RedisCurrentUtils
 {
     @Getter
     private static RedisTemplate<String, String> template   = SpringBeanUtil.getBean("redisTemplate");
     private static long                          expireTime = SpringBeanUtil.getBean(RedisProperties.class).getExptime();
-
-    private static Long getExpireTime()
-    {
-        return expireTime;
-    }
-
-    public static void setExpireTime(Long expireTime)
-    {
-        RedisCurrentUtils.expireTime = expireTime;
-    }
 
     private RedisCurrentUtils() { }
 
@@ -47,10 +36,9 @@ public class RedisCurrentUtils
     {
         if (CollectionUtils.isEmpty(keys))
             throw new SystemException("_REDIS__ERROR_CODE_011", "redis key is null");
-
         template.executePipelined((RedisCallback<Void>) conn -> {
             conn.openPipeline();
-            keys.stream().filter(StringUtils::isNotBlank).forEach(key -> conn.del(serializerKey(key)));
+            keys.stream().filter(StringUtils::isNotBlank).forEach(key -> conn.del(serializer(key)));
             conn.closePipeline();
             return null;
         });
@@ -58,7 +46,7 @@ public class RedisCurrentUtils
 
     public static int batchAdd(final Map<String, Object> map)
     {
-        AtomicInteger atc = new AtomicInteger(0);
+        var atc = new AtomicInteger(0);
         if (CollectionUtils.isNotEmpty(map))
         {
             template.executePipelined((RedisCallback<Void>) conn -> {
@@ -66,7 +54,7 @@ public class RedisCurrentUtils
                 map.forEach((key, value) -> {
                     if (StringUtils.isNotBlank(key))
                     {
-                        Boolean result = conn.set(serializerKey(key), serializerKey(Json.toString(value)),
+                        var result = conn.set(serializer(key), serializer(Json.toString(value)),
                                 Expiration.from(expireTime, TimeUnit.MINUTES), RedisStringCommands.SetOption.upsert());
                         if (result != null && result)
                             atc.incrementAndGet();
@@ -82,22 +70,17 @@ public class RedisCurrentUtils
     public static boolean exits(final String key)
     {
         vidate(key);
-        Boolean flag = template.execute(
-                (RedisCallback<Boolean>) conn -> ((RedisKeyCommands) conn.getNativeConnection()).exists(serializerKey(key)));
-        return flag != null && flag;
+        var flat = template.hasKey(key);
+        return flat != null && flat;
     }
 
-    public static Boolean setNX(final String key, final String value, final Long expTime)
+    public static boolean setNX(final String key, final String value, final Long expTime)
     {
-        vidate(key, value);
-
-        return template.execute((RedisCallback<Boolean>) conn -> conn.set(serializerKey(key), serializerKey(value),
-                Expiration.from(expTime, TimeUnit.SECONDS), RedisStringCommands.SetOption.ifAbsent()));
-    }
-
-    private static void vidate(final Object value)
-    {
-        vidate("1", value);
+        vidate(key, value, expTime);
+        var flat = template.execute(
+                (RedisCallback<Boolean>) conn -> conn.set(serializer(key), serializer(value), Expiration.from(expTime, TimeUnit.SECONDS),
+                        RedisStringCommands.SetOption.ifAbsent()));
+        return flat != null && flat;
     }
 
     private static void vidate(final String key)
@@ -108,11 +91,6 @@ public class RedisCurrentUtils
     private static void vidate(final String key, final Object value)
     {
         vidate(key, value, 1L);
-    }
-
-    private static void vidate(final String key, final Long expTime)
-    {
-        vidate(key, true, expTime);
     }
 
     private static void vidate(final String key, final Object value, final Long expTime)
@@ -136,14 +114,14 @@ public class RedisCurrentUtils
         return (RedisStringCommands) connection.getNativeConnection();
     }
 
-    private static byte[] serializerKey(String key)
+    private static byte[] serializer(String key)
     {
         return key.getBytes(StandardCharsets.UTF_8);
     }
 
-    private static String deserializeKey(byte[] bytes)
-    {
-        return new String(bytes, StandardCharsets.UTF_8);
-    }
+    //    private static String deserialize(byte[] bytes)
+    //    {
+    //        return new String(bytes, StandardCharsets.UTF_8);
+    //    }
 
 }

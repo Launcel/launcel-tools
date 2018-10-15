@@ -31,25 +31,26 @@ public class PageInterceptor implements Interceptor, Serializable
     @Override
     public Object intercept(Invocation invocation) throws Throwable
     {
-        StatementHandler statementHandler     = (StatementHandler) invocation.getTarget();
-        MetaObject       metaStatementHandler = SystemMetaObject.forObject(statementHandler);
-        MappedStatement  mappedStatement      = (MappedStatement) metaStatementHandler.getValue("delegate.mappedStatement");
-        String           selectId             = mappedStatement.getId();
-        BoundSql         boundSql;
+        var      statementHandler     = (StatementHandler) invocation.getTarget();
+        var      metaStatementHandler = SystemMetaObject.forObject(statementHandler);
+        var      mappedStatement      = (MappedStatement) metaStatementHandler.getValue("delegate.mappedStatement");
+        var      selectId             = mappedStatement.getId();
+        BoundSql boundSql;
         if (selectId.matches(".*Page.*"))
         {
             boundSql = statementHandler.getBoundSql();
             // 分页参数作为参数对象 parameter 的一个属性
-            String sql = boundSql.getSql();
-            if (StringUtils.isBlank(sql)) { return invocation.proceed(); }
+            var sql = boundSql.getSql();
+            if (StringUtils.isBlank(sql))
+            { return invocation.proceed(); }
             @SuppressWarnings("unchecked")
-            Map<String, Object> parameter = (Map<String, Object>) boundSql.getParameterObject();
-            if (parameter.isEmpty()) { return invocation.proceed(); }
-            Page<?> p       = SQLHelp.getPaging(parameter);
-            String  pageSql = SQLHelp.concatSql(sql, p);
+            var parameter = (Map<String, Object>) boundSql.getParameterObject();
+            if (parameter.isEmpty())
+            { return invocation.proceed(); }
+            var p       = SQLHelp.getPaging(parameter);
+            var pageSql = SQLHelp.concatSql(sql, p);
             metaStatementHandler.setValue("delegate.boundSql.sql", pageSql);
         }
-
         return invocation.proceed();
     }
 

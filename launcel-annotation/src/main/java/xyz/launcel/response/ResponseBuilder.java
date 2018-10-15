@@ -1,22 +1,17 @@
 package xyz.launcel.response;
 
+import java.util.Date;
+
 public class ResponseBuilder
 {
-    private Boolean isOk    = true;
-    private Object  data    = null;
-    private String  message = "";
-    private String  code    = "0";
-
+    private Object data    = null;
+    private String message = "";
+    private String code    = "0";
+    private Long   timestrap;
 
     ResponseBuilder builder()
     {
         return new ResponseBuilder();
-    }
-
-    public ResponseBuilder isOk(Boolean isOk)
-    {
-        this.isOk = isOk;
-        return this;
     }
 
     public ResponseBuilder data(Object data)
@@ -39,7 +34,7 @@ public class ResponseBuilder
 
     public Response build()
     {
-        return new Response(this.isOk, this.data, this.message, this.code);
+        return new Response(this.data, this.message, this.code, new Date().getTime());
     }
 
 }

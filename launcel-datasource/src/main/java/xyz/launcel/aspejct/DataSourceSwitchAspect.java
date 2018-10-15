@@ -27,11 +27,11 @@ public class DataSourceSwitchAspect
     @Before("init()")
     public void prepared(JoinPoint joinPoint)
     {
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Method          method    = signature.getMethod();
+        var signature = (MethodSignature) joinPoint.getSignature();
+        var method    = signature.getMethod();
         if (method.isAnnotationPresent(DataSource.class))
         {
-            DataSource ds = method.getAnnotation(DataSource.class);
+            var ds = method.getAnnotation(DataSource.class);
             if (ds != null && StringUtils.isNotBlank(ds.name()))
             {
                 DbContextHolder.setDbType(ds.name());

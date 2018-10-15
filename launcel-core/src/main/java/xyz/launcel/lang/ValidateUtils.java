@@ -17,14 +17,14 @@ public final class ValidateUtils
 
     public static void validateLimit(Object object, String group)
     {
-        Field[] fields = object.getClass().getDeclaredFields();
+        var fields = object.getClass().getDeclaredFields();
         Arrays.stream(fields).forEach(field -> {
             field.setAccessible(true);
             if (field.isAnnotationPresent(Limit.class))
             {
                 try
                 {
-                    Object value = field.get(object);
+                    var value = field.get(object);
                     validateGroup(field, value, group);
                 }
                 catch (IllegalAccessException x)
@@ -39,8 +39,8 @@ public final class ValidateUtils
     @Deprecated
     public static void validateLimit(Parameter parameter, String group)
     {
-        Class<?> clazz  = parameter.getType();
-        Field[]  fields = clazz.getDeclaredFields();
+        var clazz  = parameter.getType();
+        var fields = clazz.getDeclaredFields();
         Arrays.stream(fields).forEach(field -> {
             field.setAccessible(true);
             if (field.isAnnotationPresent(Limit.class))
@@ -60,7 +60,7 @@ public final class ValidateUtils
 
     private static void validateGroup(Field f, Object value, String group)
     {
-        Limit l = f.getAnnotation(Limit.class);
+        var l = f.getAnnotation(Limit.class);
         if (l.group().length < 0)
         {
             checkFiled(value, l, f);
@@ -81,8 +81,8 @@ public final class ValidateUtils
 
     private static void verifyType(Object temp, Limit l, String name)
     {
-        String msg = name;
-        String o   = temp.toString();
+        var msg = name;
+        var o   = temp.toString();
         try
         {
             switch (l.type())

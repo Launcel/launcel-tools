@@ -25,7 +25,7 @@ public enum DeviceType
         {
             for (DeviceType device : values())
             {
-                if (device.name().equalsIgnoreCase(deviceName))
+                if (device.name().equalsIgnoreCase(deviceName.trim()))
                 {
                     return device;
                 }

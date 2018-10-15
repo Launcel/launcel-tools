@@ -24,9 +24,9 @@ public class JsonMapDeserializer implements JsonDeserializer<Object>
     @Override
     public Map<String, Object> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
     {
-        Map<String, Object>                 treeMap    = new HashMap<>();
-        JsonObject                          jsonObject = json.getAsJsonObject();
-        Set<Map.Entry<String, JsonElement>> entrySet   = jsonObject.entrySet();
+        var treeMap    = new HashMap<String, Object>();
+        var jsonObject = json.getAsJsonObject();
+        var entrySet   = jsonObject.entrySet();
         for (Map.Entry<String, JsonElement> entry : entrySet)
         {
             treeMap.put(entry.getKey(), entry.getValue());
@@ -48,11 +48,11 @@ class MapTypeAdapter extends TypeAdapter<Object>
     @Override
     public Object read(JsonReader in) throws IOException
     {
-        JsonToken token = in.peek();
+        var token = in.peek();
         switch (token)
         {
             case BEGIN_ARRAY:
-                List<Object> list = new ArrayList<>();
+                var list = new ArrayList<Object>();
                 in.beginArray();
                 while (in.hasNext())
                 {
@@ -61,7 +61,7 @@ class MapTypeAdapter extends TypeAdapter<Object>
                 in.endArray();
                 return list;
             case BEGIN_OBJECT:
-                Map<String, Object> map = new LinkedTreeMap<>();
+                var map = new LinkedTreeMap<String, Object>();
                 in.beginObject();
                 while (in.hasNext())
                 {
@@ -75,14 +75,14 @@ class MapTypeAdapter extends TypeAdapter<Object>
                 /**
                  * 改写数字的处理逻辑，将数字值分为整型与浮点型。
                  */
-                double dbNum = in.nextDouble();
+                var dbNum = in.nextDouble();
                 // 数字超过long的最大值，返回浮点类型
                 if (dbNum > Long.MAX_VALUE)
                 {
                     return dbNum;
                 }
                 // 判断数字是否为整数值
-                long lngNum = (long) dbNum;
+                var lngNum = (long) dbNum;
                 if (dbNum == lngNum)
                 {
                     return lngNum;

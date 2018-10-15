@@ -1,5 +1,7 @@
 package xyz.launcel.lang;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
  * 64位生成规则【首位是符号位，代表正副，所以实际有效是63位】：id长度为18位
  * <p>
@@ -34,14 +36,14 @@ public final class IDGeneratorUtil
      * 计数器
      * 需要保证线程安全
      */
-    private static volatile long counter;
+    private static AtomicLong counter = new AtomicLong(0);
 
     private static volatile long currentTimeMillis = System.currentTimeMillis() - initTimeMillis;
     private static volatile long lastTimeMillis    = currentTimeMillis;
 
     public static Long nextId()
     {
-        long series = counter++;
+        var series = counter.getAndIncrement();
 
         if (series >= (1 << 12) - 1)
         {
@@ -50,8 +52,8 @@ public final class IDGeneratorUtil
                 currentTimeMillis = System.currentTimeMillis() - initTimeMillis;
             }
             lastTimeMillis = currentTimeMillis;
-            counter = 0;
-            series = counter++;
+            counter.set(0);
+            series = counter.getAndIncrement();
         }
         return (currentTimeMillis << 22) | (pid << 12) | series;
     }

@@ -50,18 +50,18 @@ public class DefaultGsonBuilder
             gsonBuilder.serializeSpecialFloatingPointValues();
         if (formatPrint)
             gsonBuilder.setPrettyPrinting();
-        gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm:ss");
-        if (dateFormat == DateFormat.LONG)
+
+        switch (dateFormat)
         {
-            gsonBuilder.setDateFormat(java.text.DateFormat.LONG);
-        }
-        else if (dateFormat == DateFormat.SHORT_STRING)
-        {
-            gsonBuilder.setDateFormat("yyyy-MM-dd");
-        }
-        if (serializeNull)
-        {
-            gsonBuilder.serializeNulls();
+            case LONG:
+                gsonBuilder.setDateFormat(java.text.DateFormat.LONG);
+                break;
+            case SHORT_STRING:
+                gsonBuilder.setDateFormat("yyyy-MM-dd");
+                break;
+            default:
+                gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm:ss");
+                break;
         }
         if (version != null)
         {
@@ -118,22 +118,5 @@ public class DefaultGsonBuilder
         }
 
     }
-
-    public enum DateFormat
-    {
-        LONG, SHORT_STRING, LONG_STRING;
-
-        public static DateFormat getByName(String name)
-        {
-            for (DateFormat df : values())
-            {
-                if (df.name().equalsIgnoreCase(name))
-                {
-                    return df;
-                }
-            }
-            return LONG_STRING;
-        }
-    }
-
 }
+

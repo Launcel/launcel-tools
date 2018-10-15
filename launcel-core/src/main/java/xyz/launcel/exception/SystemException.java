@@ -9,29 +9,35 @@ public class SystemException extends RuntimeException
 {
     private static final long serialVersionUID = -1597189035906555024L;
 
-    protected SystemException() {
+    protected SystemException()
+    {
         super();
     }
 
-    SystemException(String message) {
+    SystemException(String message)
+    {
         super(message);
     }
 
-    public SystemException(String code, String message) {
+    public SystemException(String code, String message)
+    {
         this(message);
-        String sb = "[" + code + " : " + message + "]";
+        var sb = "[" + code + " : " + message + "]";
         RootLogger.error(sb);
     }
 
-    protected SystemException(String message, Throwable cause) {
+    protected SystemException(String message, Throwable cause)
+    {
         super(message, cause);
     }
 
-    protected SystemException(Throwable cause) {
+    protected SystemException(Throwable cause)
+    {
         super(cause);
     }
 
-    protected SystemException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected SystemException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
+    {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

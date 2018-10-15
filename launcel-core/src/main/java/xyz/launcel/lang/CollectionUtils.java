@@ -100,7 +100,7 @@ public interface CollectionUtils
     {
         try
         {
-            Field tail = map.getClass().getDeclaredField("tail");
+            var tail = map.getClass().getDeclaredField("tail");
             tail.setAccessible(true);
             //noinspection unchecked
             return (Map.Entry<K, V>) tail.get(map);

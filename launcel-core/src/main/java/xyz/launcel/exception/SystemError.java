@@ -22,7 +22,7 @@ public class SystemError extends Error
     public SystemError(String code, String msg)
     {
         this(msg);
-        String sb = "[" + code + " : " + msg + "]";
+        var sb = "[" + code + " : " + msg + "]";
         RootLogger.error(sb);
     }
 

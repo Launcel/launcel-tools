@@ -8,8 +8,6 @@ import xyz.launcel.lang.StringUtils;
 import xyz.launcel.lang.ValidateUtils;
 import xyz.launcel.log.RootLogger;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.Objects;
 
 /**
@@ -20,8 +18,8 @@ class ValidateAspejct
 
     void preparedArgs(JoinPoint joinPoint)
     {
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Method          method    = signature.getMethod();
+        var signature = (MethodSignature) joinPoint.getSignature();
+        var method    = signature.getMethod();
         if (RootLogger.isDebug())
         {
             if (method.getName().toLowerCase().contains("upload"))
@@ -29,20 +27,20 @@ class ValidateAspejct
                 RootLogger.debug("调用了：{}.upload* 方法,可能是上传文件,不输出参数,如有误,请重命名该方法,不要包含upload关键字", signature.getDeclaringTypeName());
                 return;
             }
-            String   params = "";
-            Object[] temp   = joinPoint.getArgs();
+            var params = "";
+            var temp   = joinPoint.getArgs();
             if (Objects.nonNull(temp) && temp.length > 0)
             { params = Json.toString(temp); }
             RootLogger.debug("调用了：{}.{} 方法 ：参数 \n{}", signature.getDeclaringTypeName(), method.getName(), params);
         }
-        Parameter[] params = method.getParameters();
-        String      group  = StringUtils.capitalize(joinPoint.getSignature().getName());
+        var params = method.getParameters();
+        var group  = StringUtils.capitalize(joinPoint.getSignature().getName());
 
         for (int i = 0; i < params.length; i++)
         {
             if (params[i].isAnnotationPresent(Validate.class))
             {
-                Object object = joinPoint.getArgs()[i];
+                var object = joinPoint.getArgs()[i];
                 ValidateUtils.validateLimit(object, group);
             }
         }
@@ -50,11 +48,11 @@ class ValidateAspejct
 
     void doReturn(JoinPoint joinPoint, Object object)
     {
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Method          method    = signature.getMethod();
+        var signature = (MethodSignature) joinPoint.getSignature();
+        var method    = signature.getMethod();
         if (RootLogger.isDebug())
         {
-            String returns = "";
+            var returns = "";
             if (Objects.nonNull(object))
             { returns = Json.toString(object); }
             RootLogger.debug("调用了：{}.{} 方法结束 ：结果 \n{}", signature.getDeclaringTypeName(), method.getName(), returns);

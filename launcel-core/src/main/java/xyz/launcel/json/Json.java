@@ -60,38 +60,3 @@ public class Json
     //        }
     //}
 }
-
-//import com.alibaba.fastjson.JSON;
-//import com.alibaba.fastjson.JSONException;
-//import xyz.launcel.exception.SystemException;
-//
-//import java.util.List;
-//
-//public class Json
-//{
-//    public static String toJson(Object object) { return JSON.toJSONString(object); }
-//
-//    public static <T> T toObject(final String jsonObject, final Class<T> clazz)
-//    {
-//        try
-//        {
-//            return JSON.parseObject(jsonObject, clazz);
-//        }
-//        catch (JSONException x)
-//        {
-//            throw new SystemException("_DEFINE_ERROR_CODE_011", "Json转换异常");
-//        }
-//    }
-//
-//    public static <T> List<T> toObjectList(final String json, final Class<T> t)
-//    {
-//        try
-//        {
-//            return JSON.parseArray(json, t);
-//        }
-//        catch (JSONException e)
-//        {
-//            throw new SystemException("_DEFINE_ERROR_CODE_011", "Json转换异常");
-//        }
-//    }
-//}

@@ -24,7 +24,7 @@ public class MD5
             code = MessageDigest.getInstance("md5").digest(input.getBytes());
         }
         catch (NoSuchAlgorithmException e) { code = input.getBytes(); }
-        BigInteger bi = new BigInteger(code);
+        var bi = new BigInteger(code);
         return bi.abs().toString(32).toUpperCase();
     }
 

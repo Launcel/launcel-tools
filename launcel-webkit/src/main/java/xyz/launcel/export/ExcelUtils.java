@@ -7,17 +7,12 @@ package xyz.launcel.export;
 
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.lang.CollectionUtils;
 import xyz.launcel.lang.TimeFormatUtil;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -35,7 +30,7 @@ public class ExcelUtils
         if (titles.length > 0 && CollectionUtils.isNotEmpty(list))
         {
             response.setContentType("application/ms-excel;charset=UTF-8");
-            String fileNameTmp = TimeFormatUtil.format(new Date(), "yyyy-MM-dd") + "_" + fileName + ".xlsx";
+            var fileNameTmp = TimeFormatUtil.format(new Date(), "yyyy-MM-dd") + "_" + fileName + ".xlsx";
             try
             {
                 fileName = new String(fileNameTmp.getBytes("ISO8859_1"), Charset.forName("UTF-8"));
@@ -49,7 +44,7 @@ public class ExcelUtils
 
             try
             {
-                ServletOutputStream out = response.getOutputStream();
+                var out = response.getOutputStream();
                 writeXSSFWorkbook(titles, list).write(out);
                 out.flush();
                 out.close();
@@ -67,21 +62,21 @@ public class ExcelUtils
 
     private static XSSFWorkbook writeXSSFWorkbook(String[] titles, List<List<Object>> list)
     {
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFFont     font     = workbook.createFont();
+        var workbook = new XSSFWorkbook();
+        var font     = workbook.createFont();
         font.setFontHeightInPoints((short) 11);
         font.setFontName("宋体");
         font.setBold(true);
-        XSSFCellStyle style = workbook.createCellStyle();
+        var style = workbook.createCellStyle();
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setFillForegroundColor(HSSFColorPredefined.GREY_80_PERCENT.getIndex());
         style.setFont(font);
-        XSSFSheet sheet = workbook.createSheet("sheet1");
-        XSSFRow   row   = sheet.createRow(0);
+        var sheet = workbook.createSheet("sheet1");
+        var row   = sheet.createRow(0);
 
-        for (int i = 0; i < titles.length; ++i)
+        for (var i = 0; i < titles.length; ++i)
         {
-            XSSFCell cell = row.createCell(i);
+            var cell = row.createCell(i);
             cell.setCellValue(titles[i]);
             cell.setCellStyle(style);
         }
@@ -92,15 +87,15 @@ public class ExcelUtils
 
     private static void writeDataRow(List<List<Object>> list, XSSFSheet sheet)
     {
-        for (int i = 0; i < list.size(); ++i)
+        for (var i = 0; i < list.size(); ++i)
         {
-            XSSFRow row   = sheet.createRow(i + 1);
-            List    clist = list.get(i);
+            var row   = sheet.createRow(i + 1);
+            var clist = list.get(i);
 
-            for (int n = 0; n < clist.size(); ++n)
+            for (var n = 0; n < clist.size(); ++n)
             {
                 row.createCell((short) n).setCellValue("");
-                Object value = clist.get(n);
+                var value = clist.get(n);
                 if (Objects.nonNull(value))
                 {
                     if (value instanceof Date)

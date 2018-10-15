@@ -28,8 +28,8 @@ public class ExceptionHelp
         {
             if (Objects.isNull(props))
             {
-                PathMatchingResourcePatternResolver resolver  = new PathMatchingResourcePatternResolver();
-                Resource[]                          resources = resolver.getResources("classpath*:/properties/error.properties");
+                var resolver  = new PathMatchingResourcePatternResolver();
+                var resources = resolver.getResources("classpath*:/properties/error.properties");
                 props = new Properties();
                 InputStream       in  = null;
                 InputStreamReader inr = null;
@@ -58,8 +58,8 @@ public class ExceptionHelp
 
     static Map<String, String> getMessage(String code)
     {
-        Map<String, String> map   = new HashMap<>();
-        String              value = props.getProperty(code);
+        var map   = new HashMap<String, String>();
+        var value = props.getProperty(code);
         if (StringUtils.isNotBlank(value)) { map.put("message", value); }
         else { map.put("message", code); }
         return map;

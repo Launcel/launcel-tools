@@ -35,7 +35,7 @@ public class GsonRedisSerializer<T> implements RedisSerializer<T>
     public T deserialize(byte[] bytes) throws SerializationException
     {
         if (bytes == null || bytes.length == 0) { return null; }
-        String str = new String(bytes, StandardCharsets.UTF_8);
+        var str = new String(bytes, StandardCharsets.UTF_8);
         return gsonBuilder.create().fromJson(str, type);
     }
 

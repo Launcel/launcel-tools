@@ -17,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import xyz.launcel.aspejct.ControllerParamValidateAspejct;
 import xyz.launcel.handle.GlobalExceptionHandle;
+import xyz.launcel.json.builder.DateFormat;
 import xyz.launcel.json.builder.DefaultGsonBuilder;
 import xyz.launcel.properties.CorsProperties;
 import xyz.launcel.properties.JsonProperties;
@@ -44,9 +45,9 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
     {
         converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
-        GsonHttpMessageConverter gsonConverter = new GsonHttpMessageConverter();
+        var gsonConverter = new GsonHttpMessageConverter();
         DefaultGsonBuilder.builder()
-                .dateFormat(DefaultGsonBuilder.DateFormat.getByName(jsonPropertie.getDateFormat()))
+                .dateFormat(DateFormat.getByName(jsonPropertie.getDateFormat()))
                 .floatingPointValues(jsonPropertie.getFloatingPointValue())
                 .formatPrint(jsonPropertie.getFormatPrint())
                 .serializeNull(jsonPropertie.getSerializeNull())
@@ -83,7 +84,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @Primary
     public MultipartConfigElement multipartConfigElement()
     {
-        MultipartConfigFactory factory = new MultipartConfigFactory();
+        var factory = new MultipartConfigFactory();
         factory.setMaxFileSize(uploadProperties.getMaxSize());
         factory.setMaxRequestSize(uploadProperties.getMaxSize());
         UploadLocalUtil.init(uploadProperties);

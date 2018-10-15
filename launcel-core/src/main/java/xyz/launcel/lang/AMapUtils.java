@@ -15,6 +15,7 @@ public interface AMapUtils
     /**
      * @param lat 纬度
      * @param lng 经度
+     *
      * @return Point
      */
     static Point newPoint(double lat, double lng)
@@ -27,15 +28,18 @@ public interface AMapUtils
      *
      * @param l1 point 1
      * @param l2 point 2
+     *
      * @return two point legth
      */
     static double getDistance(Point l1, Point l2)
     {
         // 纬度的弧度差
-        double latDiff = l1.getRadLat() - l2.getRadLat();
+        var latDiff = l1.getRadLat() - l2.getRadLat();
         // 经度的弧度差
-        double lngDiff = l1.getRadLng() - l2.getRadLng();
-        double s       = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(latDiff / 2), 2) + Math.cos(l1.getRadLat()) * Math.cos(l2.getRadLat()) * Math.pow(Math.sin(lngDiff / 2), 2)));
+        var lngDiff = l1.getRadLng() - l2.getRadLng();
+        var s = 2 * Math.asin(Math.sqrt(
+                Math.pow(Math.sin(latDiff / 2), 2) + Math.cos(l1.getRadLat()) * Math.cos(l2.getRadLat()) * Math.pow(Math.sin(lngDiff / 2),
+                        2)));
         s = s * 6378.137;
         RootLogger.info("Point({},{})与Point({},{})的距离={}", l1.getLng(), l1.getLat(), l2.getLng(), l2.getLat(), s);
         return s;
@@ -103,6 +107,7 @@ public interface AMapUtils
          * 获得当前角度的弧度值
          *
          * @param degree 角度
+         *
          * @return 弧度
          */
         private double getRadian(double degree) { return degree * Math.PI / 180.0; }

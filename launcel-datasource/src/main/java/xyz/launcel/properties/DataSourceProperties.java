@@ -21,7 +21,7 @@ import java.util.Properties;
 public class DataSourceProperties
 {
 
-    private Boolean useDynamicDataSource = false;
+    private Boolean             useDynamicDataSource = false;
     @NonNull
     private DataSourcePropertie main;
 
@@ -37,8 +37,7 @@ public class DataSourceProperties
         private String  driverClass           = "org.mariadb.jdbc.Driver";
         // private String  url                 = "jdbc:log4jdbc:mysql://localhost:3306/wx-shop?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false";
         @NonNull
-        private String  url                   =
-                "jdbc:mariadb://localhost:3306/test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false";
+        private String  url                   = "jdbc:mariadb://localhost:3306/test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&failOverReadOnly=false";
         private String  username              = "root";
         @NonNull
         private String  password              = "MTIzNDU2";
@@ -64,7 +63,7 @@ public class DataSourceProperties
 
         public HikariConfig getHikariConfig()
         {
-            HikariConfig config = new HikariConfig();
+            var config = new HikariConfig();
             config.setDriverClassName(getDriverClass());
             config.setPassword(Base64.decode(getPassword()));
             config.setJdbcUrl(getUrl());
@@ -77,7 +76,7 @@ public class DataSourceProperties
             config.setConnectionTestQuery(getConnectionTestQuery());
             config.setReadOnly(getRead());
 
-            Properties dataSourceProperty = new Properties();
+            var dataSourceProperty = new Properties();
             dataSourceProperty.put("dataSource.cachePrepStmts", getCachePrepStmts());
             dataSourceProperty.put("dataSource.prepStmtCacheSize", getPrepStmtCacheSize());
             dataSourceProperty.put("dataSource.prepStmtCacheSqlLimit", getPrepStmtCacheSqlLimit());

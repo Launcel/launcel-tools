@@ -63,7 +63,7 @@ public class GlobalExceptionHandle
 
     private Response response(String str)
     {
-        return Response.builder().message(str).isOk(false).code("-1").build();
+        return Response.builder().message(str).code("-1").build();
     }
 
 }

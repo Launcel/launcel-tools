@@ -5,7 +5,6 @@ import xyz.launcel.exception.SystemException;
 
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by xuyang in 2017/10/12
@@ -43,8 +42,9 @@ public class SQLHelp
     public static Class<?> getClazz(Map<String, Object> parameter)
     {
         Class<?> clazz = null;
-        Object   o     = getParam(parameter, "clazz");
-        if (o instanceof Class) { clazz = (Class<?>) o; }
+        var      o     = getParam(parameter, "clazz");
+        if (o instanceof Class)
+        { clazz = (Class<?>) o; }
         return clazz;
     }
 
@@ -55,11 +55,11 @@ public class SQLHelp
 
     public static String concatSql(String boundSql, Page<?> p)
     {
-        StringBuilder sb = new StringBuilder(boundSql);
+        var sb = new StringBuilder(boundSql);
         if (CollectionUtils.isNotEmpty(p.getGroupBy()))
         {
             sb.append(" GROUP BY ");
-            Set<Integer> indexSet = new HashSet<>(1);
+            var indexSet = new HashSet<Integer>(1);
             indexSet.add(1);
             p.getGroupBy().forEach(groupSet -> {
                 if (indexSet.contains(1))
@@ -73,7 +73,7 @@ public class SQLHelp
         if (CollectionUtils.isNotEmpty(p.getOrderBy()))
         {
             sb.append(" ORDER BY ");
-            String headColName = CollectionUtils.getHead(p.getOrderBy()).getKey();
+            var headColName = CollectionUtils.getHead(p.getOrderBy()).getKey();
             p.getOrderBy().forEach((colName, order) -> {
                 if (colName.equals(headColName))
                 {

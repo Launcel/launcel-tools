@@ -18,8 +18,8 @@ public class WebObjectUtils
 {
     public static JsonObject parseParamFromRequest(HttpServletRequest request)
     {
-        String              paramInput   = null;
-        Map<String, Object> parameterMap = WebUtils.getParametersStartingWith(request, null);
+        String paramInput   = null;
+        var    parameterMap = WebUtils.getParametersStartingWith(request, null);
 
         if (CollectionUtils.isNotEmpty(parameterMap))
         {

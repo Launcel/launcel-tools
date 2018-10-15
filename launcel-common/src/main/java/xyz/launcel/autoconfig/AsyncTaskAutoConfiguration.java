@@ -22,7 +22,7 @@ public class AsyncTaskAutoConfiguration
     @Bean(name = "executor")
     public ThreadPoolTaskExecutor taskExecutor()
     {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        var executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(poolProperties.getCorePoolSize());
         executor.setMaxPoolSize(poolProperties.getMaxPoolSize());
         executor.setQueueCapacity(poolProperties.getQueueCapacity());
