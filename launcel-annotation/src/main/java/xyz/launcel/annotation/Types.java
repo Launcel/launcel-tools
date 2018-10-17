@@ -19,15 +19,15 @@ import lombok.Getter;
 public enum Types
 {
 
-    number("整数"),
-    string("字符"),
-    decimal("小数"),
-    email("邮箱"),
-    tel("手机号"),
-    qq("qq号码"),
-    ip("ip地址");
+    NUMBER("整数"),
+    STRING("字符"),
+    DECIMAL("小数"),
+    EMAIL("邮箱"),
+    TEL("手机号"),
+    QQ("qq号码"),
+    IP("ip地址"),
+    LIST("数组");
     @Getter
     private String desc;
-
 
 }

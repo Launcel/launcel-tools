@@ -9,6 +9,7 @@ import xyz.launcel.log.RootLogger;
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
+import java.util.Objects;
 
 public final class ValidateUtils
 {
@@ -87,37 +88,43 @@ public final class ValidateUtils
         {
             switch (l.type())
             {
-                case string:
+                case STRING:
                     if (StringUtils.isBlank(o))
                     { msg += " : 不能为空"; }
                     break;
-                case number:
+                case NUMBER:
                     if (!RegUtil.isNum(o))
                     { msg += " : 不是整数"; }
                     else
                     { checkValue(o, l, name); }
                     break;
-                case ip:
+                case IP:
                     if (!RegUtil.isIP(o))
                     { msg += " : 不是合法ip"; }
                     break;
-                case decimal:
+                case DECIMAL:
                     if (!RegUtil.isFloatNum(o))
                     { msg += " : 不是小数"; }
                     else
                     { checkValue(o, l, name); }
                     break;
-                case email:
+                case EMAIL:
                     if (!RegUtil.isEmail(o))
                     { msg += " : 不是邮箱"; }
                     break;
-                case tel:
+                case TEL:
                     if (!RegUtil.isMobile(o))
                     { msg += " : 不是合法手机号码"; }
                     break;
-                case qq:
+                case QQ:
                     if (!RegUtil.isQQ(o))
                     { msg += " : 不是合法QQ号码"; }
+                    break;
+                case LIST:
+                    if (Objects.isNull(o) || CollectionUtils.sizeIsEmpty(o))
+                    {
+                        msg += " : 数组无效";
+                    }
                     break;
                 default:
                     break;

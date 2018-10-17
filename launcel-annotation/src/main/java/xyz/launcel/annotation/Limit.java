@@ -29,7 +29,7 @@ public @interface Limit
      * @see Types
      * default string
      */
-    Types type() default Types.string;
+    Types type() default Types.STRING;
 
     /**
      * 校验字段对应的 group

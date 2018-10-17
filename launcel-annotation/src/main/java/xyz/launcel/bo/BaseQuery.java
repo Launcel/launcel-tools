@@ -15,5 +15,5 @@ public class BaseQuery
 {
     private Integer       id;
     private List<Integer> ids;
-    private StatusType    status;
+    private StatusType    status = StatusType.ENABLED;
 }
