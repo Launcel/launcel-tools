@@ -1,5 +1,6 @@
 package xyz.launcel.test;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -10,23 +11,23 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 @WebAppConfiguration
+@RequiredArgsConstructor
 public abstract class AbstractMvcTest extends AbstractTest
 {
 
-    @Inject
-    private WebApplicationContext wac;
-    private MockMvc               mockMvc;
+    private final WebApplicationContext wac;
+    private       MockMvc               mockMvc;
 
     private void setup()
     {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-                                 .alwaysExpect(MockMvcResultMatchers.status().isOk())
-                                 .alwaysDo(MockMvcResultHandlers.print()).build();
+                .alwaysExpect(MockMvcResultMatchers.status().isOk())
+                .alwaysDo(MockMvcResultHandlers.print())
+                .build();
     }
 
     private MockMvc getMockMvc()
@@ -91,38 +92,32 @@ public abstract class AbstractMvcTest extends AbstractTest
         }
     }
 
-    private MockHttpServletRequestBuilder builder(
-            String uri, Map<String, String> params, String requestMethod)
+    private MockHttpServletRequestBuilder builder(String uri, Map<String, String> params, String requestMethod)
     {
-        if ("get".equals(requestMethod.toLowerCase()))
+        String                        method  = requestMethod.toLowerCase();
+        MockHttpServletRequestBuilder builder = null;
+        switch (method)
         {
-            return addParam(MockMvcRequestBuilders.get(uri), params);
+            case "get":
+                builder = MockMvcRequestBuilders.get(uri);
+                break;
+            case "post":
+                builder = MockMvcRequestBuilders.post(uri);
+                break;
+            case "put":
+                builder = MockMvcRequestBuilders.put(uri);
+                break;
+            case "delete":
+                builder = MockMvcRequestBuilders.delete(uri);
+                break;
         }
-        else if ("post".equals(requestMethod.toLowerCase()))
-        {
-            return addParam(MockMvcRequestBuilders.post(uri), params);
-        }
-        else if ("put".equals(requestMethod.toLowerCase()))
-        {
-            return addParam(MockMvcRequestBuilders.put(uri), params);
-        }
-        else if ("delete".equals(requestMethod.toLowerCase()))
-        {
-            return addParam(MockMvcRequestBuilders.delete(uri), params);
-        }
-        else
-        {
-            return null;
-        }
+        return addParam(builder, params);
     }
 
-    private MockHttpServletRequestBuilder addParam(
-            MockHttpServletRequestBuilder builder, Map<String, String> params)
+    private MockHttpServletRequestBuilder addParam(MockHttpServletRequestBuilder builder, Map<String, String> params)
     {
         for (Map.Entry<String, String> entry : params.entrySet())
-        {
             builder.param(entry.getKey(), entry.getValue());
-        }
         return builder;
     }
 

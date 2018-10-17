@@ -32,7 +32,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.version>1.11</project.build.version>
+        <project.build.version>11</project.build.version>
         <encode.type>${project.build.sourceEncoding}</encode.type>
         <mybatis.version>3.4.6</mybatis.version>
         <logback.version>1.2.3</logback.version>
@@ -130,7 +130,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.8.0</version>
                 <configuration>
                     <source>${project.build.version}</source>
                     <target>${project.build.version}</target>
