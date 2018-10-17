@@ -38,19 +38,6 @@
             <artifactId>spring-aspects</artifactId>
         </dependency>
 
-
-        <!--<dependency>-->
-            <!--<groupId>org.aspectj</groupId>-->
-            <!--<artifactId>aspectjweaver</artifactId>-->
-            <!--<scope>compile</scope>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>org.aspectj</groupId>-->
-            <!--<artifactId>aspectjrt</artifactId>-->
-            <!--<scope>compile</scope>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
@@ -102,12 +89,6 @@
             <version>2.6</version>
         </dependency>
         <!-- apache end-->
-
-        <!--<dependency>-->
-        <!--<groupId>org.apache.commons</groupId>-->
-        <!--<artifactId>commons-lang3</artifactId>-->
-        <!--<version>3.7</version>-->
-        <!--</dependency>-->
 
     </dependencies>
 

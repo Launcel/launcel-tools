@@ -7,7 +7,6 @@ public class ResponseBuilder
     private Object data    = null;
     private String message = "";
     private String code    = "0";
-    private Long   timestrap;
 
     ResponseBuilder builder()
     {
