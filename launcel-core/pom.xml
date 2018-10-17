@@ -57,7 +57,6 @@
         <dependency>
             <groupId>xyz.launcel</groupId>
             <artifactId>launcel-annotation</artifactId>
-            <version>${parent.version}</version>
         </dependency>
 
         <dependency>
