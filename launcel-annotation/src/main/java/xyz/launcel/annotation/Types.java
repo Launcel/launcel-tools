@@ -26,7 +26,7 @@ public enum Types
     tel("手机号"),
     qq("qq号码"),
     ip("ip地址");
-
+    @Getter
     private String desc;
 
 

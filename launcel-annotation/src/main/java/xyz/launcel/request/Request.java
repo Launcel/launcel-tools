@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Getter
 @ToString
 @Accessors(chain = true)
-public class BaseRequest implements Serializable
+public class Request implements Serializable
 {
     private static final long serialVersionUID = 664881353984645891L;
 

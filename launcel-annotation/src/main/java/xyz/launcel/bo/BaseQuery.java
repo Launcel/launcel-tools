@@ -2,6 +2,7 @@ package xyz.launcel.bo;
 
 import lombok.Getter;
 import lombok.Setter;
+import xyz.launcel.annotation.StatusType;
 
 import java.util.List;
 
@@ -13,5 +14,6 @@ import java.util.List;
 public class BaseQuery
 {
     private Integer       id;
-    private List<Integer> idList;
+    private List<Integer> ids;
+    private StatusType    status;
 }
