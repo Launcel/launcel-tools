@@ -1,6 +1,7 @@
 package xyz.launcel.dao.util;
 
 import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import xyz.launcel.bean.context.SpringBeanUtil;
 import xyz.launcel.dao.BaseRepository;
@@ -32,15 +33,15 @@ public class BatchUtils
     {
         if (CollectionUtils.isEmpty(list))
             return 0;
-        var size    = list.size();
-        var result  = 0;
-        var session = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
+        int        size    = list.size();
+        int        result  = 0;
+        SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
         try
         {
-            var repository = session.getMapper(mapper);
+            BaseRepository repository = session.getMapper(mapper);
             for (int i = 0; i < size; i++)
             {
-                var l = list.get(i);
+                T l = list.get(i);
                 switch (type)
                 {
                     case INSERT:

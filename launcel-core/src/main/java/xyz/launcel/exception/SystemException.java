@@ -22,7 +22,7 @@ public class SystemException extends RuntimeException
     public SystemException(String code, String message)
     {
         this(message);
-        var sb = "[" + code + " : " + message + "]";
+        String sb = "[" + code + " : " + message + "]";
         RootLogger.error(sb);
     }
 

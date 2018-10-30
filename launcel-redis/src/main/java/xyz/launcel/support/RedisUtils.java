@@ -57,7 +57,7 @@ public final class RedisUtils
                 {
                     if (StringUtils.isNotBlank(entry.getKey()))
                     {
-                        var result = conn.setEx(StringUtils.serializer(entry.getKey()), expireTime,
+                        Boolean result = conn.setEx(StringUtils.serializer(entry.getKey()), expireTime,
                                 StringUtils.serializer(Json.toString(entry.getValue())));
                         if (result != null && result)
                             num++;
@@ -75,7 +75,7 @@ public final class RedisUtils
     public static boolean exits(final String key)
     {
         vidate(key);
-        var flat = template.hasKey(key);
+        Boolean flat = template.hasKey(key);
         return flat != null && flat;
     }
 
@@ -84,7 +84,7 @@ public final class RedisUtils
         vidate(key, value, expTime);
         RedisCallback<Boolean> callback = conn -> conn.set(StringUtils.serializer(key), StringUtils.serializer(value),
                 Expiration.from(expTime, TimeUnit.SECONDS), RedisStringCommands.SetOption.SET_IF_ABSENT);
-        var flat = template.execute(callback);
+        Boolean flat = template.execute(callback);
         return flat != null && flat;
     }
 

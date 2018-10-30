@@ -63,7 +63,7 @@ public class DataSourceProperties
 
         public HikariConfig getHikariConfig()
         {
-            var config = new HikariConfig();
+            HikariConfig config = new HikariConfig();
             config.setDriverClassName(getDriverClass());
             config.setPassword(Base64.decode(getPassword()));
             config.setJdbcUrl(getUrl());
@@ -76,7 +76,7 @@ public class DataSourceProperties
             config.setConnectionTestQuery(getConnectionTestQuery());
             config.setReadOnly(getRead());
 
-            var dataSourceProperty = new Properties();
+            Properties dataSourceProperty = new Properties();
             dataSourceProperty.put("dataSource.cachePrepStmts", getCachePrepStmts());
             dataSourceProperty.put("dataSource.prepStmtCacheSize", getPrepStmtCacheSize());
             dataSourceProperty.put("dataSource.prepStmtCacheSqlLimit", getPrepStmtCacheSqlLimit());

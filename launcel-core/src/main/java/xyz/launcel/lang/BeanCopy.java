@@ -57,8 +57,8 @@ public final class BeanCopy
         { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "集合中没有数据"); }
         try
         {
-            var targetList = new ArrayList<T>();
-            var target     = targetClass.getDeclaredConstructor().newInstance();
+            List<T> targetList = new ArrayList<>();
+            T target     = targetClass.getDeclaredConstructor().newInstance();
             source.forEach(s -> targetList.add(mapProperties(s, target)));
             return targetList;
         }

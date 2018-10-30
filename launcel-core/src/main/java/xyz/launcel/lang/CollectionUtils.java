@@ -4,6 +4,7 @@ import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.log.RootLogger;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -87,7 +88,7 @@ public interface CollectionUtils
     {
         try
         {
-            var tail = map.getClass().getDeclaredField("tail");
+            Field tail = map.getClass().getDeclaredField("tail");
             tail.setAccessible(true);
             return (Map.Entry<K, V>) tail.get(map);
         }

@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.TypeAdapter;
 import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
@@ -46,7 +47,7 @@ class MapTypeAdapter extends TypeAdapter<Object>
     @Override
     public Object read(JsonReader in) throws IOException
     {
-        var token = in.peek();
+        JsonToken token = in.peek();
         switch (token)
         {
             case BEGIN_ARRAY:
