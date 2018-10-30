@@ -50,6 +50,8 @@ public class DefaultGsonBuilder
             gsonBuilder.serializeSpecialFloatingPointValues();
         if (formatPrint)
             gsonBuilder.setPrettyPrinting();
+        if (serializeNull)
+            gsonBuilder.serializeNulls();
 
         switch (dateFormat)
         {

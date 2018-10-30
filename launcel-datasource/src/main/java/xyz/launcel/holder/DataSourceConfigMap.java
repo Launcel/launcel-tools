@@ -13,7 +13,6 @@ import lombok.experimental.Accessors;
  */
 @Getter
 @Setter
-@Accessors(chain = true)
 public class DataSourceConfigMap
 {
     private String           name;
@@ -21,7 +20,9 @@ public class DataSourceConfigMap
     private Boolean          roleDataSource;
     private HikariDataSource dataSource;
 
-    DataSourceConfigMap() { }
+    DataSourceConfigMap()
+    {
+    }
 
     DataSourceConfigMap(String name, Boolean enableTransactal, Boolean roleDataSource, HikariDataSource dataSource)
     {

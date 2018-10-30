@@ -30,11 +30,11 @@ public abstract class BaseController extends BaseLogger
 
     protected <T> Page<T> initPaging()
     {
-        var pageNoString = getRequest().getParameter("pageNo");
-        var rowString    = getRequest().getParameter("row");
+        String pageNoString = getRequest().getParameter("pageNo");
+        String rowString    = getRequest().getParameter("row");
 
-        var pageNo = 1;
-        var row    = 20;
+        int pageNo = 1;
+        int row    = 20;
         try
         {
             if (StringUtils.isNotBlank(pageNoString))
@@ -52,7 +52,7 @@ public abstract class BaseController extends BaseLogger
 
     protected String getToken()
     {
-        var cookies = getRequest().getCookies();
+        Cookie[] cookies = getRequest().getCookies();
         if (cookies != null && cookies.length > 0)
         {
             for (Cookie cookie : cookies)

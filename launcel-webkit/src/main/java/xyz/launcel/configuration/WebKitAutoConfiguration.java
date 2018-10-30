@@ -45,7 +45,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
     {
         converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
-        var gsonConverter = new GsonHttpMessageConverter();
+        GsonHttpMessageConverter gsonConverter = new GsonHttpMessageConverter();
         DefaultGsonBuilder.builder()
                 .dateFormat(DateFormat.getByName(jsonPropertie.getDateFormat()))
                 .floatingPointValues(jsonPropertie.getFloatingPointValue())
@@ -84,7 +84,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @Primary
     public MultipartConfigElement multipartConfigElement()
     {
-        var factory = new MultipartConfigFactory();
+        MultipartConfigFactory factory = new MultipartConfigFactory();
         factory.setMaxFileSize(uploadProperties.getMaxSize());
         factory.setMaxRequestSize(uploadProperties.getMaxSize());
         UploadLocalUtil.init(uploadProperties);

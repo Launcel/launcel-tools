@@ -45,8 +45,8 @@ public class DataSourcePropertiesBinderTool
     {
         if (Objects.nonNull(dataSourceProperties.getMain()))
         {
-            var main       = dataSourceProperties.getMain();
-            var dataSource = new HikariDataSource(main.getHikariConfig());
+            DataSourceProperties.DataSourcePropertie main       = dataSourceProperties.getMain();
+            HikariDataSource                         dataSource = new HikariDataSource(main.getHikariConfig());
             if (Objects.isNull(dynamicDataSourceConfigMapList))
                 dynamicDataSourceConfigMapList = new ArrayList<>();
             dynamicDataSourceConfigMapList.add(
@@ -59,7 +59,7 @@ public class DataSourcePropertiesBinderTool
         {
             dataSourceProperties.getOthers().forEach(other -> {
                 isDebugSql(other);
-                var dataSource = new HikariDataSource(other.getHikariConfig());
+                HikariDataSource dataSource = new HikariDataSource(other.getHikariConfig());
                 dynamicDataSourceConfigMapList.add(
                         new DataSourceConfigMap(other.getName(), other.getEnableTransactal(), other.getRoleDataSource(), dataSource));
                 if (other.getRoleDataSource())
@@ -70,7 +70,8 @@ public class DataSourcePropertiesBinderTool
 
     public void binderMybatisConfig(Binder binder)
     {
-        var mybatisProperties = binder.bind(SessionFactoryConstant.mybatisConfigPrefix, Bindable.of(MybatisProperties.class)).get();
+        MybatisProperties mybatisProperties = binder.bind(SessionFactoryConstant.mybatisConfigPrefix, Bindable.of(MybatisProperties.class))
+                .get();
         if (Objects.isNull(mybatisProperties) || Objects.isNull(mybatisProperties.getMain()) || CollectionUtils.isEmpty(
                 mybatisProperties.getOthers()))
             System.exit(-1);

@@ -18,6 +18,7 @@ import xyz.launcel.lang.CollectionUtils;
 import xyz.launcel.log.RootLogger;
 
 import java.text.DateFormat;
+import java.text.Format;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -32,21 +33,21 @@ public class ParamInterceptor implements Interceptor
     public Object intercept(Invocation invocation) throws Throwable
     {
         // 获取xml中的一个select/update/insert/delete节点，主要描述的是一条SQL语句
-        var    mappedStatement = (MappedStatement) invocation.getArgs()[0];
-        Object parameter       = null;
+        MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
+        Object          parameter       = null;
         // 获取参数，if语句成立，表示sql语句有参数，参数格式是map形式
         if (invocation.getArgs().length > 1)
         {
             parameter = invocation.getArgs()[1];
         }
         // 获取到节点的id,即sql语句的id
-        var sqlId = mappedStatement.getId();
+        String sqlId = mappedStatement.getId();
         // BoundSql就是封装myBatis最终产生的sql类
-        var boundSql = mappedStatement.getBoundSql(parameter);
+        BoundSql boundSql = mappedStatement.getBoundSql(parameter);
         // 获取节点的配置
-        var configuration = mappedStatement.getConfiguration();
+        Configuration configuration = mappedStatement.getConfiguration();
         // 获取到最终的sql语句
-        var sql = getSql(configuration, boundSql, sqlId);
+        String sql = getSql(configuration, boundSql, sqlId);
         RootLogger.debug("sql = " + sql);
         return invocation.proceed();
     }
@@ -69,7 +70,7 @@ public class ParamInterceptor implements Interceptor
         }
         if (obj instanceof Date)
         {
-            var formatter = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.CHINA);
+            Format formatter = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.CHINA);
             return "'" + formatter.format(new Date()) + "'";
         }
         return obj != null ? obj.toString() : "";
@@ -78,14 +79,14 @@ public class ParamInterceptor implements Interceptor
 
     private static String showSql(Configuration configuration, BoundSql boundSql)
     {
-        var parameterObject   = boundSql.getParameterObject();
-        var parameterMappings = boundSql.getParameterMappings();
+        Object                 parameterObject   = boundSql.getParameterObject();
+        List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
         // sql语句中多个空格都用一个空格代替
-        var sql = boundSql.getSql().replaceAll("[\\s]+", " ");
+        String sql = boundSql.getSql().replaceAll("[\\s]+", " ");
         if (CollectionUtils.isNotEmpty(parameterMappings) && parameterObject != null)
         {
             // 获取类型处理器注册器，类型处理器的功能是进行java类型和数据库类型的转换
-            var typeHandlerRegistry = configuration.getTypeHandlerRegistry();
+            TypeHandlerRegistry typeHandlerRegistry = configuration.getTypeHandlerRegistry();
             // 如果根据parameterObject.getClass(）可以找到对应的类型，则替换
             if (typeHandlerRegistry.hasTypeHandler(parameterObject.getClass()))
             {
@@ -93,10 +94,10 @@ public class ParamInterceptor implements Interceptor
             }
             // MetaObject主要是封装了originalObject对象，提供了get和set的方法用于获取和设置originalObject的属性值,
             // 主要支持对JavaBean、Collection、Map三种类型对象的操作
-            var metaObject = configuration.newMetaObject(parameterObject);
+            MetaObject metaObject = configuration.newMetaObject(parameterObject);
             for (ParameterMapping parameterMapping : parameterMappings)
             {
-                var propertyName = parameterMapping.getProperty();
+                String propertyName = parameterMapping.getProperty();
                 if (metaObject.hasGetter(propertyName))
                 {
                     sql = sql.replaceFirst("\\?", Matcher.quoteReplacement(getParameterValue(metaObject.getValue(propertyName))));

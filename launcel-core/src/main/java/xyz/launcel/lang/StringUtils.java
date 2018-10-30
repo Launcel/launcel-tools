@@ -45,7 +45,7 @@ public final class StringUtils
     {
         if (isBlank(str)) { return null; }
 
-        var firstChar = str.charAt(0);
+        char firstChar = str.charAt(0);
         if (Character.isTitleCase(firstChar)) { return str; }
 
         return Character.toTitleCase(firstChar) + str.substring(1);
@@ -116,8 +116,8 @@ public final class StringUtils
             }
         }
 
-        var buffer = new char[count];
-        var gap    = end - start;
+        char[] buffer = new char[count];
+        int    gap    = end - start;
 
         while (count-- != 0)
         {

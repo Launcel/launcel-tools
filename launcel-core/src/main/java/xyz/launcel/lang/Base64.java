@@ -13,8 +13,10 @@ public interface Base64
 
     static String decode(@NonNull String string)
     {
-        var bytes = java.util.Base64.getDecoder().decode(string);
-        return new String(bytes, StandardCharsets.UTF_8);
+        byte[] bytes = java.util.Base64.getDecoder().decode(string);
+        if (bytes != null && bytes.length > 0)
+            return new String(bytes, StandardCharsets.UTF_8);
+        return null;
     }
 
 }

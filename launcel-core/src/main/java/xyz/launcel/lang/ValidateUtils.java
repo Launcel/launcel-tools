@@ -18,14 +18,14 @@ public final class ValidateUtils
 
     public static void validateLimit(Object object, String group)
     {
-        var fields = object.getClass().getDeclaredFields();
+        Field[] fields = object.getClass().getDeclaredFields();
         Arrays.stream(fields).forEach(field -> {
             field.setAccessible(true);
             if (field.isAnnotationPresent(Limit.class))
             {
                 try
                 {
-                    var value = field.get(object);
+                    Object value = field.get(object);
                     validateGroup(field, value, group);
                 }
                 catch (IllegalAccessException x)
@@ -40,8 +40,8 @@ public final class ValidateUtils
     @Deprecated
     public static void validateLimit(Parameter parameter, String group)
     {
-        var clazz  = parameter.getType();
-        var fields = clazz.getDeclaredFields();
+        Class   clazz  = parameter.getType();
+        Field[] fields = clazz.getDeclaredFields();
         Arrays.stream(fields).forEach(field -> {
             field.setAccessible(true);
             if (field.isAnnotationPresent(Limit.class))
@@ -61,7 +61,7 @@ public final class ValidateUtils
 
     private static void validateGroup(Field f, Object value, String group)
     {
-        var l = f.getAnnotation(Limit.class);
+        Limit l = f.getAnnotation(Limit.class);
         if (l.group().length < 0)
         {
             checkFiled(value, l, f);
@@ -82,8 +82,8 @@ public final class ValidateUtils
 
     private static void verifyType(Object temp, Limit l, String name)
     {
-        var msg = name;
-        var o   = temp.toString();
+        String msg = new String(name);
+        String o   = temp.toString();
         try
         {
             switch (l.type())
@@ -135,6 +135,8 @@ public final class ValidateUtils
             if (!msg.equals(name))
             {
                 RootLogger.error(msg);
+                name = null;
+                msg = null;
                 ExceptionFactory.create(l.message());
             }
         }

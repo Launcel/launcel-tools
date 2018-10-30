@@ -1,9 +1,9 @@
 package xyz.launcel.lang;
 
+import xyz.launcel.annotation.OrderSqlEnum;
 import xyz.launcel.dao.Page;
 import xyz.launcel.exception.SystemException;
 
-import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -42,7 +42,7 @@ public class SQLHelp
     public static Class<?> getClazz(Map<String, Object> parameter)
     {
         Class<?> clazz = null;
-        var      o     = getParam(parameter, "clazz");
+        Object   o     = getParam(parameter, "clazz");
         if (o instanceof Class)
         { clazz = (Class<?>) o; }
         return clazz;
@@ -55,48 +55,49 @@ public class SQLHelp
 
     public static String concatSql(String boundSql, Page<?> p)
     {
-        var sb = new StringBuilder(boundSql);
+        StringBuilder sb = new StringBuilder(boundSql);
         if (CollectionUtils.isNotEmpty(p.getGroupBy()))
         {
             sb.append(" GROUP BY ");
-            var indexSet = new HashSet<Integer>(1);
-            indexSet.add(1);
-            p.getGroupBy().forEach(groupSet -> {
-                if (indexSet.contains(1))
+            boolean isTail = true;
+            for (String s : p.getGroupBy())
+            {
+                if (!isTail)
                 {
-                    sb.append(groupSet);
-                    indexSet.clear();
+                    sb.append(",").append(s);
+                    continue;
                 }
-                else { sb.append(",").append(groupSet); }
-            });
+                sb.append(s);
+                isTail = false;
+            }
         }
+
         if (CollectionUtils.isNotEmpty(p.getOrderBy()))
         {
             sb.append(" ORDER BY ");
-            var headColName = CollectionUtils.getHead(p.getOrderBy()).getKey();
-            p.getOrderBy().forEach((colName, order) -> {
-                if (colName.equals(headColName))
+            String headColName = CollectionUtils.getHead(p.getOrderBy()).getKey();
+
+            for (Map.Entry<String, OrderSqlEnum> entry : p.getOrderBy().entrySet())
+            {
+                if (entry.getKey().equals(headColName))
                 {
-                    sb.append(colName).append(" ").append(order.name());
+                    sb.append(entry.getKey()).append(" ").append(entry.getValue().name());
+                    continue;
                 }
-                else
-                {
-                    sb.append(",").append(colName).append(" ").append(order.name());
-                }
-            });
+                sb.append(",").append(entry.getKey()).append(" ").append(entry.getValue().name());
+            }
         }
 
-        sb.append(" LIMIT ");
-
-        if (p.getOffset() > 0)
+        if (p.getRow() != null && p.getRow() > 0)
         {
-            sb.append(p.getOffset()).append(",").append(p.getRow());
-        }
-        else
-        {
-            sb.append(p.getRow());
-        }
+            sb.append(" LIMIT ");
 
+            if (p.getOffset() > 0)
+            {
+                return sb.append(p.getOffset()).append(",").append(p.getRow()).toString();
+            }
+            return sb.append(p.getRow()).toString();
+        }
         return sb.toString();
     }
 }

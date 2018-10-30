@@ -43,7 +43,7 @@ public final class IDGeneratorUtil
 
     public static Long nextId()
     {
-        var series = counter.getAndIncrement();
+        long series = counter.getAndIncrement();
 
         if (series >= (1 << 12) - 1)
         {

@@ -34,10 +34,10 @@ public interface AMapUtils
     static double getDistance(Point l1, Point l2)
     {
         // 纬度的弧度差
-        var latDiff = l1.getRadLat() - l2.getRadLat();
+        double latDiff = l1.getRadLat() - l2.getRadLat();
         // 经度的弧度差
-        var lngDiff = l1.getRadLng() - l2.getRadLng();
-        var s = 2 * Math.asin(Math.sqrt(
+        double lngDiff = l1.getRadLng() - l2.getRadLng();
+        double s = 2 * Math.asin(Math.sqrt(
                 Math.pow(Math.sin(latDiff / 2), 2) + Math.cos(l1.getRadLat()) * Math.cos(l2.getRadLat()) * Math.pow(Math.sin(lngDiff / 2),
                         2)));
         s = s * 6378.137;

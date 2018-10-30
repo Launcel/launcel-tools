@@ -2,7 +2,9 @@ package xyz.launcel.json.builder;
 
 public enum DateFormat
 {
-    LONG, SHORT_STRING, LONG_STRING;
+    LONG,
+    SHORT_STRING,
+    LONG_STRING;
 
     public static DateFormat getByName(String name)
     {

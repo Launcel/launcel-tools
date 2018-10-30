@@ -4,11 +4,9 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
@@ -22,11 +20,11 @@ import java.util.Set;
 public class JsonMapDeserializer implements JsonDeserializer<Object>
 {
     @Override
-    public Map<String, Object> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
+    public Map<String, Object> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
     {
-        var treeMap    = new HashMap<String, Object>();
-        var jsonObject = json.getAsJsonObject();
-        var entrySet   = jsonObject.entrySet();
+        Map<String, Object>                 treeMap    = new HashMap<>();
+        JsonObject                          jsonObject = json.getAsJsonObject();
+        Set<Map.Entry<String, JsonElement>> entrySet   = jsonObject.entrySet();
         for (Map.Entry<String, JsonElement> entry : entrySet)
         {
             treeMap.put(entry.getKey(), entry.getValue());
@@ -52,21 +50,17 @@ class MapTypeAdapter extends TypeAdapter<Object>
         switch (token)
         {
             case BEGIN_ARRAY:
-                var list = new ArrayList<Object>();
+                List<Object> list = new ArrayList<>();
                 in.beginArray();
                 while (in.hasNext())
-                {
                     list.add(read(in));
-                }
                 in.endArray();
                 return list;
             case BEGIN_OBJECT:
-                var map = new LinkedTreeMap<String, Object>();
+                Map<String, Object> map = new LinkedTreeMap<>();
                 in.beginObject();
                 while (in.hasNext())
-                {
                     map.put(in.nextName(), read(in));
-                }
                 in.endObject();
                 return map;
             case STRING:
@@ -75,22 +69,15 @@ class MapTypeAdapter extends TypeAdapter<Object>
                 /**
                  * 改写数字的处理逻辑，将数字值分为整型与浮点型。
                  */
-                var dbNum = in.nextDouble();
+                double dbNum = in.nextDouble();
                 // 数字超过long的最大值，返回浮点类型
                 if (dbNum > Long.MAX_VALUE)
-                {
                     return dbNum;
-                }
                 // 判断数字是否为整数值
-                var lngNum = (long) dbNum;
+                long lngNum = (long) dbNum;
                 if (dbNum == lngNum)
-                {
                     return lngNum;
-                }
-                else
-                {
-                    return dbNum;
-                }
+                return dbNum;
             case BOOLEAN:
                 return in.nextBoolean();
             case NULL:

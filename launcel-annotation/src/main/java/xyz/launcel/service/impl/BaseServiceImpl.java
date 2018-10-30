@@ -55,10 +55,10 @@ public abstract class BaseServiceImpl implements BaseService
     @Override
     public <T> Page<T> queryPage(Object o, Page<T> page)
     {
-        var total = getRepository().count(o);
+        Integer total = getRepository().count(o);
         if (total != null && total > 0)
         {
-            var list = getRepository().queryPage(o, page);
+            List<T> list = getRepository().queryPage(o, page);
             page.setTotal(total);
             page.setList(list);
         }

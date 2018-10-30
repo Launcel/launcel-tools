@@ -23,6 +23,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.lang.NonNull;
 import xyz.launcel.lang.Base64;
 import xyz.launcel.log.RootLogger;
 import xyz.launcel.properties.RedisProperties;
@@ -47,7 +48,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
 
     private GenericObjectPoolConfig genericObjectPoolConfig()
     {
-        var poolConfig = new GenericObjectPoolConfig();
+        GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
         poolConfig.setMaxIdle(properties.getMaxIdle());
         poolConfig.setMaxTotal(properties.getMaxTotal());
         poolConfig.setMinIdle(properties.getMinIdle());
@@ -57,7 +58,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
 
     private RedisStandaloneConfiguration sinagleConfiguration()
     {
-        var redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setDatabase(properties.getDatabase());
         redisStandaloneConfiguration.setHostName(properties.getHost());
         redisStandaloneConfiguration.setPassword(RedisPassword.of(Base64.decode(properties.getPassword())));
@@ -86,16 +87,16 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     @ConditionalOnBean(name = "redisConnectionFactory")
     public RedisTemplate<String, Object> redisTemplate(@Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
     {
-        var template = new RedisTemplate<String, Object>();
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
         //                FastJsonRedisSerializer<?> serializer            = new FastJsonRedisSerializer<>(Object.class);
-        var serializer            = new GsonRedisSerializer<>(Object.class);
-        var stringRedisSerializer = new StringRedisSerializer();
-        template.setKeySerializer(stringRedisSerializer);
+        RedisSerializer defaultValueSerializer = new GsonRedisSerializer<>(Object.class);
+        RedisSerializer keySerializer          = new StringRedisSerializer();
+        template.setKeySerializer(keySerializer);
         try
         {
-            var clazz                = Class.forName(properties.getValueSerializer());
-            var redisValueSerializer = (RedisSerializer) clazz.getDeclaredConstructor().newInstance();
+            Class<?>        clazz                = Class.forName(properties.getValueSerializer());
+            RedisSerializer redisValueSerializer = (RedisSerializer) clazz.getDeclaredConstructor().newInstance();
             template.setValueSerializer(redisValueSerializer);
         }
         catch (ReflectiveOperationException e)
@@ -103,8 +104,8 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
             RootLogger.error("redis value serializer init error, there will be use jdk serializer");
             template.setValueSerializer(new JdkSerializationRedisSerializer());
         }
-        template.setDefaultSerializer(serializer);
-        template.setHashKeySerializer(stringRedisSerializer);
+        template.setDefaultSerializer(defaultValueSerializer);
+        template.setHashKeySerializer(keySerializer);
         template.afterPropertiesSet();
 
         return template;
@@ -115,7 +116,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     public CacheManager cacheManager(@Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
     {
         // 设置缓存有效期一小时
-        var redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(1));
+        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(1));
         return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory))
                 .cacheDefaults(redisCacheConfiguration)
                 .build();
@@ -128,25 +129,25 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
         return new CacheErrorHandler()
         {
             @Override
-            public void handleCacheGetError(RuntimeException e, Cache cache, Object key)
+            public void handleCacheGetError(@NonNull RuntimeException e, @NonNull Cache cache, @NonNull Object key)
             {
                 RootLogger.error("redis异常：key=[{}]", key.toString());
             }
 
             @Override
-            public void handleCachePutError(RuntimeException e, Cache cache, Object key, Object value)
+            public void handleCachePutError(@NonNull RuntimeException e, @NonNull Cache cache, @NonNull Object key, Object value)
             {
                 RootLogger.error("redis异常：key=[{}]", key.toString());
             }
 
             @Override
-            public void handleCacheEvictError(RuntimeException e, Cache cache, Object key)
+            public void handleCacheEvictError(@NonNull RuntimeException e, @NonNull Cache cache, @NonNull Object key)
             {
                 RootLogger.error("redis异常：key=[{}]", key.toString());
             }
 
             @Override
-            public void handleCacheClearError(RuntimeException e, Cache cache)
+            public void handleCacheClearError(@NonNull RuntimeException e, @NonNull Cache cache)
             {
                 RootLogger.error("redis异常：", e.getMessage());
             }

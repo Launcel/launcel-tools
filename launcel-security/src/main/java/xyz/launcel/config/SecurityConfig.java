@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,25 +37,25 @@ public class SecurityConfig
     {
         if (requestUriString.isEmpty()) { return true; }
         @SuppressWarnings("unchecked")
-        var requestUris = (List<String>) StringUtils.spiltStream(requestUriString, "/").collect(Collectors.toList());
+        List<String> requestUris = (List<String>) StringUtils.spiltStream(requestUriString, "/").collect(Collectors.toList());
         if (CollectionUtils.isEmpty(requestUris)) { return true; }
-        var tempRoleUris = new HashSet<String>(uris.keySet());
-        var maxMatchMap  = temp(uris.keySet());
+        Set<String>          tempRoleUris = new HashSet<>(uris.keySet());
+        Map<String, Integer> maxMatchMap  = temp(uris.keySet());
         for (int i = 0; i < requestUris.size(); i++)
         {
-            var it = tempRoleUris.iterator();
+            Iterator<String> it = tempRoleUris.iterator();
             while (it.hasNext())
             {
-                var tempRoleUri = it.next();
+                String tempRoleUri = it.next();
                 if (requestUriString.equals(tempRoleUri))
                 {
                     return validateRole(uris.get(tempRoleUri), session);
                 }
                 @SuppressWarnings("unchecked")
-                var roleUris = (List<String>) StringUtils.spiltStream(tempRoleUri, "/").collect(Collectors.toList());
+                List<String> roleUris = (List<String>) StringUtils.spiltStream(tempRoleUri, "/").collect(Collectors.toList());
                 if (null != roleUris.get(i))
                 {
-                    var j = validateUri(requestUris.get(i), roleUris.get(i));
+                    int j = validateUri(requestUris.get(i), roleUris.get(i));
                     if (j == -1)
                     {
                         it.remove();
@@ -72,7 +73,7 @@ public class SecurityConfig
 
     private static Map<String, Integer> temp(Collection<String> c)
     {
-        var tempMap = new HashMap<String, Integer>();
+        Map<String, Integer> tempMap = new HashMap<>();
         for (String aC : c) { tempMap.put(aC, 0); }
         return tempMap;
     }
@@ -83,7 +84,7 @@ public class SecurityConfig
         {
             RootLogger.debug("match : " + Json.toString(maxMatchMap));
         }
-        var list = new ArrayList<Map.Entry<String, Integer>>(maxMatchMap.entrySet());
+        List<Map.Entry<String, Integer>> list = new ArrayList<>(maxMatchMap.entrySet());
         list.sort((Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) -> o2.getValue().compareTo(o1.getValue()));
         if (RootLogger.isDebug())
         {
@@ -108,7 +109,7 @@ public class SecurityConfig
         if (session == null)
             return false;
         @SuppressWarnings("unchecked")
-        var userRoles = (Set<String>) session.getAttribute("role");
+        Set<String> userRoles = (Set<String>) session.getAttribute("role");
         for (String userRole : userRoles)
         {
             if (roles.contains(userRole))

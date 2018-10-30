@@ -1,6 +1,5 @@
 package xyz.launcel.bean.context;
 
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -14,7 +13,7 @@ public class BeanSourceContextAware implements ApplicationContextAware, Initiali
 {
 
     @Override
-    public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException
+    public void setApplicationContext(@NonNull ApplicationContext applicationContext)
     {
         SpringBeanUtil.setApplicationContext(applicationContext);
     }

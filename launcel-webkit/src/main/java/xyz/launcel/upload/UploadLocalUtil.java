@@ -36,17 +36,17 @@ public class UploadLocalUtil
 
         try
         {
-            var in = new FileInputStream(file);
+            FileInputStream in = new FileInputStream(file);
             check(in, file.length());
-            var newName = getNewName(file.getName());
-            var dir     = new File(getGenPath(newName));
+            String newName = getNewName(file.getName());
+            File dir     = new File(getGenPath(newName));
             if (!dir.getParentFile().exists())
             {
                 if (!dir.getParentFile().mkdirs()) { return null; }
             }
-            var out    = new BufferedOutputStream(new FileOutputStream(dir));
+            BufferedOutputStream out    = new BufferedOutputStream(new FileOutputStream(dir));
             int bytesRead;
-            var buffer = new byte[8192];
+            byte[] buffer = new byte[8192];
             while ((bytesRead = in.read(buffer, 0, 8192)) != -1)
             {
                 out.write(buffer, 0, bytesRead);
@@ -77,8 +77,8 @@ public class UploadLocalUtil
     {
         try { check(file.getInputStream(), file.getSize()); }
         catch (IOException e) { e.printStackTrace(); }
-        var newName = getNewName(file.getOriginalFilename());
-        var dir     = new File(getGenPath(newName));
+        String newName = getNewName(file.getOriginalFilename());
+        File dir     = new File(getGenPath(newName));
         if (!dir.getParentFile().exists())
         {
             if (!dir.getParentFile().mkdirs()) { return null; }
@@ -110,13 +110,13 @@ public class UploadLocalUtil
     private static void checkContent(InputStream in) throws IOException
     {
         //        InputStream in = file.getInputStream();
-        var b = new byte[4];
+        byte[] b = new byte[4];
         if (in == null) { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为无法识别的文件"); }
         if ((in != null ? in.read(b, 0, b.length) : 0) < 4)
         {
             ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的文件太小");
         }
-        var    sb = new StringBuilder();
+        StringBuilder    sb = new StringBuilder();
         String hv;
         for (byte b1 : b)
         {
@@ -130,12 +130,12 @@ public class UploadLocalUtil
 
     private static String getExt(String originalName)
     {
-        var index = originalName.lastIndexOf(".");
+        int index = originalName.lastIndexOf(".");
         if (index <= 0)
         {
             ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为无法识别的文件");
         }
-        var ext = originalName.substring(index + 1);
+        String ext = originalName.substring(index + 1);
         checkFile(ext);
         return ext;
     }

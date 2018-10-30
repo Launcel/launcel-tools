@@ -9,7 +9,6 @@ import org.springframework.core.PriorityOrdered;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertiesPropertySource;
-import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 
 import java.util.Objects;
@@ -29,12 +28,12 @@ public class ApplicatonEnvironListener implements SpringApplicationRunListener, 
     @Override
     public void environmentPrepared(ConfigurableEnvironment environment)
     {
-        var yaml = new YamlPropertiesFactoryBean();
+        YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
         yaml.setResources(new ClassPathResource("launcel-application.yml"));
         if (!Objects.nonNull(yaml.getObject()))
         {
-            var source  = environment.getPropertySources();
-            var propert = new PropertiesPropertySource("launcel-application", yaml.getObject());
+            MutablePropertySources   source  = environment.getPropertySources();
+            PropertiesPropertySource propert = new PropertiesPropertySource("launcel-application", yaml.getObject());
             source.addFirst(propert);
         }
     }

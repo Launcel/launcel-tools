@@ -13,22 +13,24 @@ import org.springframework.beans.factory.support.BeanDefinitionReaderUtils;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.AnnotationConfigUtils;
 import org.springframework.context.annotation.AnnotationScopeMetadataResolver;
+import org.springframework.context.annotation.ScopeMetadata;
+import org.springframework.context.annotation.ScopeMetadataResolver;
 import org.springframework.lang.NonNull;
 
 public interface BeanDefinitionRegistryTool
 {
 
-    static void registryBean(@NonNull String beanName, BeanDefinitionRegistry registry, AnnotatedGenericBeanDefinition abd)
+    static void registryBean(@NonNull String beanName, BeanDefinitionRegistry registry, @NonNull AnnotatedGenericBeanDefinition abd)
     {
-        var definitionHolder = new BeanDefinitionHolder(abd, beanName);
+        BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(abd, beanName);
         BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, registry);
     }
 
     static AnnotatedGenericBeanDefinition decorateAbd(@NonNull Class clazz)
     {
-        var scopeMetadataResolver = new AnnotationScopeMetadataResolver();
-        var abd                   = new AnnotatedGenericBeanDefinition(clazz);
-        var metadata              = scopeMetadataResolver.resolveScopeMetadata(abd);
+        ScopeMetadataResolver          scopeMetadataResolver = new AnnotationScopeMetadataResolver();
+        AnnotatedGenericBeanDefinition abd                   = new AnnotatedGenericBeanDefinition(clazz);
+        ScopeMetadata                  metadata              = scopeMetadataResolver.resolveScopeMetadata(abd);
         abd.setScope(metadata.getScopeName());
         AnnotationConfigUtils.processCommonDefinitionAnnotations(abd);
         return abd;

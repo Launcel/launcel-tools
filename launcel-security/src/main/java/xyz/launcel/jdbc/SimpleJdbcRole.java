@@ -11,8 +11,7 @@ public class SimpleJdbcRole
 
     static
     {
-        if (SpringBeanUtil.hasBean("jdbcRole") && Objects.nonNull(SpringBeanUtil.getBean("jdbcRole")))
-            jdbcRole = SpringBeanUtil.getBean("jdbcRole");
+        jdbcRole = SpringBeanUtil.getBean("jdbcRole");
     }
 
     public static JdbcRole getJdbcRole()
