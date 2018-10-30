@@ -1,7 +1,7 @@
 package xyz.launcel.lang;
 
-import lombok.NonNull;
 import org.springframework.beans.BeanUtils;
+import org.springframework.lang.NonNull;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.exception.SystemException;
 
@@ -36,7 +36,7 @@ public final class BeanCopy
         T target;
         try
         {
-            target = targetClass.newInstance();
+            target = targetClass.getDeclaredConstructor().newInstance();
             mapProperties(source, target, ignoreProperties);
             return target;
         }
@@ -58,7 +58,7 @@ public final class BeanCopy
         try
         {
             var targetList = new ArrayList<T>();
-            var target     = targetClass.newInstance();
+            var target     = targetClass.getDeclaredConstructor().newInstance();
             source.forEach(s -> targetList.add(mapProperties(s, target)));
             return targetList;
         }

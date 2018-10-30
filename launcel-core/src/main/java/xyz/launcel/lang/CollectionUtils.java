@@ -1,9 +1,9 @@
 package xyz.launcel.lang;
 
 import xyz.launcel.exception.ExceptionFactory;
+import xyz.launcel.log.RootLogger;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -35,40 +35,26 @@ public interface CollectionUtils
 
     static boolean sizeIsEmpty(Object object)
     {
-        if (object instanceof Collection)
-        {
-            return ((Collection) object).isEmpty();
-        }
-        else if (object instanceof Map)
-        {
-            return ((Map) object).isEmpty();
-        }
-        else if (object instanceof Object[])
-        {
-            return ((Object[]) object).length == 0;
-        }
-        else if (object instanceof Iterator)
-        {
-            return !((Iterator) object).hasNext();
-        }
-        else if (object instanceof Enumeration)
-        {
-            return !((Enumeration) object).hasMoreElements();
-        }
-        else if (object == null)
-        {
+        if (object == null || object.getClass() == null)
             ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "Unsupported object type: null");
-        }
-        else
+        if (object instanceof Collection)
+            return ((Collection) object).isEmpty();
+        if (object instanceof Map)
+            return ((Map) object).isEmpty();
+        if (object instanceof Object[])
+            return ((Object[]) object).length == 0;
+        if (object instanceof Iterator)
+            return !((Iterator) object).hasNext();
+        if (object instanceof Enumeration)
+            return !((Enumeration) object).hasMoreElements();
+
+        try
         {
-            try
-            {
-                return Array.getLength(object) == 0;
-            }
-            catch (IllegalArgumentException ex)
-            {
-                ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "Unsupported object type" + object.getClass().getName());
-            }
+            return Array.getLength(object) == 0;
+        }
+        catch (IllegalArgumentException ex)
+        {
+            ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "Unsupported object type" + object.getClass().getName());
         }
         return false;
     }
@@ -96,18 +82,18 @@ public interface CollectionUtils
      *
      * @return Map.Entry&lt;K, V&gt;
      */
+    @SuppressWarnings({"unchecked"})
     static <K, V> Map.Entry<K, V> getTail(LinkedHashMap<K, V> map)
     {
         try
         {
             var tail = map.getClass().getDeclaredField("tail");
             tail.setAccessible(true);
-            //noinspection unchecked
             return (Map.Entry<K, V>) tail.get(map);
         }
-        catch (NoSuchFieldException | IllegalAccessException e)
+        catch (ReflectiveOperationException e)
         {
-            e.printStackTrace();
+            RootLogger.error("", e.getCause());
             return null;
         }
     }

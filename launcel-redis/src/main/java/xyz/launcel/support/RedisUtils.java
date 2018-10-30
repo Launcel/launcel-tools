@@ -13,7 +13,6 @@ import xyz.launcel.lang.CollectionUtils;
 import xyz.launcel.lang.StringUtils;
 import xyz.launcel.properties.RedisProperties;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -24,47 +23,53 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <b>普通情况下，建议用RedisConnection(RedisTemplate是基于RedisConnection) 操作，pipeline性能高，</b><br/>
  * 控制并发数据时，用Commands,见setNX方法<b>(但只能处理String类型)</b>
  */
-public final class RedisCurrentUtils
+public final class RedisUtils
 {
     @Getter
     private static RedisTemplate<String, String> template   = SpringBeanUtil.getBean("redisTemplate");
+    @Getter
     private static long                          expireTime = SpringBeanUtil.getBean(RedisProperties.class).getExptime();
 
-    private RedisCurrentUtils() { }
+    private RedisUtils() { }
 
     public static void batchDel(final Set<String> keys)
     {
         if (CollectionUtils.isEmpty(keys))
             throw new SystemException("_REDIS__ERROR_CODE_011", "redis key is null");
-        template.executePipelined((RedisCallback<Void>) conn -> {
+        RedisCallback<Void> callback = conn -> {
             conn.openPipeline();
-            keys.stream().filter(StringUtils::isNotBlank).forEach(key -> conn.del(serializer(key)));
+            keys.stream().filter(StringUtils::isNotBlank).forEach(key -> conn.del(StringUtils.serializer(key)));
             conn.closePipeline();
             return null;
-        });
+        };
+        template.execute(callback);
     }
 
     public static int batchAdd(final Map<String, Object> map)
     {
-        var atc = new AtomicInteger(0);
+        AtomicInteger act = new AtomicInteger(0);
         if (CollectionUtils.isNotEmpty(map))
         {
-            template.executePipelined((RedisCallback<Void>) conn -> {
+            RedisCallback<Void> callback = conn -> {
                 conn.openPipeline();
-                map.forEach((key, value) -> {
-                    if (StringUtils.isNotBlank(key))
+                int num = 0;
+                for (Map.Entry<String, Object> entry : map.entrySet())
+                {
+                    if (StringUtils.isNotBlank(entry.getKey()))
                     {
-                        var result = conn.set(serializer(key), serializer(Json.toString(value)),
-                                Expiration.from(expireTime, TimeUnit.MINUTES), RedisStringCommands.SetOption.upsert());
+                        var result = conn.setEx(StringUtils.serializer(entry.getKey()), expireTime,
+                                StringUtils.serializer(Json.toString(entry.getValue())));
                         if (result != null && result)
-                            atc.incrementAndGet();
+                            num++;
                     }
-                });
+                }
                 conn.closePipeline();
+                act.set(num);
                 return null;
-            });
+            };
+            template.executePipelined(callback);
         }
-        return atc.get();
+        return act.get();
     }
 
     public static boolean exits(final String key)
@@ -77,9 +82,9 @@ public final class RedisCurrentUtils
     public static boolean setNX(final String key, final String value, final Long expTime)
     {
         vidate(key, value, expTime);
-        var flat = template.execute(
-                (RedisCallback<Boolean>) conn -> conn.set(serializer(key), serializer(value), Expiration.from(expTime, TimeUnit.SECONDS),
-                        RedisStringCommands.SetOption.ifAbsent()));
+        RedisCallback<Boolean> callback = conn -> conn.set(StringUtils.serializer(key), StringUtils.serializer(value),
+                Expiration.from(expTime, TimeUnit.SECONDS), RedisStringCommands.SetOption.SET_IF_ABSENT);
+        var flat = template.execute(callback);
         return flat != null && flat;
     }
 
@@ -113,15 +118,4 @@ public final class RedisCurrentUtils
     {
         return (RedisStringCommands) connection.getNativeConnection();
     }
-
-    private static byte[] serializer(String key)
-    {
-        return key.getBytes(StandardCharsets.UTF_8);
-    }
-
-    //    private static String deserialize(byte[] bytes)
-    //    {
-    //        return new String(bytes, StandardCharsets.UTF_8);
-    //    }
-
 }

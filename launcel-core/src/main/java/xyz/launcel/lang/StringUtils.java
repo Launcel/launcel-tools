@@ -2,6 +2,7 @@ package xyz.launcel.lang;
 
 import xyz.launcel.exception.SystemException;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.UUID;
@@ -163,6 +164,17 @@ public final class StringUtils
             buffer[count] = ch;
         }
         return new String(buffer);
+    }
+
+
+    public static byte[] serializer(String key)
+    {
+        return key.getBytes(StandardCharsets.UTF_8);
+    }
+
+    public static String deserialize(byte[] bytes)
+    {
+        return new String(bytes, StandardCharsets.UTF_8);
     }
 
 }

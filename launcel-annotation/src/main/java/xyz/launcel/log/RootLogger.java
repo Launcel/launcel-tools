@@ -35,6 +35,8 @@ public class RootLogger
 
     public static void error(String format, Object... args) { log.error(appenders(format), args); }
 
+    public static void error(String msg, Throwable error)   { log.error(msg, error); }
+
     private static String appenders(String format)
     {
         return "\n------------------------------------------------------------------------\n\t" + format + "\n------------------------------------------------------------------------";
