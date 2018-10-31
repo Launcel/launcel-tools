@@ -13,52 +13,52 @@ import java.util.List;
 public abstract class BaseServiceImpl implements BaseService
 {
 
-    protected abstract BaseRepository getRepository();
+    protected abstract BaseRepository getMapper();
 
     @Override
     public <T extends IdEntity> int add(T p)
     {
-        getRepository().add(p);
+        getMapper().add(p);
         return p.getId();
     }
 
     @Override
     public <T> int update(T p)
     {
-        return getRepository().update(p);
+        return getMapper().update(p);
     }
 
     @Override
     public int delete(Integer id)
     {
-        return getRepository().delete(id);
+        return getMapper().delete(id);
     }
 
     @Override
     public Integer count(Object o)
     {
-        return getRepository().count(o);
+        return getMapper().count(o);
     }
 
     @Override
     public <T> T get(Integer id)
     {
-        return getRepository().get(id);
+        return getMapper().get(id);
     }
 
     @Override
     public <T> T query(Object o)
     {
-        return getRepository().query(o);
+        return getMapper().query(o);
     }
 
     @Override
     public <T> Page<T> queryPage(Object o, Page<T> page)
     {
-        Integer total = getRepository().count(o);
+        Integer total = getMapper().count(o);
         if (total != null && total > 0)
         {
-            List<T> list = getRepository().queryPage(o, page);
+            List<T> list = getMapper().queryPage(o, page);
             page.setTotal(total);
             page.setList(list);
         }

@@ -27,7 +27,7 @@ public enum Types
     QQ("qq号码"),
     IP("ip地址"),
     LIST("数组");
-    @Getter
+
     private String desc;
 
 }

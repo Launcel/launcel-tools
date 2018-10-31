@@ -2,13 +2,14 @@ package xyz.launcel.annotation;
 
 import lombok.Getter;
 
+@Getter
 public enum StatusType
 {
     ENABLED(1, "开启"),
     DISENABLED(0, "关闭");
-    @Getter
-    private int    ststus;
-    @Getter
+
+    private int ststus;
+
     private String desc;
 
     StatusType(int ststus, String desc)
@@ -16,4 +17,15 @@ public enum StatusType
         this.ststus = ststus;
         this.desc = desc;
     }
+
+    public static StatusType valueOf(int status)
+    {
+        for (StatusType statusType : values())
+        {
+            if (status == statusType.getStstus())
+                return statusType;
+        }
+        return null;
+    }
+
 }
