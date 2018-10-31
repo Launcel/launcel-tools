@@ -1,5 +1,6 @@
 package xyz.launcel.bo;
 
+import lombok.NoArgsConstructor;
 import xyz.launcel.annotation.StatusType;
 
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 /**
  * Created by launcel on 2018/9/23.
  */
+@NoArgsConstructor
 public class BaseQuery
 {
     private Integer       id;
