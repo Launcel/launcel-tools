@@ -13,39 +13,52 @@ import java.util.Iterator;
 /**
  * @author Launcel
  */
-public class BaseSqlElementGenerator extends AbstractXmlElementGenerator {
-    public BaseSqlElementGenerator() {
+public class BaseSqlElementGenerator extends AbstractXmlElementGenerator
+{
+    public BaseSqlElementGenerator()
+    {
     }
-    
-    public void addElements(XmlElement parentElement) {
+
+    public void addElements(XmlElement parentElement)
+    {
         LXmlElement answer = new LXmlElement("sql");
         answer.addAttribute(new Attribute("id", "BaseSql"));
         this.context.getCommentGenerator().addComment(answer);
         StringBuilder sb = new StringBuilder();
 
-//        boolean and = false;
-        
+        //        boolean and = false;
+
         Iterator<IntrospectedColumn> var5 = this.introspectedTable.getAllColumns().iterator();
-        
+
         IntrospectedColumn introspectedColumn;
-        
-        if (Conston.useEnabledColumn) {
+
+        if (Conston.isUseEnabledColumn())
+        {
             sb.setLength(0);
-            sb.append("WHERE").append(" ").append("`").append(Conston.enabledColumnName).append("`").append("=").append(Conston.enabledColumnValue);
+            sb.append("WHERE")
+                    .append(" ")
+                    .append("`")
+                    .append(Conston.getEnabledColumnName())
+                    .append("`")
+                    .append("=")
+                    .append(Conston.getEnabledColumnValue());
             answer.addElement(new LTextElement(sb.toString()));
-        } else {
+        }
+        else
+        {
             sb.setLength(0);
             sb.append("WHERE");
             sb.append(" 1=1");
             answer.addElement(new LTextElement(sb.toString()));
         }
-        
-        while (var5.hasNext()) {
-            
+
+        while (var5.hasNext())
+        {
             sb.setLength(0);
             introspectedColumn = var5.next();
             String columnName = MyBatis3FormattingUtilities.getEscapedColumnName(introspectedColumn);
-            if (Conston.useEnabledColumn || !columnName.equals(Conston.enabledColumnName)) {
+            if (Conston.isUseEnabledColumn() || !columnName.equals(Conston.getEnabledColumnName()))
+            {
                 LXmlElement isNotNullElement = new LXmlElement("if");
                 sb.setLength(0);
                 sb.append("param.").append(introspectedColumn.getJavaProperty());
@@ -60,10 +73,11 @@ public class BaseSqlElementGenerator extends AbstractXmlElementGenerator {
                 answer.addElement(isNotNullElement);
             }
         }
-        
-        if (this.context.getPlugins().sqlMapSelectByPrimaryKeyElementGenerated(answer, this.introspectedTable)) {
+
+        if (this.context.getPlugins().sqlMapSelectByPrimaryKeyElementGenerated(answer, this.introspectedTable))
+        {
             parentElement.addElement(answer);
         }
-        
+
     }
 }

@@ -10,9 +10,9 @@ import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.Document;
 import org.mybatis.generator.codegen.AbstractXmlGenerator;
 import org.mybatis.generator.internal.util.messages.Messages;
-import xyz.launcel.generator.api.utils.Conston;
 import xyz.launcel.generator.api.dom.xml.LTextElement;
 import xyz.launcel.generator.api.dom.xml.LXmlElement;
+import xyz.launcel.generator.api.utils.Conston;
 import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.AbstractXmlElementGenerator;
 import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.AddElementGenerator;
 import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.BaseColumnElementGenerator;
@@ -25,20 +25,24 @@ import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.QueryPagingElem
 import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.UpdateSelectiveElementGenerator;
 import xyz.launcel.generator.codegen.mybatis3.xmlmapper.elements.UpdateSqlElementGenerator;
 
-public class XMLMapperGenerator extends AbstractXmlGenerator {
+public class XMLMapperGenerator extends AbstractXmlGenerator
+{
 
-    public XMLMapperGenerator() {
+    public XMLMapperGenerator()
+    {
     }
 
-    protected LXmlElement getSqlMapElement() {
+    private LXmlElement getSqlMapElement()
+    {
         FullyQualifiedTable table = this.introspectedTable.getFullyQualifiedTable();
         this.progressCallback.startTask(Messages.getString("Progress.12", table.toString()));
-        LXmlElement answer = new LXmlElement("mapper");
-        String namespace = this.introspectedTable.getMyBatis3SqlMapNamespace();
+        LXmlElement answer    = new LXmlElement("mapper");
+        String      namespace = this.introspectedTable.getMyBatis3SqlMapNamespace();
         answer.addAttribute(new Attribute("namespace", namespace));
         this.context.getCommentGenerator().addRootComment(answer);
 
-        if (Conston.addDefaultMethod) {
+        if (Conston.isAddDefaultMethod())
+        {
             this.addBaseColumnElement(answer);
 
             this.addBaseSql(answer);
@@ -59,62 +63,73 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         return answer;
     }
 
-    protected void addBaseColumnElement(LXmlElement parentElement) {
-//        if (this.introspectedTable.getRules().generateBaseColumnList()) {
+    private void addBaseColumnElement(LXmlElement parentElement)
+    {
+        //        if (this.introspectedTable.getRules().generateBaseColumnList()) {
         AbstractXmlElementGenerator elementGenerator = new BaseColumnElementGenerator();
         this.initializeAndExecuteGenerator(elementGenerator, parentElement);
-//        }
+        //        }
     }
 
-    protected void addBaseSql(LXmlElement parentElement) {
+    private void addBaseSql(LXmlElement parentElement)
+    {
         AbstractXmlElementGenerator elementGenerator = new BaseSqlElementGenerator();
         this.initializeAndExecuteGenerator(elementGenerator, parentElement);
     }
 
-    protected void addUpdateSql(LXmlElement parentElement) {
+    private void addUpdateSql(LXmlElement parentElement)
+    {
         AbstractXmlElementGenerator elementGenerator = new UpdateSqlElementGenerator();
         this.initializeAndExecuteGenerator(elementGenerator, parentElement);
     }
 
-    protected void addQueryElementGenerator(LXmlElement parentElement) {
+    private void addQueryElementGenerator(LXmlElement parentElement)
+    {
         AbstractXmlElementGenerator elementGenerator = new QueryElementGenerator();
         this.initializeAndExecuteGenerator(elementGenerator, parentElement);
     }
 
-    protected void addAddElement(LXmlElement parentElement) {
+    private void addAddElement(LXmlElement parentElement)
+    {
         AbstractXmlElementGenerator elementGenerator = new AddElementGenerator(true);
         this.initializeAndExecuteGenerator(elementGenerator, parentElement);
     }
 
 
-    protected void addUpdateByPrimaryKeySelectiveElement(LXmlElement parentElement) {
-//        if (this.introspectedTable.getRules().generateUpdateByPrimaryKeySelective()) {
+    private void addUpdateByPrimaryKeySelectiveElement(LXmlElement parentElement)
+    {
+        //        if (this.introspectedTable.getRules().generateUpdateByPrimaryKeySelective()) {
         AbstractXmlElementGenerator elementGenerator = new UpdateSelectiveElementGenerator();
         this.initializeAndExecuteGenerator(elementGenerator, parentElement);
-//        }
+        //        }
     }
 
-    protected void addCountByElement(LXmlElement parentElement) {
+    private void addCountByElement(LXmlElement parentElement)
+    {
         AbstractXmlElementGenerator elementGenerator = new CountElementGenerator();
         this.initializeAndExecuteGenerator(elementGenerator, parentElement);
     }
 
-    protected void addQuetyPagingElement(LXmlElement parentElement) {
+    private void addQuetyPagingElement(LXmlElement parentElement)
+    {
         AbstractXmlElementGenerator elementGenerator = new QueryPagingElementGenerator();
         this.initializeAndExecuteGenerator(elementGenerator, parentElement);
     }
 
-    protected void addDeleteByKeyElement(LXmlElement parentElement) {
-        AbstractXmlElementGenerator elementGenerator = new DeleteByKeyElementGenerator(true);
+    private void addDeleteByKeyElement(LXmlElement parentElement)
+    {
+        AbstractXmlElementGenerator elementGenerator = new DeleteByKeyElementGenerator();
         this.initializeAndExecuteGenerator(elementGenerator, parentElement);
     }
 
-    protected void addGetElement(LXmlElement parentElement) {
+    private void addGetElement(LXmlElement parentElement)
+    {
         AbstractXmlElementGenerator elementGenerator = new GetElement();
         this.initializeAndExecuteGenerator(elementGenerator, parentElement);
     }
 
-    protected void initializeAndExecuteGenerator(AbstractXmlElementGenerator elementGenerator, LXmlElement parentElement) {
+    private void initializeAndExecuteGenerator(AbstractXmlElementGenerator elementGenerator, LXmlElement parentElement)
+    {
         elementGenerator.setContext(this.context);
         elementGenerator.setIntrospectedTable(this.introspectedTable);
         elementGenerator.setProgressCallback(this.progressCallback);
@@ -123,11 +138,12 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         elementGenerator.addElements(parentElement);
     }
 
-    public Document getDocument() {
-        Document document = new Document("-//mybatis.org//DTD Mapper 3.0//EN",
-                "http://mybatis.org/dtd/mybatis-3-mapper.dtd");
+    public Document getDocument()
+    {
+        Document document = new Document("-//mybatis.org//DTD Mapper 3.0//EN", "http://mybatis.org/dtd/mybatis-3-mapper.dtd");
         document.setRootElement(this.getSqlMapElement());
-        if (!this.context.getPlugins().sqlMapDocumentGenerated(document, this.introspectedTable)) {
+        if (!this.context.getPlugins().sqlMapDocumentGenerated(document, this.introspectedTable))
+        {
             document = null;
         }
 

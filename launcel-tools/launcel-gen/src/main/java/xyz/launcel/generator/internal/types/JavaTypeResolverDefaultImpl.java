@@ -1,5 +1,6 @@
 package xyz.launcel.generator.internal.types;
 
+import lombok.Getter;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.JavaTypeResolver;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
@@ -15,19 +16,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
+@Getter
+public class JavaTypeResolverDefaultImpl implements JavaTypeResolver
+{
 
-    protected List<String> warnings;
+    private List<String> warnings;
 
-    protected Properties properties;
+    private Properties properties;
 
     protected Context context;
 
-    protected boolean forceBigDecimals;
+    private boolean forceBigDecimals;
 
-    protected Map<Integer, JdbcTypeInformation> typeMap;
+    private Map<Integer, JdbcTypeInformation> typeMap;
 
-    public JavaTypeResolverDefaultImpl() {
+    public JavaTypeResolverDefaultImpl()
+    {
         super();
         properties = new Properties();
         typeMap = new HashMap<>();
@@ -69,16 +73,19 @@ public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
         typeMap.put(Types.VARCHAR, new JdbcTypeInformation("VARCHAR", new FullyQualifiedJavaType(String.class.getName())));
     }
 
-    public void addConfigurationProperties(Properties properties) {
+    public void addConfigurationProperties(Properties properties)
+    {
         this.properties.putAll(properties);
         forceBigDecimals = StringUtility.isTrue(properties.getProperty(PropertyRegistry.TYPE_RESOLVER_FORCE_BIG_DECIMALS));
     }
 
-    public FullyQualifiedJavaType calculateJavaType(IntrospectedColumn introspectedColumn) {
-        FullyQualifiedJavaType answer = null;
-        JdbcTypeInformation jdbcTypeInformation = typeMap.get(introspectedColumn.getJdbcType());
+    public FullyQualifiedJavaType calculateJavaType(IntrospectedColumn introspectedColumn)
+    {
+        FullyQualifiedJavaType answer              = null;
+        JdbcTypeInformation    jdbcTypeInformation = typeMap.get(introspectedColumn.getJdbcType());
 
-        if (jdbcTypeInformation != null) {
+        if (jdbcTypeInformation != null)
+        {
             answer = jdbcTypeInformation.getFullyQualifiedJavaType();
             answer = overrideDefaultType(introspectedColumn, answer);
         }
@@ -86,10 +93,12 @@ public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
         return answer;
     }
 
-    protected FullyQualifiedJavaType overrideDefaultType(IntrospectedColumn column, FullyQualifiedJavaType defaultType) {
+    private FullyQualifiedJavaType overrideDefaultType(IntrospectedColumn column, FullyQualifiedJavaType defaultType)
+    {
         FullyQualifiedJavaType answer = defaultType;
 
-        switch (column.getJdbcType()) {
+        switch (column.getJdbcType())
+        {
             case Types.BIT:
                 answer = calculateBitReplacement(column, defaultType);
                 break;
@@ -102,71 +111,84 @@ public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
         return answer;
     }
 
-    protected FullyQualifiedJavaType calculateBitReplacement(IntrospectedColumn column, FullyQualifiedJavaType defaultType) {
-        FullyQualifiedJavaType answer;
+    private FullyQualifiedJavaType calculateBitReplacement(IntrospectedColumn column, FullyQualifiedJavaType defaultType)
+    {
 
-        if (column.getLength() > 1) {
-            answer = new FullyQualifiedJavaType("Boolean");
-        } else {
-            answer = defaultType;
+        if (column.getLength() > 1)
+        {
+            return new FullyQualifiedJavaType("Boolean");
         }
-
-        return answer;
+        return defaultType;
     }
 
-    protected FullyQualifiedJavaType calculateBigDecimalReplacement(IntrospectedColumn column, FullyQualifiedJavaType defaultType) {
-        FullyQualifiedJavaType answer;
+    private FullyQualifiedJavaType calculateBigDecimalReplacement(IntrospectedColumn column, FullyQualifiedJavaType defaultType)
+    {
 
-        if (column.getScale() > 0 || column.getLength() > 18 || forceBigDecimals) {
-            answer = defaultType;
-        } else if (column.getLength() > 9) {
-            answer = new FullyQualifiedJavaType(Long.class.getName());
-        } else if (column.getLength() > 4) {
-            answer = new FullyQualifiedJavaType(Integer.class.getName());
-        } else if (column.getLength() > 3) {
-            answer = new FullyQualifiedJavaType(Short.class.getName());
-        } else if (column.getLength() > 1) {
-            answer = new FullyQualifiedJavaType(Byte.class.getName());
-        } else
-            answer = new FullyQualifiedJavaType(Boolean.class.getName());
+        if (column.getScale() > 0 || column.getLength() > 18 || forceBigDecimals)
+        {
+            return defaultType;
+        }
+        if (column.getLength() > 9)
+        {
+            return new FullyQualifiedJavaType(Long.class.getName());
+        }
+        if (column.getLength() > 4)
+        {
+            return new FullyQualifiedJavaType(Integer.class.getName());
+        }
+        if (column.getLength() > 3)
+        {
+            return new FullyQualifiedJavaType(Short.class.getName());
+        }
+        if (column.getLength() > 1)
+        {
+            return new FullyQualifiedJavaType(Byte.class.getName());
+        }
+        return new FullyQualifiedJavaType(Boolean.class.getName());
 
-        return answer;
     }
 
-    public String calculateJdbcTypeName(IntrospectedColumn introspectedColumn) {
-        String answer = null;
+    public String calculateJdbcTypeName(IntrospectedColumn introspectedColumn)
+    {
         JdbcTypeInformation jdbcTypeInformation = typeMap.get(introspectedColumn.getJdbcType());
 
-        if (jdbcTypeInformation != null) {
-            answer = jdbcTypeInformation.getJdbcTypeName();
+        if (jdbcTypeInformation != null)
+        {
+            return jdbcTypeInformation.getJdbcTypeName();
         }
 
-        return answer;
+        return null;
     }
 
-    public void setWarnings(List<String> warnings) {
+    public void setWarnings(List<String> warnings)
+    {
         this.warnings = warnings;
     }
 
-    public void setContext(Context context) {
+    public void setContext(Context context)
+    {
         this.context = context;
     }
 
-    public static class JdbcTypeInformation {
+    public static class JdbcTypeInformation
+    {
         private String jdbcTypeName;
 
         private FullyQualifiedJavaType fullyQualifiedJavaType;
 
-        public JdbcTypeInformation(String jdbcTypeName, FullyQualifiedJavaType fullyQualifiedJavaType) {
+        JdbcTypeInformation(String jdbcTypeName, FullyQualifiedJavaType fullyQualifiedJavaType)
+        {
             this.jdbcTypeName = jdbcTypeName;
             this.fullyQualifiedJavaType = fullyQualifiedJavaType;
         }
 
-        public String getJdbcTypeName() {
+        String getJdbcTypeName()
+        {
             return jdbcTypeName;
         }
 
-        public FullyQualifiedJavaType getFullyQualifiedJavaType() {
+        FullyQualifiedJavaType getFullyQualifiedJavaType()
+        {
             return fullyQualifiedJavaType;
         }
     }

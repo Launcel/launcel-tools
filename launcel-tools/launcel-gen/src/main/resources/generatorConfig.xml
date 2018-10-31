@@ -6,8 +6,8 @@
     <context id="default" targetRuntime="xyz.launcel.generator.DefaultIntrospectedTable">
 
         <!-- beginningDelimiter和endingDelimiter：指明数据库的用于标记数据库对象名的符号，比如ORACLE就是双引号，MYSQL默认是`反引号； -->
-        <property name="endingDelimiter" value="`"/>
-        <property name="beginningDelimiter" value="`"/>
+        <!--<property name="endingDelimiter" value="`"/>-->
+        <!--<property name="beginningDelimiter" value="`"/>-->
 
         <!-- 自定义扩展功能选项 -->
 
@@ -30,7 +30,7 @@
             <property name="replaceCharacter" value="DAO"/>
             <property name="useBaseDAOPackage" value="true"/>
             <property name="baseDAOPackage" value="xyz.launcel.dao.BaseRepository"/>
-            <property name="useGeneralizate" value="true"/>
+            <property name="useGeneralizate" value="false"/>
         </plugin>
 
         <plugin type="xyz.launcel.generator.api.rename.JavaEntityRenamePlugin">
@@ -38,8 +38,8 @@
         </plugin>
 
         <!--<plugin type="xyz.launcel.generator.api.rename.SqlMapperRenamePlugin">-->
-            <!--<property name="searchCharacter" value="Mapper$"/>-->
-            <!--<property name="replaceCharacter" value="DAO"/>-->
+        <!--<property name="searchCharacter" value="Mapper$"/>-->
+        <!--<property name="replaceCharacter" value="DAO"/>-->
         <!--</plugin>-->
 
 
@@ -64,21 +64,18 @@
         </javaTypeResolver>
 
         <!-- 生成模型的包名和位置 -->
-        <javaModelGenerator targetPackage="xyz.launcel.entites.po"
-                            targetProject="src/main/java">
+        <javaModelGenerator targetPackage="xyz.launcel.entites.po" targetProject="src/main/java">
             <property name="enableSubPackages" value="false"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
         <!-- 生成映射文件的包名和位置 -->
-        <sqlMapGenerator targetPackage="xyz.launcel.dao"
-                         targetProject="src/main/java">
+        <sqlMapGenerator targetPackage="xyz.launcel.dao" targetProject="src/main/java">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
         <!-- 生成DAO的包名和位置 -->
-        <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="xyz.launcel.dao" targetProject="src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="xyz.launcel.dao" targetProject="src/main/java">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 

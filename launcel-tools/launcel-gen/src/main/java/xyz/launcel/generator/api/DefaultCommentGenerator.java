@@ -14,25 +14,29 @@ import xyz.launcel.generator.api.utils.ShowDocUtils;
 /**
  * @author Launcel
  */
-public class DefaultCommentGenerator extends AbstractCommentGenerator {
+public class DefaultCommentGenerator extends AbstractCommentGenerator
+{
 
-    public DefaultCommentGenerator() {
-    }
+    public DefaultCommentGenerator()                                                        { }
 
-    public void addClassComment(InnerClass innerClass, IntrospectedTable introspectedTable) {
-    }
+    public void addClassComment(InnerClass innerClass, IntrospectedTable introspectedTable) { }
 
-    public void addFieldComment(Field field, IntrospectedTable introspectedTable, IntrospectedColumn introspectedColumn) {
-        ShowDocUtils.addFieldComment(field, introspectedTable, introspectedColumn);
-        if (Conston.useAnnotation) {
-            if (introspectedColumn.getActualColumnName().toLowerCase().equals("id")) {
+    public void addFieldComment(Field field, IntrospectedTable introspectedTable, IntrospectedColumn introspectedColumn)
+    {
+        ShowDocUtils.addFieldComment(field, introspectedColumn);
+        if (Conston.isUseAnnotation())
+        {
+            if (introspectedColumn.getActualColumnName().toLowerCase().equals("id"))
+            {
                 field.addAnnotation("@Id");
                 field.addAnnotation("@GeneratedValue");
             }
 
             StringBuilder sb = (new StringBuilder("@Column(name=\"")).append(introspectedColumn.getActualColumnName()).append("\"");
-            if (Conston.addRemark) {
-                if (StringUtility.stringHasValue(introspectedColumn.getRemarks())) {
+            if (Conston.isAddRemark())
+            {
+                if (StringUtility.stringHasValue(introspectedColumn.getRemarks()))
+                {
                     sb.append(", describe=\"").append(introspectedColumn.getRemarks()).append("\"");
                 }
             }
@@ -41,9 +45,12 @@ public class DefaultCommentGenerator extends AbstractCommentGenerator {
         }
     }
 
-    public void addJavaFileComment(CompilationUnit clazz) {
-        if (Conston.useAnnotation) {
-            if (!clazz.isJavaInterface()) {
+    public void addJavaFileComment(CompilationUnit clazz)
+    {
+        if (Conston.isUseAnnotation())
+        {
+            if (!clazz.isJavaInterface())
+            {
                 FullyQualifiedJavaType t;
                 t = new FullyQualifiedJavaType("javax.persistence.Table");
                 t.addTypeArgument(new FullyQualifiedJavaType("javax.persistence.Column"));
@@ -55,14 +62,19 @@ public class DefaultCommentGenerator extends AbstractCommentGenerator {
         }
     }
 
-    public void addModelClassComment(TopLevelClass clazz, IntrospectedTable introspectedTable) {
+    public void addModelClassComment(TopLevelClass clazz, IntrospectedTable introspectedTable)
+    {
         ShowDocUtils.addClassComment(clazz, introspectedTable);
-        if (Conston.useAnnotation) {
-            if (!clazz.isJavaInterface()) {
+        if (Conston.isUseAnnotation())
+        {
+            if (!clazz.isJavaInterface())
+            {
                 clazz.addAnnotation("@Entity");
                 StringBuilder sb = (new StringBuilder("@Table(name=\"")).append(introspectedTable.getFullyQualifiedTable()).append("\"");
-                if (Conston.addRemark) {
-                    if (StringUtility.stringHasValue(introspectedTable.getRemarks())) {
+                if (Conston.isAddRemark())
+                {
+                    if (StringUtility.stringHasValue(introspectedTable.getRemarks()))
+                    {
                         sb.append(", describe=\"").append(introspectedTable.getRemarks()).append("\"");
                     }
                 }

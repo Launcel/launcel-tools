@@ -20,65 +20,47 @@ import org.mybatis.generator.config.PropertyRegistry;
 import org.mybatis.generator.internal.ObjectFactory;
 import xyz.launcel.generator.api.utils.Conston;
 import xyz.launcel.generator.codegen.mybatis3.xmlmapper.XMLMapperGenerator;
-import xyz.launcel.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DefaultIntrospectedTable extends IntrospectedTable {
+public class DefaultIntrospectedTable extends IntrospectedTable
+{
 
-    protected List<AbstractJavaGenerator> javaModelGenerators;
+    private List<AbstractJavaGenerator> javaModelGenerators;
 
-    protected List<AbstractJavaGenerator> clientGenerators;
+    private List<AbstractJavaGenerator> clientGenerators;
 
-    protected XMLMapperGenerator xmlMapperGenerator;
+    private XMLMapperGenerator xmlMapperGenerator;
 
-    public DefaultIntrospectedTable() {
+    public DefaultIntrospectedTable()
+    {
         super(TargetRuntime.MYBATIS3);
         javaModelGenerators = new ArrayList<>();
         clientGenerators = new ArrayList<>();
         super.setBaseResultMapId(getBaseRecordType());
     }
 
-    private void initProp() {
-
-        if ("false".equalsIgnoreCase(context.getProperty("addDefaultMethod"))) {
-            Conston.addDefaultMethod = false;
-        }
-        if ("false".equalsIgnoreCase(context.getProperty("useEnabledColumn"))) {
-            Conston.useEnabledColumn = false;
-        }
-        String enabledColumnNameTemp = context.getProperty("enabledColumnName");
-        if (StringUtils.isNotBlank(enabledColumnNameTemp)) {
-            Conston.enabledColumnName = enabledColumnNameTemp;
-        }
-        String enabledColumnValueTemp = context.getProperty("enabledColumnValue");
-        if (StringUtils.isNotBlank(enabledColumnValueTemp)) {
-            Conston.enabledColumnValue = enabledColumnValueTemp;
-        }
-        if (StringUtils.isFalse(context.getProperty("useAnnotation"))) {
-            Conston.useAnnotation = false;
-        }
-        if (StringUtils.isFalse(context.getProperty("addRemark"))) {
-            Conston.addRemark = false;
-        }
-        if (StringUtils.isTrue(context.getProperty("showDoc"))) {
-            Conston.showDoc = true;
-        }
+    private void initProp()
+    {
+        Conston.initPropertites(context);
     }
 
     @Override
-    public String getBaseRecordType() {
+    public String getBaseRecordType()
+    {
         return super.getBaseRecordType();
     }
 
     @Override
-    public String getBaseResultMapId() {
+    public String getBaseResultMapId()
+    {
         return super.getBaseRecordType();
     }
 
     @Override
-    public void calculateGenerators(List<String> warnings, ProgressCallback progressCallback) {
+    public void calculateGenerators(List<String> warnings, ProgressCallback progressCallback)
+    {
 
         initProp();
 
@@ -86,7 +68,7 @@ public class DefaultIntrospectedTable extends IntrospectedTable {
 
         AbstractJavaClientGenerator javaClientGenerator = calculateClientGenerators(warnings, progressCallback);
 
-        calculateXmlMapperGenerator(javaClientGenerator, warnings, progressCallback);
+        calculateXmlMapperGenerator(warnings, progressCallback);
     }
 
     /**
@@ -96,9 +78,8 @@ public class DefaultIntrospectedTable extends IntrospectedTable {
      * @param warnings            the warnings
      * @param progressCallback    the progress callback
      */
-    protected void calculateXmlMapperGenerator(AbstractJavaClientGenerator javaClientGenerator,
-                                               List<String> warnings,
-                                               ProgressCallback progressCallback) {
+    private void calculateXmlMapperGenerator(List<String> warnings, ProgressCallback progressCallback)
+    {
         xmlMapperGenerator = new XMLMapperGenerator();
         initializeAbstractGenerator(xmlMapperGenerator, warnings, progressCallback);
     }
@@ -108,16 +89,19 @@ public class DefaultIntrospectedTable extends IntrospectedTable {
      *
      * @param warnings         the warnings
      * @param progressCallback the progress callback
+     *
      * @return true if an XML generator is required
      */
-    protected AbstractJavaClientGenerator calculateClientGenerators(List<String> warnings,
-                                                                    ProgressCallback progressCallback) {
-        if (!rules.generateJavaClient()) {
+    private AbstractJavaClientGenerator calculateClientGenerators(List<String> warnings, ProgressCallback progressCallback)
+    {
+        if (!rules.generateJavaClient())
+        {
             return null;
         }
 
         AbstractJavaClientGenerator javaGenerator = createJavaClientGenerator();
-        if (javaGenerator == null) {
+        if (javaGenerator == null)
+        {
             return null;
         }
 
@@ -132,24 +116,34 @@ public class DefaultIntrospectedTable extends IntrospectedTable {
      *
      * @return the abstract java client generator
      */
-    protected AbstractJavaClientGenerator createJavaClientGenerator() {
-        if (context.getJavaClientGeneratorConfiguration() == null) {
+    private AbstractJavaClientGenerator createJavaClientGenerator()
+    {
+        if (context.getJavaClientGeneratorConfiguration() == null)
+        {
             return null;
         }
 
-        String type = context.getJavaClientGeneratorConfiguration()
-                .getConfigurationType();
+        String type = context.getJavaClientGeneratorConfiguration().getConfigurationType();
 
         AbstractJavaClientGenerator javaGenerator;
-        if ("XMLMAPPER".equalsIgnoreCase(type)) { //$NON-NLS-1$
+        if ("XMLMAPPER".equalsIgnoreCase(type))
+        { //$NON-NLS-1$
             javaGenerator = new JavaMapperGenerator();
-        } else if ("MIXEDMAPPER".equalsIgnoreCase(type)) { //$NON-NLS-1$
+        }
+        else if ("MIXEDMAPPER".equalsIgnoreCase(type))
+        { //$NON-NLS-1$
             javaGenerator = new MixedClientGenerator();
-        } else if ("ANNOTATEDMAPPER".equalsIgnoreCase(type)) { //$NON-NLS-1$
+        }
+        else if ("ANNOTATEDMAPPER".equalsIgnoreCase(type))
+        { //$NON-NLS-1$
             javaGenerator = new AnnotatedClientGenerator();
-        } else if ("MAPPER".equalsIgnoreCase(type)) { //$NON-NLS-1$
+        }
+        else if ("MAPPER".equalsIgnoreCase(type))
+        { //$NON-NLS-1$
             javaGenerator = new JavaMapperGenerator();
-        } else {
+        }
+        else
+        {
             javaGenerator = (AbstractJavaClientGenerator) ObjectFactory.createInternalObject(type);
         }
 
@@ -162,26 +156,31 @@ public class DefaultIntrospectedTable extends IntrospectedTable {
      * @param warnings         the warnings
      * @param progressCallback the progress callback
      */
-    protected void calculateJavaModelGenerators(List<String> warnings, ProgressCallback progressCallback) {
-        if (getRules().generateExampleClass()) {
+    private void calculateJavaModelGenerators(List<String> warnings, ProgressCallback progressCallback)
+    {
+        if (getRules().generateExampleClass())
+        {
             AbstractJavaGenerator javaGenerator = new ExampleGenerator();
             initializeAbstractGenerator(javaGenerator, warnings, progressCallback);
             javaModelGenerators.add(javaGenerator);
         }
 
-        if (getRules().generatePrimaryKeyClass()) {
+        if (getRules().generatePrimaryKeyClass())
+        {
             AbstractJavaGenerator javaGenerator = new PrimaryKeyGenerator();
             initializeAbstractGenerator(javaGenerator, warnings, progressCallback);
             javaModelGenerators.add(javaGenerator);
         }
 
-        if (getRules().generateBaseRecordClass()) {
+        if (getRules().generateBaseRecordClass())
+        {
             AbstractJavaGenerator javaGenerator = new BaseRecordGenerator();
             initializeAbstractGenerator(javaGenerator, warnings, progressCallback);
             javaModelGenerators.add(javaGenerator);
         }
 
-        if (getRules().generateRecordWithBLOBsClass()) {
+        if (getRules().generateRecordWithBLOBsClass())
+        {
             AbstractJavaGenerator javaGenerator = new RecordWithBLOBsGenerator();
             initializeAbstractGenerator(javaGenerator, warnings, progressCallback);
             javaModelGenerators.add(javaGenerator);
@@ -195,8 +194,10 @@ public class DefaultIntrospectedTable extends IntrospectedTable {
      * @param warnings          the warnings
      * @param progressCallback  the progress callback
      */
-    protected void initializeAbstractGenerator(AbstractGenerator abstractGenerator, List<String> warnings, ProgressCallback progressCallback) {
-        if (abstractGenerator == null) {
+    private void initializeAbstractGenerator(AbstractGenerator abstractGenerator, List<String> warnings, ProgressCallback progressCallback)
+    {
+        if (abstractGenerator == null)
+        {
             return;
         }
 
@@ -210,27 +211,30 @@ public class DefaultIntrospectedTable extends IntrospectedTable {
      * @see org.mybatis.generator.api.IntrospectedTable#getGeneratedJavaFiles()
      */
     @Override
-    public List<GeneratedJavaFile> getGeneratedJavaFiles() {
+    public List<GeneratedJavaFile> getGeneratedJavaFiles()
+    {
         List<GeneratedJavaFile> answer = new ArrayList<>();
 
-        for (AbstractJavaGenerator javaGenerator : javaModelGenerators) {
+        for (AbstractJavaGenerator javaGenerator : javaModelGenerators)
+        {
             List<CompilationUnit> compilationUnits = javaGenerator.getCompilationUnits();
-            for (CompilationUnit compilationUnit : compilationUnits) {
+            for (CompilationUnit compilationUnit : compilationUnits)
+            {
                 GeneratedJavaFile gjf = new GeneratedJavaFile(compilationUnit,
                         context.getJavaModelGeneratorConfiguration().getTargetProject(),
-                        context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
-                        context.getJavaFormatter());
+                        context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING), context.getJavaFormatter());
                 answer.add(gjf);
             }
         }
 
-        for (AbstractJavaGenerator javaGenerator : clientGenerators) {
+        for (AbstractJavaGenerator javaGenerator : clientGenerators)
+        {
             List<CompilationUnit> compilationUnits = javaGenerator.getCompilationUnits();
-            for (CompilationUnit compilationUnit : compilationUnits) {
+            for (CompilationUnit compilationUnit : compilationUnits)
+            {
                 GeneratedJavaFile gjf = new GeneratedJavaFile(compilationUnit,
                         context.getJavaClientGeneratorConfiguration().getTargetProject(),
-                        context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
-                        context.getJavaFormatter());
+                        context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING), context.getJavaFormatter());
                 answer.add(gjf);
             }
         }
@@ -242,16 +246,17 @@ public class DefaultIntrospectedTable extends IntrospectedTable {
      * @see org.mybatis.generator.api.IntrospectedTable#getGeneratedXmlFiles()
      */
     @Override
-    public List<GeneratedXmlFile> getGeneratedXmlFiles() {
+    public List<GeneratedXmlFile> getGeneratedXmlFiles()
+    {
         List<GeneratedXmlFile> answer = new ArrayList<>();
 
-        if (xmlMapperGenerator != null) {
+        if (xmlMapperGenerator != null)
+        {
             Document document = xmlMapperGenerator.getDocument();
-            GeneratedXmlFile gxf = new GeneratedXmlFile(document,
-                    getMyBatis3XmlMapperFileName(), getMyBatis3XmlMapperPackage(),
-                    context.getSqlMapGeneratorConfiguration().getTargetProject(),
-                    true, context.getXmlFormatter());
-            if (context.getPlugins().sqlMapGenerated(gxf, this)) {
+            GeneratedXmlFile gxf = new GeneratedXmlFile(document, getMyBatis3XmlMapperFileName(), getMyBatis3XmlMapperPackage(),
+                    context.getSqlMapGeneratorConfiguration().getTargetProject(), true, context.getXmlFormatter());
+            if (context.getPlugins().sqlMapGenerated(gxf, this))
+            {
                 answer.add(gxf);
             }
         }
@@ -263,7 +268,8 @@ public class DefaultIntrospectedTable extends IntrospectedTable {
      * @see org.mybatis.generator.api.IntrospectedTable#getGenerationSteps()
      */
     @Override
-    public int getGenerationSteps() {
+    public int getGenerationSteps()
+    {
         return javaModelGenerators.size() + clientGenerators.size() + (xmlMapperGenerator == null ? 0 : 1);
     }
 
@@ -271,7 +277,8 @@ public class DefaultIntrospectedTable extends IntrospectedTable {
      * @see org.mybatis.generator.api.IntrospectedTable#isJava5Targeted()
      */
     @Override
-    public boolean isJava5Targeted() {
+    public boolean isJava5Targeted()
+    {
         return true;
     }
 
@@ -279,7 +286,8 @@ public class DefaultIntrospectedTable extends IntrospectedTable {
      * @see org.mybatis.generator.api.IntrospectedTable#requiresXMLGenerator()
      */
     @Override
-    public boolean requiresXMLGenerator() {
+    public boolean requiresXMLGenerator()
+    {
         AbstractJavaClientGenerator javaClientGenerator = createJavaClientGenerator();
         return javaClientGenerator != null && javaClientGenerator.requiresXMLGenerator();
     }

@@ -5,10 +5,13 @@ import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.InnerClass;
 
-public interface ShowDocUtils {
+public interface ShowDocUtils
+{
 
-    static void addClassComment(InnerClass innerClass, IntrospectedTable introspectedTable) {
-        if (!Conston.showDoc) {
+    static void addClassComment(InnerClass innerClass, IntrospectedTable introspectedTable)
+    {
+        if (!Conston.isShowDoc())
+        {
             return;
         }
         StringBuilder sb = new StringBuilder();
@@ -19,8 +22,10 @@ public interface ShowDocUtils {
         innerClass.addJavaDocLine(" */");
     }
 
-    static void addFieldComment(Field field, IntrospectedTable introspectedTable, IntrospectedColumn introspectedColumn) {
-        if (!Conston.showDoc) {
+    static void addFieldComment(Field field, IntrospectedColumn introspectedColumn)
+    {
+        if (!Conston.isShowDoc())
+        {
             return;
         }
 
