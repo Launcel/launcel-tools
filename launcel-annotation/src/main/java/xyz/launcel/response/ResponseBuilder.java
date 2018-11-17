@@ -8,11 +8,6 @@ public class ResponseBuilder
     private String message = "";
     private String code    = "0";
 
-    ResponseBuilder builder()
-    {
-        return new ResponseBuilder();
-    }
-
     public ResponseBuilder data(Object data)
     {
         this.data = data;
