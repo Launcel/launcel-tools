@@ -1,5 +1,7 @@
 package xyz.launcel.menuType;
 
+import lombok.var;
+
 import java.util.Objects;
 
 /**
@@ -15,6 +17,7 @@ public enum DeviceType
 
     Wechat,
 
+    H5,
     ;
 
     DeviceType() {}
@@ -23,7 +26,7 @@ public enum DeviceType
     {
         if (deviceName != null && !Objects.equals(deviceName, ""))
         {
-            for (DeviceType device : values())
+            for (var device : values())
             {
                 if (device.name().equalsIgnoreCase(deviceName.trim()))
                 {
@@ -32,5 +35,4 @@ public enum DeviceType
             }
         }
         return null;
-    }
-}
+    }}

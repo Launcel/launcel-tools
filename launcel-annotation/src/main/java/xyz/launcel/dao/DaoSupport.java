@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author launcel
  */
-public interface BaseRepository
+public interface DaoSupport
 {
 
     <T> int add(T o);

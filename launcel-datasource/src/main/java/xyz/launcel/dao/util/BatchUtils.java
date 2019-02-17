@@ -4,7 +4,7 @@ import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import xyz.launcel.bean.context.SpringBeanUtil;
-import xyz.launcel.dao.BaseRepository;
+import xyz.launcel.dao.DaoSupport;
 import xyz.launcel.enumerate.BatchType;
 import xyz.launcel.lang.CollectionUtils;
 
@@ -14,22 +14,22 @@ public class BatchUtils
 {
     private static SqlSessionFactory sqlSessionFactory = SpringBeanUtil.getBean("sqlSessionFactory");
 
-    static <T> int batchAdd(List<T> list, Class<? extends BaseRepository> mapper)
+    static <T> int batchAdd(List<T> list, Class<? extends DaoSupport> mapper)
     {
         return execute(list, mapper, BatchType.INSERT);
     }
 
-    static <T> int batchUpdate(List<T> list, Class<? extends BaseRepository> mapper)
+    static <T> int batchUpdate(List<T> list, Class<? extends DaoSupport> mapper)
     {
         return execute(list, mapper, BatchType.UPDATE);
     }
 
-    static int batchDel(List<Integer> ids, Class<? extends BaseRepository> mapper)
+    static int batchDel(List<Integer> ids, Class<? extends DaoSupport> mapper)
     {
         return execute(ids, mapper, BatchType.DELETE);
     }
 
-    private static <T> int execute(List<T> list, Class<? extends BaseRepository> mapper, BatchType type)
+    private static <T> int execute(List<T> list, Class<? extends DaoSupport> mapper, BatchType type)
     {
         if (CollectionUtils.isEmpty(list))
             return 0;
@@ -38,7 +38,7 @@ public class BatchUtils
         SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
         try
         {
-            BaseRepository repository = session.getMapper(mapper);
+            DaoSupport repository = session.getMapper(mapper);
             for (int i = 0; i < size; i++)
             {
                 T l = list.get(i);

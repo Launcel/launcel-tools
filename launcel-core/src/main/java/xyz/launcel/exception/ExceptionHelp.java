@@ -1,5 +1,6 @@
 package xyz.launcel.exception;
 
+import lombok.var;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -38,7 +39,7 @@ public class ExceptionHelp
                     {
                         if (!CollectionUtils.sizeIsEmpty(resources))
                         {
-                            for (Resource resource : resources)
+                            for (var resource : resources)
                             {
                                 in = resource.getInputStream();
                                 inr = new InputStreamReader(in, StandardCharsets.UTF_8);
@@ -62,7 +63,10 @@ public class ExceptionHelp
     {
         Map<String, String> map   = new HashMap<>();
         String              value = props.getProperty(code);
-        if (StringUtils.isNotBlank(value)) { map.put("message", value); }
+        if (StringUtils.isNotBlank(value))
+        {
+            map.put("message", value);
+        }
         else { map.put("message", code); }
         return map;
     }

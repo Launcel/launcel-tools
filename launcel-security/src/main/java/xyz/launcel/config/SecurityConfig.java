@@ -29,16 +29,25 @@ public class SecurityConfig
 
     public static void setUris(Map<String, String[]> uriProp)
     {
-        if (uriProp.isEmpty()) {return;}
+        if (uriProp.isEmpty())
+        {
+            return;
+        }
         uriProp.forEach((key, value) -> uris.put(key, new HashSet<>(Arrays.asList(value))));
     }
 
     public static boolean isTransit(String requestUriString, HttpSession session)
     {
-        if (requestUriString.isEmpty()) { return true; }
+        if (requestUriString.isEmpty())
+        {
+            return true;
+        }
         @SuppressWarnings("unchecked")
         List<String> requestUris = (List<String>) StringUtils.spiltStream(requestUriString, "/").collect(Collectors.toList());
-        if (CollectionUtils.isEmpty(requestUris)) { return true; }
+        if (CollectionUtils.isEmpty(requestUris))
+        {
+            return true;
+        }
         Set<String>          tempRoleUris = new HashSet<>(uris.keySet());
         Map<String, Integer> maxMatchMap  = temp(uris.keySet());
         for (int i = 0; i < requestUris.size(); i++)
@@ -74,7 +83,10 @@ public class SecurityConfig
     private static Map<String, Integer> temp(Collection<String> c)
     {
         Map<String, Integer> tempMap = new HashMap<>();
-        for (String aC : c) { tempMap.put(aC, 0); }
+        for (String aC : c)
+        {
+            tempMap.put(aC, 0);
+        }
         return tempMap;
     }
 
@@ -96,24 +108,34 @@ public class SecurityConfig
     private static int validateUri(String requestUri, String roleUri)
     {
         if (requestUri.equals(roleUri))
+        {
             return 1;
+        }
         if (roleUri.equals("**"))
+        {
             return 0;
+        }
         return -1;
     }
 
     private static boolean validateRole(Set<String> roles, HttpSession session)
     {
         if (roles.contains("anon"))
+        {
             return true;
+        }
         if (session == null)
+        {
             return false;
+        }
         @SuppressWarnings("unchecked")
         Set<String> userRoles = (Set<String>) session.getAttribute("role");
         for (String userRole : userRoles)
         {
             if (roles.contains(userRole))
+            {
                 return true;
+            }
         }
         return false;
     }

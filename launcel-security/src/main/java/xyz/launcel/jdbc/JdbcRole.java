@@ -81,7 +81,9 @@ public class JdbcRole
             catch (SQLException e)
             {
                 if (RootLogger.isDebug())
+                {
                     RootLogger.debug("Could not close JDBC Connection");
+                }
             }
         }
     }
@@ -97,7 +99,9 @@ public class JdbcRole
             catch (SQLException e)
             {
                 if (RootLogger.isDebug())
+                {
                     RootLogger.debug("Could not close JDBC PreparedStatement");
+                }
             }
         }
     }
@@ -113,7 +117,9 @@ public class JdbcRole
             catch (SQLException e)
             {
                 if (RootLogger.isDebug())
+                {
                     RootLogger.debug("Could not close JDBC ResultSet");
+                }
             }
         }
     }

@@ -25,7 +25,10 @@ public class UploadLocalUtil
 
     private static UploadProperties properties;
 
-    public static void init(UploadProperties properties) { UploadLocalUtil.properties = properties; }
+    public static void init(UploadProperties properties)
+    {
+        UploadLocalUtil.properties = properties;
+    }
 
     public static String save(File file)
     {
@@ -39,14 +42,17 @@ public class UploadLocalUtil
             FileInputStream in = new FileInputStream(file);
             check(in, file.length());
             String newName = getNewName(file.getName());
-            File dir     = new File(getGenPath(newName));
+            File   dir     = new File(getGenPath(newName));
             if (!dir.getParentFile().exists())
             {
-                if (!dir.getParentFile().mkdirs()) { return null; }
+                if (!dir.getParentFile().mkdirs())
+                {
+                    return null;
+                }
             }
             BufferedOutputStream out    = new BufferedOutputStream(new FileOutputStream(dir));
-            int bytesRead;
-            byte[] buffer = new byte[8192];
+            int                  bytesRead;
+            byte[]               buffer = new byte[8192];
             while ((bytesRead = in.read(buffer, 0, 8192)) != -1)
             {
                 out.write(buffer, 0, bytesRead);
@@ -56,14 +62,23 @@ public class UploadLocalUtil
             in.close();
             return getDomainPath(newName);
         }
-        catch (IOException e) { e.printStackTrace(); }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         return null;
     }
 
     private static void check(InputStream in, Long size)
     {
-        try { checkContent(in); }
-        catch (IOException e) { e.printStackTrace(); }
+        try
+        {
+            checkContent(in);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         checkSize(size);
     }
 
@@ -78,7 +93,7 @@ public class UploadLocalUtil
         try { check(file.getInputStream(), file.getSize()); }
         catch (IOException e) { e.printStackTrace(); }
         String newName = getNewName(file.getOriginalFilename());
-        File dir     = new File(getGenPath(newName));
+        File   dir     = new File(getGenPath(newName));
         if (!dir.getParentFile().exists())
         {
             if (!dir.getParentFile().mkdirs()) { return null; }
@@ -92,14 +107,23 @@ public class UploadLocalUtil
             out.close();
             return getDomainPath(newName);
         }
-        catch (IOException e) { e.printStackTrace(); }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         return null;
     }
 
     private static void checkSize(Long size)
     {
-        if (size < (properties.getMinSize())) { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的文件太小"); }
-        if (size > properties.getMaxSize()) { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的文件大小超过限制"); }
+        if (size < (properties.getMinSize()))
+        {
+            ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的文件太小");
+        }
+        if (size > properties.getMaxSize())
+        {
+            ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的文件大小超过限制");
+        }
     }
 
     /**
@@ -111,20 +135,26 @@ public class UploadLocalUtil
     {
         //        InputStream in = file.getInputStream();
         byte[] b = new byte[4];
-        if (in == null) { ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为无法识别的文件"); }
+        if (in == null)
+        {
+            ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为无法识别的文件");
+        }
         if ((in != null ? in.read(b, 0, b.length) : 0) < 4)
         {
             ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的文件太小");
         }
-        StringBuilder    sb = new StringBuilder();
-        String hv;
+        StringBuilder sb = new StringBuilder();
+        String        hv;
         for (byte b1 : b)
         {
             hv = Integer.toHexString(b1 & 0xFF).toLowerCase();
             if (hv.length() < 2) { sb.append(0); }
             sb.append(hv);
         }
-        if (properties.getContentType().contains(sb.toString())) { return; }
+        if (properties.getContentType().contains(sb.toString()))
+        {
+            return;
+        }
         ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为不能接收的文件类型");
     }
 
@@ -142,7 +172,10 @@ public class UploadLocalUtil
 
     private static void checkFile(String ext)
     {
-        if (properties.getFileType().contains(ext.toLowerCase())) { return; }
+        if (properties.getFileType().contains(ext.toLowerCase()))
+        {
+            return;
+        }
         ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为不能接收的文件类型");
     }
 

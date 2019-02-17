@@ -16,27 +16,28 @@ import java.util.Set;
 
 /**
  * @param <T>
+ *
  * @author launcel
  */
 @Accessors(chain = true)
 @NoArgsConstructor
-@ToString(exclude = {"row", "lowerId", "largeId", "offset", "orderBy", "groupBy"})
+@ToString(exclude = {"row", "minId", "maxId", "offset", "orderBy", "groupBy"})
 public class Page<T> implements Serializable
 {
     private static final long serialVersionUID = -8522433864030332281L;
 
     @Getter
     @Setter
-    private List<T> list;
+    private           List<T> list;
     @Getter
     private transient Integer row = Integer.MAX_VALUE;
 
     @Getter
-    private transient Integer lowerId;
+    private transient Integer minId;
     @Getter
-    private transient Integer largeId;
+    private transient Integer maxId;
     @Getter
-    private Integer pageNo = 1;
+    private           Integer pageNo = 1;
 
     /**
      * 总页数（不是数据总数）
@@ -63,17 +64,17 @@ public class Page<T> implements Serializable
         this.row = row;
     }
 
-//    public Page(int row, int lowerId)
-//    {
-//        this.row = row;
-//        this.lowerId = lowerId;
-//    }
-//
-//    public Page(int row, Integer largeId)
-//    {
-//        this.row = row;
-//        this.largeId = largeId;
-//    }
+    //    public Page(int row, int lowerId)
+    //    {
+    //        this.row = row;
+    //        this.lowerId = lowerId;
+    //    }
+    //
+    //    public Page(int row, Integer largeId)
+    //    {
+    //        this.row = row;
+    //        this.largeId = largeId;
+    //    }
 
     public Page(Integer total, List<T> list)
     {
@@ -114,15 +115,15 @@ public class Page<T> implements Serializable
         return this;
     }
 
-    public void setLargeId(Integer largeId)
+    public void setMinId(Integer minId)
     {
-        this.largeId = (null == largeId || largeId < 0) ? 1 : largeId;
+        this.minId = (null == minId || minId < 0) ? 1 : minId;
     }
 
 
-    public void setLowerId(Integer lowerId)
+    public void setMaxId(Integer maxId)
     {
-        this.lowerId = (null == lowerId || lowerId < 0) ? 1 : lowerId;
+        this.maxId = (null == maxId || maxId < 0) ? 1 : maxId;
     }
 
     public Page<T> setOrderBy(String orderByCol, OrderSqlEnum orderRule)

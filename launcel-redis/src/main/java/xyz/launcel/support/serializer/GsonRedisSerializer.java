@@ -27,14 +27,20 @@ public class GsonRedisSerializer<T> implements RedisSerializer<T>
     @Override
     public byte[] serialize(T t) throws SerializationException
     {
-        if (t == null) { return new byte[0]; }
+        if (t == null)
+        {
+            return new byte[0];
+        }
         return gsonBuilder.create().toJson(t).getBytes();
     }
 
     @Override
     public T deserialize(byte[] bytes) throws SerializationException
     {
-        if (bytes == null || bytes.length == 0) { return null; }
+        if (bytes == null || bytes.length == 0)
+        {
+            return null;
+        }
         String str = new String(bytes, StandardCharsets.UTF_8);
         return gsonBuilder.create().fromJson(str, type);
     }

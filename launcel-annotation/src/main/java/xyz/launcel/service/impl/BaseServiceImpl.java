@@ -1,6 +1,6 @@
 package xyz.launcel.service.impl;
 
-import xyz.launcel.dao.BaseRepository;
+import xyz.launcel.dao.DaoSupport;
 import xyz.launcel.dao.IdEntity;
 import xyz.launcel.dao.Page;
 import xyz.launcel.service.BaseService;
@@ -13,7 +13,7 @@ import java.util.List;
 public abstract class BaseServiceImpl implements BaseService
 {
 
-    protected abstract BaseRepository getMapper();
+    protected abstract DaoSupport getMapper();
 
     @Override
     public <T extends IdEntity> int add(T p)

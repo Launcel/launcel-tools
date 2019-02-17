@@ -29,7 +29,7 @@
             <property name="searchCharacter" value="Mapper$"/>
             <property name="replaceCharacter" value="DAO"/>
             <property name="useBaseDAOPackage" value="true"/>
-            <property name="baseDAOPackage" value="xyz.launcel.dao.BaseRepository"/>
+            <property name="baseDAOPackage" value="xyz.launcel.dao.DaoSupport"/>
             <property name="useGeneralizate" value="false"/>
         </plugin>
 

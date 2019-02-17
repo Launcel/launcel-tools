@@ -1,5 +1,7 @@
 package xyz.launcel.json.builder;
 
+import lombok.var;
+
 public enum DateFormat
 {
     LONG,
@@ -8,7 +10,7 @@ public enum DateFormat
 
     public static DateFormat getByName(String name)
     {
-        for (DateFormat df : values())
+        for (var df : values())
         {
             if (df.name().equalsIgnoreCase(name))
             {

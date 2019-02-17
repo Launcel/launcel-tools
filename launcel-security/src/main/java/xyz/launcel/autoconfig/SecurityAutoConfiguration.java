@@ -34,7 +34,9 @@ public class SecurityAutoConfiguration implements WebMvcConfigurer
     private void initSecurityConfig()
     {
         if (CollectionUtils.isEmpty(securityListProperties.getList()))
-        { throw new SystemException("_SECURITY_ERROR_CODE_011", "权限路径未配置"); }
+        {
+            throw new SystemException("_SECURITY_ERROR_CODE_011", "权限路径未配置");
+        }
         SecurityConfig.setUris(securityListProperties.getList());
     }
 
@@ -49,7 +51,10 @@ public class SecurityAutoConfiguration implements WebMvcConfigurer
     @Bean
     public JdbcRole jdbcRole()
     {
-        if (Objects.isNull(jdbcRolePropertites)) { return null; }
+        if (Objects.isNull(jdbcRolePropertites))
+        {
+            return null;
+        }
         JdbcRole jdbcRole = new JdbcRole();
         jdbcRole.setAuthenticationQuery(jdbcRolePropertites.getAuthenticationQuery());
         jdbcRole.setUserRoleQuery(jdbcRolePropertites.getUserRoleQuery());

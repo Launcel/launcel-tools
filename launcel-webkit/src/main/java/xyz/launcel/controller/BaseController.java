@@ -2,6 +2,7 @@ package xyz.launcel.controller;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.var;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import xyz.launcel.dao.Page;
 import xyz.launcel.lang.StringUtils;
@@ -33,8 +34,11 @@ public abstract class BaseController extends BaseLogger
         String pageNoString = getRequest().getParameter("pageNo");
         String rowString    = getRequest().getParameter("row");
 
-        int pageNo = 1;
-        int row    = 20;
+        String minIdString = this.request.getParameter("minId");
+
+        int     pageNo = 1;
+        int     row    = 20;
+        Integer minId  = 0;
         try
         {
             if (StringUtils.isNotBlank(pageNoString))
@@ -44,6 +48,10 @@ public abstract class BaseController extends BaseLogger
             if (StringUtils.isNotBlank(rowString))
             {
                 row = Integer.valueOf(rowString.trim());
+            }
+            if (StringUtils.isNotBlank(minIdString))
+            {
+                minId = Integer.valueOf(minIdString);
             }
         }
         catch (Exception ignore) { }
@@ -55,7 +63,7 @@ public abstract class BaseController extends BaseLogger
         Cookie[] cookies = getRequest().getCookies();
         if (cookies != null && cookies.length > 0)
         {
-            for (Cookie cookie : cookies)
+            for (var cookie : cookies)
             {
                 if (WebAspejctProperties.tokenKey.equals(cookie.getName()))
                 {
@@ -68,6 +76,10 @@ public abstract class BaseController extends BaseLogger
 
     protected String getHeaderString(String name)
     {
+        if (StringUtils.isBlank(name))
+        {
+            return null;
+        }
         return getRequest().getHeader(name);
     }
 

@@ -35,7 +35,9 @@ public final class RedisUtils
     public static void batchDel(final Set<String> keys)
     {
         if (CollectionUtils.isEmpty(keys))
+        {
             throw new SystemException("_REDIS__ERROR_CODE_011", "redis key is null");
+        }
         RedisCallback<Void> callback = conn -> {
             conn.openPipeline();
             keys.stream().filter(StringUtils::isNotBlank).forEach(key -> conn.del(StringUtils.serializer(key)));
@@ -60,7 +62,9 @@ public final class RedisUtils
                         Boolean result = conn.setEx(StringUtils.serializer(entry.getKey()), expireTime,
                                 StringUtils.serializer(Json.toString(entry.getValue())));
                         if (result != null && result)
+                        {
                             num++;
+                        }
                     }
                 }
                 conn.closePipeline();

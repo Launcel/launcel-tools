@@ -50,19 +50,23 @@ public class ResultSetInterceptor implements Interceptor, Serializable
         Class<?> clazz;
         if (Arrays.asList(superMethod).contains(selectId))
         {
-            RootLogger.debug("调用 BaseRepository");
+            RootLogger.debug("调用 DaoSupport");
             BoundSql            boundSql  = (BoundSql) metaObject.getValue("boundSql");
             @SuppressWarnings("unchecked")
             Map<String, Object> parameter = (Map<String, Object>) boundSql.getParameterObject();
             if (parameter == null)
+            {
                 return invocation.proceed();
+            }
             clazz = SQLHelp.getClazz(parameter);
         }
         else
         {
             List<ResultMap> resultMaps = mappedStatement.getResultMaps();
             if (resultMaps.isEmpty())
+            {
                 return invocation.proceed();
+            }
             ResultMap resultMap = resultMaps.get(0);
             clazz = resultMap != null && resultMap.getType() != null ? resultMap.getType() : null;
         }
@@ -73,9 +77,13 @@ public class ResultSetInterceptor implements Interceptor, Serializable
     public Object plugin(Object target)
     {
         if (target instanceof ResultSetHandler)
+        {
             return Plugin.wrap(target, this);
+        }
         else
+        {
             return target;
+        }
     }
 
     @Override
@@ -109,9 +117,13 @@ public class ResultSetInterceptor implements Interceptor, Serializable
         finally
         {
             if (rs != null)
+            {
                 rs.close();
+            }
             if (stmt != null)
+            {
                 stmt.close();
+            }
         }
         return list;
     }

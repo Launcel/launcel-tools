@@ -1,6 +1,7 @@
 package xyz.launcel.annotation;
 
 import lombok.Getter;
+import lombok.var;
 
 @Getter
 public enum StatusType
@@ -20,7 +21,7 @@ public enum StatusType
 
     public static StatusType valueOf(int status)
     {
-        for (StatusType statusType : values())
+        for (var statusType : values())
         {
             if (status == statusType.getStstus())
                 return statusType;

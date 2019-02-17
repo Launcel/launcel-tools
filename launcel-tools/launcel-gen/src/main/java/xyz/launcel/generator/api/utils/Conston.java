@@ -95,7 +95,7 @@ public class Conston
 
     public static class JAVADAOPlugPropertites
     {
-        private static String  baseDAOPackage  = "xyz.launcel.dao.BaseRepository";
+        private static String  baseDAOPackage  = "xyz.launcel.dao.DaoSupport";
         private static boolean useGeneralizate = false;
         private static boolean useBaseDAO      = true;
 
