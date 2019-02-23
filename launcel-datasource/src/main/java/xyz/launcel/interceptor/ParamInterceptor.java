@@ -14,7 +14,7 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
-import xyz.launcel.lang.CollectionUtils;
+import xyz.launcel.utils.CollectionUtils;
 import xyz.launcel.log.RootLogger;
 
 import java.text.DateFormat;

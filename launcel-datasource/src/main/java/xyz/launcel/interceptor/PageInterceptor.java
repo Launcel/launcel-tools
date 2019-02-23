@@ -1,5 +1,6 @@
 package xyz.launcel.interceptor;
 
+import lombok.var;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -8,11 +9,9 @@ import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
-import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
-import xyz.launcel.dao.Page;
-import xyz.launcel.lang.SQLHelp;
-import xyz.launcel.lang.StringUtils;
+import xyz.launcel.utils.SQLHelp;
+import xyz.launcel.utils.StringUtils;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -31,24 +30,28 @@ public class PageInterceptor implements Interceptor, Serializable
     @Override
     public Object intercept(Invocation invocation) throws Throwable
     {
-        StatementHandler statementHandler     = (StatementHandler) invocation.getTarget();
-        MetaObject       metaStatementHandler = SystemMetaObject.forObject(statementHandler);
-        MappedStatement  mappedStatement      = (MappedStatement) metaStatementHandler.getValue("delegate.mappedStatement");
-        String           selectId             = mappedStatement.getId();
-        BoundSql         boundSql;
+        var      statementHandler     = (StatementHandler) invocation.getTarget();
+        var      metaStatementHandler = SystemMetaObject.forObject(statementHandler);
+        var      mappedStatement      = (MappedStatement) metaStatementHandler.getValue("delegate.mappedStatement");
+        var      selectId             = mappedStatement.getId();
+        BoundSql boundSql;
         if (selectId.matches(".*Page.*"))
         {
             boundSql = statementHandler.getBoundSql();
             // 分页参数作为参数对象 parameter 的一个属性
-            String sql = boundSql.getSql();
+            var sql = boundSql.getSql();
             if (StringUtils.isBlank(sql))
-            { return invocation.proceed(); }
+            {
+                return invocation.proceed();
+            }
             @SuppressWarnings("unchecked")
-            Map<String, Object> parameter = (Map<String, Object>) boundSql.getParameterObject();
+            var parameter = (Map<String, Object>) boundSql.getParameterObject();
             if (parameter.isEmpty())
-            { return invocation.proceed(); }
-            Page   p       = SQLHelp.getPaging(parameter);
-            String pageSql = SQLHelp.concatSql(sql, p);
+            {
+                return invocation.proceed();
+            }
+            var p       = SQLHelp.getPaging(parameter);
+            var pageSql = SQLHelp.concatSql(sql, p);
             metaStatementHandler.setValue("delegate.boundSql.sql", pageSql);
         }
         return invocation.proceed();
@@ -57,8 +60,14 @@ public class PageInterceptor implements Interceptor, Serializable
     @Override
     public Object plugin(Object o)
     {
-        if (o instanceof StatementHandler) { return Plugin.wrap(o, this); }
-        else { return o; }
+        if (o instanceof StatementHandler)
+        {
+            return Plugin.wrap(o, this);
+        }
+        else
+        {
+            return o;
+        }
     }
 
     @Override

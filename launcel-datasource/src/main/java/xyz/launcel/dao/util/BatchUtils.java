@@ -1,12 +1,12 @@
 package xyz.launcel.dao.util;
 
+import lombok.var;
 import org.apache.ibatis.session.ExecutorType;
-import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import xyz.launcel.bean.context.SpringBeanUtil;
 import xyz.launcel.dao.DaoSupport;
 import xyz.launcel.enumerate.BatchType;
-import xyz.launcel.lang.CollectionUtils;
+import xyz.launcel.utils.CollectionUtils;
 
 import java.util.List;
 
@@ -32,13 +32,15 @@ public class BatchUtils
     private static <T> int execute(List<T> list, Class<? extends DaoSupport> mapper, BatchType type)
     {
         if (CollectionUtils.isEmpty(list))
+        {
             return 0;
-        int        size    = list.size();
-        int        result  = 0;
-        SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
+        }
+        int size    = list.size();
+        int result  = 0;
+        var session = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
         try
         {
-            DaoSupport repository = session.getMapper(mapper);
+            var repository = session.getMapper(mapper);
             for (int i = 0; i < size; i++)
             {
                 T l = list.get(i);

@@ -1,8 +1,9 @@
 package xyz.launcel.session.web.http;
 
+import lombok.var;
 import org.springframework.session.web.http.DefaultCookieSerializer;
-import xyz.launcel.lang.Base64;
-import xyz.launcel.lang.StringUtils;
+import xyz.launcel.utils.Base64;
+import xyz.launcel.utils.StringUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
@@ -38,15 +39,15 @@ public class PrimyDefaultCookieSerializer extends DefaultCookieSerializer
 
     public List<String> readCookieValues(HttpServletRequest request)
     {
-        Cookie[]     cookies              = request.getCookies();
-        List<String> matchingCookieValues = new ArrayList<>();
+        var cookies              = request.getCookies();
+        var matchingCookieValues = new ArrayList<String>();
         if (cookies != null)
         {
-            for (Cookie cookie : cookies)
+            for (var cookie : cookies)
             {
                 if (this.cookieName.equals(cookie.getName()))
                 {
-                    String sessionId = this.useBase64Encoding ? Base64.decode(cookie.getValue()) : cookie.getValue();
+                    var sessionId = this.useBase64Encoding ? Base64.decode(cookie.getValue()) : cookie.getValue();
                     if (sessionId == null)
                     {
                         continue;
@@ -64,16 +65,16 @@ public class PrimyDefaultCookieSerializer extends DefaultCookieSerializer
 
     public void writeCookieValue(CookieValue cookieValue)
     {
-        HttpServletRequest  request  = cookieValue.getRequest();
-        HttpServletResponse response = cookieValue.getResponse();
+        var request  = cookieValue.getRequest();
+        var response = cookieValue.getResponse();
 
-        String requestedCookieValue = cookieValue.getCookieValue();
-        String actualCookieValue    = this.jvmRoute == null ? requestedCookieValue : requestedCookieValue + this.jvmRoute;
+        var requestedCookieValue = cookieValue.getCookieValue();
+        var actualCookieValue    = this.jvmRoute == null ? requestedCookieValue : requestedCookieValue + this.jvmRoute;
 
-        Cookie sessionCookie = new Cookie(this.cookieName, this.useBase64Encoding ? Base64.encode(actualCookieValue) : actualCookieValue);
+        var sessionCookie = new Cookie(this.cookieName, this.useBase64Encoding ? Base64.encode(actualCookieValue) : actualCookieValue);
         sessionCookie.setSecure(isSecureCookie(request));
         sessionCookie.setPath(getCookiePath());
-        String domainName = getDomainName(request);
+        var domainName = getDomainName(request);
         if (domainName != null)
         {
             sessionCookie.setDomain(domainName);
@@ -187,7 +188,7 @@ public class PrimyDefaultCookieSerializer extends DefaultCookieSerializer
         }
         if (this.domainNamePattern != null)
         {
-            Matcher matcher = this.domainNamePattern.matcher(request.getServerName());
+            var matcher = this.domainNamePattern.matcher(request.getServerName());
             if (matcher.matches())
             {
                 return matcher.group(1);

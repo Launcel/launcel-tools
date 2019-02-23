@@ -48,7 +48,7 @@
 
         <dependency>
             <groupId>xyz.launcel</groupId>
-            <artifactId>launcel-core</artifactId>
+            <artifactId>launcel-common</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 

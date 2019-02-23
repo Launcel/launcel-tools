@@ -1,0 +1,61 @@
+package xyz.launcel.exception;
+
+import lombok.Getter;
+import lombok.Setter;
+import xyz.launcel.log.RootLogger;
+
+@Getter
+@Setter
+abstract class AbstractException extends RuntimeException
+{
+    private static final long   serialVersionUID = 3880101935106863166L;
+    private              String code;
+    private              String meassge;
+
+    AbstractException()
+    {
+        super();
+    }
+
+    AbstractException(String message)
+    {
+        super(message);
+        this.meassge = message;
+    }
+
+    public AbstractException(String code, String message)
+    {
+        this(message);
+        this.code = code;
+        String sb = "[" + code + " : " + message + "]";
+        RootLogger.error(sb);
+    }
+
+    AbstractException(String message, Throwable cause)
+    {
+        super(message, cause);
+        this.meassge = message;
+    }
+
+    AbstractException(String code, String meassge, Throwable cause)
+    {
+        this(meassge, cause);
+        this.code = code;
+    }
+
+    AbstractException(Throwable cause)
+    {
+        super(cause);
+    }
+
+    AbstractException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
+    {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    AbstractException(String code, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
+    {
+        super(message, cause, enableSuppression, writableStackTrace);
+        this.code = code;
+    }
+}

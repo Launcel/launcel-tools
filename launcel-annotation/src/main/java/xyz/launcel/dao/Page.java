@@ -128,14 +128,20 @@ public class Page<T> implements Serializable
 
     public Page<T> setOrderBy(String orderByCol, OrderSqlEnum orderRule)
     {
-        if (Objects.isNull(this.orderBy)) { this.orderBy = new LinkedHashMap<>(); }
+        if (Objects.isNull(this.orderBy))
+        {
+            this.orderBy = new LinkedHashMap<>();
+        }
         this.orderBy.put(orderByCol, orderRule);
         return this;
     }
 
     public Page<T> setGroupBy(String groupBy)
     {
-        if (Objects.isNull(this.groupBy)) { this.groupBy = new HashSet<>(); }
+        if (Objects.isNull(this.groupBy))
+        {
+            this.groupBy = new HashSet<>();
+        }
         this.groupBy.add(groupBy);
         return this;
     }

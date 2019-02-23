@@ -14,8 +14,7 @@ public interface RpcInvockUtils
         return function.apply(null);
     }
 
-    @NonNull
-    static <T> T invock(final Function<Void, T> function, @NonNull Object param)
+    static <T> T invock(@NonNull final Function<Void, T> function, @NonNull Object param)
     {
         T t = null;
         try

@@ -11,7 +11,7 @@ import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
-import xyz.launcel.lang.SQLHelp;
+import xyz.launcel.utils.SQLHelp;
 import xyz.launcel.log.RootLogger;
 
 import java.io.Serializable;

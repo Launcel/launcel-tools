@@ -1,10 +1,10 @@
 package xyz.launcel.upload;
 
+import lombok.var;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.launcel.exception.ExceptionFactory;
-import xyz.launcel.exception.ProfessionException;
-import xyz.launcel.lang.StringUtils;
 import xyz.launcel.properties.UploadProperties;
+import xyz.launcel.utils.StringUtils;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -34,15 +34,15 @@ public class UploadLocalUtil
     {
         if (Objects.isNull(properties))
         {
-            throw new ProfessionException("", "没有设置相关上传配置...");
+            ExceptionFactory.create("-1", "没有设置相关上传配置...");
         }
 
         try
         {
             FileInputStream in = new FileInputStream(file);
             check(in, file.length());
-            String newName = getNewName(file.getName());
-            File   dir     = new File(getGenPath(newName));
+            var newName = getNewName(file.getName());
+            var dir     = new File(getGenPath(newName));
             if (!dir.getParentFile().exists())
             {
                 if (!dir.getParentFile().mkdirs())
@@ -50,9 +50,9 @@ public class UploadLocalUtil
                     return null;
                 }
             }
-            BufferedOutputStream out    = new BufferedOutputStream(new FileOutputStream(dir));
-            int                  bytesRead;
-            byte[]               buffer = new byte[8192];
+            var out    = new BufferedOutputStream(new FileOutputStream(dir));
+            int bytesRead;
+            var buffer = new byte[8192];
             while ((bytesRead = in.read(buffer, 0, 8192)) != -1)
             {
                 out.write(buffer, 0, bytesRead);
@@ -90,18 +90,27 @@ public class UploadLocalUtil
      */
     public String upload(MultipartFile file)
     {
-        try { check(file.getInputStream(), file.getSize()); }
-        catch (IOException e) { e.printStackTrace(); }
-        String newName = getNewName(file.getOriginalFilename());
-        File   dir     = new File(getGenPath(newName));
+        try
+        {
+            check(file.getInputStream(), file.getSize());
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        var newName = getNewName(file.getOriginalFilename());
+        var dir     = new File(getGenPath(newName));
         if (!dir.getParentFile().exists())
         {
-            if (!dir.getParentFile().mkdirs()) { return null; }
+            if (!dir.getParentFile().mkdirs())
+            {
+                return null;
+            }
         }
         try
         {
             //            file.transferTo(dir);
-            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(getGenPath(newName)));
+            var out = new BufferedOutputStream(new FileOutputStream(getGenPath(newName)));
             out.write(file.getBytes());
             out.flush();
             out.close();
@@ -134,21 +143,24 @@ public class UploadLocalUtil
     private static void checkContent(InputStream in) throws IOException
     {
         //        InputStream in = file.getInputStream();
-        byte[] b = new byte[4];
+        var b = new byte[4];
         if (in == null)
         {
             ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为无法识别的文件");
         }
-        if ((in != null ? in.read(b, 0, b.length) : 0) < 4)
+        if (in.read(b, 0, b.length) < 4)
         {
             ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的文件太小");
         }
-        StringBuilder sb = new StringBuilder();
-        String        hv;
+        var    sb = new StringBuilder();
+        String hv;
         for (byte b1 : b)
         {
             hv = Integer.toHexString(b1 & 0xFF).toLowerCase();
-            if (hv.length() < 2) { sb.append(0); }
+            if (hv.length() < 2)
+            {
+                sb.append(0);
+            }
             sb.append(hv);
         }
         if (properties.getContentType().contains(sb.toString()))
@@ -165,7 +177,7 @@ public class UploadLocalUtil
         {
             ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为无法识别的文件");
         }
-        String ext = originalName.substring(index + 1);
+        var ext = originalName.substring(index + 1);
         checkFile(ext);
         return ext;
     }
@@ -179,13 +191,25 @@ public class UploadLocalUtil
         ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为不能接收的文件类型");
     }
 
-    private static String getNewName(String oldName)    { return getNewFileName(getExt(oldName)); }
+    private static String getNewName(String oldName)
+    {
+        return getNewFileName(getExt(oldName));
+    }
 
-    private static String getSavePath(String newName)   { return File.separator + newName; }
+    private static String getSavePath(String newName)
+    {
+        return File.separator + newName;
+    }
 
-    private static String getGenPath(String newName)    { return properties.getPath() + getSavePath(newName); }
+    private static String getGenPath(String newName)
+    {
+        return properties.getPath() + getSavePath(newName);
+    }
 
-    private static String getDomainPath(String newName) { return properties.getDomain() + getSavePath(newName); }
+    private static String getDomainPath(String newName)
+    {
+        return properties.getDomain() + getSavePath(newName);
+    }
 
     private static String getNewFileName(String ext)
     {

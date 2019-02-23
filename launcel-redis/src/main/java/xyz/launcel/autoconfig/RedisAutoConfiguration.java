@@ -1,5 +1,6 @@
 package xyz.launcel.autoconfig;
 
+import lombok.var;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -24,7 +25,7 @@ import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.lang.NonNull;
-import xyz.launcel.lang.Base64;
+import xyz.launcel.utils.Base64;
 import xyz.launcel.log.RootLogger;
 import xyz.launcel.properties.RedisProperties;
 import xyz.launcel.support.serializer.GsonRedisSerializer;
@@ -48,7 +49,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
 
     private GenericObjectPoolConfig genericObjectPoolConfig()
     {
-        GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
+        var poolConfig = new GenericObjectPoolConfig();
         poolConfig.setMaxIdle(properties.getMaxIdle());
         poolConfig.setMaxTotal(properties.getMaxTotal());
         poolConfig.setMinIdle(properties.getMinIdle());
@@ -58,7 +59,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
 
     private RedisStandaloneConfiguration sinagleConfiguration()
     {
-        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        var redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setDatabase(properties.getDatabase());
         redisStandaloneConfiguration.setHostName(properties.getHost());
         redisStandaloneConfiguration.setPassword(RedisPassword.of(Base64.decode(properties.getPassword())));
@@ -87,16 +88,16 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     @ConditionalOnBean(name = "redisConnectionFactory")
     public RedisTemplate<String, Object> redisTemplate(@Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
     {
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        var template = new RedisTemplate<String, Object>();
         template.setConnectionFactory(redisConnectionFactory);
         //                FastJsonRedisSerializer<?> serializer            = new FastJsonRedisSerializer<>(Object.class);
-        RedisSerializer defaultValueSerializer = new GsonRedisSerializer<>(Object.class);
-        RedisSerializer keySerializer          = new StringRedisSerializer();
+        var defaultValueSerializer = new GsonRedisSerializer<>(Object.class);
+        var keySerializer          = new StringRedisSerializer();
         template.setKeySerializer(keySerializer);
         try
         {
-            Class<?>        clazz                = Class.forName(properties.getValueSerializer());
-            RedisSerializer redisValueSerializer = (RedisSerializer) clazz.getDeclaredConstructor().newInstance();
+            var clazz                = Class.forName(properties.getValueSerializer());
+            var redisValueSerializer = (RedisSerializer) clazz.getDeclaredConstructor().newInstance();
             template.setValueSerializer(redisValueSerializer);
         }
         catch (ReflectiveOperationException e)
@@ -116,7 +117,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     public CacheManager cacheManager(@Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
     {
         // 设置缓存有效期一小时
-        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(1));
+        var redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(1));
         return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory))
                 .cacheDefaults(redisCacheConfiguration)
                 .build();

@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.bind.Bindable;
 import org.springframework.boot.context.properties.bind.Binder;
 import xyz.launcel.constant.SessionFactoryConstant;
-import xyz.launcel.lang.CollectionUtils;
+import xyz.launcel.utils.CollectionUtils;
 import xyz.launcel.properties.DataSourceProperties;
 import xyz.launcel.properties.MybatisProperties;
 import xyz.launcel.properties.RoleDataSourceHolder;

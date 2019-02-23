@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.var;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import xyz.launcel.dao.Page;
-import xyz.launcel.lang.StringUtils;
+import xyz.launcel.utils.StringUtils;
 import xyz.launcel.log.BaseLogger;
 import xyz.launcel.properties.WebAspejctProperties;
 
@@ -36,9 +36,9 @@ public abstract class BaseController extends BaseLogger
 
         String minIdString = this.request.getParameter("minId");
 
-        int     pageNo = 1;
-        int     row    = 20;
-        Integer minId  = 0;
+        int pageNo = 1;
+        int row    = 20;
+        int minId  = 0;
         try
         {
             if (StringUtils.isNotBlank(pageNoString))
@@ -51,7 +51,7 @@ public abstract class BaseController extends BaseLogger
             }
             if (StringUtils.isNotBlank(minIdString))
             {
-                minId = Integer.valueOf(minIdString);
+                minId = Integer.parseInt(minIdString);
             }
         }
         catch (Exception ignore) { }

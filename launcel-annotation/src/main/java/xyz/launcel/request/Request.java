@@ -13,7 +13,6 @@ import java.io.Serializable;
 @Setter
 @Getter
 @ToString
-@Accessors(chain = true)
 public class Request implements Serializable
 {
     private static final long serialVersionUID = 664881353984645891L;

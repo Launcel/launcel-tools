@@ -1,24 +1,24 @@
-package xyz.launcel.aspejct;
-
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
-import xyz.launcel.annotation.AnnotationConston;
-
-@Aspect
-public class ServerAspejct extends ValidateAspejct
-{
-
-//    private final String point = "execution(public * xyz.launcel..*.service.*.*(..))";
-
-    @Pointcut(AnnotationConston.point)
-    public void init() {}
-
-    @Before("init()")
-    public void prepared(JoinPoint joinPoint) { preparedArgs(joinPoint); }
-
-    @AfterReturning(pointcut = "init()", returning = "object")
-    public void after(JoinPoint joinPoint, Object object) { doReturn(joinPoint, object); }
-}
+//package xyz.launcel.aspejct;
+//
+//import org.aspectj.lang.JoinPoint;
+//import org.aspectj.lang.annotation.AfterReturning;
+//import org.aspectj.lang.annotation.Aspect;
+//import org.aspectj.lang.annotation.Before;
+//import org.aspectj.lang.annotation.Pointcut;
+//import xyz.launcel.annotation.AnnotationConston;
+//
+//@Aspect
+//public class ServerAspejct extends ValidateAspejct
+//{
+//
+////    private final String point = "execution(public * xyz.launcel..*.service.*.*(..))";
+//
+//    @Pointcut(AnnotationConston.point)
+//    public void init() {}
+//
+//    @Before("init()")
+//    public void prepared(JoinPoint joinPoint) { preparedArgs(joinPoint); }
+//
+//    @AfterReturning(pointcut = "init()", returning = "object")
+//    public void after(JoinPoint joinPoint, Object object) { doReturn(joinPoint, object); }
+//}

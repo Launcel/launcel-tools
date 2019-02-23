@@ -7,7 +7,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import xyz.launcel.constant.SessionFactoryConstant;
-import xyz.launcel.lang.Base64;
+import xyz.launcel.utils.Base64;
 
 import java.util.List;
 import java.util.Properties;
