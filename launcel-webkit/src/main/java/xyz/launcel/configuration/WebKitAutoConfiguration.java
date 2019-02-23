@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.ContentNegotiationConfi
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import xyz.launcel.handle.GlobalExceptionHandle;
+import xyz.launcel.handler.GlobalExceptionHandler;
 import xyz.launcel.properties.CorsProperties;
 import xyz.launcel.properties.JsonProperties;
 import xyz.launcel.properties.UploadProperties;
@@ -71,17 +71,20 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
         configurer.defaultContentType(MediaType.APPLICATION_JSON_UTF8);
     }
 
+    @Bean(name = "globalExceptionHandle")
     @ConditionalOnProperty(prefix = "web.global-exception", value = "enabled", havingValue = "true")
-    @Bean
-    public GlobalExceptionHandle globalExceptionHandle() { return new GlobalExceptionHandle(); }
+    public GlobalExceptionHandler globalExceptionHandle()
+    {
+        return new GlobalExceptionHandler();
+    }
 
     //    @ConditionalOnProperty(prefix = "web.aspejct", value = "enabled", havingValue = "true")
     //    @Bean
     //    public ControllerParamValidateAspejct controllerParamValidateAspejct() { return new ControllerParamValidateAspejct(); }
 
-    @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
     @Bean
     @Primary
+    @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
     public MultipartConfigElement multipartConfigElement()
     {
         var factory = new MultipartConfigFactory();

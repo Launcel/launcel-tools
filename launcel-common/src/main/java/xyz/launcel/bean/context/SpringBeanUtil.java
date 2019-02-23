@@ -9,6 +9,8 @@ public final class SpringBeanUtil
     static void setApplicationContext(ApplicationContext applicationContext)
     {
         context = applicationContext;
+        System.out.println("init context");
+        System.out.println(context);
     }
 
     public static ApplicationContext getContext()

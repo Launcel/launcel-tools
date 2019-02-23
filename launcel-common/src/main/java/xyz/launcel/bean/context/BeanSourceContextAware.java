@@ -15,6 +15,7 @@ public class BeanSourceContextAware implements ApplicationContextAware, Initiali
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext)
     {
+        System.out.println("set ApplicationContext....");
         SpringBeanUtil.setApplicationContext(applicationContext);
     }
 

@@ -1,20 +1,26 @@
-package xyz.launcel.handle;
+package xyz.launcel.handler;
 
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import lombok.var;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import xyz.launcel.exception.ProfessionException;
 import xyz.launcel.exception.SystemException;
 import xyz.launcel.log.RootLogger;
 import xyz.launcel.response.Response;
 
+import javax.validation.ConstraintViolationException;
+
 /**
  * Created by xuyang in 2017/9/22
  */
-@ResponseBody
-@ControllerAdvice
-public class GlobalExceptionHandle
+@RestControllerAdvice
+public class GlobalExceptionHandler
 {
+
+    public GlobalExceptionHandler()
+    {
+        System.out.println("init GlobalExceptionHandler .....");
+    }
 
     private final String message = "网络错误！";
 
@@ -51,6 +57,16 @@ public class GlobalExceptionHandle
     {
         RootLogger.error("error info : {}", x.getCause());
         return response(message, x.getCode());
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public Response violationException(ConstraintViolationException x)
+    {
+        var cves = x.getConstraintViolations();
+        var sb   = new StringBuilder();
+        cves.forEach(c -> sb.append(c.getMessage()));
+        return response(sb.toString(), "-1");
+
     }
 
     private Response response(String str, String code)
