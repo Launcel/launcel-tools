@@ -1,4 +1,4 @@
-package xyz.launcel.bean.context;
+package xyz.launcel.bean;
 
 import org.springframework.context.ApplicationContext;
 

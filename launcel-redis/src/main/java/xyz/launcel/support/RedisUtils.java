@@ -9,7 +9,7 @@ import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
-import xyz.launcel.bean.context.SpringBeanUtil;
+import xyz.launcel.bean.SpringBeanUtil;
 import xyz.launcel.exception.SystemException;
 import xyz.launcel.utils.Json;
 import xyz.launcel.utils.CollectionUtils;

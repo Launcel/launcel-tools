@@ -3,7 +3,7 @@ package xyz.launcel.dao.util;
 import lombok.var;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSessionFactory;
-import xyz.launcel.bean.context.SpringBeanUtil;
+import xyz.launcel.bean.SpringBeanUtil;
 import xyz.launcel.dao.DaoSupport;
 import xyz.launcel.enumerate.BatchType;
 import xyz.launcel.utils.CollectionUtils;

@@ -1,5 +1,5 @@
-org.springframework.context.ApplicationContextAware=xyz.launcel.bean.context.BeanSourceContextAware
+# org.springframework.context.ApplicationContextAware=xyz.launcel.bean.context.BeanSourceContextAware
 
 
 # autoconfig
-# org.springframework.boot.autoconfigure.EnableAutoConfiguration=xyz.launcel.autoconfig.AsyncTaskAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=xyz.launcel.bean.BeanContextAwareConfiguration
