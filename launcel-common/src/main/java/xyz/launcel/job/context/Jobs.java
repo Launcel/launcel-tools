@@ -16,19 +16,19 @@ public class Jobs
 {
     private final ThreadPoolTaskScheduler threadPoolTaskScheduler;
 
-    private final ConcurrentHashMap<Integer, ScheduledFuture> jobsMap = new ConcurrentHashMap<>(8);
+    private final ConcurrentHashMap<String, ScheduledFuture> jobsMap = new ConcurrentHashMap<>(8);
 
-    public void start(Integer jid)
+    public void start(String jobName)
     {
-        if (jobsMap.containsKey(jid))
+        if (jobsMap.containsKey(jobName))
         {
             return;
         }
     }
 
-    public void stop(Integer jid)
+    public void stop(String jobName)
     {
-        ScheduledFuture<?> future = jobsMap.get(jid);
+        ScheduledFuture<?> future = jobsMap.get(jobName);
         if (Objects.nonNull(future))
         {
             future.cancel(true);

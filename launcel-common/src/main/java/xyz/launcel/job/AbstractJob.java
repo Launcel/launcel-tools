@@ -27,25 +27,39 @@ public abstract class AbstractJob implements InitializingBean
 
     private String corn;
 
-    public abstract Runnable work();
+    protected abstract void work();
 
-    protected void register()
+    protected boolean canWork()
     {
-        var future = scheduler.schedule(work(), new CronTrigger(getCorn()));
+        var entitys = JobDbSupport.query("select * from " + JobDbSupport.getTableName() + " where job_name=?", new Object[]{getJobName()});
+        if (CollectionUtils.isEmpty(entitys))
+        {
+            return false;
+        }
+        var entity = entitys.get(0);
+        if (entity.getStatus() == - 1 || ! entity.getEnabled())
+        {
+            return false;
+        }
+        setJobName(entity.getJobName());
+        setCorn(entity.getCron());
+        return true;
+    }
+
+    protected void registerJob()
+    {
+        var future = scheduler.schedule(() -> {
+            if (canWork())
+            {
+                work();
+            }
+        }, new CronTrigger(getCorn()));
     }
 
     @Override
     public void afterPropertiesSet()
     {
-        var entitys = JobDbSupport.query("select * from " + JobDbSupport.getTableName() + " where job_name=?", new Object[]{getJobName()});
-        if (CollectionUtils.isEmpty(entitys))
-        {
-            return;
-        }
-        var entity = entitys.get(0);
-        setJobName(entity.getJobName());
-        setCorn(entity.getCron());
-        register();
+        registerJob();
     }
 
     public void setCorn(String corn)
