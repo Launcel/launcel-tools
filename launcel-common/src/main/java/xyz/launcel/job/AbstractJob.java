@@ -16,7 +16,6 @@ import xyz.launcel.utils.CollectionUtils;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.concurrent.ScheduledFuture;
 
 public abstract class AbstractJob implements InitializingBean
 {
@@ -32,7 +31,7 @@ public abstract class AbstractJob implements InitializingBean
 
     protected void register()
     {
-        ScheduledFuture future = scheduler.schedule(work(), new CronTrigger(getCorn()));
+        var future = scheduler.schedule(work(), new CronTrigger(getCorn()));
     }
 
     @Override
