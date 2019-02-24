@@ -1,12 +1,10 @@
 package xyz.launcel.exception;
 
 import lombok.var;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
+import xyz.launcel.log.RootLogger;
 import xyz.launcel.utils.CollectionUtils;
 import xyz.launcel.utils.StringUtils;
-import xyz.launcel.log.RootLogger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,10 +29,10 @@ public class ExceptionHelp
             {
                 if (props.isEmpty())
                 {
-                    ResourcePatternResolver resolver  = new PathMatchingResourcePatternResolver();
-                    Resource[]              resources = resolver.getResources("classpath*:/properties/error.properties");
-                    InputStream             in        = null;
-                    InputStreamReader       inr       = null;
+                    var               resolver  = new PathMatchingResourcePatternResolver();
+                    var               resources = resolver.getResources("classpath*:/properties/error.properties");
+                    InputStream       in        = null;
+                    InputStreamReader inr       = null;
                     try
                     {
                         if (!CollectionUtils.sizeIsEmpty(resources))
@@ -61,13 +59,16 @@ public class ExceptionHelp
 
     static Map<String, String> getMessage(String code)
     {
-        Map<String, String> map   = new HashMap<>();
-        String              value = props.getProperty(code);
+        var map   = new HashMap<String, String>();
+        var value = props.getProperty(code);
         if (StringUtils.isNotBlank(value))
         {
             map.put("message", value);
         }
-        else { map.put("message", code); }
+        else
+        {
+            map.put("message", code);
+        }
         return map;
     }
 }

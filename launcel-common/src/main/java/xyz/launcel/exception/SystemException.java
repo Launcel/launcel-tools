@@ -9,12 +9,12 @@ public class SystemException extends AbstractException
 
     protected SystemException()
     {
-        super();
+        this(null);
     }
 
     SystemException(String message)
     {
-        super(message);
+        this(null, message);
     }
 
     public SystemException(String code, String message)

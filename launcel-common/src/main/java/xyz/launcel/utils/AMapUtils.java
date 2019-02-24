@@ -41,7 +41,10 @@ public interface AMapUtils
                 Math.pow(Math.sin(latDiff / 2), 2) + Math.cos(l1.getRadLat()) * Math.cos(l2.getRadLat()) * Math.pow(Math.sin(lngDiff / 2),
                         2)));
         s = s * 6378.137;
-        RootLogger.info("Point({},{})与Point({},{})的距离={}", l1.getLng(), l1.getLat(), l2.getLng(), l2.getLat(), s);
+        if (RootLogger.isDebug())
+        {
+            RootLogger.info("Point({},{})与Point({},{})的距离={}", l1.getLng(), l1.getLat(), l2.getLng(), l2.getLat(), s);
+        }
         return s;
     }
 

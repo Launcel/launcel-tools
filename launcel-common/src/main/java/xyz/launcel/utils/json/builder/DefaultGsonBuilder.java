@@ -40,18 +40,32 @@ public class DefaultGsonBuilder
     public static Gson create()
     {
         if (gson == null)
-            gson = gsonBuilder.create();
+        {
+            synchronized (DefaultGsonBuilder.class)
+            {
+                if (gson == null)
+                {
+                    gson = gsonBuilder.create();
+                }
+            }
+        }
         return gson;
     }
 
     private void setGsonBuilder()
     {
         if (floatingPointValue)
+        {
             gsonBuilder.serializeSpecialFloatingPointValues();
+        }
         if (formatPrint)
+        {
             gsonBuilder.setPrettyPrinting();
+        }
         if (serializeNull)
+        {
             gsonBuilder.serializeNulls();
+        }
 
         switch (dateFormat)
         {

@@ -1,11 +1,11 @@
 package xyz.launcel.holder;
 
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 
 /**
@@ -13,6 +13,8 @@ import lombok.experimental.Accessors;
  */
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class DataSourceConfigMap
 {
     private String           name;
@@ -20,15 +22,4 @@ public class DataSourceConfigMap
     private Boolean          roleDataSource;
     private HikariDataSource dataSource;
 
-    DataSourceConfigMap()
-    {
-    }
-
-    DataSourceConfigMap(String name, Boolean enableTransactal, Boolean roleDataSource, HikariDataSource dataSource)
-    {
-        this.name = name;
-        this.enableTransactal = enableTransactal;
-        this.roleDataSource = roleDataSource;
-        this.dataSource = dataSource;
-    }
 }

@@ -39,7 +39,7 @@ public class UploadLocalUtil
 
         try
         {
-            FileInputStream in = new FileInputStream(file);
+            var in = new FileInputStream(file);
             check(in, file.length());
             var newName = getNewName(file.getName());
             var dir     = new File(getGenPath(newName));

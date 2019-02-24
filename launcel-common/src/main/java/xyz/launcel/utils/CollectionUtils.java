@@ -1,10 +1,11 @@
 package xyz.launcel.utils;
 
+import lombok.var;
 import xyz.launcel.exception.ExceptionFactory;
+import xyz.launcel.exception.SystemException;
 import xyz.launcel.log.RootLogger;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -100,15 +101,15 @@ public interface CollectionUtils
     {
         try
         {
-            Field tail = map.getClass().getDeclaredField("tail");
+            var tail = map.getClass().getDeclaredField("tail");
             tail.setAccessible(true);
             return (Map.Entry<K, V>) tail.get(map);
         }
         catch (ReflectiveOperationException e)
         {
-            RootLogger.error("", e.getCause());
-            return null;
+            e.printStackTrace();
         }
+        return null;
     }
 
 }

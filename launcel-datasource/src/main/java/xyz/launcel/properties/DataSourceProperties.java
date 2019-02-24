@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.var;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import xyz.launcel.constant.SessionFactoryConstant;
 import xyz.launcel.utils.Base64;
@@ -63,7 +64,7 @@ public class DataSourceProperties
 
         public HikariConfig getHikariConfig()
         {
-            HikariConfig config = new HikariConfig();
+            var config = new HikariConfig();
             config.setDriverClassName(getDriverClass());
             config.setPassword(Base64.decode(getPassword()));
             config.setJdbcUrl(getUrl());
@@ -76,7 +77,7 @@ public class DataSourceProperties
             config.setConnectionTestQuery(getConnectionTestQuery());
             config.setReadOnly(getRead());
 
-            Properties dataSourceProperty = new Properties();
+            var dataSourceProperty = new Properties();
             dataSourceProperty.put("dataSource.cachePrepStmts", getCachePrepStmts());
             dataSourceProperty.put("dataSource.prepStmtCacheSize", getPrepStmtCacheSize());
             dataSourceProperty.put("dataSource.prepStmtCacheSqlLimit", getPrepStmtCacheSqlLimit());

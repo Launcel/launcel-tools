@@ -10,7 +10,7 @@ public class ProfessionException extends AbstractException
 
     ProfessionException(String message)
     {
-        super(message);
+        this(null, message);
     }
 
     ProfessionException(String code, String msg)

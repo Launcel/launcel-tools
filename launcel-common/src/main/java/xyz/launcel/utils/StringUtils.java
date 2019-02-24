@@ -34,30 +34,51 @@ public final class StringUtils
     public static boolean isBlank(final CharSequence cs)
     {
         int strLen;
-        if (cs == null || (strLen = cs.length()) == 0) { return true; }
+        if (cs == null || (strLen = cs.length()) == 0)
+        {
+            return true;
+        }
         for (int i = 0; i < strLen; i++)
         {
-            if (!Character.isWhitespace(cs.charAt(i))) { return false; }
+            if (!Character.isWhitespace(cs.charAt(i)))
+            {
+                return false;
+            }
         }
         return true;
     }
 
     public static String capitalize(final String str)
     {
-        if (isBlank(str)) { return null; }
+        if (isBlank(str))
+        {
+            return null;
+        }
 
         char firstChar = str.charAt(0);
-        if (Character.isTitleCase(firstChar)) { return str; }
+        if (Character.isTitleCase(firstChar))
+        {
+            return str;
+        }
 
         return Character.toTitleCase(firstChar) + str.substring(1);
     }
 
-    public static boolean isTrue(String s)  { return "true".equalsIgnoreCase(s); }
+    public static boolean isTrue(String s)
+    {
+        return "true".equalsIgnoreCase(s);
+    }
 
 
-    public static boolean isFalse(String s) { return "false".equalsIgnoreCase(s); }
+    public static boolean isFalse(String s)
+    {
+        return "false".equalsIgnoreCase(s);
+    }
 
-    public static String getUUID()          { return UUID.randomUUID().toString().replaceAll("-", ""); }
+    public static String getUUID()
+    {
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static Stream spiltStream(String strings, String split)
@@ -85,7 +106,10 @@ public final class StringUtils
     private static String random(int count, int start, int end, final boolean letters, final boolean numbers, final char[] chars,
                                  final Random random)
     {
-        if (count == 0) { return ""; }
+        if (count == 0)
+        {
+            return "";
+        }
         else if (count < 0)
         {
             throw new SystemException("_DEFINE_ERROR_CODE_011", "Requested random string length " + count + " is less than 0.");
@@ -97,10 +121,16 @@ public final class StringUtils
 
         if (start == 0 && end == 0)
         {
-            if (chars != null) { end = chars.length; }
+            if (chars != null)
+            {
+                end = chars.length;
+            }
             else
             {
-                if (!letters && !numbers) { end = Integer.MAX_VALUE; }
+                if (!letters && !numbers)
+                {
+                    end = Integer.MAX_VALUE;
+                }
                 else
                 {
                     end = 'z' + 1;
@@ -123,8 +153,14 @@ public final class StringUtils
         while (count-- != 0)
         {
             char ch;
-            if (chars == null) { ch = (char) (random.nextInt(gap) + start); }
-            else { ch = chars[random.nextInt(gap) + start]; }
+            if (chars == null)
+            {
+                ch = (char) (random.nextInt(gap) + start);
+            }
+            else
+            {
+                ch = chars[random.nextInt(gap) + start];
+            }
             if (!(letters && Character.isLetter(ch) || numbers && Character.isDigit(ch) || !letters && !numbers))
             {
                 count++;
@@ -155,7 +191,6 @@ public final class StringUtils
                 count--;
                 buffer[count] = ch;
                 continue;
-
             }
             else if (ch >= 56192 && ch <= 56319)
             {

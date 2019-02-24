@@ -1,6 +1,6 @@
 package xyz.launcel.exception;
 
-import java.util.Map;
+import lombok.var;
 
 /**
  * @author Launcel
@@ -11,7 +11,7 @@ public interface ExceptionFactory
 
     static void create(String code)
     {
-        Map<String, String> map = ExceptionHelp.getMessage(code);
+        var map = ExceptionHelp.getMessage(code);
         create(code, map.get(code));
     }
 
@@ -23,7 +23,7 @@ public interface ExceptionFactory
 
     static void error(String code)
     {
-        Map<String, String> map = ExceptionHelp.getMessage(code);
+        var map = ExceptionHelp.getMessage(code);
         error(code, map.get(code));
     }
 

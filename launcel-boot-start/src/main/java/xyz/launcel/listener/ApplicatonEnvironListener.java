@@ -1,13 +1,13 @@
 package xyz.launcel.listener;
 
 import lombok.RequiredArgsConstructor;
+import lombok.var;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringApplicationRunListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.PriorityOrdered;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.io.ClassPathResource;
 
@@ -28,12 +28,12 @@ public class ApplicatonEnvironListener implements SpringApplicationRunListener, 
     @Override
     public void environmentPrepared(ConfigurableEnvironment environment)
     {
-        YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
+        var yaml = new YamlPropertiesFactoryBean();
         yaml.setResources(new ClassPathResource("launcel-application.yml"));
         if (!Objects.nonNull(yaml.getObject()))
         {
-            MutablePropertySources   source  = environment.getPropertySources();
-            PropertiesPropertySource propert = new PropertiesPropertySource("launcel-application", yaml.getObject());
+            var source  = environment.getPropertySources();
+            var propert = new PropertiesPropertySource("launcel-application", yaml.getObject());
             source.addFirst(propert);
         }
     }

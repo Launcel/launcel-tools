@@ -2,4 +2,5 @@
 
 
 # autoconfig
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=xyz.launcel.bean.BeanContextAwareConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=xyz.launcel.bean.BeanContextAwareConfiguration,\
+xyz.launcel.autoconfig.AsyncTaskAutoConfiguration

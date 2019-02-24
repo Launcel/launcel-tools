@@ -61,8 +61,11 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @Override
     public void addCorsMappings(CorsRegistry registry)
     {
-        registry.addMapping(corsProperties.getPathPattern()).allowedOrigins(corsProperties.getAllowedOrigins()).
-                allowCredentials(true).allowedMethods(corsProperties.getMethods()).maxAge(corsProperties.getMaxAge());
+        registry.addMapping(corsProperties.getPathPattern())
+                .allowedOrigins(corsProperties.getAllowedOrigins())
+                .allowCredentials(true)
+                .allowedMethods(corsProperties.getMethods())
+                .maxAge(corsProperties.getMaxAge());
     }
 
     @Override

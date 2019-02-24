@@ -17,11 +17,6 @@ import javax.validation.ConstraintViolationException;
 public class GlobalExceptionHandler
 {
 
-    public GlobalExceptionHandler()
-    {
-        System.out.println("init GlobalExceptionHandler .....");
-    }
-
     private final String message = "网络错误！";
 
     @ExceptionHandler(value = Throwable.class)
@@ -35,14 +30,14 @@ public class GlobalExceptionHandler
     public Response nullPointerException(NullPointerException x)
     {
         RootLogger.error("error info : {}", x.getCause());
-        return response(x.getMessage(), "-1");
+        return response(message, "-1");
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)
     public Response illegalArgumentException(IllegalArgumentException x)
     {
         RootLogger.error("error info : {}", x.getCause());
-        return response(x.getMessage(), "-1");
+        return response(message, "-1");
     }
 
     @ExceptionHandler(value = ProfessionException.class)
@@ -56,12 +51,13 @@ public class GlobalExceptionHandler
     public Response systemError(SystemException x)
     {
         RootLogger.error("error info : {}", x.getCause());
-        return response(message, x.getCode());
+        return response(x.getMeassge(), x.getCode());
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public Response violationException(ConstraintViolationException x)
     {
+        RootLogger.error("error info : {}", x.getCause());
         var cves = x.getConstraintViolations();
         var sb   = new StringBuilder();
         cves.forEach(c -> sb.append(c.getMessage()));

@@ -2,6 +2,7 @@ package xyz.launcel.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.var;
 import org.springframework.lang.NonNull;
 import xyz.launcel.log.RootLogger;
 
@@ -36,7 +37,7 @@ public class TimeFormatUtil
 
     public static Integer getYear(Date date)
     {
-        Calendar cl = Calendar.getInstance();
+        var cl = Calendar.getInstance();
         cl.setTime(date);
         return cl.get(Calendar.YEAR);
     }
@@ -50,7 +51,7 @@ public class TimeFormatUtil
      */
     public static Integer getMonth(Date date)
     {
-        Calendar cal = Calendar.getInstance();
+        var cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(Calendar.MONTH) + 1;
 
@@ -65,7 +66,7 @@ public class TimeFormatUtil
      */
     public static Integer getDay(Date date)
     {
-        Calendar cal = Calendar.getInstance();
+        var cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(Calendar.DATE);
     }
@@ -79,7 +80,7 @@ public class TimeFormatUtil
      */
     public static Date getFirstDayOfWeek(Date date)
     {
-        Calendar c = Calendar.getInstance();
+        var c = Calendar.getInstance();
         c.setFirstDayOfWeek(Calendar.MONDAY);
         c.setTime(date);
         c.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek()); // Monday
@@ -95,7 +96,7 @@ public class TimeFormatUtil
      */
     public static Date getLastDayOfWeek(Date date)
     {
-        Calendar c = Calendar.getInstance();
+        var c = Calendar.getInstance();
         c.setFirstDayOfWeek(Calendar.MONDAY);
         c.setTime(date);
         c.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek() + 6); // Sunday
@@ -112,12 +113,12 @@ public class TimeFormatUtil
      */
     public static Date getFirstDayOfWeek(int year, int week)
     {
-        Calendar c = Calendar.getInstance();
+        var c = Calendar.getInstance();
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, Calendar.JANUARY);
         c.set(Calendar.DATE, 1);
 
-        Calendar cal = (Calendar) c.clone();
+        var cal = (Calendar) c.clone();
         cal.add(Calendar.DATE, week * 7);
 
         return getFirstDayOfWeek(cal.getTime());
@@ -133,12 +134,12 @@ public class TimeFormatUtil
      */
     public static Date getLastDayOfWeek(int year, int week)
     {
-        Calendar c = Calendar.getInstance();
+        var c = Calendar.getInstance();
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, Calendar.JANUARY);
         c.set(Calendar.DATE, 1);
 
-        Calendar cal = (Calendar) c.clone();
+        var cal = (Calendar) c.clone();
         cal.add(Calendar.DATE, week * 7);
 
         return getLastDayOfWeek(cal.getTime());
@@ -155,7 +156,7 @@ public class TimeFormatUtil
     public static Date getFirstDayOfMonth(int year, int month)
     {
         month = month - 1;
-        Calendar c = Calendar.getInstance();
+        var c = Calendar.getInstance();
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
 
@@ -180,7 +181,7 @@ public class TimeFormatUtil
     public static Date getLastDayOfMonth(int year, int month)
     {
         month = month - 1;
-        Calendar c = Calendar.getInstance();
+        var c = Calendar.getInstance();
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
         int day = c.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -202,12 +203,14 @@ public class TimeFormatUtil
     public static String getDayWeekOfDate1(Date date)
     {
         String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
-        Calendar cal      = Calendar.getInstance();
+        var      cal      = Calendar.getInstance();
         cal.setTime(date);
 
         int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
         if (w < 0)
+        {
             w = 0;
+        }
         return weekDays[w];
     }
 
@@ -220,7 +223,7 @@ public class TimeFormatUtil
      */
     public static Integer getDayWeekOfDate2(Date date)
     {
-        Calendar c = Calendar.getInstance();
+        var c = Calendar.getInstance();
         c.setTime(date);
         return c.get(Calendar.DAY_OF_WEEK);
     }
@@ -241,7 +244,7 @@ public class TimeFormatUtil
      */
     public static Date addDate(Date date, int year, int month, int day, int hour, int minute, int second, int millisecond)
     {
-        Calendar c = Calendar.getInstance();
+        var c = Calendar.getInstance();
         c.setTime(date);
         c.add(Calendar.YEAR, year);//加减年数
         c.add(Calendar.MONTH, month);//加减月数
@@ -308,7 +311,7 @@ public class TimeFormatUtil
     public static List<String> getMonthListOfDate(String beginDateStr, String endDateStr)
     {
         // 指定要解析的时间格式
-        DateFormat f = new SimpleDateFormat("yyyy-MM");
+        var f = new SimpleDateFormat("yyyy-MM");
         // 返回的月份列表
         String sRet;
 
@@ -316,9 +319,9 @@ public class TimeFormatUtil
         Date beginDate;
         Date endDate;
 
-        Calendar     beginGC;
-        Calendar     endGC;
-        List<String> list = new ArrayList<>();
+        Calendar beginGC;
+        Calendar endGC;
+        var      list = new ArrayList<String>();
 
         try
         {
@@ -361,15 +364,15 @@ public class TimeFormatUtil
     public static List<String> getDayListOfDate(String beginDateStr, String endDateStr)
     {
         // 指定要解析的时间格式
-        DateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+        var f = new SimpleDateFormat("yyyy-MM-dd");
 
         // 定义一些变量
         Date beginDate;
         Date endDate;
 
-        Calendar     beginGC;
-        Calendar     endGC;
-        List<String> list = new ArrayList<>();
+        Calendar beginGC;
+        Calendar endGC;
+        var      list = new ArrayList<String>();
 
         try
         {
@@ -383,12 +386,11 @@ public class TimeFormatUtil
 
             endGC = Calendar.getInstance();
             endGC.setTime(endDate);
-            DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            var sdf = new SimpleDateFormat("yyyy-MM-dd");
 
             // 直到两个时间相同
             while (beginGC.getTime().compareTo(endGC.getTime()) <= 0)
             {
-
                 list.add(sdf.format(beginGC.getTime()));
                 // 以日为单位，增加时间
                 beginGC.add(Calendar.DAY_OF_MONTH, 1);
