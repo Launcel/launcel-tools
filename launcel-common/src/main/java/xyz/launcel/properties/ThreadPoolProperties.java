@@ -9,9 +9,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "task.executor")
+@ConfigurationProperties(prefix = "thread.pool")
 public class ThreadPoolProperties
 {
+    private Boolean enabled       = false;
     private Integer corePoolSize  = 1;
     private Integer maxPoolSize   = 8;
     private Integer queueCapacity = 10;
