@@ -117,7 +117,7 @@ public class JobDbSupport
     {
         var    conn   = getConn();
         int    result = 0;
-        String sql    = "update " + jobDbConfig.getTableName() + " set job_name=?, cron=?, status=?, update_time=?, update_user=?";
+        String sql    = "update " + getTableName() + " set job_name=?, cron=?, status=?, update_time=?, update_user=?";
         try
         {
             var ps = conn.prepareStatement(sql);
@@ -135,5 +135,10 @@ public class JobDbSupport
             e.printStackTrace();
         }
         return result;
+    }
+
+    public static String getTableName()
+    {
+        return jobDbConfig.getTableName();
     }
 }
