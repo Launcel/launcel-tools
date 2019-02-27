@@ -10,6 +10,7 @@ package xyz.launcel.job;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.var;
+import org.springframework.beans.factory.InitializingBean;
 import xyz.launcel.job.context.Jobs;
 import xyz.launcel.job.orm.JobDbSupport;
 import xyz.launcel.utils.CollectionUtils;
@@ -17,13 +18,8 @@ import xyz.launcel.utils.StringUtils;
 
 import java.util.Objects;
 
-public abstract class AbstractJob // implements InitializingBean
+public abstract class AbstractJob implements InitializingBean
 {
-
-    public AbstractJob()
-    {
-//        registerJob();
-    }
 
     private Job job = new Job();
 
@@ -67,11 +63,11 @@ public abstract class AbstractJob // implements InitializingBean
         }
     }
 
-    //    @Override
-    //    public void afterPropertiesSet()
-    //    {
-    //        registerJob();
-    //    }
+    @Override
+    public void afterPropertiesSet()
+    {
+        registerJob();
+    }
 
     protected abstract Runnable work();
 
