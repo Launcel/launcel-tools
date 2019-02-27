@@ -10,7 +10,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.core.annotation.Order;
 import org.springframework.lang.NonNull;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -31,7 +30,6 @@ import xyz.launcel.properties.ThreadPoolProperties;
 @EnableAsync
 @EnableConfigurationProperties(value = {ThreadPoolProperties.class, SchedulePoolProperties.class, JobDatasourceProperties.class})
 @RequiredArgsConstructor
-@Order(1)
 public class CommonAutoConfiguration implements ApplicationContextAware, InitializingBean
 {
     private final ThreadPoolProperties    threadPoolProperties;

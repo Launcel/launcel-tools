@@ -1,6 +1,7 @@
 package xyz.launcel.bean;
 
 import org.springframework.context.ApplicationContext;
+import xyz.launcel.log.RootLogger;
 
 public final class SpringBeanUtil
 {
@@ -10,7 +11,8 @@ public final class SpringBeanUtil
     {
         if (context == null)
         {
-            System.out.println("init ApplicationContext... " + applicationContext.toString());
+            RootLogger.debug("init ApplicationContext... ");
+            RootLogger.debug(applicationContext.toString());
             context = applicationContext;
         }
     }
