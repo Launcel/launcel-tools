@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.var;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
-import xyz.launcel.bean.SpringBeanUtil;
+import xyz.launcel.autoconfig.SpringBeanUtil;
 import xyz.launcel.ensure.Me;
 import xyz.launcel.job.AbstractJob;
 
@@ -49,8 +49,6 @@ public class Jobs
 
     private static ScheduledFuture execute(Runnable r, String cron)
     {
-        System.out.print("scheduler == ");
-        System.out.println(scheduler.toString());
         return scheduler.schedule(r, new CronTrigger(cron));
     }
 }

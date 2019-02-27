@@ -15,7 +15,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import xyz.launcel.bean.SpringBeanUtil;
 import xyz.launcel.exception.ExceptionHelp;
 import xyz.launcel.job.config.JobDbConfig;
 import xyz.launcel.job.config.impl.CacheJobDbConfig;
@@ -60,8 +59,7 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
         scheduler.setThreadGroupName("taskScheduler-");
         scheduler.setWaitForTasksToCompleteOnShutdown(true);
         scheduler.setAwaitTerminationSeconds(300);
-        System.out.println("init ....");
-        System.out.println("scheduler == " + scheduler.toString());
+
         return scheduler;
     }
 
@@ -82,8 +80,6 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext)
     {
-        System.out.print("init ApplicationContext  ==");
-        System.out.println(applicationContext.toString());
         SpringBeanUtil.setApplicationContext(applicationContext);
     }
 
