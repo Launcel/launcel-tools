@@ -5,11 +5,10 @@ import lombok.NoArgsConstructor;
 import lombok.var;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
+import xyz.launcel.bean.SpringBeanUtil;
 import xyz.launcel.ensure.Me;
 import xyz.launcel.job.AbstractJob;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
@@ -17,10 +16,7 @@ import java.util.concurrent.ScheduledFuture;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Jobs
 {
-    //    private static final ThreadPoolTaskScheduler scheduler = SpringBeanUtil.getBean(ThreadPoolTaskScheduler.class);
-    @Inject
-    @Named("scheduler")
-    private static ThreadPoolTaskScheduler scheduler;
+    private static final ThreadPoolTaskScheduler scheduler = SpringBeanUtil.getBean(ThreadPoolTaskScheduler.class);
 
     private static final ConcurrentHashMap<Integer, ScheduledFuture> jobsMap = new ConcurrentHashMap<>(8);
 
@@ -53,7 +49,8 @@ public class Jobs
 
     private static ScheduledFuture execute(Runnable r, String cron)
     {
-        System.out.println("scheduler == " + scheduler.toString());
+        System.out.print("scheduler == ");
+        System.out.println(scheduler.toString());
         return scheduler.schedule(r, new CronTrigger(cron));
     }
 }

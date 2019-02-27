@@ -1,3 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-xyz.launcel.bean.BeanContextAwareConfiguration,\
-xyz.launcel.autoconfig.ThreadPoolAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=xyz.launcel.autoconfig.CommonAutoConfiguration

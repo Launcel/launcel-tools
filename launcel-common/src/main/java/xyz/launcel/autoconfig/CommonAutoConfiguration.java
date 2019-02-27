@@ -2,15 +2,21 @@ package xyz.launcel.autoconfig;
 
 import lombok.RequiredArgsConstructor;
 import lombok.var;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
+import org.springframework.lang.NonNull;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import xyz.launcel.bean.SpringBeanUtil;
+import xyz.launcel.exception.ExceptionHelp;
 import xyz.launcel.job.config.JobDbConfig;
 import xyz.launcel.job.config.impl.CacheJobDbConfig;
 import xyz.launcel.properties.JobDatasourceProperties;
@@ -25,7 +31,7 @@ import xyz.launcel.properties.ThreadPoolProperties;
 @EnableConfigurationProperties(value = {ThreadPoolProperties.class, SchedulePoolProperties.class, JobDatasourceProperties.class})
 @RequiredArgsConstructor
 @Order(1)
-public class ThreadPoolAutoConfiguration
+public class CommonAutoConfiguration implements ApplicationContextAware, InitializingBean
 {
     private final ThreadPoolProperties    threadPoolProperties;
     private final SchedulePoolProperties  schedulerPoolProperties;
@@ -71,5 +77,19 @@ public class ThreadPoolAutoConfiguration
         jobDbConfig.setUser(jobDatasourceProperties.getUser());
         jobDbConfig.setPassword(jobDatasourceProperties.getPassword());
         return jobDbConfig;
+    }
+
+    @Override
+    public void setApplicationContext(@NonNull ApplicationContext applicationContext)
+    {
+        System.out.print("init ApplicationContext  ==");
+        System.out.println(applicationContext.toString());
+        SpringBeanUtil.setApplicationContext(applicationContext);
+    }
+
+    @Override
+    public void afterPropertiesSet()
+    {
+        ExceptionHelp.initProperties();
     }
 }
