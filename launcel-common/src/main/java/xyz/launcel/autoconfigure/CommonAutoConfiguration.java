@@ -1,5 +1,6 @@
 package xyz.launcel.autoconfigure;
 
+import lombok.RequiredArgsConstructor;
 import lombok.var;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -9,6 +10,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
 import org.springframework.lang.NonNull;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
@@ -18,7 +20,7 @@ import xyz.launcel.job.config.JobDbConfig;
 import xyz.launcel.job.config.impl.CacheJobDbConfig;
 import xyz.launcel.job.context.Jobs;
 import xyz.launcel.properties.JobDatasourceProperties;
-import xyz.launcel.properties.SchedulePoolProperties;
+import xyz.launcel.properties.SchedulerPoolProperties;
 import xyz.launcel.properties.ThreadPoolProperties;
 
 /**
@@ -26,12 +28,13 @@ import xyz.launcel.properties.ThreadPoolProperties;
  */
 @Configuration
 //@EnableAsync
-@EnableConfigurationProperties(value = {ThreadPoolProperties.class, SchedulePoolProperties.class, JobDatasourceProperties.class})
-//@RequiredArgsConstructor
+@EnableConfigurationProperties(value = {ThreadPoolProperties.class, SchedulerPoolProperties.class, JobDatasourceProperties.class})
+@RequiredArgsConstructor
+@Order(1)
 public class CommonAutoConfiguration implements ApplicationContextAware, InitializingBean
 {
     private final ThreadPoolProperties    threadPoolProperties;
-    private final SchedulePoolProperties  schedulerPoolProperties;
+    private final SchedulerPoolProperties schedulerPoolProperties;
     private final JobDatasourceProperties jobDatasourceProperties;
 
     @Bean(name = "executor")
@@ -89,14 +92,5 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     public void afterPropertiesSet()
     {
         ExceptionHelp.initProperties();
-    }
-
-    public CommonAutoConfiguration(
-            ThreadPoolProperties threadPoolProperties, SchedulePoolProperties schedulerPoolProperties, JobDatasourceProperties jobDatasourceProperties)
-    {
-        this.threadPoolProperties = threadPoolProperties;
-        this.schedulerPoolProperties = schedulerPoolProperties;
-        this.jobDatasourceProperties = jobDatasourceProperties;
-        System.out.print("init CommonAutoConfiguration... ");
     }
 }

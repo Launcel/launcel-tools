@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "job.scheduler")
-public class SchedulePoolProperties
+public class SchedulerPoolProperties
 {
     private Boolean enabled  = false;
     private Integer poolSize = 10;
