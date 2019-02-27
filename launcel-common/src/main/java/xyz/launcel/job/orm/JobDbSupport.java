@@ -2,6 +2,7 @@ package xyz.launcel.job.orm;
 
 import lombok.var;
 import xyz.launcel.bean.SpringBeanUtil;
+import xyz.launcel.commonName.BeanNameList;
 import xyz.launcel.ensure.Me;
 import xyz.launcel.job.config.JobDbConfig;
 
@@ -21,7 +22,7 @@ public class JobDbSupport
     }
     private static void init()
     {
-        jobDbConfig = SpringBeanUtil.getBean(JobDbConfig.class);
+        jobDbConfig = SpringBeanUtil.getBean(BeanNameList.jobDbConfig);
         try
         {
             Class.forName(jobDbConfig.getDriverClass()).getDeclaredConstructor().newInstance();

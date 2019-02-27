@@ -11,10 +11,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
 import xyz.launcel.bean.SpringBeanUtil;
 import xyz.launcel.exception.SystemException;
-import xyz.launcel.utils.Json;
-import xyz.launcel.utils.CollectionUtils;
-import xyz.launcel.utils.StringUtils;
 import xyz.launcel.properties.RedisProperties;
+import xyz.launcel.redisBean.BeanNameList;
+import xyz.launcel.utils.CollectionUtils;
+import xyz.launcel.utils.Json;
+import xyz.launcel.utils.StringUtils;
 
 import java.util.Map;
 import java.util.Objects;
@@ -30,7 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class RedisUtils
 {
     @Getter
-    private static RedisTemplate<String, String> template   = SpringBeanUtil.getBean("redisTemplate");
+    private static RedisTemplate<String, String> template   = SpringBeanUtil.getBean(BeanNameList.redisTemplate);
     @Getter
     private static long                          expireTime = SpringBeanUtil.getBean(RedisProperties.class).getExptime();
 
@@ -61,8 +62,7 @@ public final class RedisUtils
                 {
                     if (StringUtils.isNotBlank(entry.getKey()))
                     {
-                        var result = conn.setEx(StringUtils.serializer(entry.getKey()), expireTime,
-                                StringUtils.serializer(Json.toString(entry.getValue())));
+                        var result = conn.setEx(StringUtils.serializer(entry.getKey()), expireTime, StringUtils.serializer(Json.toString(entry.getValue())));
                         if (result != null && result)
                         {
                             num++;
