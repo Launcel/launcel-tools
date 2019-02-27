@@ -13,6 +13,7 @@ public class JobDatasourceProperties
     private Boolean enabled     = false;
     @NonNull
     private String  tableName;
+    @NonNull
     private String  driverClass = "com.mysql.jdbc.Driver";
     @NonNull
     private String  user;
