@@ -1,4 +1,4 @@
-package xyz.launcel.autoconfig;
+package xyz.launcel.bean;
 
 import org.springframework.context.ApplicationContext;
 
@@ -6,9 +6,13 @@ public final class SpringBeanUtil
 {
     private static ApplicationContext context;
 
-    static void setApplicationContext(ApplicationContext applicationContext)
+    public static void setApplicationContext(ApplicationContext applicationContext)
     {
-        context = applicationContext;
+        if (context == null)
+        {
+            System.out.println("init ApplicationContext... " + applicationContext.toString());
+            context = applicationContext;
+        }
     }
 
     public static ApplicationContext getContext()

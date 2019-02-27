@@ -25,36 +25,46 @@ public class ExceptionHelp
     {
         try
         {
-            synchronized (props)
+
+            if (props.isEmpty())
             {
-                if (props.isEmpty())
+                var               resolver  = new PathMatchingResourcePatternResolver();
+                var               resources = resolver.getResources("classpath*:/properties/error.properties");
+                InputStream       in        = null;
+                InputStreamReader inr       = null;
+                try
                 {
-                    var               resolver  = new PathMatchingResourcePatternResolver();
-                    var               resources = resolver.getResources("classpath*:/properties/error.properties");
-                    InputStream       in        = null;
-                    InputStreamReader inr       = null;
-                    try
+                    if (! CollectionUtils.sizeIsEmpty(resources))
                     {
-                        if (!CollectionUtils.sizeIsEmpty(resources))
+                        for (var resource : resources)
                         {
-                            for (var resource : resources)
-                            {
-                                in = resource.getInputStream();
-                                inr = new InputStreamReader(in, StandardCharsets.UTF_8);
-                                props.load(inr);
-                            }
+                            in = resource.getInputStream();
+                            inr = new InputStreamReader(in, StandardCharsets.UTF_8);
+                            props.load(inr);
                         }
                     }
-                    finally
+                }
+                finally
+                {
+                    if (inr != null)
                     {
-                        if (inr != null) { inr.close(); }
-                        if (in != null) { in.close(); }
+                        inr.close();
                     }
-                    if (RootLogger.isDebug()) { RootLogger.debug("  >>>   错误信息加载完毕！"); }
+                    if (in != null)
+                    {
+                        in.close();
+                    }
+                }
+                if (RootLogger.isDebug())
+                {
+                    RootLogger.debug("  >>>   错误信息加载完毕！");
                 }
             }
         }
-        catch (IOException e) { throw new SystemException("  >>>   错误信息文件加载失败!"); }
+        catch (IOException e)
+        {
+            throw new SystemException("  >>>   错误信息文件加载失败!");
+        }
     }
 
     static Map<String, String> getMessage(String code)

@@ -1,7 +1,7 @@
 package xyz.launcel.job.orm;
 
 import lombok.var;
-import xyz.launcel.autoconfig.SpringBeanUtil;
+import xyz.launcel.bean.SpringBeanUtil;
 import xyz.launcel.commonName.BeanNameList;
 import xyz.launcel.ensure.Me;
 import xyz.launcel.job.config.JobDbConfig;
