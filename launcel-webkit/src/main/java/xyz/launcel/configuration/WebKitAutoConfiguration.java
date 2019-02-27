@@ -8,6 +8,7 @@ import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
@@ -31,6 +32,7 @@ import java.util.List;
 @EnableWebMvc
 @EnableConfigurationProperties(value = {CorsProperties.class, UploadProperties.class, JsonProperties.class})
 @RequiredArgsConstructor
+@Order(1)
 public class WebKitAutoConfiguration implements WebMvcConfigurer
 {
     private final CorsProperties   corsProperties;
