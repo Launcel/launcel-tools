@@ -1,4 +1,4 @@
-//package xyz.launcel.autoconfig;
+//package xyz.launcel.autoconfigure;
 //
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;

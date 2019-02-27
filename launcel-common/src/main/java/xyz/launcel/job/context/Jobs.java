@@ -7,7 +7,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import xyz.launcel.ensure.Me;
 import xyz.launcel.job.AbstractJob;
-import xyz.launcel.log.RootLogger;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,7 +21,7 @@ public class Jobs
 
     public static void add(AbstractJob.Job job, Runnable r)
     {
-        ScheduledFuture future = execute(r, job.getCron());
+        var future = execute(r, job.getCron());
         Me.builder(future).isNull("create job error!!!");
         jobsMap.put(job.getId(), future);
     }
@@ -56,8 +55,6 @@ public class Jobs
     {
         if (scheduler == null)
         {
-            RootLogger.debug("init ThreadPoolTaskScheduler...  ");
-            RootLogger.debug(schedulerPool.toString());
             scheduler = schedulerPool;
         }
     }

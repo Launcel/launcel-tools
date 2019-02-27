@@ -57,7 +57,7 @@ public class ExceptionHelp
                 }
                 if (RootLogger.isDebug())
                 {
-                    RootLogger.debug("  >>>   错误信息加载完毕！");
+                    System.out.print("  >>>   错误信息加载完毕！");
                 }
             }
         }

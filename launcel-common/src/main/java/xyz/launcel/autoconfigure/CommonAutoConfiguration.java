@@ -1,6 +1,5 @@
-package xyz.launcel.autoconfig;
+package xyz.launcel.autoconfigure;
 
-import lombok.RequiredArgsConstructor;
 import lombok.var;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -18,7 +17,6 @@ import xyz.launcel.exception.ExceptionHelp;
 import xyz.launcel.job.config.JobDbConfig;
 import xyz.launcel.job.config.impl.CacheJobDbConfig;
 import xyz.launcel.job.context.Jobs;
-import xyz.launcel.log.RootLogger;
 import xyz.launcel.properties.JobDatasourceProperties;
 import xyz.launcel.properties.SchedulePoolProperties;
 import xyz.launcel.properties.ThreadPoolProperties;
@@ -29,7 +27,7 @@ import xyz.launcel.properties.ThreadPoolProperties;
 @Configuration
 //@EnableAsync
 @EnableConfigurationProperties(value = {ThreadPoolProperties.class, SchedulePoolProperties.class, JobDatasourceProperties.class})
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class CommonAutoConfiguration implements ApplicationContextAware, InitializingBean
 {
     private final ThreadPoolProperties    threadPoolProperties;
@@ -59,8 +57,8 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
         scheduler.setThreadGroupName("taskScheduler-");
         scheduler.setWaitForTasksToCompleteOnShutdown(true);
         scheduler.setAwaitTerminationSeconds(300);
-        RootLogger.debug("init ThreadPoolTaskScheduler bean--");
-        RootLogger.debug(scheduler.toString());
+        System.out.print("init ThreadPoolTaskScheduler bean--");
+        System.out.print(scheduler.toString());
         Jobs.setScheduler(scheduler);
         return scheduler;
     }
@@ -82,8 +80,8 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext)
     {
-        RootLogger.debug("init ApplicationContext... ");
-        RootLogger.debug(applicationContext.toString());
+        System.out.print("init ApplicationContext... ");
+        System.out.print(applicationContext.toString());
         SpringBeanUtil.setApplicationContext(applicationContext);
     }
 
@@ -91,5 +89,14 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     public void afterPropertiesSet()
     {
         ExceptionHelp.initProperties();
+    }
+
+    public CommonAutoConfiguration(
+            ThreadPoolProperties threadPoolProperties, SchedulePoolProperties schedulerPoolProperties, JobDatasourceProperties jobDatasourceProperties)
+    {
+        this.threadPoolProperties = threadPoolProperties;
+        this.schedulerPoolProperties = schedulerPoolProperties;
+        this.jobDatasourceProperties = jobDatasourceProperties;
+        System.out.print("init CommonAutoConfiguration... ");
     }
 }

@@ -1,4 +1,4 @@
-package xyz.launcel.autoconfig;
+package xyz.launcel.autoconfigure;
 
 import lombok.var;
 import org.apache.ibatis.plugin.Interceptor;

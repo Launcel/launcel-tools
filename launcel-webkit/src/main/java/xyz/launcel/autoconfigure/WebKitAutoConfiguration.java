@@ -1,4 +1,4 @@
-package xyz.launcel.configuration;
+package xyz.launcel.autoconfigure;
 
 import lombok.RequiredArgsConstructor;
 import lombok.var;
