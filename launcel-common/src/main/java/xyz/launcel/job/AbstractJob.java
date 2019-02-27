@@ -7,53 +7,60 @@
 
 package xyz.launcel.job;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.var;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import org.springframework.scheduling.support.CronTrigger;
+import xyz.launcel.job.context.Jobs;
 import xyz.launcel.job.orm.JobDbSupport;
 import xyz.launcel.utils.CollectionUtils;
+import xyz.launcel.utils.StringUtils;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import java.util.Objects;
 
 public abstract class AbstractJob implements InitializingBean
 {
-    @Inject
-    @Named(value = "scheduler")
-    private ThreadPoolTaskScheduler scheduler;
 
-    private String jobName;
-
-    private String corn;
-
-    protected abstract void work();
+    private Job job = new Job();
 
     protected boolean canWork()
     {
         var entitys = JobDbSupport.query("select * from " + JobDbSupport.getTableName() + " where job_name=?", new Object[]{getJobName()});
-        if (CollectionUtils.isEmpty(entitys))
+        if (CollectionUtils.isEmpty(entitys) || entitys.size() > 1)
         {
             return false;
         }
         var entity = entitys.get(0);
-        if (entity.getStatus() == - 1 || ! entity.getEnabled())
+        if (entity.getStatus() == - 1 || ! entity.getEnabled() || StringUtils.isBlank(entity.getCron()))
         {
             return false;
         }
-        setJobName(entity.getJobName());
-        setCorn(entity.getCron());
+        job.setCron(entity.getCron());
+        job.setId(entity.getId());
+        job.setStatus(entity.getStatus());
         return true;
     }
 
     protected void registerJob()
     {
-        var future = scheduler.schedule(() -> {
-            if (canWork())
-            {
-                work();
-            }
-        }, new CronTrigger(getCorn()));
+        if (canWork())
+        {
+            Jobs.add(job, work());
+        }
+    }
+
+    protected void stop()
+    {
+        Jobs.stop(job.getId());
+    }
+
+    protected void reset()
+    {
+        job = getCurrentJob();
+        if (Objects.nonNull(job))
+        {
+            Jobs.reset(job, work());
+        }
     }
 
     @Override
@@ -62,23 +69,46 @@ public abstract class AbstractJob implements InitializingBean
         registerJob();
     }
 
-    public void setCorn(String corn)
+    protected abstract Runnable work();
+
+    protected abstract String getJobName();
+
+    protected Integer getJobId()
     {
-        this.corn = corn;
+        return job.getId();
     }
 
-    public void setJobName(String jobName)
+    protected String getCron()
     {
-        this.jobName = jobName;
+        return job.getCron();
     }
 
-    public String getCorn()
+    protected Job getCurrentJob()
     {
-        return corn;
+        var entitys = JobDbSupport.query("select * from " + JobDbSupport.getTableName() + " where id=? limit 1", new Object[]{job.getId()});
+        if (CollectionUtils.isEmpty(entitys) || entitys.size() > 1)
+        {
+            return null;
+        }
+        var entity = entitys.get(0);
+        if (entity.getStatus() == - 1 || ! entity.getEnabled() || StringUtils.isBlank(entity.getCron()))
+        {
+            return null;
+        }
+        job.setCron(entity.getCron());
+        job.setId(entity.getId());
+        job.setJobName(entity.getJobName());
+        job.setStatus(entity.getStatus());
+        return job;
     }
 
-    public String getJobName()
+    @Getter
+    @Setter
+    public static class Job
     {
-        return jobName;
+        private Integer id;
+        private String  jobName;
+        private String  cron;
+        private Short   status;
     }
 }

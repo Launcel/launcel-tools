@@ -2,53 +2,41 @@ package xyz.launcel.job.orm;
 
 import lombok.var;
 import xyz.launcel.bean.SpringBeanUtil;
+import xyz.launcel.ensure.Me;
 import xyz.launcel.job.config.JobDbConfig;
 
 import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.ResultSet;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 public class JobDbSupport
 {
-    private static JobDbConfig jobDbConfig = SpringBeanUtil.getBean(JobDbConfig.class);
-
-    private static Driver driver;
-
-    private static Properties info;
-
-    private static Driver getDriver()
+    private static JobDbConfig jobDbConfig;
+    static
     {
-        if (driver == null)
-            synchronized (JobDbSupport.class)
-            {
-                if (driver == null)
-                {
-                    try
-                    {
-                        driver = (Driver) Class.forName(jobDbConfig.getDriverClass()).getDeclaringClass().newInstance();
-                        info = new Properties();
-                        info.put("user", jobDbConfig.getUser());
-                        info.put("password", jobDbConfig.getPassword());
-                    }
-                    catch (ReflectiveOperationException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        return driver;
+        init();
+    }
+    private static void init()
+    {
+        jobDbConfig = SpringBeanUtil.getBean(JobDbConfig.class);
+        try
+        {
+            Class.forName(jobDbConfig.getDriverClass()).getDeclaredConstructor().newInstance();
+        }
+        catch (ReflectiveOperationException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private static Connection getConn()
     {
         try
         {
-            return getDriver().connect(jobDbConfig.getUrl(), info);
+            return DriverManager.getConnection(jobDbConfig.getUrl(), jobDbConfig.getUser(), jobDbConfig.getPassword());
         }
         catch (SQLException e)
         {
@@ -62,25 +50,27 @@ public class JobDbSupport
         var list = new ArrayList<ScheduleJobEntity>();
         try
         {
-            var conn  = getConn();
+            var conn = getConn();
+            Me.builder(conn).isNull("create Connection error!!!");
             var pstmt = conn.prepareStatement(sql);
             for (int i = 1; i < objects.length + 1; i++)
             {
                 pstmt.setObject(i, objects[i - 1]);
-                ResultSet rs = pstmt.executeQuery();
-                while (rs.next())
-                {
-                    var entity = new ScheduleJobEntity();
-                    entity.setId(rs.getInt("id"));
-                    entity.setJobName(rs.getString("job_name"));
-                    entity.setCron(rs.getString("cron"));
-                    entity.setStatus(rs.getShort("status"));
-                    list.add(entity);
-                }
-                rs.close();
-                pstmt.close();
-                conn.close();
             }
+            var rs = pstmt.executeQuery();
+            while (rs.next())
+            {
+                var entity = new ScheduleJobEntity();
+                entity.setId(rs.getInt("id"));
+                entity.setJobName(rs.getString("job_name"));
+                entity.setCron(rs.getString("cron"));
+                entity.setStatus(rs.getShort("status"));
+                entity.setEnabled(rs.getBoolean("enabled"));
+                list.add(entity);
+            }
+            rs.close();
+            pstmt.close();
+            conn.close();
         }
         catch (SQLException e)
         {
@@ -91,9 +81,10 @@ public class JobDbSupport
 
     public static int add(ScheduleJobEntity entity)
     {
-        var    conn   = getConn();
+        var conn = getConn();
+        Me.builder(conn).isNull("create Connection error!!!");
         int    result = 0;
-        String sql    = "insert into " + jobDbConfig.getTableName() + "( job_name, cron, status, create_time, create_user) values(?, ?, ?, ?, ?)";
+        String sql    = "insert into " + jobDbConfig.getTableName() + "( job_name, cron, status, create_time, create_user, enabled) values(?, ?, ?, ?, ?, 1)";
         try
         {
             var pstmt = conn.prepareStatement(sql);
@@ -115,9 +106,10 @@ public class JobDbSupport
 
     public static int update(ScheduleJobEntity entity)
     {
-        var    conn   = getConn();
+        var conn = getConn();
+        Me.builder(conn).isNull("create Connection error!!!");
         int    result = 0;
-        String sql    = "update " + getTableName() + " set job_name=?, cron=?, status=?, update_time=?, update_user=?";
+        String sql    = "update " + getTableName() + " set job_name=?, cron=?, status=?, update_time=?, update_user=?, enabled=?";
         try
         {
             var ps = conn.prepareStatement(sql);
@@ -126,6 +118,7 @@ public class JobDbSupport
             ps.setShort(3, entity.getStatus());
             ps.setObject(4, new Date());
             ps.setString(5, entity.getUpdateUser());
+            ps.setBoolean(6, entity.getEnabled());
             result = ps.executeUpdate();
             ps.close();
             conn.close();

@@ -12,6 +12,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import xyz.launcel.job.config.JobDbConfig;
 import xyz.launcel.job.config.impl.CacheJobDbConfig;
+import xyz.launcel.job.context.Jobs;
 import xyz.launcel.properties.JobDatasourceProperties;
 import xyz.launcel.properties.SchedulePoolProperties;
 import xyz.launcel.properties.ThreadPoolProperties;
@@ -52,6 +53,7 @@ public class AsyncTaskAutoConfiguration
         scheduler.setThreadGroupName("taskScheduler-");
         scheduler.setWaitForTasksToCompleteOnShutdown(true);
         scheduler.setAwaitTerminationSeconds(300);
+        Jobs.setScheduler(scheduler);
         return scheduler;
     }
 
