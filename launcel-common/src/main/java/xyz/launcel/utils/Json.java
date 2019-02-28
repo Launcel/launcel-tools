@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.NonNull;
 import xyz.launcel.exception.SystemException;
 import xyz.launcel.utils.json.builder.DefaultGsonBuilder;
 import xyz.launcel.utils.json.builder.GenericsParameterizedType;
@@ -18,7 +19,7 @@ public class Json
 
     public static String toString(Object object) { return gson.toJson(object); }
 
-    public static <T> T parse(final String jsonObject, final Class<T> clazz)
+    public static <T> T parse(@NonNull final String jsonObject, @NonNull final Class<T> clazz)
     {
         try
         {
@@ -30,7 +31,7 @@ public class Json
         }
     }
 
-    public static <T> List<T> parseArray(final String json, final Class<T> t)
+    public static <T> List<T> parseArray(@NonNull final String json, @NonNull final Class<T> t)
     {
         try
         {
@@ -40,7 +41,6 @@ public class Json
         {
             throw new SystemException("_DEFINE_ERROR_CODE_011", "Json转换异常");
         }
-
     }
 
     //    public static <T> List<T> toObjectList(final String json, final Class<T> t)

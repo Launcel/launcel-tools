@@ -3,6 +3,7 @@ package xyz.launcel.dao.util;
 import lombok.var;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.lang.NonNull;
 import xyz.launcel.bean.SpringBeanUtil;
 import xyz.launcel.dao.DaoSupport;
 import xyz.launcel.enumerate.BatchType;
@@ -18,7 +19,7 @@ public class BatchUtils
 
     private static ThreadLocal<SqlSessionFactory> localSqlSessionFactory = null;
 
-    public static void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory)
+    public static void setSqlSessionFactory(@NonNull SqlSessionFactory sqlSessionFactory)
     {
         localSqlSessionFactory = new ThreadLocal<>();
         localSqlSessionFactory.set(sqlSessionFactory);

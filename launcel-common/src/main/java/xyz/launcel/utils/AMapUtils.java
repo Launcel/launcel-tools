@@ -1,6 +1,7 @@
 package xyz.launcel.utils;
 
 import lombok.Getter;
+import org.springframework.lang.NonNull;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.log.RootLogger;
 
@@ -10,7 +11,6 @@ import java.util.Locale;
 
 public interface AMapUtils
 {
-
 
     /**
      * @param lat 纬度
@@ -31,15 +31,14 @@ public interface AMapUtils
      *
      * @return two point legth
      */
-    static double getDistance(Point l1, Point l2)
+    static double getDistance(@NonNull Point l1, @NonNull Point l2)
     {
         // 纬度的弧度差
         double latDiff = l1.getRadLat() - l2.getRadLat();
         // 经度的弧度差
         double lngDiff = l1.getRadLng() - l2.getRadLng();
-        double s = 2 * Math.asin(Math.sqrt(
-                Math.pow(Math.sin(latDiff / 2), 2) + Math.cos(l1.getRadLat()) * Math.cos(l2.getRadLat()) * Math.pow(Math.sin(lngDiff / 2),
-                        2)));
+        double s = 2 * Math.asin(
+                Math.sqrt(Math.pow(Math.sin(latDiff / 2), 2) + Math.cos(l1.getRadLat()) * Math.cos(l2.getRadLat()) * Math.pow(Math.sin(lngDiff / 2), 2)));
         s = s * 6378.137;
         if (RootLogger.isDebug())
         {
@@ -88,12 +87,12 @@ public interface AMapUtils
         {
             if (check)
             {
-                if (lng < -180d || lng > 180d)
+                if (lng < - 180d || lng > 180d)
                 {
                     ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "经度值不在范围内");
                 }
 
-                if (lat < -90d || lat > 90d)
+                if (lat < - 90d || lat > 90d)
                 {
                     ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "纬度值不在范围内");
                 }

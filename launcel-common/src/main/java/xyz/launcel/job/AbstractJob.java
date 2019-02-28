@@ -41,7 +41,7 @@ public abstract class AbstractJob implements InitializingBean
         return true;
     }
 
-    protected void registerJob()
+    protected void register()
     {
         if (canWork())
         {
@@ -66,7 +66,7 @@ public abstract class AbstractJob implements InitializingBean
     @Override
     public void afterPropertiesSet()
     {
-        registerJob();
+        register();
     }
 
     protected abstract Runnable work();

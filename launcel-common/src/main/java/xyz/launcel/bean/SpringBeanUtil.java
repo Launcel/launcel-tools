@@ -1,12 +1,13 @@
 package xyz.launcel.bean;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.lang.NonNull;
 
 public final class SpringBeanUtil
 {
     private static ApplicationContext context;
 
-    public static void setApplicationContext(ApplicationContext applicationContext)
+    public static void setApplicationContext(@NonNull ApplicationContext applicationContext)
     {
         if (context == null)
         {
@@ -19,18 +20,18 @@ public final class SpringBeanUtil
         return context;
     }
 
-    public static <T> T getBean(Class<T> clazz)
+    public static <T> T getBean(@NonNull Class<T> clazz)
     {
         return context.getBean(clazz);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T getBean(String name)
+    public static <T> T getBean(@NonNull String name)
     {
         return (T) context.getBean(name);
     }
 
-    public static boolean hasBean(String name)
+    public static boolean hasBean(@NonNull String name)
     {
         return context.containsBean(name);
     }

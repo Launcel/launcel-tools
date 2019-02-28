@@ -3,6 +3,7 @@ package xyz.launcel.job.context;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.var;
+import org.springframework.lang.NonNull;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import xyz.launcel.bean.SpringBeanUtil;
@@ -27,7 +28,7 @@ public class Jobs
         jobsMap.put(job.getId(), future);
     }
 
-    public static void stop(Integer jobId)
+    public static void stop(@NonNull Integer jobId)
     {
         var future = jobsMap.get(jobId);
         if (Objects.nonNull(future))
@@ -37,7 +38,7 @@ public class Jobs
         }
     }
 
-    public static void reset(AbstractJob.Job job, Runnable r)
+    public static void reset(@NonNull AbstractJob.Job job, @NonNull Runnable r)
     {
         var future = jobsMap.get(job.getId());
         if (Objects.nonNull(future))
@@ -47,7 +48,7 @@ public class Jobs
         }
     }
 
-    private static ScheduledFuture execute(Runnable r, String cron)
+    private static ScheduledFuture execute(@NonNull Runnable r, @NonNull String cron)
     {
         if (Objects.isNull(scheduler))
         {
@@ -62,7 +63,7 @@ public class Jobs
         return scheduler.schedule(r, new CronTrigger(cron));
     }
 
-    public static void setScheduler(ThreadPoolTaskScheduler schedulerPool)
+    public static void setScheduler(@NonNull ThreadPoolTaskScheduler schedulerPool)
     {
         if (scheduler == null)
         {
