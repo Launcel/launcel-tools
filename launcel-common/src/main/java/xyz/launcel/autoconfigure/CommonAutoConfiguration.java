@@ -36,7 +36,7 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     @Bean(name = "executor")
     @Primary
     @ConditionalOnProperty(prefix = "thread.pool", value = "enabled", havingValue = "true")
-    public ThreadPoolTaskExecutor taskExecutor()
+    public ThreadPoolTaskExecutor executor()
     {
         var executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(threadPoolProperties.getCorePoolSize());
@@ -49,7 +49,7 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     @Bean(name = "scheduler")
     @Primary
     @ConditionalOnProperty(prefix = "job.scheduler", value = "enabled", havingValue = "true")
-    public ThreadPoolTaskScheduler taskScheduler()
+    public ThreadPoolTaskScheduler scheduler()
     {
         var scheduler = new ThreadPoolTaskScheduler();
         scheduler.setPoolSize(schedulerPoolProperties.getPoolSize());
@@ -79,7 +79,7 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext)
     {
-        System.out.print("init ApplicationContext... ");
+        System.out.print("init ApplicationContext....");
         System.out.print(applicationContext.toString());
         SpringBeanUtil.setApplicationContext(applicationContext);
     }
