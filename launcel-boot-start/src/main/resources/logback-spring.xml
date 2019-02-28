@@ -11,22 +11,6 @@
         </encoder>
     </appender>
 
-    <!--FILE append-->
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>ERROR</level>
-        </filter>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/home/appLogs/%d{yyyy-MM-dd}/logback.log</fileNamePattern>
-            <maxHistory>5</maxHistory>
-        </rollingPolicy>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>5MB</maxFileSize>
-        </triggeringPolicy>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n</pattern>
-        </layout>
-    </appender>
 
     <!--STDOUT-->
     <logger name="jdbc.connection" additivity="false" level="DEBUG">
@@ -94,6 +78,25 @@
     </springProfile>
 
     <springProfile name="prod, pl, online">
+
+        <!--FILE append-->
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>ERROR</level>
+            </filter>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>/home/appLogs/%d{yyyy-MM-dd}/logback.log</fileNamePattern>
+                <maxHistory>5</maxHistory>
+            </rollingPolicy>
+            <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                <maxFileSize>5MB</maxFileSize>
+            </triggeringPolicy>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n</pattern>
+            </layout>
+        </appender>
+
+
         <root level="ERROR">
             <appender-ref ref="FILE"/>
         </root>
