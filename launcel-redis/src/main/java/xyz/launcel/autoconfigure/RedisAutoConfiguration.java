@@ -25,14 +25,13 @@ import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.lang.NonNull;
-import xyz.launcel.utils.Base64;
 import xyz.launcel.log.RootLogger;
 import xyz.launcel.properties.RedisProperties;
 import xyz.launcel.support.serializer.GsonRedisSerializer;
+import xyz.launcel.utils.Base64;
 
 import javax.inject.Named;
 import java.time.Duration;
-
 
 @EnableCaching
 @Configuration
@@ -45,6 +44,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     public RedisAutoConfiguration(RedisProperties redisProperties)
     {
         this.properties = redisProperties;
+        System.out.println("init RedisAutoConfiguration....");
     }
 
     private GenericObjectPoolConfig genericObjectPoolConfig()
@@ -82,11 +82,10 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
         return new LettuceConnectionFactory(sinagleConfiguration(), lettucePoolClient());
     }
 
-
     @Primary
     @Bean(name = "redisTemplate")
     @ConditionalOnBean(name = "redisConnectionFactory")
-    public RedisTemplate<String, Object> redisTemplate(@Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
+    public RedisTemplate<String, Object> redisTemplate(@NonNull @Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
     {
         var template = new RedisTemplate<String, Object>();
         template.setConnectionFactory(redisConnectionFactory);
@@ -114,13 +113,11 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
 
     @Primary
     @Bean
-    public CacheManager cacheManager(@Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
+    public CacheManager cacheManager(@NonNull @Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
     {
         // 设置缓存有效期一小时
         var redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(1));
-        return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory))
-                .cacheDefaults(redisCacheConfiguration)
-                .build();
+        return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory)).cacheDefaults(redisCacheConfiguration).build();
     }
 
     @Bean
@@ -154,5 +151,4 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
             }
         };
     }
-
 }
