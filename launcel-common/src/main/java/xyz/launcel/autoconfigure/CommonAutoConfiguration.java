@@ -56,7 +56,6 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
         scheduler.setThreadGroupName("taskScheduler-");
         scheduler.setWaitForTasksToCompleteOnShutdown(true);
         scheduler.setAwaitTerminationSeconds(300);
-        Jobs.setScheduler(scheduler);
         return scheduler;
     }
 

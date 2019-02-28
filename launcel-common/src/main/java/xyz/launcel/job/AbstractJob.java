@@ -8,7 +8,6 @@
 package xyz.launcel.job;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.var;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
@@ -21,13 +20,16 @@ import xyz.launcel.utils.StringUtils;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.Objects;
+import java.util.concurrent.ScheduledFuture;
 
 public abstract class AbstractJob implements InitializingBean
 {
 
     @Inject
     @Named("scheduler")
+    @Getter
     private ThreadPoolTaskScheduler scheduler;
+    @Getter
     private Job                     job;
 
     protected boolean canWork()
@@ -46,9 +48,9 @@ public abstract class AbstractJob implements InitializingBean
         {
             job = new Job();
         }
-        job.setCron(entity.getCron());
-        job.setId(entity.getId());
-        job.setStatus(entity.getStatus());
+        job.cron = entity.getCron();
+        job.id = entity.getId();
+        job.status = entity.getStatus();
         return true;
     }
 
@@ -56,44 +58,22 @@ public abstract class AbstractJob implements InitializingBean
     {
         if (canWork())
         {
-            var future = scheduler.schedule(work(), new CronTrigger(this.job.getCron()));
-            Jobs.add(job.getId(), future);
+            Jobs.add(job.getId(), this.getFuture());
         }
     }
 
-    protected void stop()
+    public void stop()
     {
         Jobs.stop(job.getId());
     }
 
-    protected void reset()
+    public void reset()
     {
         job = getCurrentJob();
         if (Objects.nonNull(job))
         {
-            var future = scheduler.schedule(work(), new CronTrigger(this.job.getCron()));
-            Jobs.reset(job.getId(), future);
+            Jobs.reset(job.getId(), this.getFuture());
         }
-    }
-
-    @Override
-    public void afterPropertiesSet()
-    {
-        register();
-    }
-
-    protected abstract Runnable work();
-
-    protected abstract String getJobName();
-
-    protected Integer getJobId()
-    {
-        return job.getId();
-    }
-
-    protected String getCron()
-    {
-        return job.getCron();
     }
 
     protected Job getCurrentJob()
@@ -108,25 +88,29 @@ public abstract class AbstractJob implements InitializingBean
         {
             return null;
         }
-        job.setCron(entity.getCron());
-        job.setId(entity.getId());
-        job.setJobName(entity.getJobName());
-        job.setStatus(entity.getStatus());
+        job.cron = entity.getCron();
+        job.id = entity.getId();
+        job.jobName = entity.getJobName();
+        job.status = entity.getStatus();
         return job;
     }
 
-    protected void setJob(Job job)
+    protected ScheduledFuture getFuture()
     {
-        this.job = job;
+        return scheduler.schedule(work(), new CronTrigger(this.job.getCron()));
     }
 
-    protected Job getJob()
+    @Override
+    public void afterPropertiesSet()
     {
-        return job;
+        register();
     }
+
+    protected abstract Runnable work();
+
+    protected abstract String getJobName();
 
     @Getter
-    @Setter
     public static class Job
     {
         private Integer id;
