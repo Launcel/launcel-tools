@@ -67,9 +67,9 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
         RootLogger.warn("SessionFactory registry success");
     }
 
-    @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true")
-    @Bean(name = "dataSource")
     @Primary
+    @Bean(name = "dataSource")
+    @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true")
     public DataSource multipleDataSource()
     {
         var   dynamicDataSources = new DynamicDataSource();
@@ -85,9 +85,9 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
         return dynamicDataSources;
     }
 
-    @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true")
     @Bean(name = "sqlSessionFactory")
     @DependsOn(value = "dataSource")
+    @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true")
     public SqlSessionFactory sqlSessionFactory(@Named(value = "dataSource") DataSource dataSource) throws Exception
     {
         var sqlSessionFactory = new SqlSessionFactoryBean();
@@ -106,9 +106,9 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
         return sqlSessionFactory.getObject();
     }
 
-    @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true")
     @Bean
     @DependsOn(value = "sqlSessionFactory")
+    @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true")
     public MapperScannerConfigurer mapperScannerConfigurer()
     {
         var configurer = new MapperScannerConfigurer();
@@ -125,8 +125,8 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
     //        return new ServerAspejct();
     //    }
 
-    @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true")
     @Bean
+    @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true")
     public DataSourceSwitchAspect dataSourceSwitchAspect() { return new DataSourceSwitchAspect(); }
 
 

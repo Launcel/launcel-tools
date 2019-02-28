@@ -1,6 +1,5 @@
 package xyz.launcel.autoconfigure;
 
-import lombok.RequiredArgsConstructor;
 import lombok.var;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -8,7 +7,6 @@ import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
@@ -31,8 +29,6 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 @EnableConfigurationProperties(value = {CorsProperties.class, UploadProperties.class, JsonProperties.class})
-@RequiredArgsConstructor
-@Order(1)
 public class WebKitAutoConfiguration implements WebMvcConfigurer
 {
     private final CorsProperties   corsProperties;
@@ -99,4 +95,11 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
         return factory.createMultipartConfig();
     }
 
+    public WebKitAutoConfiguration(CorsProperties corsProperties, UploadProperties uploadProperties, JsonProperties jsonPropertie)
+    {
+        this.corsProperties = corsProperties;
+        this.uploadProperties = uploadProperties;
+        this.jsonPropertie = jsonPropertie;
+        System.out.println("init WebKitAutoConfiguration....");
+    }
 }
