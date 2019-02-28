@@ -8,6 +8,7 @@
 package xyz.launcel.job;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.var;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
@@ -30,6 +31,7 @@ public abstract class AbstractJob implements InitializingBean
     @Getter
     private ThreadPoolTaskScheduler scheduler;
     @Getter
+    @Setter
     private Job                     job;
 
     protected boolean canWork()
@@ -111,6 +113,7 @@ public abstract class AbstractJob implements InitializingBean
     protected abstract String getJobName();
 
     @Getter
+    @Setter
     public static class Job
     {
         private Integer id;
