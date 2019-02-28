@@ -11,17 +11,24 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.var;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.support.CronTrigger;
 import xyz.launcel.job.context.Jobs;
 import xyz.launcel.job.orm.JobDbSupport;
 import xyz.launcel.utils.CollectionUtils;
 import xyz.launcel.utils.StringUtils;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.Objects;
 
 public abstract class AbstractJob implements InitializingBean
 {
 
-    private Job job = new Job();
+    @Inject
+    @Named("scheduler")
+    private ThreadPoolTaskScheduler scheduler;
+    private Job                     job;
 
     protected boolean canWork()
     {
@@ -35,6 +42,10 @@ public abstract class AbstractJob implements InitializingBean
         {
             return false;
         }
+        if (Objects.isNull(job))
+        {
+            job = new Job();
+        }
         job.setCron(entity.getCron());
         job.setId(entity.getId());
         job.setStatus(entity.getStatus());
@@ -45,7 +56,8 @@ public abstract class AbstractJob implements InitializingBean
     {
         if (canWork())
         {
-            Jobs.add(job, work());
+            var future = scheduler.schedule(work(), new CronTrigger(this.job.getCron()));
+            Jobs.add(job.getId(), future);
         }
     }
 
@@ -59,7 +71,8 @@ public abstract class AbstractJob implements InitializingBean
         job = getCurrentJob();
         if (Objects.nonNull(job))
         {
-            Jobs.reset(job, work());
+            var future = scheduler.schedule(work(), new CronTrigger(this.job.getCron()));
+            Jobs.reset(job.getId(), future);
         }
     }
 
