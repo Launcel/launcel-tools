@@ -56,8 +56,6 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
         scheduler.setThreadGroupName("taskScheduler-");
         scheduler.setWaitForTasksToCompleteOnShutdown(true);
         scheduler.setAwaitTerminationSeconds(300);
-        System.out.print("init ThreadPoolTaskScheduler bean--");
-        System.out.print(scheduler.toString());
         Jobs.setScheduler(scheduler);
         return scheduler;
     }
@@ -79,8 +77,6 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext)
     {
-        System.out.print("init ApplicationContext....");
-        System.out.print(applicationContext.toString());
         SpringBeanUtil.setApplicationContext(applicationContext);
     }
 

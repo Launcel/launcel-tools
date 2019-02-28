@@ -67,6 +67,8 @@ public class Jobs
     {
         if (scheduler == null)
         {
+            System.out.print("init ThreadPoolTaskScheduler bean...");
+            System.out.print(scheduler.toString());
             scheduler = schedulerPool;
         }
     }

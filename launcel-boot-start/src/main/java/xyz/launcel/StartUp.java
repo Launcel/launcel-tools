@@ -20,12 +20,12 @@ public interface StartUp
         var env  = cac.getEnvironment();
         var port = StringUtils.isEmpty(env.getProperty("server.port")) ? "8080" : env.getProperty("server.port");
 
-        String log = "app port is : \t{}, \n\t\turl   is : \thttp://localhost:{}";
+        String log = "app port is : \t{} \n\t\turl  is : \thttp://localhost:{}";
         try
         {
             var addr = InetAddress.getLocalHost();
             var ip   = addr.getHostAddress();
-            log += "\n\t\treal  url  is : \thttp://{}";
+            log += "\n\treal url is : \thttp://{}";
             RootLogger.error(log, port, port, ip + ":" + port);
         }
         catch (UnknownHostException e)
