@@ -7,12 +7,10 @@
 
 package xyz.launcel.job;
 
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.var;
 import org.springframework.beans.factory.InitializingBean;
+import xyz.launcel.job.bean.Job;
 import xyz.launcel.job.context.Jobs;
 import xyz.launcel.job.orm.JobDbSupport;
 import xyz.launcel.utils.CollectionUtils;
@@ -32,8 +30,13 @@ public abstract class AbstractJob implements InitializingBean
     protected boolean canWork()
     {
         job = getCurrentJob();
-        job.setWork(work());
         return Objects.nonNull(job);
+    }
+
+    @Override
+    public void afterPropertiesSet()
+    {
+        registerJob();
     }
 
     protected void registerJob()
@@ -51,19 +54,12 @@ public abstract class AbstractJob implements InitializingBean
 
     public void reset()
     {
-        Jobs.remove(job.id);
+        Jobs.remove(job.getId());
         job = getCurrentJob();
-        job.setWork(work());
         if (Objects.nonNull(job))
         {
             Jobs.add(job);
         }
-    }
-
-    @Override
-    public void afterPropertiesSet()
-    {
-        registerJob();
     }
 
     private Job getCurrentJob()
@@ -78,19 +74,6 @@ public abstract class AbstractJob implements InitializingBean
         {
             return null;
         }
-        return Job.builder().id(entity.getId()).cron(entity.getCron()).jobName(entity.getJobName()).status(entity.getStatus()).build();
-    }
-
-    @Getter
-    @Setter
-    @Builder
-    @NoArgsConstructor
-    public static class Job
-    {
-        private Integer  id;
-        private String   jobName;
-        private String   cron;
-        private Short    status;
-        private Runnable work;
+        return Job.builder().id(entity.getId()).cron(entity.getCron()).jobName(entity.getJobName()).status(entity.getStatus()).work(work()).build();
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
-import xyz.launcel.job.AbstractJob;
+import xyz.launcel.job.bean.Job;
 
 import javax.inject.Named;
 import java.util.Objects;
@@ -26,7 +26,7 @@ public class Jobs
 
     private static final ConcurrentHashMap<Integer, ScheduledFuture> jobsMap = new ConcurrentHashMap<>(8);
 
-    public static void add(@NonNull AbstractJob.Job job)
+    public static void add(@NonNull Job job)
     {
         var future = getFuture(job);
         if (Objects.nonNull(future))
@@ -45,7 +45,7 @@ public class Jobs
         }
     }
 
-    public static ScheduledFuture getFuture(@NonNull AbstractJob.Job job)
+    public static ScheduledFuture getFuture(@NonNull Job job)
     {
         return scheduler.schedule(job.getWork(), new CronTrigger(job.getCron()));
     }
