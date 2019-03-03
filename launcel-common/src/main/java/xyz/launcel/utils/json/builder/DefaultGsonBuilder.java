@@ -1,6 +1,5 @@
 package xyz.launcel.utils.json.builder;
 
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -11,18 +10,17 @@ import java.util.Map;
 @NoArgsConstructor
 public class DefaultGsonBuilder
 {
-    private        DateFormat  dateFormat;
-    private        boolean     floatingPointValue;
-    private        boolean     formatPrint;
-    private        boolean     serializeNull;
-    private        Double      version;
-    private static Gson        gson        = null;
-    private static GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, Object>>() {}.getType(),
+    private              DateFormat  dateFormat;
+    private              boolean     floatingPointValue;
+    private              boolean     formatPrint;
+    private              boolean     serializeNull;
+    private              Double      version;
+    private static       Gson        gson        = null;
+    private static final GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, Object>>() {}.getType(),
             new JsonMapDeserializer());
 
-
-    private DefaultGsonBuilder(DateFormat dateFormat, boolean floatingPointValue, boolean formatPrint, boolean serializeNull,
-                               Double version)
+    private DefaultGsonBuilder(
+            DateFormat dateFormat, boolean floatingPointValue, boolean formatPrint, boolean serializeNull, Double version)
     {
         this.dateFormat = dateFormat;
         this.floatingPointValue = floatingPointValue;
@@ -41,7 +39,7 @@ public class DefaultGsonBuilder
     {
         if (gson == null)
         {
-            synchronized (DefaultGsonBuilder.class)
+            synchronized (gsonBuilder)
             {
                 if (gson == null)
                 {
@@ -132,7 +130,6 @@ public class DefaultGsonBuilder
         {
             new DefaultGsonBuilder(dateFormat, floatingPointValues, formatPrint, serializeNull, version);
         }
-
     }
 }
 
