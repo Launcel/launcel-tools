@@ -61,11 +61,12 @@ public class JobDbSupport
             var rs = pstmt.executeQuery();
             while (rs.next())
             {
-                var entity = new ScheduleJobEntity();
+                var entity = ScheduleJobEntity.builder()
+                        .jobName(rs.getString("job_name"))
+                        .cron(rs.getString("cron"))
+                        .status(rs.getShort("status"))
+                        .build();
                 entity.setId(rs.getInt("id"));
-                entity.setJobName(rs.getString("job_name"));
-                entity.setCron(rs.getString("cron"));
-                entity.setStatus(rs.getShort("status"));
                 entity.setEnabled(rs.getBoolean("enabled"));
                 list.add(entity);
             }

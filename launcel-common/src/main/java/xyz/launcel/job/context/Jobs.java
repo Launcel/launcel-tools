@@ -1,26 +1,41 @@
 package xyz.launcel.job.context;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.var;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.support.CronTrigger;
+import org.springframework.stereotype.Component;
+import xyz.launcel.job.AbstractJob;
 
+import javax.inject.Named;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Component
 public class Jobs
 {
+    private static ThreadPoolTaskScheduler scheduler;
+
+    @Autowired
+    public void setScheduler(@Named("scheduler") ThreadPoolTaskScheduler scheduler)
+    {
+        Jobs.scheduler = scheduler;
+    }
 
     private static final ConcurrentHashMap<Integer, ScheduledFuture> jobsMap = new ConcurrentHashMap<>(8);
 
-    public static void add(@NonNull Integer jobId, @NonNull ScheduledFuture job)
+    public static void add(@NonNull AbstractJob.Job job)
     {
-        jobsMap.put(jobId, job);
+        var future = getFuture(job);
+        if (Objects.nonNull(future))
+        {
+            jobsMap.put(job.getId(), future);
+        }
     }
 
-    public static void stop(@NonNull Integer jobId)
+    public static void remove(@NonNull Integer jobId)
     {
         var future = jobsMap.get(jobId);
         if (Objects.nonNull(future))
@@ -30,13 +45,8 @@ public class Jobs
         }
     }
 
-    public static void reset(@NonNull Integer jobId, @NonNull ScheduledFuture job)
+    public static ScheduledFuture getFuture(@NonNull AbstractJob.Job job)
     {
-        var future = jobsMap.get(jobId);
-        if (Objects.nonNull(future))
-        {
-            future.cancel(true);
-            jobsMap.replace(jobId, job);
-        }
+        return scheduler.schedule(job.getWork(), new CronTrigger(job.getCron()));
     }
 }

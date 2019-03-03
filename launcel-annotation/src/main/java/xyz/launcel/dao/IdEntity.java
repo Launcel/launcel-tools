@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -14,17 +15,13 @@ import java.util.Date;
 @Setter
 @ToString
 @Accessors(chain = true)
-public class IdEntity
+public class IdEntity implements Serializable
 {
-    private Integer id;
-
-    private Boolean enabled;
-
-    private Date createTime;
-
-    private String createUser;
-
-    private Date updateTime;
-
-    private String updateUser;
+    private static final long    serialVersionUID = 6726275056311417504L;
+    private              Integer id;
+    private              Boolean enabled;
+    private              Date    createTime;
+    private              String  createUser;
+    private              Date    updateTime;
+    private              String  updateUser;
 }
