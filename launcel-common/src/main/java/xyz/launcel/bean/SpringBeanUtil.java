@@ -11,8 +11,6 @@ public final class SpringBeanUtil
     {
         if (context == null)
         {
-            System.out.print("init ApplicationContext....");
-            System.out.print(applicationContext.toString());
             context = applicationContext;
         }
     }

@@ -25,7 +25,6 @@ public class ExceptionHelp
     {
         try
         {
-
             if (props.isEmpty())
             {
                 var               resolver  = new PathMatchingResourcePatternResolver();
@@ -57,7 +56,7 @@ public class ExceptionHelp
                 }
                 if (RootLogger.isDebug())
                 {
-                    System.out.print("  >>>   错误信息加载完毕！");
+                    System.out.println("  >>>   错误信息加载完毕！");
                 }
             }
         }

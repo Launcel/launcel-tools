@@ -10,6 +10,8 @@ package xyz.launcel.job;
 import lombok.Getter;
 import lombok.var;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Lazy;
 import xyz.launcel.job.bean.Job;
 import xyz.launcel.job.context.Jobs;
 import xyz.launcel.job.orm.JobDbSupport;
@@ -18,6 +20,11 @@ import xyz.launcel.utils.StringUtils;
 
 import java.util.Objects;
 
+/**
+ * 继承 AbstractJob 必须在类上加上 @DependsOn(value = {"scheduler", "jobDbConfig"})
+ */
+@DependsOn(value = "scheduler")
+@Lazy
 public abstract class AbstractJob implements InitializingBean
 {
     @Getter

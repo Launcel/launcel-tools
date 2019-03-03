@@ -15,8 +15,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import xyz.launcel.bean.SpringBeanUtil;
 import xyz.launcel.exception.ExceptionHelp;
 import xyz.launcel.job.config.JobDbConfig;
-import xyz.launcel.job.config.impl.CacheJobDbConfig;
-import xyz.launcel.properties.JobDatasourceProperties;
+import xyz.launcel.job.config.impl.CacheJobDbProperties;
 import xyz.launcel.properties.SchedulerPoolProperties;
 import xyz.launcel.properties.ThreadPoolProperties;
 
@@ -25,18 +24,19 @@ import xyz.launcel.properties.ThreadPoolProperties;
  */
 //@EnableAsync
 @Configuration
-@EnableConfigurationProperties(value = {ThreadPoolProperties.class, SchedulerPoolProperties.class, JobDatasourceProperties.class})
+@EnableConfigurationProperties(value = {ThreadPoolProperties.class, SchedulerPoolProperties.class, CacheJobDbProperties.class})
 public class CommonAutoConfiguration implements ApplicationContextAware, InitializingBean
 {
     private final ThreadPoolProperties    threadPoolProperties;
     private final SchedulerPoolProperties schedulerPoolProperties;
-    private final JobDatasourceProperties jobDatasourceProperties;
+    private final CacheJobDbProperties    cacheJobDbProperties;
 
     @Bean(name = "executor")
     @Primary
     @ConditionalOnProperty(prefix = "thread.pool", value = "enabled", havingValue = "true")
     public ThreadPoolTaskExecutor executor()
     {
+        System.out.println("init thread.pool.executor");
         var executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(threadPoolProperties.getCorePoolSize());
         executor.setMaxPoolSize(threadPoolProperties.getMaxPoolSize());
@@ -50,6 +50,7 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     @ConditionalOnProperty(prefix = "job.scheduler", value = "enabled", havingValue = "true")
     public ThreadPoolTaskScheduler scheduler()
     {
+        System.out.println("init job.scheduler.scheduler");
         var scheduler = new ThreadPoolTaskScheduler();
         scheduler.setPoolSize(schedulerPoolProperties.getPoolSize());
         scheduler.setThreadGroupName("taskScheduler-");
@@ -63,34 +64,31 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     @ConditionalOnProperty(prefix = "job.datasource", value = "enabled", havingValue = "true")
     public JobDbConfig jobDbConfig()
     {
-        var jobDbConfig = new CacheJobDbConfig();
-        jobDbConfig.setTableName(jobDatasourceProperties.getTableName());
-        jobDbConfig.setDriverClass(jobDatasourceProperties.getDriverClass());
-        jobDbConfig.setUrl(jobDatasourceProperties.getUrl());
-        jobDbConfig.setUser(jobDatasourceProperties.getUser());
-        jobDbConfig.setPassword(jobDatasourceProperties.getPassword());
-        return jobDbConfig;
+        System.out.println("init job.datasource.jobDbConfig");
+        return cacheJobDbProperties;
     }
 
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext)
     {
+        System.out.println("exectute Spring setApplicationContext...");
         SpringBeanUtil.setApplicationContext(applicationContext);
     }
 
     @Override
     public void afterPropertiesSet()
     {
+        System.out.println("exectute Spring afterPropertiesSet...");
         ExceptionHelp.initProperties();
     }
 
     public CommonAutoConfiguration(
-            ThreadPoolProperties threadPoolProperties, SchedulerPoolProperties schedulerPoolProperties, JobDatasourceProperties jobDatasourceProperties)
+            ThreadPoolProperties threadPoolProperties, SchedulerPoolProperties schedulerPoolProperties, CacheJobDbProperties cacheJobDbProperties)
     {
+        System.out.println("init CommonAutoConfiguration....");
         this.threadPoolProperties = threadPoolProperties;
         this.schedulerPoolProperties = schedulerPoolProperties;
-        this.jobDatasourceProperties = jobDatasourceProperties;
-        System.out.println("init CommonAutoConfiguration....");
+        this.cacheJobDbProperties = cacheJobDbProperties;
     }
 }
 

@@ -1,28 +1,20 @@
 package xyz.launcel.job.context;
 
 import lombok.var;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
-import org.springframework.stereotype.Component;
+import xyz.launcel.bean.SpringBeanUtil;
 import xyz.launcel.job.bean.Job;
 
-import javax.inject.Named;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
-@Component
 public class Jobs
 {
-    private static ThreadPoolTaskScheduler scheduler;
 
-    @Autowired
-    public void setScheduler(@Named("scheduler") ThreadPoolTaskScheduler scheduler)
-    {
-        Jobs.scheduler = scheduler;
-    }
+    private static ThreadPoolTaskScheduler scheduler = null;
 
     private static final ConcurrentHashMap<Integer, ScheduledFuture> jobsMap = new ConcurrentHashMap<>(8);
 
@@ -47,6 +39,22 @@ public class Jobs
 
     public static ScheduledFuture getFuture(@NonNull Job job)
     {
-        return scheduler.schedule(job.getWork(), new CronTrigger(job.getCron()));
+        System.out.println(Jobs.scheduler);
+        return getScheduler().schedule(job.getWork(), new CronTrigger(job.getCron()));
+    }
+
+    public static ThreadPoolTaskScheduler getScheduler()
+    {
+        if (Jobs.scheduler == null)
+        {
+            synchronized (Jobs.class)
+            {
+                if (Jobs.scheduler == null)
+                {
+                    Jobs.scheduler = SpringBeanUtil.getBean("scheduler");
+                }
+            }
+        }
+        return Jobs.scheduler;
     }
 }
