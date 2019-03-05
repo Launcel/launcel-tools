@@ -55,9 +55,8 @@
     </dependencies>
 
     <dependencyManagement>
+
         <dependencies>
-
-
             <dependency>
                 <groupId>xyz.launcel</groupId>
                 <artifactId>launcel-dependences</artifactId>
