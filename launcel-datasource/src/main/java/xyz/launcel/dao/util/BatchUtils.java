@@ -45,10 +45,10 @@ public class BatchUtils
         {
             return 0;
         }
-        int size                 = list.size();
-        int result               = 0;
-        var tmpSqlSessionFactory = Objects.isNull(localSqlSessionFactory) ? defaultSqlSessionFactory : localSqlSessionFactory.get();
-        var session              = tmpSqlSessionFactory.openSession(ExecutorType.BATCH, false);
+        var size       = list.size();
+        var result     = 0;
+        var tmpFactory = Objects.isNull(localSqlSessionFactory) ? defaultSqlSessionFactory : localSqlSessionFactory.get();
+        var session    = tmpFactory.openSession(ExecutorType.BATCH, false);
         try
         {
             var repository = session.getMapper(mapper);

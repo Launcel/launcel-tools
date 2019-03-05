@@ -5,11 +5,10 @@ import lombok.Getter;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import xyz.launcel.dao.Page;
 import xyz.launcel.log.BaseLogger;
-import xyz.launcel.properties.WebAspejctProperties;
+import xyz.launcel.properties.WebTokenProperties;
 import xyz.launcel.utils.StringUtils;
 
 import javax.inject.Inject;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,16 +26,16 @@ public abstract class BaseController extends BaseLogger
         getResponse().setContentType("text/html;charset=utf-8");
     }
 
-    protected <T> Page<T> initPaging()
+    protected <T> Page initPaging()
     {
-        String pageNoString = getRequest().getParameter("pageNo");
-        String rowString    = getRequest().getParameter("row");
+        var pageNoString = request.getParameter("pageNo");
+        var rowString    = request.getParameter("row");
 
-        String minIdString = this.request.getParameter("minId");
+        var minIdString = request.getParameter("minId");
 
-        int pageNo = 1;
-        int row    = 20;
-        int minId  = 0;
+        var pageNo = 1;
+        var row    = 20;
+        var minId  = 0;
         try
         {
             if (StringUtils.isNotBlank(pageNoString))
@@ -55,17 +54,19 @@ public abstract class BaseController extends BaseLogger
         catch (Exception ignore)
         {
         }
-        return new Page<>(pageNo, row);
+        var page = new Page<>(pageNo, row);
+        page.setMinId(minId);
+        return page;
     }
 
     protected String getToken()
     {
-        Cookie[] cookies = getRequest().getCookies();
+        var cookies = getRequest().getCookies();
         if (cookies != null && cookies.length > 0)
         {
             for (var cookie : cookies)
             {
-                if (WebAspejctProperties.tokenKey.equals(cookie.getName()))
+                if (WebTokenProperties.getTokenKey().equals(cookie.getName()))
                 {
                     return cookie.getValue();
                 }

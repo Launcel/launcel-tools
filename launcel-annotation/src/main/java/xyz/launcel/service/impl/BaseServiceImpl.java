@@ -1,5 +1,6 @@
 package xyz.launcel.service.impl;
 
+import lombok.var;
 import xyz.launcel.dao.DaoSupport;
 import xyz.launcel.dao.IdEntity;
 import xyz.launcel.dao.Page;

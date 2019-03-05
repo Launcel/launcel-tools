@@ -19,11 +19,6 @@ public class XSSFWorkEntity
 
     private List<XSSFSheet> sheets;
 
-    public XSSFSheet getSheets1()
-    {
-        return sheets.get(0);
-    }
-
     public XSSFSheet getSheet(int i)
     {
         return sheets.get(i);

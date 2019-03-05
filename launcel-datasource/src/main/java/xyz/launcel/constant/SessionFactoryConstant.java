@@ -2,7 +2,7 @@ package xyz.launcel.constant;
 
 public interface SessionFactoryConstant
 {
-    String serviceaAspejctPrefix  = "service.aspejct";
+//    String serviceaAspejctPrefix  = "service.aspejct";
     String dataSourceConfigPrefix = "db.jdbc";
     String mybatisConfigPrefix    = "db.mybatis";
     String dataSourceName         = "dataSource";

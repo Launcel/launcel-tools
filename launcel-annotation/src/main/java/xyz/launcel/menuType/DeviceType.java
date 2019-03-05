@@ -1,5 +1,7 @@
 package xyz.launcel.menuType;
 
+import lombok.var;
+
 import java.util.Objects;
 
 /**

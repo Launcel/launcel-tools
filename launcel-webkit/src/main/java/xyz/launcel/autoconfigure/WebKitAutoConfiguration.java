@@ -1,5 +1,6 @@
 package xyz.launcel.autoconfigure;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
@@ -15,9 +16,11 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import xyz.launcel.handler.GlobalExceptionHandler;
+import xyz.launcel.log.RootLogger;
 import xyz.launcel.properties.CorsProperties;
 import xyz.launcel.properties.JsonProperties;
 import xyz.launcel.properties.UploadProperties;
+import xyz.launcel.properties.WebTokenProperties;
 import xyz.launcel.upload.UploadLocalUtil;
 import xyz.launcel.utils.json.builder.DateFormat;
 import xyz.launcel.utils.json.builder.DefaultGsonBuilder;
@@ -36,6 +39,9 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     private final UploadProperties uploadProperties;
     private final JsonProperties   jsonPropertie;
 
+    @Value("${web.token-key}")
+    private String tokenKey;
+
     public WebKitAutoConfiguration(CorsProperties corsProperties, UploadProperties uploadProperties, JsonProperties jsonPropertie)
     {
         System.out.println("init WebKitAutoConfiguration....");
@@ -51,7 +57,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
     {
-        System.out.println("init web.json-converter...");
+        RootLogger.warn("init web.json-converter...");
         converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
         var gsonConverter = new GsonHttpMessageConverter();
         DefaultGsonBuilder.builder()
@@ -75,7 +81,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @Override
     public void addCorsMappings(CorsRegistry registry)
     {
-        System.out.println("init web.cors...");
+        RootLogger.warn("init web.cors...");
         registry.addMapping(corsProperties.getPathPattern())
                 .allowedOrigins(corsProperties.getAllowedOrigins())
                 .allowCredentials(true)
@@ -87,6 +93,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer)
     {
         configurer.defaultContentType(MediaType.APPLICATION_JSON_UTF8);
+        WebTokenProperties.setTokenKey(tokenKey);
     }
 
     //    @ConditionalOnProperty(prefix = "web.aspejct", value = "enabled", havingValue = "true")
@@ -97,7 +104,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @ConditionalOnProperty(prefix = "web.global-exception", value = "enabled", havingValue = "true")
     public GlobalExceptionHandler globalExceptionHandler()
     {
-        System.out.println("init globalExceptionHandler...");
+        RootLogger.warn("init globalExceptionHandler...");
         return new GlobalExceptionHandler();
     }
 
@@ -106,7 +113,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
     public MultipartConfigElement multipartConfigElement()
     {
-        System.out.println("inti multipartConfigElement...");
+        RootLogger.warn("inti multipartConfigElement...");
         var factory = new MultipartConfigFactory();
         factory.setMaxFileSize(uploadProperties.getMaxSize());
         factory.setMaxRequestSize(uploadProperties.getMaxSize());

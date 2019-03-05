@@ -7,7 +7,7 @@ import xyz.launcel.constant.SessionFactoryConstant;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = SessionFactoryConstant.serviceaAspejctPrefix)
+//@ConfigurationProperties(prefix = SessionFactoryConstant.serviceaAspejctPrefix)
 public class ServiceProperties
 {
     private Boolean enabled = false;

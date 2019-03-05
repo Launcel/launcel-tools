@@ -66,7 +66,7 @@ public class ExcelUtils
             for (int n = 0; n < clist.size(); ++n)
             {
                 row.createCell((short) n).setCellValue("");
-                Object value = clist.get(n);
+                var value = clist.get(n);
                 if (Objects.nonNull(value))
                 {
                     if (value instanceof Date)

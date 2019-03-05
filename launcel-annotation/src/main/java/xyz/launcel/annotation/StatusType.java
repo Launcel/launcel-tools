@@ -1,6 +1,7 @@
 package xyz.launcel.annotation;
 
 import lombok.Getter;
+import lombok.var;
 
 @Getter
 public enum StatusType

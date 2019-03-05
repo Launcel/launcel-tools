@@ -62,10 +62,7 @@ public class PageInterceptor implements Interceptor, Serializable
         {
             return Plugin.wrap(o, this);
         }
-        else
-        {
-            return o;
-        }
+        return o;
     }
 
     @Override

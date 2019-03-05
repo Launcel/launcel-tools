@@ -20,9 +20,10 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.regex.Matcher;
 
-@Intercepts(
-        {@Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}), @Signature(type = Executor.class, method = "query",
-                args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})})
+@Intercepts({
+        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
+        @Signature(type = Executor.class, method = "query", args = {
+                MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})})
 public class ParamInterceptor implements Interceptor
 {
     // 封装了一下sql语句，使得结果返回完整xml路径下的sql语句节点id + sql语句

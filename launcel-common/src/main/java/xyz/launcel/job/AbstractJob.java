@@ -82,6 +82,12 @@ public abstract class AbstractJob implements InitializingBean
         {
             return null;
         }
-        return Job.builder().id(entity.getId()).cron(entity.getCron()).jobName(entity.getJobName()).status(entity.getStatus()).work(work()).build();
+        return Job.builder()
+                .id(entity.getId())
+                .cron(entity.getCron())
+                .jobName(entity.getJobName())
+                .status(entity.getStatus())
+                .work(work())
+                .build();
     }
 }

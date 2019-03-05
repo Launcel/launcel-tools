@@ -9,19 +9,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.lang.NonNull;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import xyz.launcel.bean.SpringBeanUtil;
 import xyz.launcel.exception.ExceptionHelp;
 import xyz.launcel.job.config.JobDbConfig;
 import xyz.launcel.job.config.impl.CacheJobDbProperties;
+import xyz.launcel.log.RootLogger;
 import xyz.launcel.properties.SchedulerPoolProperties;
 import xyz.launcel.properties.ThreadPoolProperties;
 
 /**
  * Created by launcel on 2018/8/6.
  */
-//@EnableAsync
+@EnableAsync
 @Configuration
 @EnableConfigurationProperties(value = {ThreadPoolProperties.class, SchedulerPoolProperties.class, CacheJobDbProperties.class})
 public class CommonAutoConfiguration implements ApplicationContextAware, InitializingBean
@@ -33,7 +35,7 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     public CommonAutoConfiguration(ThreadPoolProperties threadPoolProperties, SchedulerPoolProperties schedulerPoolProperties,
                                    CacheJobDbProperties cacheJobDbProperties)
     {
-        System.out.println("init CommonAutoConfiguration....");
+        RootLogger.warn("init CommonAutoConfiguration....");
         this.threadPoolProperties = threadPoolProperties;
         this.schedulerPoolProperties = schedulerPoolProperties;
         this.cacheJobDbProperties = cacheJobDbProperties;
@@ -44,7 +46,7 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     @ConditionalOnProperty(prefix = "thread.pool", value = "enabled", havingValue = "true")
     public ThreadPoolTaskExecutor executor()
     {
-        System.out.println("init thread.pool.executor");
+        RootLogger.warn("init thread.pool.executor");
         var executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(threadPoolProperties.getCorePoolSize());
         executor.setMaxPoolSize(threadPoolProperties.getMaxPoolSize());
@@ -58,7 +60,7 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     @ConditionalOnProperty(prefix = "job.scheduler", value = "enabled", havingValue = "true")
     public ThreadPoolTaskScheduler scheduler()
     {
-        System.out.println("init job.scheduler.scheduler");
+        RootLogger.warn("init job.scheduler.scheduler");
         var scheduler = new ThreadPoolTaskScheduler();
         scheduler.setPoolSize(schedulerPoolProperties.getPoolSize());
         scheduler.setThreadGroupName("taskScheduler-");
@@ -72,21 +74,21 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     @ConditionalOnProperty(prefix = "job.datasource", value = "enabled", havingValue = "true")
     public JobDbConfig jobDbConfig()
     {
-        System.out.println("init job.datasource.jobDbConfig");
+        RootLogger.warn("init job.datasource.jobDbConfig");
         return cacheJobDbProperties;
     }
 
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext)
     {
-        System.out.println("exectute Spring setApplicationContext...");
+        RootLogger.warn("exectute Spring setApplicationContext...");
         SpringBeanUtil.setApplicationContext(applicationContext);
     }
 
     @Override
     public void afterPropertiesSet()
     {
-        System.out.println("exectute Spring afterPropertiesSet...");
+        RootLogger.warn("exectute Spring afterPropertiesSet...");
         ExceptionHelp.initProperties();
     }
 }
