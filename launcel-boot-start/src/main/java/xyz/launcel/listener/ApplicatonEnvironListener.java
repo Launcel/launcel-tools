@@ -22,9 +22,9 @@ public class ApplicatonEnvironListener implements SpringApplicationRunListener, 
 
     public ApplicatonEnvironListener(SpringApplication application, String[] args)
     {
-        this.application = application;
-        this.args = args;
         System.out.println("init ApplicatonEnvironListener....");
+        this.args = args;
+        this.application = application;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ApplicatonEnvironListener implements SpringApplicationRunListener, 
     {
         var yaml = new YamlPropertiesFactoryBean();
         yaml.setResources(new ClassPathResource("launcel-application.yml"));
-        if (! Objects.nonNull(yaml.getObject()))
+        if (!Objects.nonNull(yaml.getObject()))
         {
             var source  = environment.getPropertySources();
             var propert = new PropertiesPropertySource("launcel-application", yaml.getObject());

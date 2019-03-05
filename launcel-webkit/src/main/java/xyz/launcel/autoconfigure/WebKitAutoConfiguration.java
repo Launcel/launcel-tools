@@ -24,6 +24,8 @@ import xyz.launcel.utils.json.builder.DateFormat;
 import xyz.launcel.utils.json.builder.DefaultGsonBuilder;
 
 import javax.servlet.MultipartConfigElement;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -42,6 +44,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
     {
+        System.out.println("init web.json-converter...");
         converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
         var gsonConverter = new GsonHttpMessageConverter();
         DefaultGsonBuilder.builder()
@@ -51,6 +54,12 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
                 .serializeNull(jsonPropertie.getSerializeNull())
                 .version(jsonPropertie.getVersion())
                 .build();
+        var list = new ArrayList<MediaType>();
+        list.add(new MediaType("text", "plain", StandardCharsets.UTF_8));
+        list.add(new MediaType("text", "html", StandardCharsets.UTF_8));
+        list.add(new MediaType("application", "xml", StandardCharsets.UTF_8));
+        list.add(new MediaType("application", "json", StandardCharsets.UTF_8));
+        gsonConverter.setSupportedMediaTypes(list);
         gsonConverter.setGson(DefaultGsonBuilder.create());
         converters.add(gsonConverter);
     }
@@ -59,6 +68,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @Override
     public void addCorsMappings(CorsRegistry registry)
     {
+        System.out.println("init web.cors...");
         registry.addMapping(corsProperties.getPathPattern())
                 .allowedOrigins(corsProperties.getAllowedOrigins())
                 .allowCredentials(true)
@@ -72,10 +82,11 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
         configurer.defaultContentType(MediaType.APPLICATION_JSON_UTF8);
     }
 
-    @Bean(name = "globalExceptionHandle")
+    @Bean(name = "globalExceptionHandler")
     @ConditionalOnProperty(prefix = "web.global-exception", value = "enabled", havingValue = "true")
-    public GlobalExceptionHandler globalExceptionHandle()
+    public GlobalExceptionHandler globalExceptionHandler()
     {
+        System.out.println("init globalExceptionHandler...");
         return new GlobalExceptionHandler();
     }
 
@@ -88,6 +99,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
     public MultipartConfigElement multipartConfigElement()
     {
+        System.out.println("inti multipartConfigElement...");
         var factory = new MultipartConfigFactory();
         factory.setMaxFileSize(uploadProperties.getMaxSize());
         factory.setMaxRequestSize(uploadProperties.getMaxSize());
@@ -97,9 +109,9 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
 
     public WebKitAutoConfiguration(CorsProperties corsProperties, UploadProperties uploadProperties, JsonProperties jsonPropertie)
     {
+        System.out.println("init WebKitAutoConfiguration....");
         this.corsProperties = corsProperties;
         this.uploadProperties = uploadProperties;
         this.jsonPropertie = jsonPropertie;
-        System.out.println("init WebKitAutoConfiguration....");
     }
 }

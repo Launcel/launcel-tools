@@ -62,12 +62,10 @@ public class GlobalExceptionHandler
         var sb   = new StringBuilder();
         cves.forEach(c -> sb.append(c.getMessage()));
         return response(sb.toString(), "-1");
-
     }
 
     private Response response(String str, String code)
     {
         return Response.builder().message(str).code(code).build();
     }
-
 }
