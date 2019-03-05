@@ -9,7 +9,6 @@ package xyz.launcel.job;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.var;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Lazy;
@@ -79,7 +78,7 @@ public abstract class AbstractJob implements InitializingBean
             return null;
         }
         var entity = entitys.get(0);
-        if (entity.getStatus() == - 1 || ! entity.getEnabled() || StringUtils.isBlank(entity.getCron()))
+        if (entity.getStatus() == -1 || !entity.getEnabled() || StringUtils.isBlank(entity.getCron()))
         {
             return null;
         }

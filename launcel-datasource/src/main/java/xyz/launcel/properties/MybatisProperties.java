@@ -29,8 +29,5 @@ public class MybatisProperties
         private String mapperResource;
         @NonNull
         private String mapperPackage;
-
     }
-
-
 }

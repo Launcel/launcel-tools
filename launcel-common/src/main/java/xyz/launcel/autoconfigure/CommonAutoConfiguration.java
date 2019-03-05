@@ -1,6 +1,5 @@
 package xyz.launcel.autoconfigure;
 
-import lombok.var;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -30,6 +29,15 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     private final ThreadPoolProperties    threadPoolProperties;
     private final SchedulerPoolProperties schedulerPoolProperties;
     private final CacheJobDbProperties    cacheJobDbProperties;
+
+    public CommonAutoConfiguration(ThreadPoolProperties threadPoolProperties, SchedulerPoolProperties schedulerPoolProperties,
+                                   CacheJobDbProperties cacheJobDbProperties)
+    {
+        System.out.println("init CommonAutoConfiguration....");
+        this.threadPoolProperties = threadPoolProperties;
+        this.schedulerPoolProperties = schedulerPoolProperties;
+        this.cacheJobDbProperties = cacheJobDbProperties;
+    }
 
     @Bean(name = "executor")
     @Primary
@@ -80,15 +88,6 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     {
         System.out.println("exectute Spring afterPropertiesSet...");
         ExceptionHelp.initProperties();
-    }
-
-    public CommonAutoConfiguration(
-            ThreadPoolProperties threadPoolProperties, SchedulerPoolProperties schedulerPoolProperties, CacheJobDbProperties cacheJobDbProperties)
-    {
-        System.out.println("init CommonAutoConfiguration....");
-        this.threadPoolProperties = threadPoolProperties;
-        this.schedulerPoolProperties = schedulerPoolProperties;
-        this.cacheJobDbProperties = cacheJobDbProperties;
     }
 }
 

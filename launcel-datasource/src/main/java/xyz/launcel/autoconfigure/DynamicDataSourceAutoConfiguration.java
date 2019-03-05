@@ -1,6 +1,5 @@
 package xyz.launcel.autoconfigure;
 
-import lombok.var;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -59,8 +58,9 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
     {
         if (binderFacory.getDataSourceProperties().getUseDynamicDataSource())
         {
-            binderFacory.getDynamicDataSourceConfigMapList().forEach(dataSourceConfigMap ->
-                    MultipleDataSourceRegistryTool.registTransactal(dataSourceConfigMap.getName(), registry, dataSourceConfigMap.getDataSource()));
+            binderFacory.getDynamicDataSourceConfigMapList()
+                    .forEach(dataSourceConfigMap -> MultipleDataSourceRegistryTool.registTransactal(dataSourceConfigMap.getName(), registry,
+                            dataSourceConfigMap.getDataSource()));
             return;
         }
         new MultipleDataSourceRegistryTool(binderFacory.getMultipleMybatis(), binderFacory.getDataSourceProperties()).registrMultipleBean(registry);
@@ -72,14 +72,14 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
     @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true")
     public DataSource multipleDataSource()
     {
-        var   dynamicDataSources = new DynamicDataSource();
+        var dynamicDataSources = new DynamicDataSource();
         var targetDataSources  = new HashMap<Object, Object>();
         if (CollectionUtils.isEmpty(binderFacory.getDynamicDataSourceConfigMapList()))
         {
             ExceptionFactory.error("_DEFINE_ERROR_CODE_010", ">>>  datasource propertie config or mybatis propertie config is null !!");
         }
-        binderFacory.getDynamicDataSourceConfigMapList().forEach(dataSourceConfigMap ->
-                targetDataSources.put(dataSourceConfigMap.getName(), dataSourceConfigMap.getDataSource()));
+        binderFacory.getDynamicDataSourceConfigMapList()
+                .forEach(dataSourceConfigMap -> targetDataSources.put(dataSourceConfigMap.getName(), dataSourceConfigMap.getDataSource()));
         dynamicDataSources.setTargetDataSources(targetDataSources);
         dynamicDataSources.setDefaultTargetDataSource(binderFacory.getDynamicDataSourceConfigMapList().get(0));
         return dynamicDataSources;
@@ -129,10 +129,7 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
     @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true")
     public DataSourceSwitchAspect dataSourceSwitchAspect() { return new DataSourceSwitchAspect(); }
 
-
     @Override
     public void postProcessBeanFactory(@NonNull ConfigurableListableBeanFactory beanFactory)
     { }
-
-
 }

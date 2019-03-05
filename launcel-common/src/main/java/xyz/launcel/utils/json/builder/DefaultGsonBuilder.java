@@ -10,17 +10,16 @@ import java.util.Map;
 @NoArgsConstructor
 public class DefaultGsonBuilder
 {
+    private static final GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, Object>>() {}.getType(),
+            new JsonMapDeserializer());
+    private static       Gson        gson        = null;
     private              DateFormat  dateFormat;
     private              boolean     floatingPointValue;
     private              boolean     formatPrint;
     private              boolean     serializeNull;
     private              Double      version;
-    private static       Gson        gson        = null;
-    private static final GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, Object>>() {}.getType(),
-            new JsonMapDeserializer());
 
-    private DefaultGsonBuilder(
-            DateFormat dateFormat, boolean floatingPointValue, boolean formatPrint, boolean serializeNull, Double version)
+    private DefaultGsonBuilder(DateFormat dateFormat, boolean floatingPointValue, boolean formatPrint, boolean serializeNull, Double version)
     {
         this.dateFormat = dateFormat;
         this.floatingPointValue = floatingPointValue;
@@ -48,6 +47,11 @@ public class DefaultGsonBuilder
             }
         }
         return gson;
+    }
+
+    public static GsonBuilder getGsonBuilder()
+    {
+        return gsonBuilder;
     }
 
     private void setGsonBuilder()
@@ -81,11 +85,6 @@ public class DefaultGsonBuilder
         {
             gsonBuilder.setVersion(version);
         }
-    }
-
-    public static GsonBuilder getGsonBuilder()
-    {
-        return gsonBuilder;
     }
 
     public static class DefaultBuilder

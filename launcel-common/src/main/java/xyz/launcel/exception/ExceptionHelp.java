@@ -1,6 +1,5 @@
 package xyz.launcel.exception;
 
-import lombok.var;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import xyz.launcel.log.RootLogger;
 import xyz.launcel.utils.CollectionUtils;
@@ -17,9 +16,9 @@ import java.util.Properties;
 public class ExceptionHelp
 {
 
-    private ExceptionHelp() { }
-
     private final static Properties props = new Properties();
+
+    private ExceptionHelp() { }
 
     public static void initProperties()
     {
@@ -33,7 +32,7 @@ public class ExceptionHelp
                 InputStreamReader inr       = null;
                 try
                 {
-                    if (! CollectionUtils.sizeIsEmpty(resources))
+                    if (!CollectionUtils.sizeIsEmpty(resources))
                     {
                         for (var resource : resources)
                         {

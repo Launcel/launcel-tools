@@ -2,7 +2,6 @@ package xyz.launcel.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.var;
 import org.springframework.lang.NonNull;
 import xyz.launcel.log.RootLogger;
 

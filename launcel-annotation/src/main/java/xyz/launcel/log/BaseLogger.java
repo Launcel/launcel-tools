@@ -25,5 +25,4 @@ public class BaseLogger
     protected void error(String msg)                    { RootLogger.error(msg); }
 
     protected void error(String format, Object... args) { RootLogger.error(format, args); }
-
 }

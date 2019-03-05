@@ -17,7 +17,6 @@ public class ModelClassUtil extends BaseLogger
 
     private static List<Class<?>> classes = new ArrayList<>();
 
-
     public static List<Class<?>> getClasses()
     {
         return classes;
@@ -201,7 +200,6 @@ public class ModelClassUtil extends BaseLogger
         }
         return myClassName;
     }
-
 
     public static Object ValidateObject(Class<?> javaType, Object o)
     {

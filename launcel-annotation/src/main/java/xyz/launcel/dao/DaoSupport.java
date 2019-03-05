@@ -1,6 +1,5 @@
 package xyz.launcel.dao;
 
-
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -24,5 +23,4 @@ public interface DaoSupport
     Integer count(@Param("param") Object o);
 
     <T> List<T> queryPage(@Param("param") Object o, @Param("page") Page<T> page);
-
 }

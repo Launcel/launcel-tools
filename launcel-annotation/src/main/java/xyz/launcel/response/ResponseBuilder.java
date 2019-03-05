@@ -30,5 +30,4 @@ public class ResponseBuilder
     {
         return new Response(this.data, this.message, this.code, new Date().getTime());
     }
-
 }

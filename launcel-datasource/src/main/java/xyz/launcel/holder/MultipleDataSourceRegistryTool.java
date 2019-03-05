@@ -2,7 +2,6 @@ package xyz.launcel.holder;
 
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
-import lombok.var;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
@@ -34,6 +33,20 @@ public class MultipleDataSourceRegistryTool
 {
     private final Map<String, MybatisProperties.MybatisPropertie> multipleMybatis;
     private final DataSourceProperties                            dataSourceProperties;
+
+    /**
+     * 为当前 dataSource 注册事物
+     */
+    public static void registTransactal(String key, BeanDefinitionRegistry registry, HikariDataSource hikariDataSource)
+    {
+        var transactalAbd            = BeanDefinitionRegistryTool.decorateAbd(DataSourceTransactionManager.class);
+        var transactaDataSourceValue = transactalAbd.getPropertyValues();
+
+        transactaDataSourceValue.addPropertyValue(SessionFactoryConstant.dataSourceName, hikariDataSource);
+        transactaDataSourceValue.addPropertyValue("enforceReadOnly", false);
+
+        BeanDefinitionRegistryTool.registryBean(key, registry, transactalAbd);
+    }
 
     public void registrMultipleBean(BeanDefinitionRegistry registry)
     {
@@ -71,9 +84,8 @@ public class MultipleDataSourceRegistryTool
     /**
      * 注册 sessionFactory
      */
-    private void registSessionFactory(BeanDefinitionRegistry registry, HikariDataSource hikariDataSource,
-                                      MybatisProperties.MybatisPropertie mybatisPropertie, String sqlSessionFactoryBeanName,
-                                      boolean isDebugSql)
+    private void registSessionFactory(BeanDefinitionRegistry registry, HikariDataSource hikariDataSource, MybatisProperties.MybatisPropertie mybatisPropertie,
+                                      String sqlSessionFactoryBeanName, boolean isDebugSql)
     {
         var sqlSessionAbd = BeanDefinitionRegistryTool.decorateAbd(SqlSessionFactoryBean.class);
         var sqlSession    = sqlSessionAbd.getPropertyValues();
@@ -115,20 +127,5 @@ public class MultipleDataSourceRegistryTool
         var mybatisBeanName = mybatisPropertie.getDataSourceName() + SessionFactoryConstant.mybatisName;
 
         BeanDefinitionRegistryTool.registryBean(mybatisBeanName, registry, abd);
-    }
-
-
-    /**
-     * 为当前 dataSource 注册事物
-     */
-    public static void registTransactal(String key, BeanDefinitionRegistry registry, HikariDataSource hikariDataSource)
-    {
-        var transactalAbd            = BeanDefinitionRegistryTool.decorateAbd(DataSourceTransactionManager.class);
-        var transactaDataSourceValue = transactalAbd.getPropertyValues();
-
-        transactaDataSourceValue.addPropertyValue(SessionFactoryConstant.dataSourceName, hikariDataSource);
-        transactaDataSourceValue.addPropertyValue("enforceReadOnly", false);
-
-        BeanDefinitionRegistryTool.registryBean(key, registry, transactalAbd);
     }
 }

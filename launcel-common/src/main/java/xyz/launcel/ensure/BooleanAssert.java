@@ -13,12 +13,17 @@ public class BooleanAssert
 
     public void isTrue(String message)
     {
-        if (flat) { ExceptionFactory.create(message); }
+        if (flat)
+        {
+            ExceptionFactory.create(message);
+        }
     }
 
     public void isFalse(String message)
     {
-        if (!flat) { ExceptionFactory.create(message); }
+        if (!flat)
+        {
+            ExceptionFactory.create(message);
+        }
     }
-
 }

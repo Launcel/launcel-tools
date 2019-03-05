@@ -13,9 +13,7 @@ public class RootLogger
 
     private RootLogger()                                    { }
 
-
     public static String getName()                          { return log.getName(); }
-
 
     public static void info(String format, Object... args)  { log.info(appenders(format), args); }
 

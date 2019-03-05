@@ -55,12 +55,6 @@ public interface AMapUtils
          * 格式化
          */
         private static DecimalFormat decimalFormat = new DecimalFormat("0.0000000000", new DecimalFormatSymbols(Locale.US));
-
-        private static double parse(double d)
-        {
-            return Double.parseDouble(decimalFormat.format(d));
-        }
-
         /**
          * 纬度
          */
@@ -77,7 +71,6 @@ public interface AMapUtils
          * 经度弧度
          */
         private double radLng;
-
         Point(double lat, double lng)
         {
             this(lat, lng, true);
@@ -87,12 +80,12 @@ public interface AMapUtils
         {
             if (check)
             {
-                if (lng < - 180d || lng > 180d)
+                if (lng < -180d || lng > 180d)
                 {
                     ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "经度值不在范围内");
                 }
 
-                if (lat < - 90d || lat > 90d)
+                if (lat < -90d || lat > 90d)
                 {
                     ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "纬度值不在范围内");
                 }
@@ -103,6 +96,11 @@ public interface AMapUtils
                 this.lat = lat;
                 radLat = getRadian(lat);
             }
+        }
+
+        private static double parse(double d)
+        {
+            return Double.parseDouble(decimalFormat.format(d));
         }
 
         /**

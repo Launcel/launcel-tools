@@ -1,6 +1,5 @@
 package xyz.launcel.dao.util;
 
-import lombok.var;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.lang.NonNull;

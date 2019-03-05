@@ -1,6 +1,5 @@
 package xyz.launcel.handler;
 
-import lombok.var;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import xyz.launcel.exception.ProfessionException;
@@ -70,7 +69,8 @@ public class GlobalExceptionHandler
         return response(sb.toString(), "-1");
     }
 
-    private void output(Throwable x) {
+    private void output(Throwable x)
+    {
         x.printStackTrace();
     }
 

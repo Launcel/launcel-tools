@@ -1,13 +1,11 @@
 package xyz.launcel.annotation;
 
 import lombok.Getter;
-import lombok.var;
 
 @Getter
 public enum StatusType
 {
-    ENABLED(1, "开启"),
-    DISENABLED(0, "关闭");
+    ENABLED(1, "开启"), DISENABLED(0, "关闭");
 
     private int ststus;
 

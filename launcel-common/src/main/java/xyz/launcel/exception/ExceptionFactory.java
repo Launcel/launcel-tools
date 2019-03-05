@@ -1,13 +1,10 @@
 package xyz.launcel.exception;
 
-import lombok.var;
-
 /**
  * @author Launcel
  */
 public interface ExceptionFactory
 {
-
 
     static void create(String code)
     {
@@ -19,7 +16,6 @@ public interface ExceptionFactory
     {
         throw new ProfessionException(code, msg);
     }
-
 
     static void error(String code)
     {

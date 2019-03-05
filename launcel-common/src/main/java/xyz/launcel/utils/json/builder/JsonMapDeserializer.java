@@ -9,7 +9,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.var;
 
 import java.io.IOException;
 import java.lang.reflect.Type;

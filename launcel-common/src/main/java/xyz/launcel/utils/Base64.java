@@ -1,7 +1,6 @@
 package xyz.launcel.utils;
 
 import lombok.NonNull;
-import lombok.var;
 
 import java.nio.charset.StandardCharsets;
 
@@ -21,5 +20,4 @@ public interface Base64
         }
         return null;
     }
-
 }

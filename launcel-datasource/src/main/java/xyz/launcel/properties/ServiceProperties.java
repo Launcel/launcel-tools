@@ -11,5 +11,4 @@ import xyz.launcel.constant.SessionFactoryConstant;
 public class ServiceProperties
 {
     private Boolean enabled = false;
-
 }

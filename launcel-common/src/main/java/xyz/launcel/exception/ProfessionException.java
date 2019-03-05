@@ -17,5 +17,4 @@ public class ProfessionException extends AbstractException
     {
         super(code, msg);
     }
-
 }

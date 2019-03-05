@@ -15,7 +15,6 @@ public class CollectAssert
         this.collection = collection;
     }
 
-
     public void isEmpty(String message)
     {
         if (CollectionUtils.isEmpty(collection))
@@ -23,7 +22,6 @@ public class CollectAssert
             ExceptionFactory.create(message);
         }
     }
-
 
     public void notEmpty(String message)
     {

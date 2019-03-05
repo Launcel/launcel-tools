@@ -4,7 +4,6 @@ import com.google.gson.GsonBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.var;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 import xyz.launcel.utils.json.builder.DefaultGsonBuilder;
@@ -45,6 +44,4 @@ public class GsonRedisSerializer<T> implements RedisSerializer<T>
         var str = new String(bytes, StandardCharsets.UTF_8);
         return gsonBuilder.create().fromJson(str, type);
     }
-
-
 }

@@ -3,7 +3,6 @@ package xyz.launcel.request;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -25,5 +24,4 @@ public class Request implements Serializable
      * ios, androd, h5,xcx
      */
     private String device;
-
 }

@@ -1,12 +1,8 @@
 package xyz.launcel.utils.json.builder;
 
-import lombok.var;
-
 public enum DateFormat
 {
-    LONG,
-    SHORT_STRING,
-    LONG_STRING;
+    LONG, SHORT_STRING, LONG_STRING;
 
     public static DateFormat getByName(String name)
     {

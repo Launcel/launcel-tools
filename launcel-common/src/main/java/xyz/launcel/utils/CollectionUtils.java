@@ -1,9 +1,6 @@
 package xyz.launcel.utils;
 
-import lombok.var;
 import xyz.launcel.exception.ExceptionFactory;
-import xyz.launcel.exception.SystemException;
-import xyz.launcel.log.RootLogger;
 
 import java.lang.reflect.Array;
 import java.util.Collection;
@@ -111,5 +108,4 @@ public interface CollectionUtils
         }
         return null;
     }
-
 }

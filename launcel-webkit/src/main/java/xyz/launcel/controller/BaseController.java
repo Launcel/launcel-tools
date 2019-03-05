@@ -2,12 +2,11 @@ package xyz.launcel.controller;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.var;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import xyz.launcel.dao.Page;
-import xyz.launcel.utils.StringUtils;
 import xyz.launcel.log.BaseLogger;
 import xyz.launcel.properties.WebAspejctProperties;
+import xyz.launcel.utils.StringUtils;
 
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;
@@ -27,7 +26,6 @@ public abstract class BaseController extends BaseLogger
     {
         getResponse().setContentType("text/html;charset=utf-8");
     }
-
 
     protected <T> Page<T> initPaging()
     {
@@ -54,7 +52,9 @@ public abstract class BaseController extends BaseLogger
                 minId = Integer.parseInt(minIdString);
             }
         }
-        catch (Exception ignore) { }
+        catch (Exception ignore)
+        {
+        }
         return new Page<>(pageNo, row);
     }
 
@@ -82,5 +82,4 @@ public abstract class BaseController extends BaseLogger
         }
         return getRequest().getHeader(name);
     }
-
 }

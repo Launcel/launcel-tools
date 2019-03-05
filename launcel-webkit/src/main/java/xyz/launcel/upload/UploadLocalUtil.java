@@ -1,6 +1,5 @@
 package xyz.launcel.upload;
 
-import lombok.var;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.properties.UploadProperties;
@@ -21,7 +20,6 @@ import java.util.Objects;
  */
 public class UploadLocalUtil
 {
-
 
     private static UploadProperties properties;
 
@@ -80,47 +78,6 @@ public class UploadLocalUtil
             e.printStackTrace();
         }
         checkSize(size);
-    }
-
-
-    /**
-     * @param file
-     *
-     * @return net resource url
-     */
-    public String upload(MultipartFile file)
-    {
-        try
-        {
-            check(file.getInputStream(), file.getSize());
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        var newName = getNewName(file.getOriginalFilename());
-        var dir     = new File(getGenPath(newName));
-        if (!dir.getParentFile().exists())
-        {
-            if (!dir.getParentFile().mkdirs())
-            {
-                return null;
-            }
-        }
-        try
-        {
-            //            file.transferTo(dir);
-            var out = new BufferedOutputStream(new FileOutputStream(getGenPath(newName)));
-            out.write(file.getBytes());
-            out.flush();
-            out.close();
-            return getDomainPath(newName);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     private static void checkSize(Long size)
@@ -217,4 +174,43 @@ public class UploadLocalUtil
                 new Date()) + File.separator + StringUtils.getUUID() + "." + ext;
     }
 
+    /**
+     * @param file
+     *
+     * @return net resource url
+     */
+    public String upload(MultipartFile file)
+    {
+        try
+        {
+            check(file.getInputStream(), file.getSize());
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        var newName = getNewName(file.getOriginalFilename());
+        var dir     = new File(getGenPath(newName));
+        if (!dir.getParentFile().exists())
+        {
+            if (!dir.getParentFile().mkdirs())
+            {
+                return null;
+            }
+        }
+        try
+        {
+            //            file.transferTo(dir);
+            var out = new BufferedOutputStream(new FileOutputStream(getGenPath(newName)));
+            out.write(file.getBytes());
+            out.flush();
+            out.close();
+            return getDomainPath(newName);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import lombok.var;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import xyz.launcel.constant.SessionFactoryConstant;
 import xyz.launcel.utils.Base64;

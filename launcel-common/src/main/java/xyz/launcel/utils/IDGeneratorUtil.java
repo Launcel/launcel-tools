@@ -59,5 +59,4 @@ public final class IDGeneratorUtil
         }
         return (currentTimeMillis << 22) | (pid << 12) | series;
     }
-
 }

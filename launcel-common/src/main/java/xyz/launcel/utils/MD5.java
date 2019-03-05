@@ -1,6 +1,5 @@
 package xyz.launcel.utils;
 
-
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -8,7 +7,6 @@ import lombok.NonNull;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 
 /**
  * @author Launcel [shay93@163.com]

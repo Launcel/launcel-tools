@@ -1,6 +1,5 @@
 package xyz.launcel.job.orm;
 
-import lombok.var;
 import xyz.launcel.bean.SpringBeanUtil;
 import xyz.launcel.commonName.BeanNameList;
 import xyz.launcel.ensure.Me;
@@ -61,11 +60,7 @@ public class JobDbSupport
             var rs = pstmt.executeQuery();
             while (rs.next())
             {
-                var entity = ScheduleJobEntity.builder()
-                        .jobName(rs.getString("job_name"))
-                        .cron(rs.getString("cron"))
-                        .status(rs.getShort("status"))
-                        .build();
+                var entity = ScheduleJobEntity.builder().jobName(rs.getString("job_name")).cron(rs.getString("cron")).status(rs.getShort("status")).build();
                 entity.setId(rs.getInt("id"));
                 entity.setEnabled(rs.getBoolean("enabled"));
                 list.add(entity);

@@ -13,5 +13,4 @@ public interface Group
     @interface Add {}
 
     @interface Delete {}
-
 }

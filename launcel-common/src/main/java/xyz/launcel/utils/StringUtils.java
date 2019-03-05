@@ -14,11 +14,12 @@ import java.util.stream.Stream;
 public final class StringUtils
 {
 
+    private static final Random RANDOM = new Random();
+
     public static int indexOf(final CharSequence cs, final CharSequence searchChar, final int start)
     {
         return cs.toString().indexOf(searchChar.toString(), start);
     }
-
 
     public static boolean contains(final CharSequence seq, final CharSequence searchSeq)
     {
@@ -69,7 +70,6 @@ public final class StringUtils
         return "true".equalsIgnoreCase(s);
     }
 
-
     public static boolean isFalse(String s)
     {
         return "false".equalsIgnoreCase(s);
@@ -86,8 +86,6 @@ public final class StringUtils
         return Arrays.stream(strings.split(split)).filter(StringUtils::isNotBlank);
     }
 
-    private static final Random RANDOM = new Random();
-
     public static String random(final int count)
     {
         return random(count, false, true);
@@ -103,8 +101,7 @@ public final class StringUtils
         return random(count, start, end, letters, numbers, null, RANDOM);
     }
 
-    private static String random(int count, int start, int end, final boolean letters, final boolean numbers, final char[] chars,
-                                 final Random random)
+    private static String random(int count, int start, int end, final boolean letters, final boolean numbers, final char[] chars, final Random random)
     {
         if (count == 0)
         {
@@ -142,8 +139,7 @@ public final class StringUtils
         {
             if (end <= start)
             {
-                throw new SystemException("_DEFINE_ERROR_CODE_011",
-                        "Parameter end (" + end + ") must be greater than start (" + start + ")");
+                throw new SystemException("_DEFINE_ERROR_CODE_011", "Parameter end (" + end + ") must be greater than start (" + start + ")");
             }
         }
 
@@ -165,7 +161,6 @@ public final class StringUtils
             {
                 count++;
                 continue;
-
             }
             if (ch >= 56320 && ch <= 57343)
             {
@@ -202,7 +197,6 @@ public final class StringUtils
         return new String(buffer);
     }
 
-
     public static byte[] serializer(String key)
     {
         return key.getBytes(StandardCharsets.UTF_8);
@@ -212,6 +206,5 @@ public final class StringUtils
     {
         return new String(bytes, StandardCharsets.UTF_8);
     }
-
 }
 

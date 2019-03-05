@@ -1,6 +1,5 @@
 package xyz.launcel.interceptor;
 
-import lombok.var;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -25,7 +24,6 @@ import java.util.Properties;
 public class PageInterceptor implements Interceptor, Serializable
 {
     private static final long serialVersionUID = 3637036555137206361L;
-
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable
@@ -72,5 +70,4 @@ public class PageInterceptor implements Interceptor, Serializable
 
     @Override
     public void setProperties(Properties properties) {}
-
 }

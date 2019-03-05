@@ -11,8 +11,8 @@ import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
-import xyz.launcel.utils.SQLHelp;
 import xyz.launcel.log.RootLogger;
+import xyz.launcel.utils.SQLHelp;
 
 import java.io.Serializable;
 import java.sql.ResultSet;
@@ -39,7 +39,7 @@ public class ResultSetInterceptor implements Interceptor, Serializable
     public Object intercept(Invocation invocation) throws Throwable
     {
         @SuppressWarnings("unused")
-        Statement        stmt   = (Statement) invocation.getArgs()[0];
+        Statement stmt = (Statement) invocation.getArgs()[0];
         ResultSetHandler target = (ResultSetHandler) invocation.getTarget();
         //利用反射获取到DefaultResultSetHandler的ParameterHandler属性，从而获取到ParameterObject
         MetaObject      metaObject      = SystemMetaObject.forObject(target);
@@ -51,7 +51,7 @@ public class ResultSetInterceptor implements Interceptor, Serializable
         if (Arrays.asList(superMethod).contains(selectId))
         {
             RootLogger.debug("调用 DaoSupport");
-            BoundSql            boundSql  = (BoundSql) metaObject.getValue("boundSql");
+            BoundSql boundSql = (BoundSql) metaObject.getValue("boundSql");
             @SuppressWarnings("unchecked")
             Map<String, Object> parameter = (Map<String, Object>) boundSql.getParameterObject();
             if (parameter == null)
@@ -127,5 +127,4 @@ public class ResultSetInterceptor implements Interceptor, Serializable
         }
         return list;
     }
-
 }

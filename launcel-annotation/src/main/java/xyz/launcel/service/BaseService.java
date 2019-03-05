@@ -22,5 +22,4 @@ public interface BaseService
     <T> Integer count(Object o);
 
     <T> Page<T> queryPage(Object o, Page<T> page);
-
 }

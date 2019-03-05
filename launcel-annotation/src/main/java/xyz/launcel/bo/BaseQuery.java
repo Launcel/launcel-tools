@@ -15,6 +15,13 @@ public class BaseQuery
     private List<Integer> ids;
     private int           status = StatusType.ENABLED.getStstus();
 
+    public BaseQuery(Integer id, List<Integer> ids, StatusType status)
+    {
+        this.id = id;
+        this.ids = ids;
+        this.status = status.getStstus();
+    }
+
     public Integer getId()
     {
         return id;
@@ -42,13 +49,6 @@ public class BaseQuery
 
     public void setStatus(StatusType status)
     {
-        this.status = status.getStstus();
-    }
-
-    public BaseQuery(Integer id, List<Integer> ids, StatusType status)
-    {
-        this.id = id;
-        this.ids = ids;
         this.status = status.getStstus();
     }
 }

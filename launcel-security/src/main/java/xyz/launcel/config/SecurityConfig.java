@@ -1,9 +1,9 @@
 package xyz.launcel.config;
 
-import xyz.launcel.json.Json;
-import xyz.launcel.lang.CollectionUtils;
-import xyz.launcel.lang.StringUtils;
 import xyz.launcel.log.RootLogger;
+import xyz.launcel.utils.CollectionUtils;
+import xyz.launcel.utils.Json;
+import xyz.launcel.utils.StringUtils;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 public class SecurityConfig
 {
     private static Map<String, Set<String>> uris = new HashMap<>();
-
 
     public static Map<String, Set<String>> getUris()
     {
@@ -139,5 +138,4 @@ public class SecurityConfig
         }
         return false;
     }
-
 }

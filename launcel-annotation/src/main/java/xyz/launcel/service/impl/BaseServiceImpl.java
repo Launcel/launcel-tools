@@ -5,8 +5,6 @@ import xyz.launcel.dao.IdEntity;
 import xyz.launcel.dao.Page;
 import xyz.launcel.service.BaseService;
 
-import java.util.List;
-
 /**
  * @author launcel
  */
@@ -55,10 +53,10 @@ public abstract class BaseServiceImpl implements BaseService
     @Override
     public <T> Page<T> queryPage(Object o, Page<T> page)
     {
-        Integer total = getMapper().count(o);
+        var total = getMapper().count(o);
         if (total != null && total > 0)
         {
-            List<T> list = getMapper().queryPage(o, page);
+            var list = getMapper().queryPage(o, page);
             page.setTotal(total);
             page.setList(list);
         }

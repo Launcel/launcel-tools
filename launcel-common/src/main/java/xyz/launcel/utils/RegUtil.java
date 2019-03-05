@@ -1,9 +1,7 @@
 package xyz.launcel.utils;
 
 import org.springframework.lang.NonNull;
-import xyz.launcel.exception.SystemException;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 public interface RegUtil

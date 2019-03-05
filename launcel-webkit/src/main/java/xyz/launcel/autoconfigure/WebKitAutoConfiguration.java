@@ -1,6 +1,5 @@
 package xyz.launcel.autoconfigure;
 
-import lombok.var;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
@@ -36,6 +35,14 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     private final CorsProperties   corsProperties;
     private final UploadProperties uploadProperties;
     private final JsonProperties   jsonPropertie;
+
+    public WebKitAutoConfiguration(CorsProperties corsProperties, UploadProperties uploadProperties, JsonProperties jsonPropertie)
+    {
+        System.out.println("init WebKitAutoConfiguration....");
+        this.corsProperties = corsProperties;
+        this.uploadProperties = uploadProperties;
+        this.jsonPropertie = jsonPropertie;
+    }
 
     /**
      * 用 gson 替换 jackson
@@ -82,6 +89,10 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
         configurer.defaultContentType(MediaType.APPLICATION_JSON_UTF8);
     }
 
+    //    @ConditionalOnProperty(prefix = "web.aspejct", value = "enabled", havingValue = "true")
+    //    @Bean
+    //    public ControllerParamValidateAspejct controllerParamValidateAspejct() { return new ControllerParamValidateAspejct(); }
+
     @Bean(name = "globalExceptionHandler")
     @ConditionalOnProperty(prefix = "web.global-exception", value = "enabled", havingValue = "true")
     public GlobalExceptionHandler globalExceptionHandler()
@@ -89,10 +100,6 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
         System.out.println("init globalExceptionHandler...");
         return new GlobalExceptionHandler();
     }
-
-    //    @ConditionalOnProperty(prefix = "web.aspejct", value = "enabled", havingValue = "true")
-    //    @Bean
-    //    public ControllerParamValidateAspejct controllerParamValidateAspejct() { return new ControllerParamValidateAspejct(); }
 
     @Bean
     @Primary
@@ -105,13 +112,5 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
         factory.setMaxRequestSize(uploadProperties.getMaxSize());
         UploadLocalUtil.init(uploadProperties);
         return factory.createMultipartConfig();
-    }
-
-    public WebKitAutoConfiguration(CorsProperties corsProperties, UploadProperties uploadProperties, JsonProperties jsonPropertie)
-    {
-        System.out.println("init WebKitAutoConfiguration....");
-        this.corsProperties = corsProperties;
-        this.uploadProperties = uploadProperties;
-        this.jsonPropertie = jsonPropertie;
     }
 }

@@ -24,10 +24,7 @@ public abstract class AbstractMvcTest extends AbstractTest
 
     private void setup()
     {
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-                .alwaysExpect(MockMvcResultMatchers.status().isOk())
-                .alwaysDo(MockMvcResultHandlers.print())
-                .build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac).alwaysExpect(MockMvcResultMatchers.status().isOk()).alwaysDo(MockMvcResultHandlers.print()).build();
     }
 
     private MockMvc getMockMvc()

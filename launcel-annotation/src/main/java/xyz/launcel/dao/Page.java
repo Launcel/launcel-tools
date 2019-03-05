@@ -120,7 +120,6 @@ public class Page<T> implements Serializable
         this.minId = (null == minId || minId < 0) ? 1 : minId;
     }
 
-
     public void setMaxId(Integer maxId)
     {
         this.maxId = (null == maxId || maxId < 0) ? 1 : maxId;

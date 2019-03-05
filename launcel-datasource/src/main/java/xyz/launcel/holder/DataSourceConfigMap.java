@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 /**
  * Created by launcel on 2018/8/29.
  */
@@ -21,5 +20,4 @@ public class DataSourceConfigMap
     private Boolean          enableTransactal;
     private Boolean          roleDataSource;
     private HikariDataSource dataSource;
-
 }

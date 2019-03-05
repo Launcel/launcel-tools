@@ -25,7 +25,6 @@ public class MapAssert
         }
     }
 
-
     public void notEmpty(String message)
     {
         if (CollectionUtils.isNotEmpty(map))

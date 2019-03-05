@@ -1,6 +1,5 @@
 package xyz.launcel.job.context;
 
-import lombok.var;
 import org.springframework.lang.NonNull;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
@@ -14,9 +13,8 @@ import java.util.concurrent.ScheduledFuture;
 public class Jobs
 {
 
-    private static ThreadPoolTaskScheduler scheduler = null;
-
     private static final ConcurrentHashMap<Integer, ScheduledFuture> jobsMap = new ConcurrentHashMap<>(8);
+    private static ThreadPoolTaskScheduler scheduler = null;
 
     public static void add(@NonNull Job job)
     {

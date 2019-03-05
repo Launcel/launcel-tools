@@ -30,7 +30,5 @@ public interface Me
     {
         return new MapAssert(map);
     }
-
-
 }
 

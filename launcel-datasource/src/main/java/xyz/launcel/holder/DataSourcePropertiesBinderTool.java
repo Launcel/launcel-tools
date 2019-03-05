@@ -3,14 +3,13 @@ package xyz.launcel.holder;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.var;
 import org.springframework.boot.context.properties.bind.Bindable;
 import org.springframework.boot.context.properties.bind.Binder;
 import xyz.launcel.constant.SessionFactoryConstant;
-import xyz.launcel.utils.CollectionUtils;
 import xyz.launcel.properties.DataSourceProperties;
 import xyz.launcel.properties.MybatisProperties;
 import xyz.launcel.properties.RoleDataSourceHolder;
+import xyz.launcel.utils.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,8 +53,7 @@ public class DataSourcePropertiesBinderTool
             {
                 dynamicDataSourceConfigMapList = new ArrayList<>();
             }
-            dynamicDataSourceConfigMapList.add(
-                    new DataSourceConfigMap(main.getName(), main.getEnableTransactal(), main.getRoleDataSource(), dataSource));
+            dynamicDataSourceConfigMapList.add(new DataSourceConfigMap(main.getName(), main.getEnableTransactal(), main.getRoleDataSource(), dataSource));
             if (main.getRoleDataSource())
             {
                 RoleDataSourceHolder.setDataSource(dataSource);
@@ -67,7 +65,8 @@ public class DataSourcePropertiesBinderTool
             dataSourceProperties.getOthers().forEach(other -> {
                 isDebugSql(other);
                 var dataSource = new HikariDataSource(other.getHikariConfig());
-                dynamicDataSourceConfigMapList.add(new DataSourceConfigMap(other.getName(), other.getEnableTransactal(), other.getRoleDataSource(), dataSource));
+                dynamicDataSourceConfigMapList.add(
+                        new DataSourceConfigMap(other.getName(), other.getEnableTransactal(), other.getRoleDataSource(), dataSource));
                 if (other.getRoleDataSource())
                 {
                     RoleDataSourceHolder.setDataSource(dataSource);
@@ -79,8 +78,7 @@ public class DataSourcePropertiesBinderTool
     public void binderMybatisConfig(Binder binder)
     {
         var mybatisProperties = binder.bind(SessionFactoryConstant.mybatisConfigPrefix, Bindable.of(MybatisProperties.class)).get();
-        if (Objects.isNull(mybatisProperties) || Objects.isNull(mybatisProperties.getMain()) || CollectionUtils.isEmpty(
-                mybatisProperties.getOthers()))
+        if (Objects.isNull(mybatisProperties) || Objects.isNull(mybatisProperties.getMain()) || CollectionUtils.isEmpty(mybatisProperties.getOthers()))
         {
             System.exit(-1);
         }
@@ -106,8 +104,7 @@ public class DataSourcePropertiesBinderTool
         multipleMybatis.put(mybatisProperties.getMain().getDataSourceName(), mybatisProperties.getMain());
         if (CollectionUtils.isNotEmpty(mybatisProperties.getOthers()))
         {
-            mybatisProperties.getOthers()
-                    .forEach(mybatisPropertie -> multipleMybatis.put(mybatisPropertie.getDataSourceName(), mybatisPropertie));
+            mybatisProperties.getOthers().forEach(mybatisPropertie -> multipleMybatis.put(mybatisPropertie.getDataSourceName(), mybatisPropertie));
         }
     }
 

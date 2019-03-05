@@ -1,6 +1,5 @@
 package xyz.launcel.interceptor;
 
-import lombok.var;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -21,33 +20,11 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.regex.Matcher;
 
-@Intercepts({@Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}), @Signature(
-        type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})})
+@Intercepts(
+        {@Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}), @Signature(type = Executor.class, method = "query",
+                args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})})
 public class ParamInterceptor implements Interceptor
 {
-    @Override
-    public Object intercept(Invocation invocation) throws Throwable
-    {
-        // 获取xml中的一个select/update/insert/delete节点，主要描述的是一条SQL语句
-        var    mappedStatement = (MappedStatement) invocation.getArgs()[0];
-        Object parameter       = null;
-        // 获取参数，if语句成立，表示sql语句有参数，参数格式是map形式
-        if (invocation.getArgs().length > 1)
-        {
-            parameter = invocation.getArgs()[1];
-        }
-        // 获取到节点的id,即sql语句的id
-        var sqlId = mappedStatement.getId();
-        // BoundSql就是封装myBatis最终产生的sql类
-        var boundSql = mappedStatement.getBoundSql(parameter);
-        // 获取节点的配置
-        var configuration = mappedStatement.getConfiguration();
-        // 获取到最终的sql语句
-        var sql = getSql(configuration, boundSql, sqlId);
-        RootLogger.debug("sql = " + sql);
-        return invocation.proceed();
-    }
-
     // 封装了一下sql语句，使得结果返回完整xml路径下的sql语句节点id + sql语句
     private static String getSql(Configuration configuration, BoundSql boundSql, String sqlId)
     {
@@ -71,7 +48,6 @@ public class ParamInterceptor implements Interceptor
         }
         return obj != null ? obj.toString() : "";
     }
-    // 进行？的替换
 
     private static String showSql(Configuration configuration, BoundSql boundSql)
     {
@@ -110,6 +86,30 @@ public class ParamInterceptor implements Interceptor
         }
         return sql;
     }
+    // 进行？的替换
+
+    @Override
+    public Object intercept(Invocation invocation) throws Throwable
+    {
+        // 获取xml中的一个select/update/insert/delete节点，主要描述的是一条SQL语句
+        var    mappedStatement = (MappedStatement) invocation.getArgs()[0];
+        Object parameter       = null;
+        // 获取参数，if语句成立，表示sql语句有参数，参数格式是map形式
+        if (invocation.getArgs().length > 1)
+        {
+            parameter = invocation.getArgs()[1];
+        }
+        // 获取到节点的id,即sql语句的id
+        var sqlId = mappedStatement.getId();
+        // BoundSql就是封装myBatis最终产生的sql类
+        var boundSql = mappedStatement.getBoundSql(parameter);
+        // 获取节点的配置
+        var configuration = mappedStatement.getConfiguration();
+        // 获取到最终的sql语句
+        var sql = getSql(configuration, boundSql, sqlId);
+        RootLogger.debug("sql = " + sql);
+        return invocation.proceed();
+    }
 
     @Override
     public Object plugin(Object target)
@@ -119,5 +119,4 @@ public class ParamInterceptor implements Interceptor
 
     @Override
     public void setProperties(Properties properties) {}
-
 }

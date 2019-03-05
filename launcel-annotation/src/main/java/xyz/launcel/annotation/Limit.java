@@ -41,5 +41,4 @@ public @interface Limit
     String minValue() default "";
 
     String maxValue() default "";
-
 }

@@ -1,15 +1,12 @@
 package xyz.launcel.menuType;
 
-import lombok.var;
-
 import java.util.Objects;
 
 /**
  * Created by launcel on 2018/7/26.
  */
 public enum DeviceType
-{
-    Android,
+{Android,
 
     iOS,
 

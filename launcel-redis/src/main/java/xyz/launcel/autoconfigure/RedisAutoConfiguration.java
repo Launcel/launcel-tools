@@ -1,6 +1,5 @@
 package xyz.launcel.autoconfigure;
 
-import lombok.var;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

@@ -1,6 +1,5 @@
 package xyz.launcel;
 
-import lombok.var;
 import org.springframework.boot.Banner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;

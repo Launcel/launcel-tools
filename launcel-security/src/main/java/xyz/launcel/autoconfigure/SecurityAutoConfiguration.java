@@ -10,9 +10,9 @@ import xyz.launcel.config.SecurityConfig;
 import xyz.launcel.exception.SystemException;
 import xyz.launcel.interceptor.RoleInterceptor;
 import xyz.launcel.jdbc.JdbcRole;
-import xyz.launcel.lang.CollectionUtils;
 import xyz.launcel.properties.JdbcRolePropertites;
 import xyz.launcel.properties.SecurityListProperties;
+import xyz.launcel.utils.CollectionUtils;
 
 import java.util.Objects;
 
@@ -40,12 +40,10 @@ public class SecurityAutoConfiguration implements WebMvcConfigurer
         SecurityConfig.setUris(securityListProperties.getList());
     }
 
-
     @Override
     public void addInterceptors(InterceptorRegistry registry)
     {
         registry.addInterceptor(new RoleInterceptor()).excludePathPatterns(securityListProperties.getExcludePaths());
-        //        super.addInterceptors(registry);
     }
 
     @Bean

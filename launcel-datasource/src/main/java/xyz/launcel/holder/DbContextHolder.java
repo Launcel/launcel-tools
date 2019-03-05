@@ -8,19 +8,19 @@ public class DbContextHolder
     private static final ThreadLocal<String> contextHolder = new ThreadLocal<>();
 
     /**
-     * 设置数据源
-     */
-    public static void setDbType(String dataSourceName)
-    {
-        contextHolder.set(dataSourceName);
-    }
-
-    /**
      * 取得当前数据源
      */
     static String getDbType()
     {
         return contextHolder.get();
+    }
+
+    /**
+     * 设置数据源
+     */
+    public static void setDbType(String dataSourceName)
+    {
+        contextHolder.set(dataSourceName);
     }
 
     /**

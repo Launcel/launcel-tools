@@ -12,5 +12,5 @@ import java.util.Map;
 public class SecurityListProperties
 {
     private Map<String, String[]> list;
-    private String[] excludePaths = {"/api/**"};
+    private String[]              excludePaths = {"/api/**"};
 }

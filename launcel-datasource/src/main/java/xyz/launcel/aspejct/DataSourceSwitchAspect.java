@@ -1,6 +1,5 @@
 package xyz.launcel.aspejct;
 
-import lombok.var;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;

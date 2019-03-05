@@ -26,5 +26,4 @@ public class Response implements Serializable
     {
         return new ResponseBuilder();
     }
-
 }
