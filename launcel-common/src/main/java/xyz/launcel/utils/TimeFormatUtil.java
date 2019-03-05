@@ -6,7 +6,6 @@ import lombok.var;
 import org.springframework.lang.NonNull;
 import xyz.launcel.log.RootLogger;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,7 +53,6 @@ public class TimeFormatUtil
         var cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(Calendar.MONTH) + 1;
-
     }
 
     /**
@@ -403,5 +401,4 @@ public class TimeFormatUtil
         }
         return null;
     }
-
 }

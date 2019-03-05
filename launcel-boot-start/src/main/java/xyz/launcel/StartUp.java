@@ -11,12 +11,29 @@ import xyz.launcel.log.RootLogger;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Objects;
 
+/**
+ * @author launcel
+ */
 public interface StartUp
 {
     static ConfigurableEnvironment run(@NonNull Class<?> appClass, @NonNull String[] args)
     {
-        var cac  = new SpringApplicationBuilder(appClass).web(WebApplicationType.SERVLET).bannerMode(Banner.Mode.OFF).run(args);
+        return run(appClass, args, null, null);
+    }
+
+    static ConfigurableEnvironment run(@NonNull Class<?> appClass, @NonNull String[] args, WebApplicationType type, Banner.Mode bannerMode)
+    {
+        if (Objects.isNull(type))
+        {
+            type = WebApplicationType.SERVLET;
+        }
+        if (Objects.isNull(bannerMode))
+        {
+            bannerMode = Banner.Mode.OFF;
+        }
+        var cac  = new SpringApplicationBuilder(appClass).web(type).bannerMode(bannerMode).run(args);
         var env  = cac.getEnvironment();
         var port = StringUtils.isEmpty(env.getProperty("server.port")) ? "8080" : env.getProperty("server.port");
 

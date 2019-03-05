@@ -23,6 +23,7 @@ public class GlobalExceptionHandler
     public Response throwable(Throwable x)
     {
         RootLogger.error("error info : {}", x.getCause());
+        output(x);
         return response(message, "-1");
     }
 
@@ -30,6 +31,7 @@ public class GlobalExceptionHandler
     public Response nullPointerException(NullPointerException x)
     {
         RootLogger.error("error info : {}", x.getCause());
+        output(x);
         return response(message, "-1");
     }
 
@@ -37,6 +39,7 @@ public class GlobalExceptionHandler
     public Response illegalArgumentException(IllegalArgumentException x)
     {
         RootLogger.error("error info : {}", x.getCause());
+        output(x);
         return response(message, "-1");
     }
 
@@ -44,6 +47,7 @@ public class GlobalExceptionHandler
     public Response professionException(ProfessionException x)
     {
         RootLogger.error("error info : {}", x.getCause());
+        output(x);
         return response(x.getMessage(), x.getCode());
     }
 
@@ -51,6 +55,7 @@ public class GlobalExceptionHandler
     public Response systemError(SystemException x)
     {
         RootLogger.error("error info : {}", x.getCause());
+        output(x);
         return response(x.getMeassge(), x.getCode());
     }
 
@@ -61,7 +66,12 @@ public class GlobalExceptionHandler
         var cves = x.getConstraintViolations();
         var sb   = new StringBuilder();
         cves.forEach(c -> sb.append(c.getMessage()));
+        output(x);
         return response(sb.toString(), "-1");
+    }
+
+    private void output(Throwable x) {
+        x.printStackTrace();
     }
 
     private Response response(String str, String code)
