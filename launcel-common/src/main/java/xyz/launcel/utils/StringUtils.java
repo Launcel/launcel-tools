@@ -109,12 +109,12 @@ public final class StringUtils
         }
         else if (count < 0)
         {
-            throw new SystemException("_DEFINE_ERROR_CODE_011", "Requested random string length " + count + " is less than 0.");
+            throw new SystemException("0028");
         }
-        if (chars != null && chars.length == 0)
-        {
-            throw new SystemException("_DEFINE_ERROR_CODE_011", "The chars array must not be empty");
-        }
+//        if (chars != null && chars.length == 0)
+//        {
+//            throw new SystemException("_DEFINE_ERROR_CODE_011", "The chars array must not be empty");
+//        }
 
         if (start == 0 && end == 0)
         {

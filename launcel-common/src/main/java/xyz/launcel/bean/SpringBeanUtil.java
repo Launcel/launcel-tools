@@ -20,11 +20,13 @@ public final class SpringBeanUtil
         return context;
     }
 
+    @NonNull
     public static <T> T getBean(@NonNull Class<T> clazz)
     {
         return context.getBean(clazz);
     }
 
+    @NonNull
     @SuppressWarnings("unchecked")
     public static <T> T getBean(@NonNull String name)
     {

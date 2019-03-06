@@ -4,6 +4,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import xyz.launcel.dao.Page;
+import xyz.launcel.ensure.Me;
+import xyz.launcel.exception.ExceptionFactory;
+import xyz.launcel.exception.ProfessionException;
+import xyz.launcel.exception.SystemException;
 import xyz.launcel.log.BaseLogger;
 import xyz.launcel.properties.WebTokenProperties;
 import xyz.launcel.utils.StringUtils;
@@ -72,15 +76,17 @@ public abstract class BaseController extends BaseLogger
                 }
             }
         }
-        return null;
+        throw new ProfessionException("0401");
     }
 
     protected String getHeaderString(String name)
     {
         if (StringUtils.isBlank(name))
         {
-            return null;
+            ExceptionFactory.create("0402");
         }
-        return getRequest().getHeader(name);
+        var str = getRequest().getHeader(name);
+        Me.builder(str).isEmpty("0403");
+        return str;
     }
 }

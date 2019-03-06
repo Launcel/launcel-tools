@@ -1,6 +1,7 @@
 package xyz.launcel.utils;
 
 import xyz.launcel.exception.ExceptionFactory;
+import xyz.launcel.exception.SystemException;
 
 import java.lang.reflect.Array;
 import java.util.Collection;
@@ -36,7 +37,7 @@ public interface CollectionUtils
     {
         if (object == null || object.getClass() == null)
         {
-            ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "Unsupported object type: null");
+            ExceptionFactory.create("0024");
         }
         if (object instanceof Collection)
         {
@@ -65,7 +66,7 @@ public interface CollectionUtils
         }
         catch (IllegalArgumentException ex)
         {
-            ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "Unsupported object type" + object.getClass().getName());
+            ExceptionFactory.create("0024");
         }
         return false;
     }
@@ -106,6 +107,6 @@ public interface CollectionUtils
         {
             e.printStackTrace();
         }
-        return null;
+        throw new SystemException("0025");
     }
 }

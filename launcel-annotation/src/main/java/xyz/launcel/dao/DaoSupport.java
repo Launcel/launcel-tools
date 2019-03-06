@@ -10,7 +10,7 @@ import java.util.List;
 public interface DaoSupport
 {
 
-    <T> void add(T o);
+    <T> int add(T o);
 
     <T> int update(T o);
 

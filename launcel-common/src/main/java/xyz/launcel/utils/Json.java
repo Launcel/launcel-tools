@@ -27,7 +27,7 @@ public class Json
         }
         catch (JsonParseException x)
         {
-            throw new SystemException("_DEFINE_ERROR_CODE_011", "Json转换异常");
+            throw new SystemException("0026");
         }
     }
 
@@ -39,7 +39,7 @@ public class Json
         }
         catch (JsonParseException x)
         {
-            throw new SystemException("_DEFINE_ERROR_CODE_011", "Json转换异常");
+            throw new SystemException("0026");
         }
     }
 }

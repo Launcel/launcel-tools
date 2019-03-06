@@ -2,7 +2,7 @@ package xyz.launcel.job.orm;
 
 import xyz.launcel.bean.SpringBeanUtil;
 import xyz.launcel.commonName.BeanNameList;
-import xyz.launcel.ensure.Me;
+import xyz.launcel.exception.SystemException;
 import xyz.launcel.job.config.JobDbConfig;
 
 import java.sql.Connection;
@@ -42,7 +42,7 @@ public class JobDbSupport
         {
             e.printStackTrace();
         }
-        return null;
+        throw new SystemException("0011");
     }
 
     public static List<ScheduleJobEntity> query(String sql, Object[] objects)
@@ -50,8 +50,7 @@ public class JobDbSupport
         var list = new ArrayList<ScheduleJobEntity>();
         try
         {
-            var conn = getConn();
-            Me.builder(conn).isNull("create Connection error!!!");
+            var conn  = getConn();
             var pstmt = conn.prepareStatement(sql);
             for (int i = 1; i < objects.length + 1; i++)
             {
@@ -78,10 +77,9 @@ public class JobDbSupport
 
     public static int add(ScheduleJobEntity entity)
     {
-        var conn = getConn();
-        Me.builder(conn).isNull("create Connection error!!!");
-        int    result = 0;
-        String sql    = "insert into " + jobDbConfig.getTableName() + "( job_name, cron, status, create_time, create_user, enabled) values(?, ?, ?, ?, ?, 1)";
+        var conn   = getConn();
+        int result = 0;
+        var sql    = "insert into " + jobDbConfig.getTableName() + "( job_name, cron, status, create_time, create_user, enabled) values(?, ?, ?, ?, ?, 1)";
         try
         {
             var pstmt = conn.prepareStatement(sql);
@@ -103,10 +101,9 @@ public class JobDbSupport
 
     public static int update(ScheduleJobEntity entity)
     {
-        var conn = getConn();
-        Me.builder(conn).isNull("create Connection error!!!");
-        int    result = 0;
-        String sql    = "update " + getTableName() + " set job_name=?, cron=?, status=?, update_time=?, update_user=?, enabled=?";
+        var conn   = getConn();
+        int result = 0;
+        var sql    = "update " + getTableName() + " set job_name=?, cron=?, status=?, update_time=?, update_user=?, enabled=?";
         try
         {
             var ps = conn.prepareStatement(sql);

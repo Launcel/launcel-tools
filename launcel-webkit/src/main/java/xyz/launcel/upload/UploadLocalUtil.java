@@ -32,7 +32,7 @@ public class UploadLocalUtil
     {
         if (Objects.isNull(properties))
         {
-            ExceptionFactory.create("-1", "没有设置相关上传配置...");
+            ExceptionFactory.create("0411");
         }
 
         try
@@ -84,11 +84,11 @@ public class UploadLocalUtil
     {
         if (size < (properties.getMinSize()))
         {
-            ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的文件太小");
+            ExceptionFactory.create("0412");
         }
         if (size > properties.getMaxSize())
         {
-            ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的文件大小超过限制");
+            ExceptionFactory.create("0413");
         }
     }
 
@@ -103,11 +103,11 @@ public class UploadLocalUtil
         var b = new byte[4];
         if (in == null)
         {
-            ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为无法识别的文件");
+            ExceptionFactory.create("0414");
         }
         if (in.read(b, 0, b.length) < 4)
         {
-            ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的文件太小");
+            ExceptionFactory.create("0412");
         }
         var    sb = new StringBuilder();
         String hv;
@@ -124,7 +124,7 @@ public class UploadLocalUtil
         {
             return;
         }
-        ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为不能接收的文件类型");
+        ExceptionFactory.create("0415");
     }
 
     private static String getExt(String originalName)
@@ -132,7 +132,7 @@ public class UploadLocalUtil
         int index = originalName.lastIndexOf(".");
         if (index <= 0)
         {
-            ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为无法识别的文件");
+            ExceptionFactory.create("0414");
         }
         var ext = originalName.substring(index + 1);
         checkFile(ext);
@@ -145,7 +145,7 @@ public class UploadLocalUtil
         {
             return;
         }
-        ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "上传的为不能接收的文件类型");
+        ExceptionFactory.create("0415");
     }
 
     private static String getNewName(String oldName)

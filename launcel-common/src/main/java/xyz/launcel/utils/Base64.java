@@ -1,8 +1,10 @@
 package xyz.launcel.utils;
 
 import lombok.NonNull;
+import xyz.launcel.exception.ExceptionFactory;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 public interface Base64
 {
@@ -14,10 +16,10 @@ public interface Base64
     static String decode(@NonNull String string)
     {
         var bytes = java.util.Base64.getDecoder().decode(string);
-        if (bytes != null && bytes.length > 0)
+        if (Objects.isNull(bytes) || bytes.length < 1)
         {
-            return new String(bytes, StandardCharsets.UTF_8);
+            ExceptionFactory.error("0021");
         }
-        return null;
+        return new String(bytes, StandardCharsets.UTF_8);
     }
 }

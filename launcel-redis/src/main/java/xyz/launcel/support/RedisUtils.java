@@ -3,7 +3,6 @@ package xyz.launcel.support;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -111,15 +110,15 @@ public final class RedisUtils
     {
         if (StringUtils.isBlank(key))
         {
-            throw new SystemException("_REDIS__ERROR_CODE_011", "redis key is null");
+            throw new SystemException("0301");
         }
         if (Objects.isNull(value))
         {
-            throw new SystemException("_REDIS__ERROR_CODE_011", "redis value is null");
+            throw new SystemException("0302");
         }
         if (expTime == null || expTime <= 0)
         {
-            throw new SystemException("_REDIS__ERROR_CODE_011", "redis expTime is error");
+            throw new SystemException("0303");
         }
     }
     

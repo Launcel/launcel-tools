@@ -65,8 +65,7 @@ public class DataSourcePropertiesBinderTool
             dataSourceProperties.getOthers().forEach(other -> {
                 isDebugSql(other);
                 var dataSource = new HikariDataSource(other.getHikariConfig());
-                dynamicDataSourceConfigMapList.add(
-                        new DataSourceConfigMap(other.getName(), other.getEnableTransactal(), other.getRoleDataSource(), dataSource));
+                dynamicDataSourceConfigMapList.add(new DataSourceConfigMap(other.getName(), other.getEnableTransactal(), other.getRoleDataSource(), dataSource));
                 if (other.getRoleDataSource())
                 {
                     RoleDataSourceHolder.setDataSource(dataSource);

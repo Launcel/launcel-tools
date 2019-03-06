@@ -7,12 +7,7 @@ public class SystemException extends AbstractException
 {
     private static final long serialVersionUID = -1597189035906555024L;
 
-    protected SystemException()
-    {
-        this(null);
-    }
-
-    SystemException(String message)
+    public SystemException(String message)
     {
         this(null, message);
     }

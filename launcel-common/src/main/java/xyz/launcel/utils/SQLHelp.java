@@ -38,7 +38,7 @@ public class SQLHelp
         }
         catch (ClassCastException x)
         {
-            throw new SystemException("_DEFINE_ERROR_CODE_011", "page对象转换出错");
+            throw new SystemException("0027");
         }
         return p == null ? new Page(Integer.MAX_VALUE) : p;
     }

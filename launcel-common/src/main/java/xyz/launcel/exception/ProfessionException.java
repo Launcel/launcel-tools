@@ -8,12 +8,12 @@ public class ProfessionException extends AbstractException
 
     private static final long serialVersionUID = -8971428275453038218L;
 
-    ProfessionException(String message)
+    public ProfessionException(String message)
     {
         this(null, message);
     }
 
-    ProfessionException(String code, String msg)
+    public ProfessionException(String code, String msg)
     {
         super(code, msg);
     }

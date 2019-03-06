@@ -12,6 +12,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Lazy;
+import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.job.bean.Job;
 import xyz.launcel.job.context.Jobs;
 import xyz.launcel.job.orm.JobDbSupport;
@@ -64,23 +65,22 @@ public abstract class AbstractJob implements InitializingBean
     {
         Jobs.remove(job.getId());
         job = getCurrentJob();
-        if (Objects.nonNull(job))
-        {
-            Jobs.add(job);
-        }
+        Jobs.add(job);
     }
 
     private Job getCurrentJob()
     {
-        var entitys = JobDbSupport.query("select * from " + JobDbSupport.getTableName() + " where job_name=?", new Object[]{getJobName()});
+        var entitys = JobDbSupport.query("select * from "
+                + JobDbSupport.getTableName()
+                + " where job_name=?", new Object[]{getJobName()});
         if (CollectionUtils.isEmpty(entitys) || entitys.size() > 1)
         {
-            return null;
+            ExceptionFactory.create("0003");
         }
         var entity = entitys.get(0);
         if (entity.getStatus() == -1 || !entity.getEnabled() || StringUtils.isBlank(entity.getCron()))
         {
-            return null;
+            ExceptionFactory.create("0004");
         }
         return Job.builder()
                 .id(entity.getId())

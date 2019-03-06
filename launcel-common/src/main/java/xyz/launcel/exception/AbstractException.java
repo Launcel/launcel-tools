@@ -12,11 +12,6 @@ abstract class AbstractException extends RuntimeException
     private              String code;
     private              String meassge;
 
-    AbstractException()
-    {
-        super();
-    }
-
     AbstractException(String message)
     {
         super(message);

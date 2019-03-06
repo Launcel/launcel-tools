@@ -3,6 +3,7 @@ package xyz.launcel.utils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.NonNull;
+import xyz.launcel.exception.SystemException;
 import xyz.launcel.log.RootLogger;
 
 import java.text.ParseException;
@@ -28,9 +29,9 @@ public class TimeFormatUtil
         }
         catch (ParseException e)
         {
-            RootLogger.error("时间转换失败..., exception={}", e.getCause());
+            e.printStackTrace();
+            throw new SystemException("0029");
         }
-        return null;
     }
 
     public static Integer getYear(Date date)

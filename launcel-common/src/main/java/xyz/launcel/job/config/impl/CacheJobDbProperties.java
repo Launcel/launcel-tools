@@ -3,6 +3,7 @@ package xyz.launcel.job.config.impl;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.lang.NonNull;
 import xyz.launcel.job.config.JobDbConfig;
 
 @Getter

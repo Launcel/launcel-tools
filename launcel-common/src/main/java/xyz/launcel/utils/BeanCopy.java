@@ -43,7 +43,7 @@ public final class BeanCopy
         }
         catch (ReflectiveOperationException e)
         {
-            throw new SystemException("_DEFINE_ERROR_CODE_011", targetClass.getSimpleName() + "实例化异常");
+            throw new SystemException("0022");
         }
     }
 
@@ -56,7 +56,7 @@ public final class BeanCopy
     {
         if (CollectionUtils.isEmpty(source))
         {
-            ExceptionFactory.create("_DEFINE_ERROR_CODE_012", "集合中没有数据");
+            ExceptionFactory.create("0023");
         }
         try
         {
@@ -67,7 +67,7 @@ public final class BeanCopy
         }
         catch (ReflectiveOperationException e)
         {
-            throw new SystemException("_DEFINE_ERROR_CODE_011", targetClass.getSimpleName() + "实例化异常");
+            throw new SystemException("0022");
         }
     }
 }
