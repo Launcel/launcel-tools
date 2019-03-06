@@ -85,7 +85,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     @Primary
     @Bean(name = "redisTemplate")
     @ConditionalOnBean(name = "redisConnectionFactory")
-    public RedisTemplate<String, Object> redisTemplate(@NonNull @Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
+    public RedisTemplate<String, Object> redisTemplate(@NonNull @Named("redisConnectionFactory") final RedisConnectionFactory redisConnectionFactory)
     {
         RootLogger.warn("init redisTemplate...");
         var template = new RedisTemplate<String, Object>();
@@ -113,7 +113,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
 
     @Primary
     @Bean(value = "cacheManager")
-    public CacheManager cacheManager(@NonNull @Named("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory)
+    public CacheManager cacheManager(@NonNull @Named("redisConnectionFactory") final RedisConnectionFactory redisConnectionFactory)
     {
         RootLogger.warn("init cacheManager...");
         // 设置缓存有效期一小时

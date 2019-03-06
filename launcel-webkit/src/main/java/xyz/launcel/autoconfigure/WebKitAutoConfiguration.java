@@ -55,7 +55,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
      */
     @ConditionalOnProperty(prefix = "web.json-converter", value = "enabled", havingValue = "true", matchIfMissing = true)
     @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
+    public void configureMessageConverters(final List<HttpMessageConverter<?>> converters)
     {
         RootLogger.warn("init web.json-converter...");
         converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
@@ -79,7 +79,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
 
     @ConditionalOnProperty(prefix = "web.cors", value = "enabled", havingValue = "true")
     @Override
-    public void addCorsMappings(CorsRegistry registry)
+    public void addCorsMappings(final CorsRegistry registry)
     {
         RootLogger.warn("init web.cors...");
         registry.addMapping(corsProperties.getPathPattern())
@@ -90,7 +90,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     }
 
     @Override
-    public void configureContentNegotiation(ContentNegotiationConfigurer configurer)
+    public void configureContentNegotiation(final ContentNegotiationConfigurer configurer)
     {
         configurer.defaultContentType(MediaType.APPLICATION_JSON_UTF8);
         WebTokenProperties.setTokenKey(tokenKey);

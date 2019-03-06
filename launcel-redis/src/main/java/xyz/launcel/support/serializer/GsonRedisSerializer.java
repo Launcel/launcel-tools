@@ -1,11 +1,12 @@
 package xyz.launcel.support.serializer;
 
-import com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
+import org.springframework.lang.Nullable;
 import xyz.launcel.utils.json.builder.DefaultGsonBuilder;
 
 import java.nio.charset.StandardCharsets;
@@ -15,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 @AllArgsConstructor
 public class GsonRedisSerializer<T> implements RedisSerializer<T>
 {
-    private GsonBuilder gsonBuilder = DefaultGsonBuilder.getGsonBuilder();
+    private Gson gson = DefaultGsonBuilder.create();
 
     private Class<T> type;
 
@@ -25,23 +26,23 @@ public class GsonRedisSerializer<T> implements RedisSerializer<T>
     }
 
     @Override
-    public byte[] serialize(T t) throws SerializationException
+    public byte[] serialize(@Nullable T t) throws SerializationException
     {
         if (t == null)
         {
             return new byte[0];
         }
-        return gsonBuilder.create().toJson(t).getBytes();
+        return gson.toJson(t).getBytes();
     }
 
     @Override
-    public T deserialize(byte[] bytes) throws SerializationException
+    public T deserialize(@Nullable byte[] bytes) throws SerializationException
     {
         if (bytes == null || bytes.length == 0)
         {
             return null;
         }
         var str = new String(bytes, StandardCharsets.UTF_8);
-        return gsonBuilder.create().fromJson(str, type);
+        return gson.fromJson(str, type);
     }
 }

@@ -1,7 +1,10 @@
 package xyz.launcel.upload;
 
+import org.springframework.lang.NonNull;
 import org.springframework.web.multipart.MultipartFile;
+import xyz.launcel.ensure.Me;
 import xyz.launcel.exception.ExceptionFactory;
+import xyz.launcel.exception.ProfessionException;
 import xyz.launcel.properties.UploadProperties;
 import xyz.launcel.utils.StringUtils;
 
@@ -23,12 +26,12 @@ public class UploadLocalUtil
 
     private static UploadProperties properties;
 
-    public static void init(UploadProperties properties)
+    public static void init(@NonNull final UploadProperties properties)
     {
         UploadLocalUtil.properties = properties;
     }
 
-    public static String save(File file)
+    public static String save(@NonNull final File file)
     {
         if (Objects.isNull(properties))
         {
@@ -63,8 +66,8 @@ public class UploadLocalUtil
         catch (IOException e)
         {
             e.printStackTrace();
+            throw new ProfessionException("0416");
         }
-        return null;
     }
 
     private static void check(InputStream in, Long size)
@@ -82,14 +85,8 @@ public class UploadLocalUtil
 
     private static void checkSize(Long size)
     {
-        if (size < (properties.getMinSize()))
-        {
-            ExceptionFactory.create("0412");
-        }
-        if (size > properties.getMaxSize())
-        {
-            ExceptionFactory.create("0413");
-        }
+        Me.builder(size < (properties.getMinSize())).isTrue("0412");
+        Me.builder(size > properties.getMaxSize()).isTrue("0413");
     }
 
     /**
@@ -101,10 +98,7 @@ public class UploadLocalUtil
     {
         //        InputStream in = file.getInputStream();
         var b = new byte[4];
-        if (in == null)
-        {
-            ExceptionFactory.create("0414");
-        }
+        Me.builder(in).isNull("0414");
         if (in.read(b, 0, b.length) < 4)
         {
             ExceptionFactory.create("0412");
@@ -130,10 +124,7 @@ public class UploadLocalUtil
     private static String getExt(String originalName)
     {
         int index = originalName.lastIndexOf(".");
-        if (index <= 0)
-        {
-            ExceptionFactory.create("0414");
-        }
+        Me.builder(index <= 0).isTrue("0414");
         var ext = originalName.substring(index + 1);
         checkFile(ext);
         return ext;
@@ -141,11 +132,7 @@ public class UploadLocalUtil
 
     private static void checkFile(String ext)
     {
-        if (properties.getFileType().contains(ext.toLowerCase()))
-        {
-            return;
-        }
-        ExceptionFactory.create("0415");
+        Me.builder(properties.getFileType().contains(ext.toLowerCase())).isFalse("0415");
     }
 
     private static String getNewName(String oldName)
@@ -170,8 +157,9 @@ public class UploadLocalUtil
 
     private static String getNewFileName(String ext)
     {
-        return new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd").format(
-                new Date()) + File.separator + StringUtils.getUUID() + "." + ext;
+        return new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd")
+                .format(new Date()) + File.separator + StringUtils.getUUID()
+                + "." + ext;
     }
 
     /**
@@ -179,7 +167,7 @@ public class UploadLocalUtil
      *
      * @return net resource url
      */
-    public String upload(MultipartFile file)
+    public static String upload(MultipartFile file)
     {
         try
         {
@@ -210,7 +198,7 @@ public class UploadLocalUtil
         catch (IOException e)
         {
             e.printStackTrace();
+            throw new ProfessionException("0416");
         }
-        return null;
     }
 }

@@ -19,7 +19,7 @@ public class GlobalExceptionHandler
     private final String message = "网络错误！";
 
     @ExceptionHandler(value = Throwable.class)
-    public Response throwable(Throwable x)
+    public Response throwable(final Throwable x)
     {
         RootLogger.error("error info : {}", x.getCause());
         output(x);
@@ -27,7 +27,7 @@ public class GlobalExceptionHandler
     }
 
     @ExceptionHandler(value = NullPointerException.class)
-    public Response nullPointerException(NullPointerException x)
+    public Response nullPointerException(final NullPointerException x)
     {
         RootLogger.error("error info : {}", x.getCause());
         output(x);
@@ -35,7 +35,7 @@ public class GlobalExceptionHandler
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)
-    public Response illegalArgumentException(IllegalArgumentException x)
+    public Response illegalArgumentException(final IllegalArgumentException x)
     {
         RootLogger.error("error info : {}", x.getCause());
         output(x);
@@ -43,7 +43,7 @@ public class GlobalExceptionHandler
     }
 
     @ExceptionHandler(value = ProfessionException.class)
-    public Response professionException(ProfessionException x)
+    public Response professionException(final ProfessionException x)
     {
         RootLogger.error("error info : {}", x.getCause());
         output(x);
@@ -51,7 +51,7 @@ public class GlobalExceptionHandler
     }
 
     @ExceptionHandler(SystemException.class)
-    public Response systemError(SystemException x)
+    public Response systemError(final SystemException x)
     {
         RootLogger.error("error info : {}", x.getCause());
         output(x);
@@ -59,7 +59,7 @@ public class GlobalExceptionHandler
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public Response violationException(ConstraintViolationException x)
+    public Response violationException(final ConstraintViolationException x)
     {
         RootLogger.error("error info : {}", x.getCause());
         var cves = x.getConstraintViolations();
@@ -69,12 +69,12 @@ public class GlobalExceptionHandler
         return response(sb.toString(), "-1");
     }
 
-    private void output(Throwable x)
+    private void output(final Throwable x)
     {
         x.printStackTrace();
     }
 
-    private Response response(String str, String code)
+    private Response response(final String str, final String code)
     {
         return Response.builder().message(str).code(code).build();
     }

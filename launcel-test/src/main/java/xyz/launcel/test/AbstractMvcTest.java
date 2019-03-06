@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import xyz.launcel.exception.ProfessionException;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -24,7 +25,10 @@ public abstract class AbstractMvcTest extends AbstractTest
 
     private void setup()
     {
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac).alwaysExpect(MockMvcResultMatchers.status().isOk()).alwaysDo(MockMvcResultHandlers.print()).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
+                .alwaysExpect(MockMvcResultMatchers.status().isOk())
+                .alwaysDo(MockMvcResultHandlers.print())
+                .build();
     }
 
     private MockMvc getMockMvc()
@@ -43,7 +47,7 @@ public abstract class AbstractMvcTest extends AbstractTest
         catch (Exception e)
         {
             e.printStackTrace();
-            return null;
+            throw new ProfessionException("请求失败...");
         }
     }
 
@@ -57,7 +61,7 @@ public abstract class AbstractMvcTest extends AbstractTest
         catch (Exception e)
         {
             e.printStackTrace();
-            return null;
+            throw new ProfessionException("请求失败...");
         }
     }
 
@@ -71,7 +75,7 @@ public abstract class AbstractMvcTest extends AbstractTest
         catch (Exception e)
         {
             e.printStackTrace();
-            return null;
+            throw new ProfessionException("请求失败...");
         }
     }
 
@@ -85,13 +89,13 @@ public abstract class AbstractMvcTest extends AbstractTest
         catch (Exception e)
         {
             e.printStackTrace();
-            return null;
+            throw new ProfessionException("请求失败...");
         }
     }
 
     private MockHttpServletRequestBuilder builder(String uri, Map<String, String> params, String requestMethod)
     {
-        String                        method  = requestMethod.toLowerCase();
+        var                           method  = requestMethod.toLowerCase();
         MockHttpServletRequestBuilder builder = null;
         switch (method)
         {
@@ -107,14 +111,18 @@ public abstract class AbstractMvcTest extends AbstractTest
             case "delete":
                 builder = MockMvcRequestBuilders.delete(uri);
                 break;
+            default:
+                break;
         }
         return addParam(builder, params);
     }
 
     private MockHttpServletRequestBuilder addParam(MockHttpServletRequestBuilder builder, Map<String, String> params)
     {
-        for (Map.Entry<String, String> entry : params.entrySet())
+        for (var entry : params.entrySet())
+        {
             builder.param(entry.getKey(), entry.getValue());
+        }
         return builder;
     }
 
@@ -127,7 +135,7 @@ public abstract class AbstractMvcTest extends AbstractTest
         catch (UnsupportedEncodingException e)
         {
             e.printStackTrace();
-            return null;
+            throw new ProfessionException("请求失败...");
         }
     }
 }

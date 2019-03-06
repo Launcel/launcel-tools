@@ -59,8 +59,8 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
         if (binderFacory.getDataSourceProperties().getUseDynamicDataSource())
         {
             binderFacory.getDynamicDataSourceConfigMapList()
-                    .forEach(dataSourceConfigMap -> MultipleDataSourceRegistryTool.registTransactal(dataSourceConfigMap.getName(), registry,
-                            dataSourceConfigMap.getDataSource()));
+                    .forEach(dataSourceConfigMap -> MultipleDataSourceRegistryTool.registTransactal(dataSourceConfigMap.getName(),
+                            registry, dataSourceConfigMap.getDataSource()));
             return;
         }
         new MultipleDataSourceRegistryTool(binderFacory.getMultipleMybatis(), binderFacory.getDataSourceProperties()).registrMultipleBean(registry);
@@ -130,6 +130,6 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
     public DataSourceSwitchAspect dataSourceSwitchAspect() { return new DataSourceSwitchAspect(); }
 
     @Override
-    public void postProcessBeanFactory(@NonNull ConfigurableListableBeanFactory beanFactory)
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
     { }
 }
