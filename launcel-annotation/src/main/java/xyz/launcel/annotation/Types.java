@@ -18,7 +18,14 @@ import lombok.Getter;
 public enum Types
 {
 
-    NUMBER("整数"), STRING("字符"), DECIMAL("小数"), EMAIL("邮箱"), TEL("手机号"), QQ("qq号码"), IP("ip地址"), LIST("数组");
+    NUMBER("整数"),
+    STRING("字符"),
+    DECIMAL("小数"),
+    EMAIL("邮箱"),
+    TEL("手机号"),
+    QQ("qq号码"),
+    IP("ip地址"),
+    LIST("数组");
 
     private String desc;
 

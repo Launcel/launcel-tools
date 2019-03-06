@@ -6,7 +6,8 @@ import lombok.var;
 @Getter
 public enum StatusType
 {
-    ENABLED(1, "开启"), DISENABLED(0, "关闭");
+    ENABLED(1, "开启"),
+    DISENABLED(0, "关闭");
 
     private int ststus;
 
@@ -25,7 +26,7 @@ public enum StatusType
             if (status == statusType.getStstus())
                 return statusType;
         }
-        return null;
+        throw new RuntimeException("获取状态类型失败：类型不在范围内...");
     }
 
 }
