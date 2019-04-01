@@ -84,8 +84,7 @@ public class MultipleDataSourceRegistryTool
     /**
      * 注册 sessionFactory
      */
-    private void registSessionFactory(BeanDefinitionRegistry registry, HikariDataSource hikariDataSource,
-                                      MybatisProperties.MybatisPropertie mybatisPropertie,
+    private void registSessionFactory(BeanDefinitionRegistry registry, HikariDataSource hikariDataSource, MybatisProperties.MybatisPropertie mybatisPropertie,
                                       String sqlSessionFactoryBeanName, boolean isDebugSql)
     {
         var sqlSessionAbd = BeanDefinitionRegistryTool.decorateAbd(SqlSessionFactoryBean.class);
@@ -104,7 +103,8 @@ public class MultipleDataSourceRegistryTool
         sqlSession.addPropertyValue(SessionFactoryConstant.pluginName, interceptors);
         try
         {
-            sqlSession.addPropertyValue(SessionFactoryConstant.mapperLocationName, new PathMatchingResourcePatternResolver().getResources(mybatisPropertie.getMapperResource()));
+            sqlSession.addPropertyValue(SessionFactoryConstant.mapperLocationName,
+                    new PathMatchingResourcePatternResolver().getResources(mybatisPropertie.getMapperResource()));
         }
         catch (IOException e)
         {
@@ -116,8 +116,7 @@ public class MultipleDataSourceRegistryTool
     /**
      * 注册 MapperScannerConfigurer
      */
-    private void registMapperScannerConfigurer(BeanDefinitionRegistry registry,
-                                               MybatisProperties.MybatisPropertie mybatisPropertie,
+    private void registMapperScannerConfigurer(BeanDefinitionRegistry registry, MybatisProperties.MybatisPropertie mybatisPropertie,
                                                String sqlSessionFactoryBeanName)
     {
         var abd                     = BeanDefinitionRegistryTool.decorateAbd(MapperScannerConfigurer.class);

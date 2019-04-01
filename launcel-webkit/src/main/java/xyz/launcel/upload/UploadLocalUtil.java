@@ -37,7 +37,6 @@ public class UploadLocalUtil
         {
             ExceptionFactory.create("0411");
         }
-
         try
         {
             var in = new FileInputStream(file);
@@ -92,7 +91,7 @@ public class UploadLocalUtil
     /**
      * 检验上传文件的头信息，用来判断是否是非法文件
      *
-     * @param in
+     * @param in 文件流
      */
     private static void checkContent(InputStream in) throws IOException
     {
@@ -157,14 +156,12 @@ public class UploadLocalUtil
 
     private static String getNewFileName(String ext)
     {
-        return new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd")
-                .format(new Date()) + File.separator + StringUtils.getUUID()
-                + "." + ext;
+        return new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd").format(
+                new Date()) + File.separator + StringUtils.getUUID() + "." + ext;
     }
 
     /**
-     * @param file
-     *
+     * @param file 文件
      * @return net resource url
      */
     public static String upload(MultipartFile file)
