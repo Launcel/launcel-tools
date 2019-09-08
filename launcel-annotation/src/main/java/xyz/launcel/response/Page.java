@@ -1,6 +1,7 @@
 package xyz.launcel.response;
 
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -14,7 +15,7 @@ import java.util.Objects;
  */
 @Accessors(chain = true)
 @NoArgsConstructor
-//@ToString(exclude = {"row", "minId", "maxId", "offset", "orderBy", "groupBy"})
+@ToString
 public class Page<T> implements Serializable
 {
     private static final long serialVersionUID = -8522433864030332281L;

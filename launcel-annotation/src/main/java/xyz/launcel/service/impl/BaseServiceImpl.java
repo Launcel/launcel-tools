@@ -57,14 +57,12 @@ public abstract class BaseServiceImpl implements BaseService
     @Override
     public <T> Page<T> queryPage(Object o, PageQuery pageQuery)
     {
-        Page<T> page  = new Page<>();
-        var     total = getMapper().count(o);
-        if (total != null && total > 0)
+        var total = getMapper().count(o);
+        if (total == null || total == 0)
         {
-            List<T> list = getMapper().queryPage(o, pageQuery);
-            page.setTotal(total);
-            page.setList(list);
+            return new Page<>();
         }
-        return page;
+        List<T> list = getMapper().queryPage(o, pageQuery);
+        return new Page<>(total, list, pageQuery.getRow());
     }
 }
