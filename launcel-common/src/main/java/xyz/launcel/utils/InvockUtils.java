@@ -5,25 +5,21 @@ import xyz.launcel.log.RootLogger;
 
 import java.util.function.Function;
 
-public interface RpcInvockUtils
+public interface InvockUtils
 {
-    @NonNull
-    static <T> T invock(@NonNull final Function<Void, T> function)
+    static <P, R> R execute(@NonNull Function<P, R> function, P param)
     {
-        return function.apply(null);
-    }
 
-    static <T> T invock(@NonNull final Function<Void, T> function, @NonNull Object param)
-    {
-        T t = null;
         try
         {
-            t = invock(function);
+            return function.apply(param);
         }
         catch (Exception x)
         {
             RootLogger.error("invock method error !!\nparam={}\ncause info is : \n{}", Json.toString(param), x.getCause());
         }
-        return t;
+        return null;
     }
+
+
 }

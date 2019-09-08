@@ -65,7 +65,7 @@ public class ExceptionHelp
         }
     }
 
-    static Map<String, String> getMessage(String code)
+    public static Map<String, String> getMessage(String code)
     {
         var map   = new HashMap<String, String>();
         var value = props.getProperty(code);

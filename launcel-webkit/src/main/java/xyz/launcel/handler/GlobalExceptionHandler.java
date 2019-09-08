@@ -2,6 +2,7 @@ package xyz.launcel.handler;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import xyz.launcel.exception.ExceptionHelp;
 import xyz.launcel.exception.ProfessionException;
 import xyz.launcel.exception.SystemException;
 import xyz.launcel.log.RootLogger;
@@ -58,15 +59,26 @@ public class GlobalExceptionHandler
         return response(x.getMeassge(), x.getCode());
     }
 
+    //    @ExceptionHandler(ValidationException.class)
+    //    public Response validationException(final ValidationException x)
+    //    {
+    //        RootLogger.error("error info : {}", x.getCause());
+    //        output(x);
+    //        var code    = x.getMessage();
+    //        var message = ExceptionHelp.getMessage(code);
+    //        return response(message.get(code), "-1");
+    //    }
+
     @ExceptionHandler(ConstraintViolationException.class)
-    public Response violationException(final ConstraintViolationException x)
+    public Response constraintViolationException(final ConstraintViolationException x)
     {
-        RootLogger.error("error info : {}", x.getCause());
-        var cves = x.getConstraintViolations();
+        var code = x.getConstraintViolations();
         var sb   = new StringBuilder();
-        cves.forEach(c -> sb.append(c.getMessage()));
+        code.forEach(c -> sb.append(c.getMessage()));
+        var message = ExceptionHelp.getMessage(sb.toString());
+        System.out.printf("=========\n\terror info : %s", sb.toString());
         output(x);
-        return response(sb.toString(), "-1");
+        return response(message.get(sb.toString()), "-1");
     }
 
     private void output(final Throwable x)
