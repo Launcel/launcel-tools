@@ -1,6 +1,6 @@
 package xyz.launcel.config;
 
-import xyz.launcel.log.RootLogger;
+import xyz.launcel.log.Log;
 import xyz.launcel.utils.CollectionUtils;
 import xyz.launcel.utils.Json;
 import xyz.launcel.utils.StringUtils;
@@ -91,15 +91,15 @@ public class SecurityConfig
 
     private static String getBestUriKey(Map<String, Integer> maxMatchMap)
     {
-        if (RootLogger.isDebug())
+        if (Log.isDebug())
         {
-            RootLogger.debug("match : " + Json.toString(maxMatchMap));
+            Log.debug("match : " + Json.toString(maxMatchMap));
         }
         List<Map.Entry<String, Integer>> list = new ArrayList<>(maxMatchMap.entrySet());
         list.sort((Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) -> o2.getValue().compareTo(o1.getValue()));
-        if (RootLogger.isDebug())
+        if (Log.isDebug())
         {
-            RootLogger.debug("the match uri is : " + list.get(0).getKey() + " , match weight is : " + list.get(0).getValue());
+            Log.debug("the match uri is : " + list.get(0).getKey() + " , match weight is : " + list.get(0).getValue());
         }
         return list.get(0).getKey();
     }

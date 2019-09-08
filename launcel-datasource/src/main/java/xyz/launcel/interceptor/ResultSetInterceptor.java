@@ -11,7 +11,7 @@ import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
-import xyz.launcel.log.RootLogger;
+import xyz.launcel.log.Log;
 import xyz.launcel.utils.SQLHelp;
 
 import java.io.Serializable;
@@ -50,7 +50,7 @@ public class ResultSetInterceptor implements Interceptor, Serializable
         Class<?> clazz;
         if (Arrays.asList(superMethod).contains(selectId))
         {
-            RootLogger.debug("调用 DaoSupport");
+            Log.debug("调用 BaseDao");
             BoundSql boundSql = (BoundSql) metaObject.getValue("boundSql");
             @SuppressWarnings("unchecked")
             Map<String, Object> parameter = (Map<String, Object>) boundSql.getParameterObject();

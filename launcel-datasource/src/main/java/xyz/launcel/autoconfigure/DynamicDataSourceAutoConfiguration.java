@@ -26,13 +26,15 @@ import xyz.launcel.holder.DynamicDataSource;
 import xyz.launcel.holder.MultipleDataSourceRegistryTool;
 import xyz.launcel.interceptor.PageInterceptor;
 import xyz.launcel.interceptor.ParamInterceptor;
-import xyz.launcel.log.RootLogger;
+import xyz.launcel.log.Log;
 import xyz.launcel.utils.CollectionUtils;
 
 import javax.inject.Named;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 //import xyz.launcel.aspejct.ServerAspejct;
 
@@ -48,7 +50,7 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
     @Override
     public void setEnvironment(@NonNull Environment environment)
     {
-        var binder = Binder.get(environment);
+        Binder binder = Binder.get(environment);
         binderFacory.binderDataSource(binder);
         binderFacory.binderMybatisConfig(binder);
     }
@@ -64,7 +66,7 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
             return;
         }
         new MultipleDataSourceRegistryTool(binderFacory.getMultipleMybatis(), binderFacory.getDataSourceProperties()).registrMultipleBean(registry);
-        RootLogger.warn("SessionFactory registry success");
+        Log.warn("SessionFactory registry success");
     }
 
     @Primary
@@ -72,8 +74,8 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
     @ConditionalOnProperty(prefix = SessionFactoryConstant.dataSourceConfigPrefix, value = "use-dynamic-data-source", havingValue = "true")
     public DataSource multipleDataSource()
     {
-        var dynamicDataSources = new DynamicDataSource();
-        var targetDataSources  = new HashMap<Object, Object>();
+        var                 dynamicDataSources = new DynamicDataSource();
+        Map<Object, Object> targetDataSources  = new HashMap<>();
         if (CollectionUtils.isEmpty(binderFacory.getDynamicDataSourceConfigMapList()))
         {
             ExceptionFactory.error("_DEFINE_ERROR_CODE_010", ">>>  datasource propertie config or mybatis propertie config is null !!");
@@ -96,7 +98,7 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
         sqlSessionFactory.setConfigLocation(resourceLoader.getResource("classpath:mybatis/mybatis-config.xml"));
         sqlSessionFactory.setTypeAliasesPackage(binderFacory.getDynamicMybatisPropertie().getAliasesPackage());
         sqlSessionFactory.setMapperLocations(resourceLoader.getResources(binderFacory.getDynamicMybatisPropertie().getMapperResource()));
-        var interceptors = new ArrayList<Interceptor>(2);
+        List<Interceptor> interceptors = new ArrayList<>(2);
         interceptors.add(new PageInterceptor());
         if (binderFacory.debugSql())
         {

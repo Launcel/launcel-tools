@@ -1,7 +1,8 @@
 package xyz.launcel.service;
 
+import xyz.launcel.bo.PageQuery;
 import xyz.launcel.dao.IdEntity;
-import xyz.launcel.dao.Page;
+import xyz.launcel.response.Page;
 
 /**
  * @author launcel
@@ -19,7 +20,7 @@ public interface BaseService
 
     <T> T query(Object o);
 
-    <T> Integer count(Object o);
+    Long count(Object o);
 
-    <T> Page<T> queryPage(Object o, Page<T> page);
+    <T> Page<T> queryPage(Object o, PageQuery page);
 }

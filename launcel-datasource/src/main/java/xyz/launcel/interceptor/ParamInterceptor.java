@@ -11,7 +11,7 @@ import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
-import xyz.launcel.log.RootLogger;
+import xyz.launcel.log.Log;
 import xyz.launcel.utils.CollectionUtils;
 
 import java.text.DateFormat;
@@ -106,7 +106,7 @@ public class ParamInterceptor implements Interceptor
         var configuration = mappedStatement.getConfiguration();
         // 获取到最终的sql语句
         var sql = getSql(configuration, boundSql, sqlId);
-        RootLogger.debug("sql = " + sql);
+        Log.debug("sql = " + sql);
         return invocation.proceed();
     }
 

@@ -6,7 +6,7 @@ import xyz.launcel.config.SecurityConfig;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.jdbc.JdbcRole;
 import xyz.launcel.jdbc.SimpleJdbcRole;
-import xyz.launcel.log.RootLogger;
+import xyz.launcel.log.Log;
 import xyz.launcel.utils.CollectionUtils;
 import xyz.launcel.utils.Json;
 
@@ -23,9 +23,9 @@ public class RoleInterceptor implements HandlerInterceptor
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
     {
         String uri = request.getServletPath();
-        if (RootLogger.isDebug())
+        if (Log.isDebug())
         {
-            RootLogger.debug("request uri is : " + uri);
+            Log.debug("request uri is : " + uri);
         }
         HttpSession session = request.getSession(false);
         boolean     flat    = SecurityConfig.isTransit(uri, session);
@@ -59,9 +59,9 @@ public class RoleInterceptor implements HandlerInterceptor
                 }
                 userRoles.add("user");
                 // do role : save in redis
-                if (RootLogger.isDebug())
+                if (Log.isDebug())
                 {
-                    RootLogger.debug("roles is : " + Json.toString(userRoles));
+                    Log.debug("roles is : " + Json.toString(userRoles));
                 }
                 if (CollectionUtils.isNotEmpty(userRoles))
                 {

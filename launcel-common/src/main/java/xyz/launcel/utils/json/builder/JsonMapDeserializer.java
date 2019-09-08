@@ -3,6 +3,7 @@ package xyz.launcel.utils.json.builder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.TypeAdapter;
 import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.stream.JsonReader;
@@ -14,20 +15,20 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class JsonMapDeserializer implements JsonDeserializer<Object>
 {
     @Override
     public Map<String, Object> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
     {
-        var treeMap    = new HashMap<String, Object>();
-        var jsonObject = json.getAsJsonObject();
-        var entrySet   = jsonObject.entrySet();
-        for (var entry : entrySet)
-        {
-            treeMap.put(entry.getKey(), entry.getValue());
-        }
+
+        JsonObject                          jsonObject = json.getAsJsonObject();
+        Set<Map.Entry<String, JsonElement>> entrySet   = jsonObject.entrySet();
+        Map<String, Object>                 treeMap    = new HashMap<>();
+        entrySet.forEach(k -> treeMap.put(k.getKey(), k.getValue()));
         return treeMap;
     }
 }
@@ -46,7 +47,7 @@ class MapTypeAdapter extends TypeAdapter<Object>
         switch (token)
         {
             case BEGIN_ARRAY:
-                var list = new ArrayList<Object>();
+                List<Object> list = new ArrayList<>();
                 in.beginArray();
                 while (in.hasNext())
                 {
@@ -55,7 +56,7 @@ class MapTypeAdapter extends TypeAdapter<Object>
                 in.endArray();
                 return list;
             case BEGIN_OBJECT:
-                var map = new LinkedTreeMap<String, Object>();
+                Map<String, Object> map = new LinkedTreeMap<>();
                 in.beginObject();
                 while (in.hasNext())
                 {

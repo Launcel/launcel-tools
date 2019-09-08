@@ -1,8 +1,6 @@
 package xyz.launcel.menuType;
 
-import lombok.var;
-
-import java.util.Objects;
+import java.util.Arrays;
 
 /**
  * Created by launcel on 2018/7/26.
@@ -10,13 +8,9 @@ import java.util.Objects;
 public enum DeviceType
 {
     Android,
-
     iOS,
-
     PC,
-
     Wechat,
-
     H5,
     ;
 
@@ -24,15 +18,7 @@ public enum DeviceType
 
     public static DeviceType getDevice(final String deviceName)
     {
-        if (deviceName != null && !Objects.equals(deviceName, ""))
-        {
-            for (var device : values())
-            {
-                if (device.name().equalsIgnoreCase(deviceName.trim()))
-                {
-                    return device;
-                }
-            }
-        }
-        return null;
-    }}
+        return Arrays.stream(values()).filter(device -> device.name().equalsIgnoreCase(deviceName.trim())).findFirst().orElse(null);
+    }
+
+}

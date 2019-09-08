@@ -38,7 +38,7 @@ public @interface Limit
      */
     Class<?>[] group() default {};
 
-    String minValue() default "";
+    int minValue() default 0;
 
-    String maxValue() default "";
+    int maxValue() default 0;
 }

@@ -2,7 +2,7 @@ package xyz.launcel.jdbc;
 
 import lombok.Getter;
 import lombok.Setter;
-import xyz.launcel.log.RootLogger;
+import xyz.launcel.log.Log;
 import xyz.launcel.properties.RoleDataSourceHolder;
 import xyz.launcel.utils.StringUtils;
 
@@ -80,9 +80,9 @@ public class JdbcRole
             }
             catch (SQLException e)
             {
-                if (RootLogger.isDebug())
+                if (Log.isDebug())
                 {
-                    RootLogger.debug("Could not close JDBC Connection");
+                    Log.debug("Could not close JDBC Connection");
                 }
             }
         }
@@ -98,9 +98,9 @@ public class JdbcRole
             }
             catch (SQLException e)
             {
-                if (RootLogger.isDebug())
+                if (Log.isDebug())
                 {
-                    RootLogger.debug("Could not close JDBC PreparedStatement");
+                    Log.debug("Could not close JDBC PreparedStatement");
                 }
             }
         }
@@ -116,9 +116,9 @@ public class JdbcRole
             }
             catch (SQLException e)
             {
-                if (RootLogger.isDebug())
+                if (Log.isDebug())
                 {
-                    RootLogger.debug("Could not close JDBC ResultSet");
+                    Log.debug("Could not close JDBC ResultSet");
                 }
             }
         }

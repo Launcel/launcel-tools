@@ -13,7 +13,7 @@ import xyz.launcel.constant.SessionFactoryConstant;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.interceptor.PageInterceptor;
 import xyz.launcel.interceptor.ParamInterceptor;
-import xyz.launcel.log.RootLogger;
+import xyz.launcel.log.Log;
 import xyz.launcel.properties.DataSourceProperties;
 import xyz.launcel.properties.MybatisProperties;
 import xyz.launcel.properties.RoleDataSourceHolder;
@@ -54,7 +54,7 @@ public class MultipleDataSourceRegistryTool
         {
             ExceptionFactory.error("_DEFINE_ERROR_CODE_010", ">>>  datasource propertie config or mybatis propertie config is null !!");
         }
-        RootLogger.info("dataSourceProperties is : {}\nmultipleMybatis is : {}", Json.toString(dataSourceProperties), Json.toString(multipleMybatis));
+        Log.info("dataSourceProperties is : {}\nmultipleMybatis is : {}", Json.toString(dataSourceProperties), Json.toString(multipleMybatis));
         registMultipeDataSource(dataSourceProperties.getMain(), registry);
         if (CollectionUtils.isNotEmpty(dataSourceProperties.getOthers()))
         {

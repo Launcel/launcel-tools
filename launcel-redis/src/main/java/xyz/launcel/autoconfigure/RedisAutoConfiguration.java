@@ -24,7 +24,7 @@ import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.lang.NonNull;
-import xyz.launcel.log.RootLogger;
+import xyz.launcel.log.Log;
 import xyz.launcel.properties.RedisProperties;
 import xyz.launcel.support.serializer.GsonRedisSerializer;
 import xyz.launcel.utils.Base64;
@@ -42,7 +42,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
 
     public RedisAutoConfiguration(RedisProperties redisProperties)
     {
-        RootLogger.warn("init RedisAutoConfiguration....");
+        Log.warn("init RedisAutoConfiguration....");
         this.properties = redisProperties;
     }
 
@@ -78,7 +78,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     @Bean(name = "redisConnectionFactory")
     public RedisConnectionFactory lettuceConnectionFactory()
     {
-        RootLogger.warn("init redisConnectionFactory...");
+        Log.warn("init redisConnectionFactory...");
         return new LettuceConnectionFactory(sinagleConfiguration(), lettucePoolClient());
     }
 
@@ -87,7 +87,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     @ConditionalOnBean(name = "redisConnectionFactory")
     public RedisTemplate<String, Object> redisTemplate(@NonNull @Named("redisConnectionFactory") final RedisConnectionFactory redisConnectionFactory)
     {
-        RootLogger.warn("init redisTemplate...");
+        Log.warn("init redisTemplate...");
         var template = new RedisTemplate<String, Object>();
         template.setConnectionFactory(redisConnectionFactory);
         var defaultValueSerializer = new GsonRedisSerializer<>(Object.class);
@@ -101,7 +101,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
         }
         catch (ReflectiveOperationException e)
         {
-            RootLogger.error("redis value serializer init error, there will be use jdk serializer");
+            Log.error("redis value serializer init error, there will be use jdk serializer");
             template.setValueSerializer(new JdkSerializationRedisSerializer());
         }
         template.setDefaultSerializer(defaultValueSerializer);
@@ -115,7 +115,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     @Bean(value = "cacheManager")
     public CacheManager cacheManager(@NonNull @Named("redisConnectionFactory") final RedisConnectionFactory redisConnectionFactory)
     {
-        RootLogger.warn("init cacheManager...");
+        Log.warn("init cacheManager...");
         // 设置缓存有效期一小时
         var redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(1));
         return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory))
@@ -126,31 +126,31 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     @Override
     public CacheErrorHandler errorHandler()
     {
-        RootLogger.warn("init errorHandler...");
+        Log.warn("init errorHandler...");
         return new CacheErrorHandler()
         {
             @Override
             public void handleCacheGetError(@NonNull RuntimeException e, @NonNull Cache cache, @NonNull Object key)
             {
-                RootLogger.error("redis异常：key=[{}]", key.toString());
+                Log.error("redis异常：key=[{}]", key.toString());
             }
 
             @Override
             public void handleCachePutError(@NonNull RuntimeException e, @NonNull Cache cache, @NonNull Object key, Object value)
             {
-                RootLogger.error("redis异常：key=[{}]", key.toString());
+                Log.error("redis异常：key=[{}]", key.toString());
             }
 
             @Override
             public void handleCacheEvictError(@NonNull RuntimeException e, @NonNull Cache cache, @NonNull Object key)
             {
-                RootLogger.error("redis异常：key=[{}]", key.toString());
+                Log.error("redis异常：key=[{}]", key.toString());
             }
 
             @Override
             public void handleCacheClearError(@NonNull RuntimeException e, @NonNull Cache cache)
             {
-                RootLogger.error("redis异常：", e.getMessage());
+                Log.error("redis异常：", e.getMessage());
             }
         };
     }

@@ -6,12 +6,12 @@ import org.slf4j.LoggerFactory;
 /**
  * @author launcel
  */
-public class RootLogger
+public class Log
 {
 
     private static Logger log = LoggerFactory.getLogger("ROOT");
 
-    private RootLogger()                                    { }
+    private Log()                                    { }
 
     public static String getName()                          { return log.getName(); }
 

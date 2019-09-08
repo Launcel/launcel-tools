@@ -2,7 +2,7 @@ package xyz.launcel.exception;
 
 import lombok.Getter;
 import lombok.Setter;
-import xyz.launcel.log.RootLogger;
+import xyz.launcel.log.Log;
 
 @Getter
 @Setter
@@ -23,7 +23,7 @@ abstract class AbstractException extends RuntimeException
         this(message);
         this.code = code;
         var sb = "[" + code + " : " + message + "]";
-        RootLogger.error(sb);
+        Log.error(sb);
     }
 
     AbstractException(String message, Throwable cause)

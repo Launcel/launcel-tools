@@ -3,7 +3,7 @@ package xyz.launcel.utils;
 import lombok.Getter;
 import org.springframework.lang.NonNull;
 import xyz.launcel.exception.ExceptionFactory;
-import xyz.launcel.log.RootLogger;
+import xyz.launcel.log.Log;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -40,9 +40,9 @@ public interface AMapUtils
         double s = 2 * Math.asin(
                 Math.sqrt(Math.pow(Math.sin(latDiff / 2), 2) + Math.cos(l1.getRadLat()) * Math.cos(l2.getRadLat()) * Math.pow(Math.sin(lngDiff / 2), 2)));
         s = s * 6378.137;
-        if (RootLogger.isDebug())
+        if (Log.isDebug())
         {
-            RootLogger.info("Point({},{})与Point({},{})的距离={}", l1.getLng(), l1.getLat(), l2.getLng(), l2.getLat(), s);
+            Log.info("Point({},{})与Point({},{})的距离={}", l1.getLng(), l1.getLat(), l2.getLng(), l2.getLat(), s);
         }
         return s;
     }

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import xyz.launcel.exception.ExceptionHelp;
 import xyz.launcel.exception.ProfessionException;
 import xyz.launcel.exception.SystemException;
-import xyz.launcel.log.RootLogger;
+import xyz.launcel.log.Log;
 import xyz.launcel.response.Response;
 
 import javax.validation.ConstraintViolationException;
@@ -22,7 +22,7 @@ public class GlobalExceptionHandler
     @ExceptionHandler(value = Throwable.class)
     public Response throwable(final Throwable x)
     {
-        RootLogger.error("error info : {}", x.getCause());
+        Log.error("error info : {}", x.getCause());
         output(x);
         return response(message, "-1");
     }
@@ -30,7 +30,7 @@ public class GlobalExceptionHandler
     @ExceptionHandler(value = NullPointerException.class)
     public Response nullPointerException(final NullPointerException x)
     {
-        RootLogger.error("error info : {}", x.getCause());
+        Log.error("error info : {}", x.getCause());
         output(x);
         return response(message, "-1");
     }
@@ -38,7 +38,7 @@ public class GlobalExceptionHandler
     @ExceptionHandler(value = IllegalArgumentException.class)
     public Response illegalArgumentException(final IllegalArgumentException x)
     {
-        RootLogger.error("error info : {}", x.getCause());
+        Log.error("error info : {}", x.getCause());
         output(x);
         return response(message, "-1");
     }
@@ -46,7 +46,7 @@ public class GlobalExceptionHandler
     @ExceptionHandler(value = ProfessionException.class)
     public Response professionException(final ProfessionException x)
     {
-        RootLogger.error("error info : {}", x.getCause());
+        Log.error("error info : {}", x.getCause());
         output(x);
         return response(x.getMessage(), x.getCode());
     }
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler
     @ExceptionHandler(SystemException.class)
     public Response systemError(final SystemException x)
     {
-        RootLogger.error("error info : {}", x.getCause());
+        Log.error("error info : {}", x.getCause());
         output(x);
         return response(x.getMeassge(), x.getCode());
     }
@@ -62,7 +62,7 @@ public class GlobalExceptionHandler
     //    @ExceptionHandler(ValidationException.class)
     //    public Response validationException(final ValidationException x)
     //    {
-    //        RootLogger.error("error info : {}", x.getCause());
+    //        Log.error("error info : {}", x.getCause());
     //        output(x);
     //        var code    = x.getMessage();
     //        var message = ExceptionHelp.getMessage(code);

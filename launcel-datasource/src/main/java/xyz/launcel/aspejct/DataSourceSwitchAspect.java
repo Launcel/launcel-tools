@@ -12,6 +12,8 @@ import xyz.launcel.annotation.DataSource;
 import xyz.launcel.holder.DbContextHolder;
 import xyz.launcel.utils.StringUtils;
 
+import java.lang.reflect.Method;
+
 /**
  * Created by launcel on 2018/8/29.
  */
@@ -25,11 +27,11 @@ public class DataSourceSwitchAspect
     @Before("init()")
     public void prepared(JoinPoint joinPoint)
     {
-        var signature = (MethodSignature) joinPoint.getSignature();
-        var method    = signature.getMethod();
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        Method          method    = signature.getMethod();
         if (method.isAnnotationPresent(DataSource.class))
         {
-            var ds = method.getAnnotation(DataSource.class);
+            DataSource ds = method.getAnnotation(DataSource.class);
             if (ds != null && StringUtils.isNotBlank(ds.name()))
             {
                 DbContextHolder.setDbType(ds.name());

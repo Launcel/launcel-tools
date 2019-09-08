@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import xyz.launcel.handler.GlobalExceptionHandler;
-import xyz.launcel.log.RootLogger;
+import xyz.launcel.log.Log;
 import xyz.launcel.properties.CorsProperties;
 import xyz.launcel.properties.JsonProperties;
 import xyz.launcel.properties.UploadProperties;
@@ -57,7 +57,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @Override
     public void configureMessageConverters(final List<HttpMessageConverter<?>> converters)
     {
-        RootLogger.warn("init web.json-converter...");
+        Log.warn("init web.json-converter...");
         converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
         var gsonConverter = new GsonHttpMessageConverter();
         DefaultGsonBuilder.builder()
@@ -81,7 +81,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @Override
     public void addCorsMappings(final CorsRegistry registry)
     {
-        RootLogger.warn("init web.cors...");
+        Log.warn("init web.cors...");
         registry.addMapping(corsProperties.getPathPattern())
                 .allowedOrigins(corsProperties.getAllowedOrigins())
                 .allowCredentials(true)
@@ -104,7 +104,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @ConditionalOnProperty(prefix = "web.global-exception", value = "enabled", havingValue = "true")
     public GlobalExceptionHandler globalExceptionHandler()
     {
-        RootLogger.warn("init globalExceptionHandler...");
+        Log.warn("init globalExceptionHandler...");
         return new GlobalExceptionHandler();
     }
 
@@ -113,7 +113,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
     public MultipartConfigElement multipartConfigElement()
     {
-        RootLogger.warn("inti multipartConfigElement...");
+        Log.warn("inti multipartConfigElement...");
         var factory = new MultipartConfigFactory();
         factory.setMaxFileSize(uploadProperties.getMaxSize());
         factory.setMaxRequestSize(uploadProperties.getMaxSize());

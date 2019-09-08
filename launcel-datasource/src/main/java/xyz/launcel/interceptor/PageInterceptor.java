@@ -8,6 +8,7 @@ import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import xyz.launcel.utils.SQLHelp;
 import xyz.launcel.utils.StringUtils;
@@ -28,11 +29,11 @@ public class PageInterceptor implements Interceptor, Serializable
     @Override
     public Object intercept(Invocation invocation) throws Throwable
     {
-        var      statementHandler     = (StatementHandler) invocation.getTarget();
-        var      metaStatementHandler = SystemMetaObject.forObject(statementHandler);
-        var      mappedStatement      = (MappedStatement) metaStatementHandler.getValue("delegate.mappedStatement");
-        var      selectId             = mappedStatement.getId();
-        BoundSql boundSql;
+        StatementHandler statementHandler     = (StatementHandler) invocation.getTarget();
+        MetaObject       metaStatementHandler = SystemMetaObject.forObject(statementHandler);
+        MappedStatement  mappedStatement      = (MappedStatement) metaStatementHandler.getValue("delegate.mappedStatement");
+        String           selectId             = mappedStatement.getId();
+        BoundSql         boundSql;
         if (selectId.matches(".*Page.*"))
         {
             boundSql = statementHandler.getBoundSql();
@@ -42,8 +43,7 @@ public class PageInterceptor implements Interceptor, Serializable
             {
                 return invocation.proceed();
             }
-            @SuppressWarnings("unchecked")
-            var parameter = (Map<String, Object>) boundSql.getParameterObject();
+            Map<String, Object> parameter = (Map<String, Object>) boundSql.getParameterObject();
             if (parameter.isEmpty())
             {
                 return invocation.proceed();

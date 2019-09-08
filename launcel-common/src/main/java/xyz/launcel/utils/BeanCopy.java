@@ -21,16 +21,11 @@ public final class BeanCopy
         return target;
     }
 
-    private static <T> T mapProperties(Object source, T target)
-    {
-        return mapProperties(source, target, (String[]) null);
-    }
-
-    public static void copy(Object source, Object target)                             { copy(source, target, (String[]) null); }
+    public static void copy(Object source, Object target) { copy(source, target, (String[]) null); }
 
     public static void copy(Object source, Object target, String... ignoreProperties) { mapProperties(source, target, ignoreProperties); }
 
-    public static <T> T copy(Object source, Class<T> targetClass)                     { return copy(source, targetClass, (String[]) null); }
+    public static <T> T copy(Object source, Class<T> targetClass) { return copy(source, targetClass, (String[]) null); }
 
     public static <T> T copy(Object source, Class<T> targetClass, String... ignoreProperties)
     {
@@ -62,7 +57,7 @@ public final class BeanCopy
         {
             var targetList = new ArrayList<T>();
             var target     = targetClass.getDeclaredConstructor().newInstance();
-            source.forEach(s -> targetList.add(mapProperties(s, target)));
+            source.forEach(s -> targetList.add(mapProperties(s, target, ignoreProperties)));
             return targetList;
         }
         catch (ReflectiveOperationException e)

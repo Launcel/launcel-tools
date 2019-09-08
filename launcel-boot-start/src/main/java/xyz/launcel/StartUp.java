@@ -6,7 +6,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.lang.NonNull;
 import org.springframework.util.StringUtils;
-import xyz.launcel.log.RootLogger;
+import xyz.launcel.log.Log;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -42,7 +42,7 @@ public interface StartUp
             var addr = InetAddress.getLocalHost();
             var ip   = addr.getHostAddress();
             log += "\n\treal url is : \thttp://{}";
-            RootLogger.error(log, port, port, ip + ":" + port);
+            Log.error(log, port, port, ip + ":" + port);
         }
         catch (UnknownHostException e)
         {

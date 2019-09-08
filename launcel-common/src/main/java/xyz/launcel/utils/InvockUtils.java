@@ -1,7 +1,7 @@
 package xyz.launcel.utils;
 
 import org.springframework.lang.NonNull;
-import xyz.launcel.log.RootLogger;
+import xyz.launcel.log.Log;
 
 import java.util.function.Function;
 
@@ -16,9 +16,14 @@ public interface InvockUtils
         }
         catch (Exception x)
         {
-            RootLogger.error("invock method error !!\nparam={}\ncause info is : \n{}", Json.toString(param), x.getCause());
+            Log.error("invock method error !!\nparam={}\ncause info is : \n{}", Json.toString(param), x.getCause());
         }
         return null;
+    }
+
+    public static void main(String[] args)
+    {
+
     }
 
 

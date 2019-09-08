@@ -1,9 +1,12 @@
 package xyz.launcel.annotation;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.var;
+
+import java.util.Arrays;
 
 @Getter
+@AllArgsConstructor
 public enum StatusType
 {
     ENABLED(1, "开启"),
@@ -13,20 +16,10 @@ public enum StatusType
 
     private String desc;
 
-    StatusType(int ststus, String desc)
-    {
-        this.ststus = ststus;
-        this.desc = desc;
-    }
-
     public static StatusType valueOf(int status)
     {
-        for (var statusType : values())
-        {
-            if (status == statusType.getStstus())
-                return statusType;
-        }
-        throw new RuntimeException("获取状态类型失败：类型不在范围内...");
+        return Arrays.stream(values()).filter(statusType -> statusType.getStstus() == status).findFirst().orElseThrow(RuntimeException::new);
     }
+    //"获取状态类型失败：类型不在范围内..."
 
 }

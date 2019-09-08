@@ -3,10 +3,12 @@ package xyz.launcel.utils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import xyz.launcel.annotation.OrderSqlEnum;
-import xyz.launcel.dao.Page;
-import xyz.launcel.exception.SystemException;
+import xyz.launcel.bo.PageQuery;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by xuyang in 2017/10/12
@@ -15,32 +17,24 @@ import java.util.Map;
 public class SQLHelp
 {
 
-    public static Page getPaging(Map<String, Object> parameter)
+    public static PageQuery getPaging(Map<String, Object> parameter)
     {
-        Page p = null;
-        try
+        if (parameter != null && parameter.size() > 0)
         {
-            if (parameter.containsKey("page"))
+            PageQuery p = (PageQuery) getParam(parameter, "page");
+            if (Objects.nonNull(p))
             {
-                p = (Page) getParam(parameter, "page");
+                return p;
             }
-            else
+            for (Object value : parameter.values())
             {
-                for (var value : parameter.values())
+                if (value instanceof PageQuery)
                 {
-                    if (value instanceof Page)
-                    {
-                        p = (Page) value;
-                        break;
-                    }
+                    return (PageQuery) value;
                 }
             }
         }
-        catch (ClassCastException x)
-        {
-            throw new SystemException("0027");
-        }
-        return p == null ? new Page(Integer.MAX_VALUE) : p;
+        return new PageQuery();
     }
 
     public static Class<?> getClazz(Map<String, Object> parameter)
@@ -56,54 +50,72 @@ public class SQLHelp
 
     private static Object getParam(Map<String, Object> parameter, String param)
     {
-        return parameter != null ? (parameter.isEmpty() ? null : parameter.get(param)) : null;
+        return parameter.get(param);
     }
 
-    public static String concatSql(String boundSql, Page<?> p)
+    private static String concatGroupBy(Set<String> group)
+    {
+        var sb = new StringBuilder();
+        sb.append(" GROUP BY ");
+        boolean isTail = true;
+        for (String s : group)
+        {
+            if (isTail)
+            {
+                sb.append(s);
+                isTail = false;
+                continue;
+            }
+            sb.append(",").append(s);
+        }
+        return sb.toString();
+    }
+
+    private static String concatOrderBy(LinkedHashMap<String, OrderSqlEnum> orderBy)
+    {
+        var sb = new StringBuilder();
+        sb.append(" ORDER BY ");
+        String headColName = CollectionUtils.MapUtils.getHead(orderBy).getKey();
+        for (Map.Entry<String, OrderSqlEnum> entry : orderBy.entrySet())
+        {
+            if (entry.getKey().equals(headColName))
+            {
+                sb.append(entry.getKey()).append(" ").append(entry.getValue().name());
+                continue;
+            }
+            sb.append(",").append(entry.getKey()).append(" ").append(entry.getValue().name());
+        }
+        return sb.toString();
+    }
+
+    private static String concatLimit(Integer row, Integer offset)
+    {
+        if (row != null && row > 0)
+        {
+            var sb = new StringBuilder(" LIMIT ");
+            if (offset != null && offset > 0)
+            {
+                return sb.append(offset).append(",").append(row).toString();
+            }
+            return sb.append(row).toString();
+        }
+        return null;
+    }
+
+
+    public static String concatSql(String boundSql, PageQuery p)
     {
         var sb = new StringBuilder(boundSql);
         if (CollectionUtils.isNotEmpty(p.getGroupBy()))
         {
-            sb.append(" GROUP BY ");
-            boolean isTail = true;
-            for (String s : p.getGroupBy())
-            {
-                if (!isTail)
-                {
-                    sb.append(",").append(s);
-                    continue;
-                }
-                sb.append(s);
-                isTail = false;
-            }
+            sb.append(concatGroupBy(p.getGroupBy()));
         }
 
         if (CollectionUtils.isNotEmpty(p.getOrderBy()))
         {
-            sb.append(" ORDER BY ");
-            String headColName = CollectionUtils.getHead(p.getOrderBy()).getKey();
-
-            for (Map.Entry<String, OrderSqlEnum> entry : p.getOrderBy().entrySet())
-            {
-                if (entry.getKey().equals(headColName))
-                {
-                    sb.append(entry.getKey()).append(" ").append(entry.getValue().name());
-                    continue;
-                }
-                sb.append(",").append(entry.getKey()).append(" ").append(entry.getValue().name());
-            }
+            sb.append(concatOrderBy(p.getOrderBy()));
         }
 
-        if (p.getRow() != null && p.getRow() > 0)
-        {
-            sb.append(" LIMIT ");
-
-            if (p.getOffset() > 0)
-            {
-                return sb.append(p.getOffset()).append(",").append(p.getRow()).toString();
-            }
-            return sb.append(p.getRow()).toString();
-        }
-        return sb.toString();
+        return sb.append(concatLimit(p.getRow(), p.getOffset())).toString();
     }
 }

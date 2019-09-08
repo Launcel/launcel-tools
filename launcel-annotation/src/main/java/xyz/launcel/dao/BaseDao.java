@@ -1,13 +1,14 @@
 package xyz.launcel.dao;
 
 import org.apache.ibatis.annotations.Param;
+import xyz.launcel.bo.PageQuery;
 
 import java.util.List;
 
 /**
  * @author launcel
  */
-public interface DaoSupport
+public interface BaseDao
 {
 
     <T> int add(T o);
@@ -20,7 +21,7 @@ public interface DaoSupport
 
     <T> T query(@Param("param") Object o);
 
-    Integer count(@Param("param") Object o);
+    Long count(@Param("param") Object o);
 
-    <T> List<T> queryPage(@Param("param") Object o, @Param("page") Page<T> page);
+    <T> List<T> queryPage(@Param("param") Object o, @Param("page") PageQuery page);
 }

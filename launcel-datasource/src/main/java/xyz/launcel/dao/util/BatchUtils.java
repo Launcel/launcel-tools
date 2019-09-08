@@ -4,7 +4,7 @@ import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.lang.NonNull;
 import xyz.launcel.bean.SpringBeanUtil;
-import xyz.launcel.dao.DaoSupport;
+import xyz.launcel.dao.BaseDao;
 import xyz.launcel.enumerate.BatchType;
 import xyz.launcel.utils.CollectionUtils;
 
@@ -24,22 +24,22 @@ public class BatchUtils
         localSqlSessionFactory.set(sqlSessionFactory);
     }
 
-    public static <T> int batchAdd(List<T> list, Class<? extends DaoSupport> mapper)
+    public static <T> int batchAdd(List<T> list, Class<? extends BaseDao> mapper)
     {
         return execute(list, mapper, BatchType.INSERT);
     }
 
-    public static <T> int batchUpdate(List<T> list, Class<? extends DaoSupport> mapper)
+    public static <T> int batchUpdate(List<T> list, Class<? extends BaseDao> mapper)
     {
         return execute(list, mapper, BatchType.UPDATE);
     }
 
-    public static int batchDel(List<Integer> ids, Class<? extends DaoSupport> mapper)
+    public static int batchDel(List<Integer> ids, Class<? extends BaseDao> mapper)
     {
         return execute(ids, mapper, BatchType.DELETE);
     }
 
-    private static <T> int execute(List<T> list, Class<? extends DaoSupport> mapper, BatchType type)
+    private static <T> int execute(List<T> list, Class<? extends BaseDao> mapper, BatchType type)
     {
         if (CollectionUtils.isEmpty(list))
         {

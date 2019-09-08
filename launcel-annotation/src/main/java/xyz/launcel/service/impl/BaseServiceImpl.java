@@ -1,10 +1,13 @@
 package xyz.launcel.service.impl;
 
 import lombok.var;
-import xyz.launcel.dao.DaoSupport;
+import xyz.launcel.bo.PageQuery;
+import xyz.launcel.dao.BaseDao;
 import xyz.launcel.dao.IdEntity;
-import xyz.launcel.dao.Page;
+import xyz.launcel.response.Page;
 import xyz.launcel.service.BaseService;
+
+import java.util.List;
 
 /**
  * @author launcel
@@ -12,7 +15,7 @@ import xyz.launcel.service.BaseService;
 public abstract class BaseServiceImpl implements BaseService
 {
 
-    protected abstract DaoSupport getMapper();
+    protected abstract BaseDao getMapper();
 
     @Override
     public <T extends IdEntity> int add(T p)
@@ -34,7 +37,7 @@ public abstract class BaseServiceImpl implements BaseService
     }
 
     @Override
-    public Integer count(Object o)
+    public Long count(Object o)
     {
         return getMapper().count(o);
     }
@@ -52,12 +55,13 @@ public abstract class BaseServiceImpl implements BaseService
     }
 
     @Override
-    public <T> Page<T> queryPage(Object o, Page<T> page)
+    public <T> Page<T> queryPage(Object o, PageQuery pageQuery)
     {
-        var total = getMapper().count(o);
+        Page<T> page  = new Page<>();
+        var     total = getMapper().count(o);
         if (total != null && total > 0)
         {
-            var list = getMapper().queryPage(o, page);
+            List<T> list = getMapper().queryPage(o, pageQuery);
             page.setTotal(total);
             page.setList(list);
         }

@@ -71,42 +71,43 @@ public interface CollectionUtils
         return false;
     }
 
-    /**
-     * 获得第一个头节点数据
-     *
-     * @param map LinkedHashMap
-     * @param <K> key
-     * @param <V> value
-     *
-     * @return Map.Entry&lt;K, V&gt;
-     */
-    static <K, V> Map.Entry<K, V> getHead(LinkedHashMap<K, V> map)
+    interface MapUtils
     {
-        return map.entrySet().iterator().next();
-    }
+        /**
+         * 获得第一个头节点数据
+         *
+         * @param map LinkedHashMap
+         * @param <K> key
+         * @param <V> value
+         * @return Map.Entry&lt;K, V&gt;
+         */
+        static <K, V> Map.Entry<K, V> getHead(LinkedHashMap<K, V> map)
+        {
+            return map.entrySet().iterator().next();
+        }
 
-    /**
-     * 获得最后一个节点数据
-     *
-     * @param map LinkedHashMap
-     * @param <K> key
-     * @param <V> value
-     *
-     * @return Map.Entry&lt;K, V&gt;
-     */
-    @SuppressWarnings({"unchecked"})
-    static <K, V> Map.Entry<K, V> getTail(LinkedHashMap<K, V> map)
-    {
-        try
+        /**
+         * 获得最后一个节点数据
+         *
+         * @param map LinkedHashMap
+         * @param <K> key
+         * @param <V> value
+         * @return Map.Entry&lt;K, V&gt;
+         */
+        @SuppressWarnings({"unchecked"})
+        static <K, V> Map.Entry<K, V> getTail(LinkedHashMap<K, V> map)
         {
-            var tail = map.getClass().getDeclaredField("tail");
-            tail.setAccessible(true);
-            return (Map.Entry<K, V>) tail.get(map);
+            try
+            {
+                var tail = map.getClass().getDeclaredField("tail");
+                tail.setAccessible(true);
+                return (Map.Entry<K, V>) tail.get(map);
+            }
+            catch (ReflectiveOperationException e)
+            {
+                e.printStackTrace();
+            }
+            throw new SystemException("0025");
         }
-        catch (ReflectiveOperationException e)
-        {
-            e.printStackTrace();
-        }
-        throw new SystemException("0025");
     }
 }

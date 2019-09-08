@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.NonNull;
 import xyz.launcel.exception.SystemException;
-import xyz.launcel.log.RootLogger;
+import xyz.launcel.log.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -346,7 +346,7 @@ public class TimeFormatUtil
         }
         catch (Exception e)
         {
-            RootLogger.error("error={}", e.getCause());
+            Log.error("error={}", e.getCause());
         }
         return null;
     }
@@ -397,7 +397,7 @@ public class TimeFormatUtil
         }
         catch (Exception e)
         {
-            RootLogger.error("error={}", e.getCause());
+            Log.error("error={}", e.getCause());
         }
         return null;
     }
