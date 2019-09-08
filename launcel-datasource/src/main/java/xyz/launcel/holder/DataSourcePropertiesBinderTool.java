@@ -1,5 +1,7 @@
 package xyz.launcel.holder;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,8 +13,6 @@ import xyz.launcel.properties.MybatisProperties;
 import xyz.launcel.properties.RoleDataSourceHolder;
 import xyz.launcel.utils.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -25,12 +25,12 @@ import java.util.Objects;
 public class DataSourcePropertiesBinderTool
 {
 
-    private Map<String, MybatisProperties.MybatisPropertie> multipleMybatis = new HashMap<>();
+    private Map<String, MybatisProperties.MybatisPropertie> multipleMybatis = Maps.newHashMap();
     private DataSourceProperties                            dataSourceProperties;
 
     /**********************************************************************/
     private MybatisProperties.MybatisPropertie dynamicMybatisPropertie;
-    private List<DataSourceConfigMap>          dynamicDataSourceConfigMapList = new ArrayList<>();
+    private List<DataSourceConfigMap>          dynamicDataSourceConfigMapList = Lists.newArrayList();
 
     private boolean isDebugSql = false;
 

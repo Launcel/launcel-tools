@@ -18,7 +18,7 @@ public class UploadProperties
     private Boolean      enabled  = false;
     @NonNull
     private String       domain   = "";
-    private Long         maxSize  = (long) Integer.MAX_VALUE;
+    private Long         maxSize  = Long.MAX_VALUE;
     private Long         minSize  = 1024L;
     private String       path     = File.separator + "Users" + File.separator + "tmp" + File.separator + "upload";
     /**

@@ -22,6 +22,7 @@ import xyz.launcel.utils.Json;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -84,7 +85,8 @@ public class MultipleDataSourceRegistryTool
     /**
      * 注册 sessionFactory
      */
-    private void registSessionFactory(BeanDefinitionRegistry registry, HikariDataSource hikariDataSource, MybatisProperties.MybatisPropertie mybatisPropertie,
+    private void registSessionFactory(BeanDefinitionRegistry registry, HikariDataSource hikariDataSource,
+                                      MybatisProperties.MybatisPropertie mybatisPropertie,
                                       String sqlSessionFactoryBeanName, boolean isDebugSql)
     {
         var sqlSessionAbd = BeanDefinitionRegistryTool.decorateAbd(SqlSessionFactoryBean.class);
@@ -94,7 +96,7 @@ public class MultipleDataSourceRegistryTool
         sqlSession.addPropertyValue(SessionFactoryConstant.configLocationName, "classpath:mybatis/mybatis-config.xml");
         sqlSession.addPropertyValue(SessionFactoryConstant.typeAliasesPackageName, mybatisPropertie.getAliasesPackage());
 
-        var interceptors = new ArrayList<Interceptor>(2);
+        List<Interceptor> interceptors = new ArrayList<>(2);
         interceptors.add(new PageInterceptor());
         if (isDebugSql)
         {

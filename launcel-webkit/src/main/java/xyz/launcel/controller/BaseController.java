@@ -29,38 +29,38 @@ public abstract class BaseController extends BaseLogger
         getResponse().setContentType("text/html;charset=utf-8");
     }
 
-    protected <T> Page initPaging()
-    {
-        var pageNoString = request.getParameter("pageNo");
-        var rowString    = request.getParameter("row");
-
-        var minIdString = request.getParameter("minId");
-
-        var pageNo = 1;
-        var row    = 20;
-        var minId  = 0;
-        try
-        {
-            if (StringUtils.isNotBlank(pageNoString))
-            {
-                pageNo = Integer.valueOf(pageNoString.trim());
-            }
-            if (StringUtils.isNotBlank(rowString))
-            {
-                row = Integer.valueOf(rowString.trim());
-            }
-            if (StringUtils.isNotBlank(minIdString))
-            {
-                minId = Integer.parseInt(minIdString);
-            }
-        }
-        catch (Exception ignore)
-        {
-        }
-        var page = new Page<>(pageNo, row);
-        page.setMinId(minId);
-        return page;
-    }
+//    protected <T> Page initPaging()
+//    {
+//        var pageNoString = request.getParameter("pageNo");
+//        var rowString    = request.getParameter("row");
+//
+//        var minIdString = request.getParameter("minId");
+//
+//        var pageNo = 1;
+//        var row    = 20;
+//        var minId  = 0;
+//        try
+//        {
+//            if (StringUtils.isNotBlank(pageNoString))
+//            {
+//                pageNo = Integer.valueOf(pageNoString.trim());
+//            }
+//            if (StringUtils.isNotBlank(rowString))
+//            {
+//                row = Integer.valueOf(rowString.trim());
+//            }
+//            if (StringUtils.isNotBlank(minIdString))
+//            {
+//                minId = Integer.parseInt(minIdString);
+//            }
+//        }
+//        catch (Exception ignore)
+//        {
+//        }
+//        var page = new Page<>(pageNo, row);
+//        page.setMinId(minId);
+//        return page;
+//    }
 
     protected String getToken()
     {

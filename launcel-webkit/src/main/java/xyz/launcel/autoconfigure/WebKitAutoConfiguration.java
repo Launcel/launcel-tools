@@ -1,5 +1,6 @@
 package xyz.launcel.autoconfigure;
 
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -27,7 +28,6 @@ import xyz.launcel.utils.json.builder.DefaultGsonBuilder;
 
 import javax.servlet.MultipartConfigElement;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -67,7 +67,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
                 .serializeNull(jsonPropertie.getSerializeNull())
                 .version(jsonPropertie.getVersion())
                 .build();
-        var list = new ArrayList<MediaType>();
+        List<MediaType> list = Lists.newArrayList();
         list.add(new MediaType("text", "plain", StandardCharsets.UTF_8));
         list.add(new MediaType("text", "html", StandardCharsets.UTF_8));
         list.add(new MediaType("application", "xml", StandardCharsets.UTF_8));
