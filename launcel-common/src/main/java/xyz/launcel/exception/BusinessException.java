@@ -3,17 +3,17 @@ package xyz.launcel.exception;
 /**
  * 默认框架的异常代码为 _DEFINE_ERROR_CODE_012
  */
-public class ProfessionException extends AbstractException
+public class BusinessException extends AbstractException
 {
 
     private static final long serialVersionUID = -8971428275453038218L;
 
-    public ProfessionException(String message)
+    public BusinessException(String message)
     {
         this(null, message);
     }
 
-    public ProfessionException(String code, String msg)
+    public BusinessException(String code, String msg)
     {
         super(code, msg);
     }

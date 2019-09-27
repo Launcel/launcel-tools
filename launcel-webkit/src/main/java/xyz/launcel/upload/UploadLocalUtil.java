@@ -4,7 +4,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.launcel.ensure.Me;
 import xyz.launcel.exception.ExceptionFactory;
-import xyz.launcel.exception.ProfessionException;
+import xyz.launcel.exception.BusinessException;
 import xyz.launcel.properties.UploadProperties;
 import xyz.launcel.utils.StringUtils;
 
@@ -65,7 +65,7 @@ public class UploadLocalUtil
         catch (IOException e)
         {
             e.printStackTrace();
-            throw new ProfessionException("0416");
+            throw new BusinessException("0416");
         }
     }
 
@@ -195,7 +195,7 @@ public class UploadLocalUtil
         catch (IOException e)
         {
             e.printStackTrace();
-            throw new ProfessionException("0416");
+            throw new BusinessException("0416");
         }
     }
 }

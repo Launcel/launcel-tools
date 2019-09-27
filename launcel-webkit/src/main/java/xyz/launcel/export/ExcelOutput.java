@@ -5,7 +5,7 @@
 
 package xyz.launcel.export;
 
-import xyz.launcel.exception.ProfessionException;
+import xyz.launcel.exception.BusinessException;
 import xyz.launcel.utils.TimeFormatUtil;
 
 import javax.servlet.ServletOutputStream;
@@ -33,7 +33,7 @@ public class ExcelOutput
         catch (IOException e)
         {
             e.printStackTrace();
-            throw new ProfessionException("00520");
+            throw new BusinessException("00520");
         }
     }
 

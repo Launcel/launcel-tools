@@ -57,16 +57,14 @@ public class SQLHelp
     {
         var sb = new StringBuilder();
         sb.append(" GROUP BY ");
-        boolean isTail = true;
+        int index = 1;
         for (String s : group)
         {
-            if (isTail)
-            {
-                sb.append(s);
-                isTail = false;
-                continue;
+            sb.append(s);
+            index++;
+            if (index < group.size()) {
+                sb.append(",");
             }
-            sb.append(",").append(s);
         }
         return sb.toString();
     }

@@ -3,10 +3,9 @@ package xyz.launcel.controller;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import xyz.launcel.response.Page;
 import xyz.launcel.ensure.Me;
 import xyz.launcel.exception.ExceptionFactory;
-import xyz.launcel.exception.ProfessionException;
+import xyz.launcel.exception.BusinessException;
 import xyz.launcel.log.BaseLogger;
 import xyz.launcel.properties.WebTokenProperties;
 import xyz.launcel.utils.StringUtils;
@@ -75,7 +74,7 @@ public abstract class BaseController extends BaseLogger
                 }
             }
         }
-        throw new ProfessionException("0401");
+        throw new BusinessException("0401");
     }
 
     protected String getHeaderString(String name)

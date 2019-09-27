@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by Launcel in 2017/9/20
@@ -21,6 +22,14 @@ public class Response implements Serializable
     private String message;
     private String code;
     private Long   timestrap;
+
+    public Response(Object data, String message, String code)
+    {
+        this.data = data;
+        this.message = message;
+        this.code = code;
+        timestrap = new Date().getTime();
+    }
 
     public static ResponseBuilder builder()
     {

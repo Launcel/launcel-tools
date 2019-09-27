@@ -3,7 +3,7 @@ package xyz.launcel.handler;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import xyz.launcel.exception.ExceptionHelp;
-import xyz.launcel.exception.ProfessionException;
+import xyz.launcel.exception.BusinessException;
 import xyz.launcel.exception.SystemException;
 import xyz.launcel.log.Log;
 import xyz.launcel.response.Response;
@@ -43,8 +43,8 @@ public class GlobalExceptionHandler
         return response(message, "-1");
     }
 
-    @ExceptionHandler(value = ProfessionException.class)
-    public Response professionException(final ProfessionException x)
+    @ExceptionHandler(value = BusinessException.class)
+    public Response professionException(final BusinessException x)
     {
         Log.error("error info : {}", x.getCause());
         output(x);

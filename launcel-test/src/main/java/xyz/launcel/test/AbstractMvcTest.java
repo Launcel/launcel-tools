@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import xyz.launcel.exception.ProfessionException;
+import xyz.launcel.exception.BusinessException;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -47,7 +47,7 @@ public abstract class AbstractMvcTest extends AbstractTest
         catch (Exception e)
         {
             e.printStackTrace();
-            throw new ProfessionException("请求失败...");
+            throw new BusinessException("请求失败...");
         }
     }
 
@@ -61,7 +61,7 @@ public abstract class AbstractMvcTest extends AbstractTest
         catch (Exception e)
         {
             e.printStackTrace();
-            throw new ProfessionException("请求失败...");
+            throw new BusinessException("请求失败...");
         }
     }
 
@@ -75,7 +75,7 @@ public abstract class AbstractMvcTest extends AbstractTest
         catch (Exception e)
         {
             e.printStackTrace();
-            throw new ProfessionException("请求失败...");
+            throw new BusinessException("请求失败...");
         }
     }
 
@@ -89,7 +89,7 @@ public abstract class AbstractMvcTest extends AbstractTest
         catch (Exception e)
         {
             e.printStackTrace();
-            throw new ProfessionException("请求失败...");
+            throw new BusinessException("请求失败...");
         }
     }
 
@@ -135,7 +135,7 @@ public abstract class AbstractMvcTest extends AbstractTest
         catch (UnsupportedEncodingException e)
         {
             e.printStackTrace();
-            throw new ProfessionException("请求失败...");
+            throw new BusinessException("请求失败...");
         }
     }
 }

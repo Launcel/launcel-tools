@@ -1,8 +1,8 @@
 package xyz.launcel.response;
 
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,9 +13,9 @@ import java.util.Objects;
  * @param <T>
  * @author launcel
  */
-@Accessors(chain = true)
 @NoArgsConstructor
 @ToString
+@Builder
 public class Page<T> implements Serializable
 {
     private static final long serialVersionUID = -8522433864030332281L;

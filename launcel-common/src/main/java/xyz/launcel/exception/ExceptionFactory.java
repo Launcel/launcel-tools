@@ -14,7 +14,7 @@ public interface ExceptionFactory
 
     static void create(String code, String msg)
     {
-        throw new ProfessionException(code, msg);
+        throw new BusinessException(code, msg);
     }
 
     static void error(String code)
