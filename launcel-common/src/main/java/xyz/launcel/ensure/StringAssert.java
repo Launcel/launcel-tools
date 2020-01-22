@@ -50,4 +50,15 @@ public class StringAssert
             ExceptionFactory.create(message);
         }
     }
+
+    public BooleanAssert equal(String str)
+    {
+        return new BooleanAssert(org.apache.commons.lang3.StringUtils.equals(flat, str));
+    }
+
+    public BooleanAssert equalIgnoreCase(String str)
+    {
+        return new BooleanAssert(org.apache.commons.lang3.StringUtils.containsIgnoreCase(flat, str));
+    }
+
 }

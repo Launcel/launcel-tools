@@ -9,9 +9,10 @@ import lombok.Setter;
 @Builder
 public class Job
 {
-    private           Integer  id;
-    private           String   jobName;
-    private           String   cron;
-    private           Short    status;
+    private Integer id;
+    private String  jobName;
+    private String  cron;
+    private Short   status;
+
     private transient Runnable work;
 }

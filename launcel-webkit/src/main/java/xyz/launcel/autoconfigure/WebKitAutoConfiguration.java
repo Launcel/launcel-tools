@@ -1,6 +1,7 @@
 package xyz.launcel.autoconfigure;
 
 import com.google.common.collect.Lists;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -22,7 +23,7 @@ import xyz.launcel.properties.CorsProperties;
 import xyz.launcel.properties.JsonProperties;
 import xyz.launcel.properties.UploadProperties;
 import xyz.launcel.properties.WebTokenProperties;
-import xyz.launcel.upload.UploadLocalUtil;
+import xyz.launcel.util.UploadLocalUtil;
 import xyz.launcel.utils.json.builder.DateFormat;
 import xyz.launcel.utils.json.builder.DefaultGsonBuilder;
 
@@ -33,22 +34,15 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 @EnableConfigurationProperties(value = {CorsProperties.class, UploadProperties.class, JsonProperties.class})
+@RequiredArgsConstructor
 public class WebKitAutoConfiguration implements WebMvcConfigurer
 {
     private final CorsProperties   corsProperties;
     private final UploadProperties uploadProperties;
     private final JsonProperties   jsonPropertie;
 
-    @Value("${web.token-key}")
+    @Value("${web.token-key:{null}}")
     private String tokenKey;
-
-    public WebKitAutoConfiguration(CorsProperties corsProperties, UploadProperties uploadProperties, JsonProperties jsonPropertie)
-    {
-        System.out.println("init WebKitAutoConfiguration....");
-        this.corsProperties = corsProperties;
-        this.uploadProperties = uploadProperties;
-        this.jsonPropertie = jsonPropertie;
-    }
 
     /**
      * 用 gson 替换 jackson

@@ -3,6 +3,7 @@ package xyz.launcel.utils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.NonNull;
+import xyz.launcel.annotation.ToolsClass;
 import xyz.launcel.exception.SystemException;
 import xyz.launcel.log.Log;
 
@@ -13,6 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+@ToolsClass
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TimeFormatUtil
 {
@@ -21,7 +23,7 @@ public class TimeFormatUtil
         return new SimpleDateFormat(format).format(date);
     }
 
-    public static Date parseDate(String date, String format)
+    public static Date parseDate(@NonNull String date, @NonNull String format)
     {
         try
         {
@@ -34,7 +36,7 @@ public class TimeFormatUtil
         }
     }
 
-    public static Integer getYear(Date date)
+    public static Integer getYear(@NonNull Date date)
     {
         var cl = Calendar.getInstance();
         cl.setTime(date);
@@ -43,12 +45,8 @@ public class TimeFormatUtil
 
     /**
      * 获取某日期的月份
-     *
-     * @param date
-     *
-     * @return
      */
-    public static Integer getMonth(Date date)
+    public static Integer getMonth(@NonNull Date date)
     {
         var cal = Calendar.getInstance();
         cal.setTime(date);
@@ -57,12 +55,8 @@ public class TimeFormatUtil
 
     /**
      * 获取某日期的日数
-     *
-     * @param date
-     *
-     * @return
      */
-    public static Integer getDay(Date date)
+    public static Integer getDay(@NonNull Date date)
     {
         var cal = Calendar.getInstance();
         cal.setTime(date);
@@ -71,12 +65,8 @@ public class TimeFormatUtil
 
     /**
      * 获取指定日期所在周的第一天
-     *
-     * @param date
-     *
-     * @return
      */
-    public static Date getFirstDayOfWeek(Date date)
+    public static Date getFirstDayOfWeek(@NonNull Date date)
     {
         var c = Calendar.getInstance();
         c.setFirstDayOfWeek(Calendar.MONDAY);
@@ -87,12 +77,8 @@ public class TimeFormatUtil
 
     /**
      * 获取指定日期所在周的最后一天
-     *
-     * @param date
-     *
-     * @return
      */
-    public static Date getLastDayOfWeek(Date date)
+    public static Date getLastDayOfWeek(@NonNull Date date)
     {
         var c = Calendar.getInstance();
         c.setFirstDayOfWeek(Calendar.MONDAY);
@@ -106,8 +92,6 @@ public class TimeFormatUtil
      *
      * @param year 目标年份
      * @param week 目标周数
-     *
-     * @return
      */
     public static Date getFirstDayOfWeek(int year, int week)
     {
@@ -127,8 +111,6 @@ public class TimeFormatUtil
      *
      * @param year 目标年份
      * @param week 目标周数
-     *
-     * @return
      */
     public static Date getLastDayOfWeek(int year, int week)
     {
@@ -148,8 +130,6 @@ public class TimeFormatUtil
      *
      * @param year  目标年份
      * @param month 目标月份
-     *
-     * @return
      */
     public static Date getFirstDayOfMonth(int year, int month)
     {
@@ -173,8 +153,6 @@ public class TimeFormatUtil
      *
      * @param year  目标年份
      * @param month 目标月份
-     *
-     * @return
      */
     public static Date getLastDayOfMonth(int year, int month)
     {
@@ -192,9 +170,35 @@ public class TimeFormatUtil
     }
 
     /**
+     * 获取当前时间的最大时间节点
+     */
+    public static Date getDateMax(Date date)
+    {
+        var c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
+        c.set(Calendar.MILLISECOND, 999);
+        return c.getTime();
+    }
+
+    /**
+     * 获取当前时间的最小时间节点
+     */
+    public static Date getDateMin(Date date)
+    {
+        var c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        return c.getTime();
+    }
+
+    /**
      * 获取某个日期为星期几
-     *
-     * @param date
      *
      * @return String "星期*"
      */
@@ -214,10 +218,6 @@ public class TimeFormatUtil
 
     /**
      * 获得指定日期的星期几数
-     *
-     * @param date
-     *
-     * @return int
      */
     public static Integer getDayWeekOfDate2(Date date)
     {
@@ -237,7 +237,6 @@ public class TimeFormatUtil
      * @param minute      分钟数，可正可负
      * @param second      秒数，可正可负
      * @param millisecond 毫秒数，可正可负
-     *
      * @return 计算后的日期
      */
     public static Date addDate(Date date, int year, int month, int day, int hour, int minute, int second, int millisecond)
@@ -257,11 +256,6 @@ public class TimeFormatUtil
 
     /**
      * 获得两个日期的时间戳之差
-     *
-     * @param startDate
-     * @param endDate
-     *
-     * @return
      */
     public static Long getDistanceTimestamp(Date startDate, Date endDate)
     {
@@ -273,15 +267,11 @@ public class TimeFormatUtil
      *
      * @param str1 时间参数 1 格式：1990-01-01 12:00:00
      * @param str2 时间参数 2 格式：2009-01-01 12:00:00
-     *
      * @return long[] 返回值为：{天, 时, 分, 秒}
      */
     public static long[] getDistanceTime(Date one, Date two)
     {
-        long day  = 0L;
-        long hour = 0L;
-        long min  = 0L;
-        long sec  = 0L;
+        long day, hour, min, sec;
 
         long time1 = one.getTime();
         long time2 = two.getTime();
@@ -303,7 +293,6 @@ public class TimeFormatUtil
      *
      * @param beginDateStr 开始日期，至少精确到yyyy-MM
      * @param endDateStr   结束日期，至少精确到yyyy-MM
-     *
      * @return yyyy-MM日期集合
      */
     public static List<String> getMonthListOfDate(String beginDateStr, String endDateStr)
@@ -356,7 +345,6 @@ public class TimeFormatUtil
      *
      * @param beginDateStr 开始日期  ，至少精确到yyyy-MM-dd
      * @param endDateStr   结束日期  ，至少精确到yyyy-MM-dd
-     *
      * @return yyyy-MM-dd日期集合
      */
     public static List<String> getDayListOfDate(String beginDateStr, String endDateStr)

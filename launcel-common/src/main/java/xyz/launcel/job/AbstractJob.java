@@ -70,9 +70,7 @@ public abstract class AbstractJob implements InitializingBean
 
     private Job getCurrentJob()
     {
-        var entitys = JobDbSupport.query("select * from "
-                + JobDbSupport.getTableName()
-                + " where job_name=?", new Object[]{getJobName()});
+        var entitys = JobDbSupport.query("select * from " + JobDbSupport.getTableName() + " where job_name=?", new Object[]{getJobName()});
         if (CollectionUtils.isEmpty(entitys) || entitys.size() > 1)
         {
             ExceptionFactory.create("0003");
@@ -82,12 +80,6 @@ public abstract class AbstractJob implements InitializingBean
         {
             ExceptionFactory.create("0004");
         }
-        return Job.builder()
-                .id(entity.getId())
-                .cron(entity.getCron())
-                .jobName(entity.getJobName())
-                .status(entity.getStatus())
-                .work(work())
-                .build();
+        return Job.builder().id(entity.getId()).cron(entity.getCron()).jobName(entity.getJobName()).status(entity.getStatus()).work(work()).build();
     }
 }

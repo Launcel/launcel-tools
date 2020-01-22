@@ -1,5 +1,7 @@
 package xyz.launcel.exception;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import xyz.launcel.log.Log;
 import xyz.launcel.utils.CollectionUtils;
@@ -12,12 +14,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ExceptionHelp
 {
 
     private final static Properties props = new Properties();
-
-    private ExceptionHelp() { }
 
     public static void initProperties()
     {

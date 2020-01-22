@@ -10,6 +10,6 @@ public enum DateFormat
 
     public static DateFormat getByName(String name)
     {
-        return Arrays.stream(values()).filter(df -> df.name().equalsIgnoreCase(name)).findFirst().orElse(LONG_STRING);
+        return Arrays.stream(values()).filter(v -> v.name().equalsIgnoreCase(name)).findFirst().orElse(LONG_STRING);
     }
 }

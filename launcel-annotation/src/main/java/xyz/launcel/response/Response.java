@@ -15,13 +15,18 @@ import java.util.Date;
 @Getter
 public class Response implements Serializable
 {
-
     private static final long serialVersionUID = 5158014804552796478L;
 
     private Object data;
     private String message;
     private String code;
     private Long   timestrap;
+
+    public Response(String message, String code)
+    {
+        this.message = message;
+        this.code = code;
+    }
 
     public Response(Object data, String message, String code)
     {

@@ -1,17 +1,18 @@
 package xyz.launcel.log;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * @author launcel
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Log
 {
 
     private static Logger log = LoggerFactory.getLogger("ROOT");
-
-    private Log()                                    { }
 
     public static String getName()                          { return log.getName(); }
 

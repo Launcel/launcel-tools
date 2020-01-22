@@ -2,8 +2,9 @@ package xyz.launcel.handler;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import xyz.launcel.exception.ExceptionHelp;
+import xyz.launcel.annotation.ToolsClass;
 import xyz.launcel.exception.BusinessException;
+import xyz.launcel.exception.ExceptionHelp;
 import xyz.launcel.exception.SystemException;
 import xyz.launcel.log.Log;
 import xyz.launcel.response.Response;
@@ -14,6 +15,7 @@ import javax.validation.ConstraintViolationException;
  * Created by xuyang in 2017/9/22
  */
 @RestControllerAdvice
+@ToolsClass
 public class GlobalExceptionHandler
 {
 
@@ -76,7 +78,7 @@ public class GlobalExceptionHandler
         var sb   = new StringBuilder();
         code.forEach(c -> sb.append(c.getMessage()));
         var message = ExceptionHelp.getMessage(sb.toString());
-        System.out.printf("=========\n\terror info : %s", sb.toString());
+        Log.error("=========\n\terror info : {}", sb.toString());
         output(x);
         return response(message.get(sb.toString()), "-1");
     }
@@ -88,6 +90,6 @@ public class GlobalExceptionHandler
 
     private Response response(final String str, final String code)
     {
-        return Response.builder().message(str).code(code).build();
+        return new Response(str, code);
     }
 }

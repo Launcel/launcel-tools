@@ -62,7 +62,8 @@ public class SQLHelp
         {
             sb.append(s);
             index++;
-            if (index < group.size()) {
+            if (index < group.size())
+            {
                 sb.append(",");
             }
         }

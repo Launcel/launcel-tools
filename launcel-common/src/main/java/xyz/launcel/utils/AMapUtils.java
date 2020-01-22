@@ -15,7 +15,6 @@ public interface AMapUtils
     /**
      * @param lat 纬度
      * @param lng 经度
-     *
      * @return Point
      */
     static Point newPoint(double lat, double lng)
@@ -28,7 +27,6 @@ public interface AMapUtils
      *
      * @param l1 point 1
      * @param l2 point 2
-     *
      * @return two point legth
      */
     static double getDistance(@NonNull Point l1, @NonNull Point l2)
@@ -58,19 +56,20 @@ public interface AMapUtils
         /**
          * 纬度
          */
-        private double lat;
+        private        double        lat;
         /**
          * 经度
          */
-        private double lng;
+        private        double        lng;
         /**
          * 纬度弧度
          */
-        private double radLat;
+        private        double        radLat;
         /**
          * 经度弧度
          */
-        private double radLng;
+        private        double        radLng;
+
         Point(double lat, double lng)
         {
             this(lat, lng, true);
@@ -107,7 +106,6 @@ public interface AMapUtils
          * 获得当前角度的弧度值
          *
          * @param degree 角度
-         *
          * @return 弧度
          */
         private double getRadian(double degree) { return degree * Math.PI / 180.0; }

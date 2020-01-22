@@ -3,6 +3,7 @@ package xyz.launcel.util;
 import com.google.gson.JsonObject;
 import org.apache.commons.io.IOUtils;
 import org.springframework.web.util.WebUtils;
+import xyz.launcel.annotation.ToolsClass;
 import xyz.launcel.utils.CollectionUtils;
 import xyz.launcel.utils.Json;
 import xyz.launcel.utils.StringUtils;
@@ -13,6 +14,7 @@ import java.io.IOException;
 /**
  * Created by launcel on 2018/8/3.
  */
+@ToolsClass
 public class WebObjectUtils
 {
     public static JsonObject parseParamFromRequest(HttpServletRequest request)

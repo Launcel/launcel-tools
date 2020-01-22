@@ -5,6 +5,9 @@
 
 package xyz.launcel.export;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import xyz.launcel.annotation.ToolsClass;
 import xyz.launcel.exception.BusinessException;
 import xyz.launcel.utils.TimeFormatUtil;
 
@@ -14,10 +17,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+@ToolsClass
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ExcelOutput
 {
-    public ExcelOutput() { }
-
     public static ServletOutputStream getOutput(HttpServletResponse response, String fileName)
     {
         response.setContentType("application/ms-excel;charset=UTF-8");

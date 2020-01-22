@@ -14,9 +14,9 @@ import xyz.launcel.dao.IdEntity;
 @Builder
 public class ScheduleJobEntity extends IdEntity
 {
+    private static final long serialVersionUID = 4138548560820488130L;
 
-    private static final long   serialVersionUID = 4138548560820488130L;
-    private              String jobName;
-    private              String cron;
-    private              Short  status;
+    private String jobName;
+    private String cron;
+    private Short  status;
 }

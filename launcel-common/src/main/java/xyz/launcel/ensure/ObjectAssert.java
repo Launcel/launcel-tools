@@ -29,4 +29,9 @@ public class ObjectAssert
             ExceptionFactory.create(message);
         }
     }
+
+    public BooleanAssert eaual(Object o)
+    {
+        return new BooleanAssert(Objects.equals(o, flat));
+    }
 }

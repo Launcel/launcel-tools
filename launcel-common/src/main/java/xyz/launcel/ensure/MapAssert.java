@@ -32,4 +32,9 @@ public class MapAssert
             ExceptionFactory.create(message);
         }
     }
+
+    public BooleanAssert contains(Object key)
+    {
+        return new BooleanAssert(map.containsKey(key));
+    }
 }

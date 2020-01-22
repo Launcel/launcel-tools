@@ -8,9 +8,10 @@ import xyz.launcel.log.Log;
 @Setter
 abstract class AbstractException extends RuntimeException
 {
-    private static final long   serialVersionUID = 3880101935106863166L;
-    private              String code;
-    private              String meassge;
+    private static final long serialVersionUID = 3880101935106863166L;
+
+    private String code;
+    private String meassge;
 
     AbstractException(String message)
     {

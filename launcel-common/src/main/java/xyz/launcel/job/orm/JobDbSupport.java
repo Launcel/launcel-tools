@@ -15,10 +15,12 @@ import java.util.List;
 public class JobDbSupport
 {
     private static JobDbConfig jobDbConfig;
+
     static
     {
         init();
     }
+
     private static void init()
     {
         jobDbConfig = SpringBeanUtil.getBean(BeanNameList.jobDbConfig);

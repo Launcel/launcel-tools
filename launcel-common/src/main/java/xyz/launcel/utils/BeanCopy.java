@@ -53,16 +53,20 @@ public final class BeanCopy
         {
             ExceptionFactory.create("0023");
         }
-        try
-        {
-            var targetList = new ArrayList<T>();
-            var target     = targetClass.getDeclaredConstructor().newInstance();
-            source.forEach(s -> targetList.add(mapProperties(s, target, ignoreProperties)));
-            return targetList;
-        }
-        catch (ReflectiveOperationException e)
-        {
-            throw new SystemException("0022");
-        }
+
+        var targetList = new ArrayList<T>();
+        source.forEach(s -> {
+            try
+            {
+                var target = targetClass.getDeclaredConstructor().newInstance();
+                targetList.add(mapProperties(s, target, ignoreProperties));
+            }
+            catch (ReflectiveOperationException e)
+            {
+                throw new SystemException("0022");
+            }
+
+        });
+        return targetList;
     }
 }
