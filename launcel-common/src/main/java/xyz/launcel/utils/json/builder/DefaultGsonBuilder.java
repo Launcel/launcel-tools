@@ -19,8 +19,7 @@ public class DefaultGsonBuilder
     private              boolean     serializeNull;
     private              Double      version;
 
-    private DefaultGsonBuilder(DateFormat dateFormat, boolean floatingPointValue,
-                               boolean formatPrint, boolean serializeNull, Double version)
+    private DefaultGsonBuilder(DateFormat dateFormat, boolean floatingPointValue, boolean formatPrint, boolean serializeNull, Double version)
     {
         this.dateFormat = dateFormat;
         this.floatingPointValue = floatingPointValue;

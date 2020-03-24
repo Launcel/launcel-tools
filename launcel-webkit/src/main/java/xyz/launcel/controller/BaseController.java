@@ -4,8 +4,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import xyz.launcel.ensure.Me;
-import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.exception.BusinessException;
+import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.log.BaseLogger;
 import xyz.launcel.properties.WebTokenProperties;
 import xyz.launcel.utils.StringUtils;
@@ -13,6 +13,7 @@ import xyz.launcel.utils.StringUtils;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
 
 @Getter(value = AccessLevel.PROTECTED)
 public abstract class BaseController extends BaseLogger
@@ -28,59 +29,23 @@ public abstract class BaseController extends BaseLogger
         getResponse().setContentType("text/html;charset=utf-8");
     }
 
-//    protected <T> Page initPaging()
-//    {
-//        var pageNoString = request.getParameter("pageNo");
-//        var rowString    = request.getParameter("row");
-//
-//        var minIdString = request.getParameter("minId");
-//
-//        var pageNo = 1;
-//        var row    = 20;
-//        var minId  = 0;
-//        try
-//        {
-//            if (StringUtils.isNotBlank(pageNoString))
-//            {
-//                pageNo = Integer.valueOf(pageNoString.trim());
-//            }
-//            if (StringUtils.isNotBlank(rowString))
-//            {
-//                row = Integer.valueOf(rowString.trim());
-//            }
-//            if (StringUtils.isNotBlank(minIdString))
-//            {
-//                minId = Integer.parseInt(minIdString);
-//            }
-//        }
-//        catch (Exception ignore)
-//        {
-//        }
-//        var page = new Page<>(pageNo, row);
-//        page.setMinId(minId);
-//        return page;
-//    }
-
     protected String getToken()
     {
         var cookies = getRequest().getCookies();
-        if (cookies != null && cookies.length > 0)
-        {
-            for (var cookie : cookies)
-            {
-                if (WebTokenProperties.getTokenKey().equals(cookie.getName()))
-                {
-                    return cookie.getValue();
-                }
+        if (Objects.isNull(cookies) || cookies.length < 1) {
+            throw new BusinessException("0401");
+        }
+        for (var cookie : cookies) {
+            if (WebTokenProperties.getTokenKey().equals(cookie.getName())) {
+                return cookie.getValue();
             }
         }
-        throw new BusinessException("0401");
+        return null;
     }
 
     protected String getHeaderString(String name)
     {
-        if (StringUtils.isBlank(name))
-        {
+        if (StringUtils.isBlank(name)) {
             ExceptionFactory.create("0402");
         }
         var str = getRequest().getHeader(name);

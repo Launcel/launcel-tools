@@ -25,16 +25,14 @@ public class ExcelOutput
     {
         response.setContentType("application/ms-excel;charset=UTF-8");
         var fileNameTmp = TimeFormatUtil.format(new Date(), "yyyy-MM-dd") + "_" + fileName + ".xlsx";
-        try
-        {
+        try {
             fileName = new String(fileNameTmp.getBytes("ISO8859_1"), StandardCharsets.UTF_8);
 
             response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
             response.setHeader("Cache-Control", "no-cache");
             return response.getOutputStream();
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             e.printStackTrace();
             throw new BusinessException("00520");
         }

@@ -1,14 +1,19 @@
 package xyz.launcel.properties;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@Getter
-@Setter
+import java.util.Objects;
+
+@Data
 @ConfigurationProperties(prefix = "job.scheduler")
 public class SchedulerPoolProperties
 {
     private Boolean enabled  = false;
     private Integer poolSize = 10;
+
+    public void setEnabled(Boolean enabled)
+    {
+        this.enabled = Objects.nonNull(enabled) ? enabled : false;
+    }
 }

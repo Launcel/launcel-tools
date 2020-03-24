@@ -15,26 +15,22 @@ import java.io.IOException;
  * Created by launcel on 2018/8/3.
  */
 @ToolsClass
-public class WebObjectUtils
+public class WebObjectUtil
 {
     public static JsonObject parseParamFromRequest(HttpServletRequest request)
     {
         String paramInput   = null;
         var    parameterMap = WebUtils.getParametersStartingWith(request, null);
 
-        if (CollectionUtils.isNotEmpty(parameterMap))
-        {
+        if (CollectionUtils.isNotEmpty(parameterMap)) {
             paramInput = Json.toString(parameterMap);
         }
 
-        if (StringUtils.isBlank(paramInput))
-        {
-            try
-            {
+        if (StringUtils.isBlank(paramInput)) {
+            try {
                 paramInput = IOUtils.toString(request.getInputStream(), "UTF-8");
             }
-            catch (IOException e)
-            {
+            catch (IOException e) {
                 e.printStackTrace();
             }
         }

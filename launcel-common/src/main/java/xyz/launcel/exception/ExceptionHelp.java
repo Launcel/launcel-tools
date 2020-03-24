@@ -44,7 +44,7 @@ public class ExceptionHelp
                 }
                 if (Log.isDebug())
                 {
-                    System.out.println("  >>>   错误信息加载完毕！");
+                    Log.debug("  >>>   错误信息加载完毕！");
                 }
             }
         }

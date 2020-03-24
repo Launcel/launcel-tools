@@ -1,13 +1,12 @@
 package xyz.launcel.job.config.impl;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.lang.NonNull;
 import xyz.launcel.job.config.JobDbConfig;
 
-@Getter
-@Setter
+import java.util.Objects;
+
+@Data
 @ConfigurationProperties(prefix = "job.datasource")
 public class CacheJobDbProperties implements JobDbConfig
 {
@@ -17,4 +16,9 @@ public class CacheJobDbProperties implements JobDbConfig
     private String  user;
     private String  password;
     private String  url;
+
+    public void setEnabled(Boolean enabled)
+    {
+        this.enabled = Objects.nonNull(enabled) ? enabled : false;
+    }
 }

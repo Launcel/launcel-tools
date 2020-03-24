@@ -2,7 +2,6 @@ package xyz.launcel.autoconfigure;
 
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
@@ -22,7 +21,6 @@ import xyz.launcel.log.Log;
 import xyz.launcel.properties.CorsProperties;
 import xyz.launcel.properties.JsonProperties;
 import xyz.launcel.properties.UploadProperties;
-import xyz.launcel.properties.WebTokenProperties;
 import xyz.launcel.util.UploadLocalUtil;
 import xyz.launcel.utils.json.builder.DateFormat;
 import xyz.launcel.utils.json.builder.DefaultGsonBuilder;
@@ -40,9 +38,6 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     private final CorsProperties   corsProperties;
     private final UploadProperties uploadProperties;
     private final JsonProperties   jsonPropertie;
-
-    @Value("${web.token-key:{null}}")
-    private String tokenKey;
 
     /**
      * 用 gson 替换 jackson
@@ -87,7 +82,6 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     public void configureContentNegotiation(final ContentNegotiationConfigurer configurer)
     {
         configurer.defaultContentType(MediaType.APPLICATION_JSON_UTF8);
-        WebTokenProperties.setTokenKey(tokenKey);
     }
 
     //    @ConditionalOnProperty(prefix = "web.aspejct", value = "enabled", havingValue = "true")

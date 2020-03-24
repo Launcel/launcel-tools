@@ -32,11 +32,10 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     private final SchedulerPoolProperties schedulerPoolProperties;
     private final CacheJobDbProperties    cacheJobDbProperties;
 
-    public CommonAutoConfiguration(ThreadPoolProperties threadPoolProperties,
-                                   SchedulerPoolProperties schedulerPoolProperties,
+    public CommonAutoConfiguration(ThreadPoolProperties threadPoolProperties, SchedulerPoolProperties schedulerPoolProperties,
                                    CacheJobDbProperties cacheJobDbProperties)
     {
-        Log.warn("init CommonAutoConfiguration....");
+        Log.info("init CommonAutoConfiguration....");
         this.threadPoolProperties = threadPoolProperties;
         this.schedulerPoolProperties = schedulerPoolProperties;
         this.cacheJobDbProperties = cacheJobDbProperties;
@@ -47,7 +46,7 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     @ConditionalOnProperty(prefix = "thread.pool", value = "enabled", havingValue = "true")
     public ThreadPoolTaskExecutor executor()
     {
-        Log.warn("init thread.pool.executor");
+        Log.info("init thread.pool.executor");
         var executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(threadPoolProperties.getCorePoolSize());
         executor.setMaxPoolSize(threadPoolProperties.getMaxPoolSize());
@@ -61,7 +60,7 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     @ConditionalOnProperty(prefix = "job.scheduler", value = "enabled", havingValue = "true")
     public ThreadPoolTaskScheduler scheduler()
     {
-        Log.warn("init job.scheduler.scheduler");
+        Log.info("init job.scheduler.scheduler");
         var scheduler = new ThreadPoolTaskScheduler();
         scheduler.setPoolSize(schedulerPoolProperties.getPoolSize());
         scheduler.setThreadGroupName("taskScheduler-");
@@ -75,21 +74,21 @@ public class CommonAutoConfiguration implements ApplicationContextAware, Initial
     @ConditionalOnProperty(prefix = "job.datasource", value = "enabled", havingValue = "true")
     public JobDbConfig jobDbConfig()
     {
-        Log.warn("init job.datasource.jobDbConfig");
+        Log.info("init job.datasource.jobDbConfig");
         return cacheJobDbProperties;
     }
 
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext)
     {
-        Log.warn("exectute Spring setApplicationContext...");
+        Log.info("exectute Spring setApplicationContext...");
         SpringBeanUtil.setApplicationContext(applicationContext);
     }
 
     @Override
     public void afterPropertiesSet()
     {
-        Log.warn("exectute Spring afterPropertiesSet...");
+        Log.info("exectute Spring afterPropertiesSet...");
         ExceptionHelp.initProperties();
     }
 }
