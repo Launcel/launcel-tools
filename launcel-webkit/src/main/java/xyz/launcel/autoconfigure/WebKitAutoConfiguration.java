@@ -46,7 +46,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @Override
     public void configureMessageConverters(final List<HttpMessageConverter<?>> converters)
     {
-        Log.warn("init web.json-converter...");
+        Log.info("init web.json-converter...");
         converters.removeIf(httpMessageConverter -> httpMessageConverter instanceof MappingJackson2HttpMessageConverter);
         var gsonConverter = new GsonHttpMessageConverter();
         DefaultGsonBuilder.builder()
@@ -70,7 +70,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @Override
     public void addCorsMappings(final CorsRegistry registry)
     {
-        Log.warn("init web.cors...");
+        Log.info("init web.cors...");
         registry.addMapping(corsProperties.getPathPattern())
                 .allowedOrigins(corsProperties.getAllowedOrigins())
                 .allowCredentials(true)
@@ -92,7 +92,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @ConditionalOnProperty(prefix = "web.global-exception", value = "enabled", havingValue = "true")
     public GlobalExceptionHandler globalExceptionHandler()
     {
-        Log.warn("init globalExceptionHandler...");
+        Log.info("init globalExceptionHandler...");
         return new GlobalExceptionHandler();
     }
 
@@ -101,7 +101,7 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
     public MultipartConfigElement multipartConfigElement()
     {
-        Log.warn("inti multipartConfigElement...");
+        Log.info("inti multipartConfigElement...");
         var factory = new MultipartConfigFactory();
         factory.setMaxFileSize(uploadProperties.getMaxSize());
         factory.setMaxRequestSize(uploadProperties.getMaxSize());

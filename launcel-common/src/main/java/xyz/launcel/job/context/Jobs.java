@@ -4,10 +4,9 @@ import org.springframework.lang.NonNull;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import xyz.launcel.bean.SpringBeanUtil;
-import xyz.launcel.exception.ExceptionFactory;
+import xyz.launcel.ensure.Me;
 import xyz.launcel.job.bean.Job;
 
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
@@ -20,24 +19,16 @@ public class Jobs
     public static void add(@NonNull Job job)
     {
         var future = getFuture(job);
-        if (Objects.nonNull(future))
-        {
-            jobsMap.put(job.getId(), future);
-            return;
-        }
-        ExceptionFactory.create("0001");
+        Me.builder(future).isNull("0001");
+        jobsMap.put(job.getId(), future);
     }
 
     public static void remove(@NonNull Integer jobId)
     {
         var future = jobsMap.get(jobId);
-        if (Objects.nonNull(future))
-        {
-            future.cancel(true);
-            jobsMap.remove(jobId);
-            return;
-        }
-        ExceptionFactory.create("0002");
+        Me.builder(future).isNull("0002");
+        future.cancel(true);
+        jobsMap.remove(jobId);
     }
 
     public static ScheduledFuture getFuture(@NonNull Job job)

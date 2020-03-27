@@ -7,7 +7,7 @@ import java.util.function.Function;
 
 public interface InvockUtils
 {
-    static <P, R> R execute(@NonNull Function<P, R> function, P param)
+    static <P, R> R apply(@NonNull Function<P, R> function, P param)
     {
 
         try
