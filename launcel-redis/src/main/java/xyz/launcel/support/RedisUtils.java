@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
 import xyz.launcel.bean.SpringBeanUtil;
+import xyz.launcel.core.RedisOperation;
 import xyz.launcel.exception.SystemException;
 import xyz.launcel.properties.RedisProperties;
-import xyz.launcel.redisBean.BeanNameList;
 import xyz.launcel.utils.CollectionUtils;
 import xyz.launcel.utils.Json;
 import xyz.launcel.utils.StringUtils;
@@ -29,8 +28,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class RedisUtils
 {
-    private static RedisTemplate<String, String> template   = SpringBeanUtil.getBean(BeanNameList.redisTemplate);
-    private static long                          expireTime = SpringBeanUtil.getBean(RedisProperties.class).getExptime();
+    private static RedisOperation template   = SpringBeanUtil.getBean(RedisOperation.class);
+    private static long           expireTime = SpringBeanUtil.getBean(RedisProperties.class).getExptime();
 
     public static void batchDel(final Set<String> keys)
     {
@@ -59,9 +58,7 @@ public final class RedisUtils
                 {
                     if (StringUtils.isNotBlank(entry.getKey()))
                     {
-                        var result = conn.setEx(StringUtils.serializer(entry.getKey()),
-                                expireTime,
-                                StringUtils.serializer(Json.toString(entry.getValue())));
+                        var result = conn.setEx(StringUtils.serializer(entry.getKey()), expireTime, StringUtils.serializer(Json.toString(entry.getValue())));
                         if (result != null && result)
                         {
                             num++;
@@ -87,11 +84,8 @@ public final class RedisUtils
     public static boolean setNX(final String key, final String value, final Long expTime)
     {
         vidate(key, value, expTime);
-        RedisCallback<Boolean> callback = conn ->
-                conn.set(StringUtils.serializer(key),
-                        StringUtils.serializer(value),
-                        Expiration.from(expTime, TimeUnit.SECONDS),
-                        RedisStringCommands.SetOption.SET_IF_ABSENT);
+        RedisCallback<Boolean> callback = conn -> conn.set(StringUtils.serializer(key), StringUtils.serializer(value),
+                Expiration.from(expTime, TimeUnit.SECONDS), RedisStringCommands.SetOption.SET_IF_ABSENT);
         var flat = template.execute(callback);
         return flat != null && flat;
     }
@@ -121,5 +115,5 @@ public final class RedisUtils
             throw new SystemException("0303");
         }
     }
-    
+
 }

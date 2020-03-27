@@ -19,14 +19,12 @@ import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.lang.NonNull;
+import xyz.launcel.core.RedisOperation;
+import xyz.launcel.core.RedisTemplates;
 import xyz.launcel.log.Log;
 import xyz.launcel.properties.RedisProperties;
-import xyz.launcel.support.serializer.GsonRedisSerializer;
 import xyz.launcel.utils.Base64;
 
 import javax.inject.Named;
@@ -42,7 +40,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
 
     public RedisAutoConfiguration(RedisProperties redisProperties)
     {
-        Log.warn("init RedisAutoConfiguration....");
+        Log.info("init RedisAutoConfiguration....");
         this.properties = redisProperties;
     }
 
@@ -78,21 +76,18 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     @Bean(name = "redisConnectionFactory")
     public RedisConnectionFactory lettuceConnectionFactory()
     {
-        Log.warn("init redisConnectionFactory...");
+        Log.info("init redisConnectionFactory...");
         return new LettuceConnectionFactory(sinagleConfiguration(), lettucePoolClient());
     }
 
     @Primary
-    @Bean(name = "redisTemplate")
+    @Bean(name = "redisOperation")
     @ConditionalOnBean(name = "redisConnectionFactory")
-    public RedisTemplate<String, Object> redisTemplate(@NonNull @Named("redisConnectionFactory") final RedisConnectionFactory redisConnectionFactory)
+    public RedisOperation redisOperation(@NonNull @Named("redisConnectionFactory") final RedisConnectionFactory redisConnectionFactory)
     {
-        Log.warn("init redisTemplate...");
-        var template = new RedisTemplate<String, Object>();
+        Log.info("init redisTemplate...");
+        var template = new RedisTemplates();
         template.setConnectionFactory(redisConnectionFactory);
-        var defaultValueSerializer = new GsonRedisSerializer<>(Object.class);
-        var keySerializer          = new StringRedisSerializer();
-        template.setKeySerializer(keySerializer);
         try
         {
             var clazz           = Class.forName(properties.getValueSerializer());
@@ -101,13 +96,8 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
         }
         catch (ReflectiveOperationException e)
         {
-            Log.error("redis value serializer init error, there will be use jdk serializer");
-            template.setValueSerializer(new JdkSerializationRedisSerializer());
+            Log.warn("redis value serializer init error, there will be use jdk serializer");
         }
-        template.setDefaultSerializer(defaultValueSerializer);
-        template.setHashKeySerializer(keySerializer);
-        template.afterPropertiesSet();
-
         return template;
     }
 
@@ -115,18 +105,17 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
     @Bean(value = "cacheManager")
     public CacheManager cacheManager(@NonNull @Named("redisConnectionFactory") final RedisConnectionFactory redisConnectionFactory)
     {
-        Log.warn("init cacheManager...");
+        Log.info("init cacheManager...");
         // 设置缓存有效期一小时
         var redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(1));
-        return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory))
-                .cacheDefaults(redisCacheConfiguration).build();
+        return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory)).cacheDefaults(redisCacheConfiguration).build();
     }
 
     @Bean(value = "errorHandler")
     @Override
     public CacheErrorHandler errorHandler()
     {
-        Log.warn("init errorHandler...");
+        Log.info("init errorHandler...");
         return new CacheErrorHandler()
         {
             @Override
