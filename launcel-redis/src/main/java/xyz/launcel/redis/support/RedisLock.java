@@ -31,9 +31,9 @@ public abstract class RedisLock<T>
             Me.builder(keyMethod).isNull("key 方法 不存在");
             Lock lock = keyMethod.getAnnotation(Lock.class);
             Me.builder(lock).isNull("Lock 加锁注解不存在");
-            Me.builder(lock.key()).isBlank("Lock 加锁的key不存在");
+            Me.builder(lock.body()).isBlank("Lock 加锁的key不存在");
             Me.builder(lock.time() <= 0).isTrue("Lock 加锁的失效时间不能设置为永久");
-            key = lock.key();
+            key = lock.body().concat(key());
             time = lock.time() * 1000000;
             START_TIME = System.nanoTime();
         }

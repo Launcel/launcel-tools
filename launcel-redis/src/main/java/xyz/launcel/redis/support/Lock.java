@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Lock
 {
-    String key();
+    String body();
 
     long time(); // 毫秒级别
 }

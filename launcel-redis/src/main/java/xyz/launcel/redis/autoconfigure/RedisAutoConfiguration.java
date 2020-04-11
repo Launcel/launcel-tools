@@ -102,8 +102,6 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
 
             var keySerializer = new KeyRedisSerializer();
             template.setKeySerializer(keySerializer);
-
-
         }
         catch (ReflectiveOperationException e)
         {
