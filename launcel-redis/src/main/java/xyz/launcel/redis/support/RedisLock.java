@@ -2,6 +2,7 @@ package xyz.launcel.redis.support;
 
 
 import lombok.Getter;
+import org.springframework.lang.NonNull;
 import xyz.launcel.ensure.Me;
 
 import java.lang.reflect.Method;
@@ -14,6 +15,7 @@ public abstract class RedisLock<T>
     private long   START_TIME;
     private T      result;
 
+    @NonNull
     protected abstract String key();
 
     protected abstract T apply();
