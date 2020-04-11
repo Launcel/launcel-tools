@@ -8,6 +8,7 @@ import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import xyz.launcel.support.serializer.GsonRedisSerializer;
+import xyz.launcel.support.serializer.KeyRedisSerializer;
 
 import java.util.Objects;
 
@@ -22,24 +23,27 @@ public class RedisTemplates extends RedisTemplate<String, Object> implements Red
     private boolean initialized              = false;
     private boolean enableDefaultSerializer  = true;
 
-    private       RedisSerializer<?>    defaultSerializer;
-    private       RedisSerializer       keySerializer;
-    private       RedisSerializer       valueSerializer;
-    private       RedisSerializer       hashKeySerializer;
-    private       RedisSerializer       hashValueSerializer;
-    private final StringRedisSerializer defaultKeySerializer   = new StringRedisSerializer();
-    private final RedisSerializer       defaultValueSerializer = new JdkSerializationRedisSerializer();
+    private RedisSerializer<?> defaultSerializer;
+
+    private RedisSerializer keySerializer;
+    private RedisSerializer valueSerializer;
+    private RedisSerializer hashKeySerializer;
+    private RedisSerializer hashValueSerializer;
+
+    private final KeyRedisSerializer    defaultKeySerializer     = new KeyRedisSerializer();
+    private final StringRedisSerializer defaultHashKeySerializer = new StringRedisSerializer();
+    private final RedisSerializer       defaultValueSerializer   = new JdkSerializationRedisSerializer();
 
     public RedisTemplates()
     {
         initialized = true;
 
-        super.setKeySerializer(defaultKeySerializer);
-        super.setHashKeySerializer(defaultKeySerializer);
+        this.setKeySerializer(defaultKeySerializer);
+        this.setHashKeySerializer(defaultHashKeySerializer);
 
-        super.setValueSerializer(defaultValueSerializer);
-        super.setHashValueSerializer(defaultValueSerializer);
-        super.setDefaultSerializer(new GsonRedisSerializer<>(Object.class));
+        this.setValueSerializer(defaultValueSerializer);
+        this.setHashValueSerializer(defaultValueSerializer);
+        this.setDefaultSerializer(new GsonRedisSerializer<>(Object.class));
     }
 
     public void setDefaultSerializer(RedisSerializer<?> defaultSerializer)
@@ -56,7 +60,7 @@ public class RedisTemplates extends RedisTemplate<String, Object> implements Red
 
     public void setHashKeySerializer(RedisSerializer hashKeySerializer)
     {
-        this.hashKeySerializer = Objects.nonNull(hashKeySerializer) ? hashKeySerializer : defaultKeySerializer;
+        this.hashKeySerializer = Objects.nonNull(hashKeySerializer) ? hashKeySerializer : defaultHashKeySerializer;
         super.setHashKeySerializer(this.hashKeySerializer);
     }
 

@@ -18,6 +18,7 @@ public class GsonRedisSerializer<T> implements RedisSerializer<T>
 {
     private Gson gson = DefaultGsonBuilder.create();
 
+
     private Class<T> type;
 
     public GsonRedisSerializer(Class<T> type)
@@ -30,7 +31,7 @@ public class GsonRedisSerializer<T> implements RedisSerializer<T>
     {
         if (t == null)
         {
-            return new byte[0];
+            return null;
         }
         return gson.toJson(t).getBytes();
     }

@@ -93,6 +93,11 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
             var clazz           = Class.forName(properties.getValueSerializer());
             var valueSerializer = (RedisSerializer) clazz.getDeclaredConstructor().newInstance();
             template.setValueSerializer(valueSerializer);
+
+            var hasKeyClazz      = Class.forName(properties.getHashKeySerializer());
+            var hasKeySerializer = (RedisSerializer) hasKeyClazz.getDeclaredConstructor().newInstance();
+            template.setHashKeySerializer(hasKeySerializer);
+
         }
         catch (ReflectiveOperationException e)
         {
