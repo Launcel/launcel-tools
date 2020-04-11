@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import xyz.launcel.utils.StringUtils;
 
 @Getter
 @Setter
@@ -35,4 +36,22 @@ public class RedisProperties
     private String  valueSerializer   = "org.springframework.data.redis.serializer.JdkSerializationRedisSerializer";
     private String  modelName;
     private String  hashKeySerializer = "org.springframework.data.redis.serializer.StringRedisSerializer";
+
+
+    private static String prefixKey;
+
+    public void setModelName(String modelName)
+    {
+        this.modelName = modelName;
+        prefixKey = modelName;
+    }
+
+    public static String getPrefixKey()
+    {
+        if (StringUtils.isBlank(prefixKey))
+        {
+            return "";
+        }
+        return prefixKey.concat(":");
+    }
 }

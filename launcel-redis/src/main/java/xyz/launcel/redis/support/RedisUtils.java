@@ -5,11 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.var;
 import org.springframework.data.redis.connection.RedisStringCommands;
+import org.springframework.data.redis.connection.ReturnType;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.types.Expiration;
 import xyz.launcel.bean.SpringBeanUtil;
-import xyz.launcel.redis.core.RedisOperation;
 import xyz.launcel.exception.SystemException;
+import xyz.launcel.redis.core.RedisOperation;
 import xyz.launcel.redis.properties.RedisProperties;
 import xyz.launcel.utils.CollectionUtils;
 import xyz.launcel.utils.Json;
@@ -32,6 +33,12 @@ public final class RedisUtils
     private static RedisOperation template   = SpringBeanUtil.getBean(RedisOperation.class);
     private static long           expireTime = SpringBeanUtil.getBean(RedisProperties.class).getExptime();
 
+
+    public static String getNewKey(String key)
+    {
+        return RedisProperties.getPrefixKey().concat(key);
+    }
+
     public static void batchDel(final Set<String> keys)
     {
         if (CollectionUtils.isEmpty(keys))
@@ -40,7 +47,7 @@ public final class RedisUtils
         }
         RedisCallback<Void> callback = conn -> {
             conn.openPipeline();
-            keys.stream().filter(StringUtils::isNotBlank).forEach(key -> conn.del(StringUtils.serializer(key)));
+            keys.stream().filter(StringUtils::isNotBlank).forEach(key -> conn.del(StringUtils.serializer(getNewKey(key))));
             conn.closePipeline();
             return null;
         };
@@ -59,7 +66,8 @@ public final class RedisUtils
                 {
                     if (StringUtils.isNotBlank(entry.getKey()))
                     {
-                        var result = conn.setEx(StringUtils.serializer(entry.getKey()), expireTime, StringUtils.serializer(Json.toString(entry.getValue())));
+                        var result = conn.setEx(StringUtils.serializer(getNewKey(entry.getKey())), expireTime,
+                                StringUtils.serializer(Json.toString(entry.getValue())));
                         if (result != null && result)
                         {
                             num++;
@@ -78,16 +86,36 @@ public final class RedisUtils
     public static boolean exits(final String key)
     {
         vidate(key);
-        var flat = template.hasKey(key);
+        var flat = template.hasKey(getNewKey(key));
+        return flat != null && flat;
+    }
+
+    public static boolean setNxNANO(final String key, final String value, final Long expTime)
+    {
+        vidate(key, value, expTime);
+        RedisCallback<Boolean> callback = conn -> conn.set(StringUtils.serializer(getNewKey(key)), StringUtils.serializer(value),
+                Expiration.from(expTime, TimeUnit.NANOSECONDS), RedisStringCommands.SetOption.SET_IF_ABSENT);
+        var flat = template.execute(callback);
         return flat != null && flat;
     }
 
     public static boolean setNX(final String key, final String value, final Long expTime)
     {
-        vidate(key, value, expTime);
-        RedisCallback<Boolean> callback = conn -> conn.set(StringUtils.serializer(key), StringUtils.serializer(value),
-                Expiration.from(expTime, TimeUnit.SECONDS), RedisStringCommands.SetOption.SET_IF_ABSENT);
-        var flat = template.execute(callback);
+        return setNxNANO(key, value, expTime * 1000000);
+    }
+
+    public static boolean del(final String key)
+    {
+        var flat = template.delete(getNewKey(key));
+        return flat != null && flat;
+    }
+
+    public static boolean unclock(final String key)
+    {
+
+        String                 script   = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+        RedisCallback<Boolean> callback = connection -> connection.scriptingCommands().eval(script.getBytes(), ReturnType.BOOLEAN, 1, "1".getBytes());
+        var                    flat     = template.execute(callback);
         return flat != null && flat;
     }
 

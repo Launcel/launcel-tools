@@ -4,6 +4,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import xyz.launcel.log.Log;
+import xyz.launcel.redis.properties.RedisProperties;
 import xyz.launcel.utils.StringUtils;
 
 import java.nio.charset.Charset;
@@ -13,8 +14,6 @@ public class KeyRedisSerializer implements RedisSerializer<String>
 {
 
     private final Charset charset;
-
-    private String prefixKey;
 
     public KeyRedisSerializer()
     {
@@ -27,19 +26,6 @@ public class KeyRedisSerializer implements RedisSerializer<String>
         Assert.notNull(charset, "Charset must not be null!");
         this.charset = charset;
     }
-
-    public KeyRedisSerializer(String prefixKey)
-    {
-        this(StandardCharsets.UTF_8);
-        this.prefixKey = prefixKey;
-    }
-
-    public KeyRedisSerializer(Charset charset, String prefixKey)
-    {
-        this.charset = charset;
-        this.prefixKey = prefixKey;
-    }
-
 
     @Override
     public String deserialize(@Nullable byte[] bytes)
@@ -54,13 +40,8 @@ public class KeyRedisSerializer implements RedisSerializer<String>
         {
             return null;
         }
-        if (StringUtils.isNotBlank(prefixKey))
-        {
-            Log.info(prefixKey.concat(string));
-            return prefixKey.concat(string).getBytes(charset);
-        }
-        Log.info(prefixKey.concat(string));
-        return string.getBytes(charset);
+        Log.info(RedisProperties.getPrefixKey().concat(string));
+        return RedisProperties.getPrefixKey().concat(string).getBytes(charset);
     }
 
 }
