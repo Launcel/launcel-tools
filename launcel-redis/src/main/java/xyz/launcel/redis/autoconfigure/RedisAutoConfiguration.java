@@ -100,7 +100,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
             var hasKeySerializer = (RedisSerializer) hasKeyClazz.getDeclaredConstructor().newInstance();
             template.setHashKeySerializer(hasKeySerializer);
 
-            var keySerializer = new KeyRedisSerializer(properties.getModelName().concat(":"));
+            var keySerializer = new KeyRedisSerializer();
             template.setKeySerializer(keySerializer);
 
 
