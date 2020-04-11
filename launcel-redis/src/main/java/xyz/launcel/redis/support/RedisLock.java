@@ -1,19 +1,22 @@
 package xyz.launcel.redis.support;
 
 
-import lombok.Getter;
 import org.springframework.lang.NonNull;
 import xyz.launcel.ensure.Me;
 
 import java.lang.reflect.Method;
 
-@Getter
 public abstract class RedisLock<T>
 {
     private String key;
     private long   time;
     private long   START_TIME;
     private T      result;
+
+    public T get()
+    {
+        return result;
+    }
 
     @NonNull
     protected abstract String key();
@@ -29,8 +32,8 @@ public abstract class RedisLock<T>
     {
         try
         {
-            Method keyMethod = getClass().getMethod("key");
-            Me.builder(keyMethod).isNull("key 方法 不存在");
+            Method keyMethod = getClass().getMethod("body");
+            Me.builder(keyMethod).isNull("找不到 body 方法");
             Lock lock = keyMethod.getAnnotation(Lock.class);
             Me.builder(lock).isNull("Lock 加锁注解不存在");
             Me.builder(lock.body()).isBlank("Lock 加锁的key不存在");
