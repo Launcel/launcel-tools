@@ -25,7 +25,7 @@ public class GlobalExceptionHandler
     @ExceptionHandler(value = Throwable.class)
     public Response throwable(final Throwable x)
     {
-        Log.error("error info : {}", x.getCause());
+        Log.error("error info : ", x.getCause());
         output(x);
         return response(message, "-1");
     }
@@ -33,7 +33,7 @@ public class GlobalExceptionHandler
     @ExceptionHandler(value = NullPointerException.class)
     public Response nullPointerException(final NullPointerException x)
     {
-        Log.error("error info : {}", x.getCause());
+        Log.error("error info : ", x.getCause());
         output(x);
         return response(message, "-1");
     }
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler
     @ExceptionHandler(value = IllegalArgumentException.class)
     public Response illegalArgumentException(final IllegalArgumentException x)
     {
-        Log.error("error info : {}", x.getCause());
+        Log.error("error info : ", x.getCause());
         output(x);
         return response(message, "-1");
     }
@@ -49,7 +49,7 @@ public class GlobalExceptionHandler
     @ExceptionHandler(value = BusinessException.class)
     public Response professionException(final BusinessException x)
     {
-        Log.error("error info : {}", x.getCause());
+        Log.error("error info : ", x.getCause());
         output(x);
         return response(x.getMessage(), x.getCode());
     }
@@ -57,7 +57,7 @@ public class GlobalExceptionHandler
     @ExceptionHandler(SystemException.class)
     public Response systemError(final SystemException x)
     {
-        Log.error("error info : {}", x.getCause());
+        Log.error("error info : ", x.getCause());
         output(x);
         return response(x.getMeassge(), x.getCode());
     }
@@ -79,7 +79,7 @@ public class GlobalExceptionHandler
         var sb   = new StringBuilder();
         code.forEach(c -> sb.append(c.getMessage()));
         var message = ExceptionHelp.getMessage(sb.toString());
-        Log.error("=========\n\terror info : {}", sb.toString());
+        Log.error("=========\n\terror info : ", sb.toString());
         output(x);
         return response(message.get(sb.toString()), "-1");
     }

@@ -44,7 +44,7 @@ public abstract class RedisLock<T>
         }
         catch (Exception e)
         {
-            throw new RuntimeException("key 方法 不存在");
+            throw new RuntimeException(e.getCause());
         }
     }
 
