@@ -19,20 +19,21 @@ public abstract class RedisLock<T>
     }
 
     @NonNull
-    protected abstract String key();
+    public abstract String key();
 
     protected abstract T apply();
 
     public RedisLock()
     {
-        initKey();
+        init();
+        work();
     }
 
-    protected void initKey()
+    private void init()
     {
         try
         {
-            Method keyMethod = getClass().getMethod("body");
+            Method keyMethod = getClass().getMethod("key");
             Me.builder(keyMethod).isNull("找不到 body 方法");
             Lock lock = keyMethod.getAnnotation(Lock.class);
             Me.builder(lock).isNull("Lock 加锁注解不存在");
@@ -44,11 +45,12 @@ public abstract class RedisLock<T>
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             throw new RuntimeException(e.getCause());
         }
     }
 
-    protected boolean work()
+    private void work()
     {
         long now = System.nanoTime();
 
@@ -59,7 +61,7 @@ public abstract class RedisLock<T>
                 try
                 {
                     result = apply();
-                    return true;
+                    return;
                 }
                 finally
                 {
@@ -68,15 +70,14 @@ public abstract class RedisLock<T>
             }
             now = System.nanoTime();
         }
-        return false;
     }
 
-    protected boolean lock()
+    private boolean lock()
     {
         return RedisUtils.setNxNANO(key, "1", time);
     }
 
-    protected boolean unlock()
+    private void unlock()
     {
         //        if (TransactionSynchronizationManager.isActualTransactionActive())
         //        {
@@ -89,6 +90,6 @@ public abstract class RedisLock<T>
         //                }
         //            });
         //        }
-        return RedisUtils.unclock(key);
+        RedisUtils.unclock(key);
     }
 }
