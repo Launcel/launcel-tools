@@ -1,5 +1,6 @@
 package xyz.launcel.interceptor;
 
+import lombok.var;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;

@@ -2,6 +2,7 @@ package xyz.launcel.exception;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.var;
 import xyz.launcel.log.Log;
 
 @Getter

@@ -1,5 +1,6 @@
 package xyz.launcel.utils;
 
+import lombok.var;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.exception.SystemException;
 

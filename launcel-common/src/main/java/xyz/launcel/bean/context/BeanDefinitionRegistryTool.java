@@ -7,6 +7,7 @@
 
 package xyz.launcel.bean.context;
 
+import lombok.var;
 import org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.support.BeanDefinitionReaderUtils;

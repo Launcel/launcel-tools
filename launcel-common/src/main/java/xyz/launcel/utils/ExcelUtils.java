@@ -2,6 +2,7 @@ package xyz.launcel.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.var;
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.xssf.usermodel.XSSFCell;

@@ -5,12 +5,13 @@ import com.google.common.collect.Maps;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.var;
 import org.springframework.boot.context.properties.bind.Bindable;
 import org.springframework.boot.context.properties.bind.Binder;
 import xyz.launcel.constant.SessionFactoryConstant;
-import xyz.launcel.properties.DataSourceProperties;
-import xyz.launcel.properties.MybatisProperties;
-import xyz.launcel.properties.RoleDataSourceHolder;
+import xyz.launcel.redis.properties.DataSourceProperties;
+import xyz.launcel.redis.properties.MybatisProperties;
+import xyz.launcel.redis.properties.RoleDataSourceHolder;
 import xyz.launcel.utils.CollectionUtils;
 
 import java.util.List;
@@ -61,7 +62,8 @@ public class DataSourcePropertiesBinderTool
             dataSourceProperties.getOthers().forEach(other -> {
                 isDebugSql(other);
                 var dataSource = new HikariDataSource(other.getHikariConfig());
-                dynamicDataSourceConfigMapList.add(new DataSourceConfigMap(other.getName(), other.getEnableTransactal(), other.getRoleDataSource(), dataSource));
+                dynamicDataSourceConfigMapList.add(
+                        new DataSourceConfigMap(other.getName(), other.getEnableTransactal(), other.getRoleDataSource(), dataSource));
                 if (other.getRoleDataSource())
                 {
                     RoleDataSourceHolder.setDataSource(dataSource);

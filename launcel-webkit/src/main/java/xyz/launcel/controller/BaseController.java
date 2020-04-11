@@ -2,12 +2,13 @@ package xyz.launcel.controller;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.var;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import xyz.launcel.ensure.Me;
 import xyz.launcel.exception.BusinessException;
 import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.log.BaseLogger;
-import xyz.launcel.properties.WebTokenProperties;
+import xyz.launcel.redis.properties.WebTokenProperties;
 import xyz.launcel.utils.StringUtils;
 
 import javax.inject.Inject;

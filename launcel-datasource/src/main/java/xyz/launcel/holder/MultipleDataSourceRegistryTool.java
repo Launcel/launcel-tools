@@ -2,6 +2,7 @@ package xyz.launcel.holder;
 
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
+import lombok.var;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
@@ -14,9 +15,9 @@ import xyz.launcel.exception.ExceptionFactory;
 import xyz.launcel.interceptor.PageInterceptor;
 import xyz.launcel.interceptor.ParamInterceptor;
 import xyz.launcel.log.Log;
-import xyz.launcel.properties.DataSourceProperties;
-import xyz.launcel.properties.MybatisProperties;
-import xyz.launcel.properties.RoleDataSourceHolder;
+import xyz.launcel.redis.properties.DataSourceProperties;
+import xyz.launcel.redis.properties.MybatisProperties;
+import xyz.launcel.redis.properties.RoleDataSourceHolder;
 import xyz.launcel.utils.CollectionUtils;
 import xyz.launcel.utils.Json;
 
@@ -85,8 +86,7 @@ public class MultipleDataSourceRegistryTool
     /**
      * 注册 sessionFactory
      */
-    private void registSessionFactory(BeanDefinitionRegistry registry, HikariDataSource hikariDataSource,
-                                      MybatisProperties.MybatisPropertie mybatisPropertie,
+    private void registSessionFactory(BeanDefinitionRegistry registry, HikariDataSource hikariDataSource, MybatisProperties.MybatisPropertie mybatisPropertie,
                                       String sqlSessionFactoryBeanName, boolean isDebugSql)
     {
         var sqlSessionAbd = BeanDefinitionRegistryTool.decorateAbd(SqlSessionFactoryBean.class);

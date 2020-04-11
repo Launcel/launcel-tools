@@ -2,6 +2,7 @@ package xyz.launcel.exception;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.var;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import xyz.launcel.log.Log;
 import xyz.launcel.utils.CollectionUtils;

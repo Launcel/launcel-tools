@@ -1,12 +1,13 @@
 package xyz.launcel.util;
 
+import lombok.var;
 import org.springframework.lang.NonNull;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.launcel.annotation.ToolsClass;
 import xyz.launcel.ensure.Me;
 import xyz.launcel.exception.BusinessException;
 import xyz.launcel.exception.ExceptionFactory;
-import xyz.launcel.properties.UploadProperties;
+import xyz.launcel.redis.properties.UploadProperties;
 import xyz.launcel.utils.StringUtils;
 
 import java.io.BufferedOutputStream;

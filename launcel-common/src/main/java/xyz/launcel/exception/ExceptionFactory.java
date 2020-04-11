@@ -1,5 +1,7 @@
 package xyz.launcel.exception;
 
+import lombok.var;
+
 /**
  * @author Launcel
  */

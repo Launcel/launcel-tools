@@ -1,5 +1,6 @@
 package xyz.launcel.job.orm;
 
+import lombok.var;
 import xyz.launcel.bean.SpringBeanUtil;
 import xyz.launcel.commonName.BeanNameList;
 import xyz.launcel.exception.SystemException;

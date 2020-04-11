@@ -1,5 +1,6 @@
 package xyz.launcel.listener;
 
+import lombok.var;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringApplicationRunListener;

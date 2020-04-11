@@ -1,5 +1,6 @@
 package xyz.launcel.job.context;
 
+import lombok.var;
 import org.springframework.lang.NonNull;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;

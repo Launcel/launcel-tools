@@ -1,6 +1,7 @@
 package xyz.launcel.test;
 
 import lombok.RequiredArgsConstructor;
+import lombok.var;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;

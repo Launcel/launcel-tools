@@ -9,6 +9,7 @@ package xyz.launcel.job;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.var;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Lazy;

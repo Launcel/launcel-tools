@@ -1,6 +1,7 @@
 package xyz.launcel.util;
 
 import com.google.gson.JsonObject;
+import lombok.var;
 import org.apache.commons.io.IOUtils;
 import org.springframework.web.util.WebUtils;
 import xyz.launcel.annotation.ToolsClass;

@@ -1,6 +1,5 @@
 package xyz.launcel.response;
 
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -15,7 +14,6 @@ import java.util.Objects;
  */
 @NoArgsConstructor
 @ToString
-@Builder
 public class Page<T> implements Serializable
 {
     private static final long serialVersionUID = -8522433864030332281L;

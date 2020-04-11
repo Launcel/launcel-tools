@@ -1,6 +1,7 @@
 package xyz.launcel.utils;
 
 import lombok.NonNull;
+import lombok.var;
 import xyz.launcel.exception.ExceptionFactory;
 
 import java.nio.charset.StandardCharsets;
