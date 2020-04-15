@@ -3,8 +3,8 @@ package xyz.launcel.jdbc;
 import lombok.Getter;
 import lombok.Setter;
 import xyz.launcel.log.Log;
-import xyz.launcel.redis.properties.RoleDataSourceHolder;
-import xyz.launcel.utils.StringUtils;
+import xyz.launcel.jdbc.properties.RoleDataSourceHolder;
+import xyz.launcel.common.utils.StringUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

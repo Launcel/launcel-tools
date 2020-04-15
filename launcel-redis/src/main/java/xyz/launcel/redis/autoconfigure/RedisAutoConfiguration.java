@@ -27,7 +27,7 @@ import xyz.launcel.redis.core.RedisTemplates;
 import xyz.launcel.log.Log;
 import xyz.launcel.redis.properties.RedisProperties;
 import xyz.launcel.redis.support.serializer.KeyRedisSerializer;
-import xyz.launcel.utils.Base64;
+import xyz.launcel.common.utils.Base64;
 
 import javax.inject.Named;
 import java.time.Duration;

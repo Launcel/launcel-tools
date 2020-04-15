@@ -8,7 +8,7 @@ import lombok.var;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 import org.springframework.lang.Nullable;
-import xyz.launcel.utils.json.builder.DefaultGsonBuilder;
+import xyz.launcel.common.utils.json.builder.DefaultGsonBuilder;
 
 import java.nio.charset.StandardCharsets;
 

@@ -5,7 +5,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import xyz.launcel.log.Log;
 import xyz.launcel.redis.properties.RedisProperties;
-import xyz.launcel.utils.StringUtils;
+import xyz.launcel.common.utils.StringUtils;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;

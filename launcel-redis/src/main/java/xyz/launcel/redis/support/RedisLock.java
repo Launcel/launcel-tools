@@ -2,7 +2,7 @@ package xyz.launcel.redis.support;
 
 
 import org.springframework.lang.NonNull;
-import xyz.launcel.ensure.Me;
+import xyz.launcel.common.ensure.Me;
 
 import java.lang.reflect.Method;
 
@@ -61,7 +61,7 @@ public abstract class RedisLock<T>
                 try
                 {
                     result = apply();
-                    return;
+                    break;
                 }
                 finally
                 {

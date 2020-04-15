@@ -1,5 +1,6 @@
 package xyz.launcel.test;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -11,9 +12,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import xyz.launcel.exception.BusinessException;
+import xyz.launcel.common.exception.BusinessException;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.Map;
 
 @WebAppConfiguration
@@ -26,10 +28,7 @@ public abstract class AbstractMvcTest extends AbstractTest
 
     private void setup()
     {
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-                .alwaysExpect(MockMvcResultMatchers.status().isOk())
-                .alwaysDo(MockMvcResultHandlers.print())
-                .build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac).alwaysExpect(MockMvcResultMatchers.status().isOk()).alwaysDo(MockMvcResultHandlers.print()).build();
     }
 
     private MockMvc getMockMvc()
@@ -42,7 +41,6 @@ public abstract class AbstractMvcTest extends AbstractTest
     {
         try
         {
-            //noinspection ConstantConditions
             return getReturn(getMockMvc().perform(builder(uri, params, "get")));
         }
         catch (Exception e)
@@ -56,7 +54,6 @@ public abstract class AbstractMvcTest extends AbstractTest
     {
         try
         {
-            //noinspection ConstantConditions
             return getReturn(getMockMvc().perform(builder(uri, params, "delete")));
         }
         catch (Exception e)
@@ -70,7 +67,6 @@ public abstract class AbstractMvcTest extends AbstractTest
     {
         try
         {
-            //noinspection ConstantConditions
             return getReturn(getMockMvc().perform(builder(uri, params, "post")));
         }
         catch (Exception e)
@@ -84,7 +80,6 @@ public abstract class AbstractMvcTest extends AbstractTest
     {
         try
         {
-            //noinspection ConstantConditions
             return getReturn(getMockMvc().perform(builder(uri, params, "put")));
         }
         catch (Exception e)
@@ -96,26 +91,8 @@ public abstract class AbstractMvcTest extends AbstractTest
 
     private MockHttpServletRequestBuilder builder(String uri, Map<String, String> params, String requestMethod)
     {
-        var                           method  = requestMethod.toLowerCase();
-        MockHttpServletRequestBuilder builder = null;
-        switch (method)
-        {
-            case "get":
-                builder = MockMvcRequestBuilders.get(uri);
-                break;
-            case "post":
-                builder = MockMvcRequestBuilders.post(uri);
-                break;
-            case "put":
-                builder = MockMvcRequestBuilders.put(uri);
-                break;
-            case "delete":
-                builder = MockMvcRequestBuilders.delete(uri);
-                break;
-            default:
-                break;
-        }
-        return addParam(builder, params);
+        var method = HttpMethod.getInstance(requestMethod.toLowerCase());
+        return addParam(method.send(uri), params);
     }
 
     private MockHttpServletRequestBuilder addParam(MockHttpServletRequestBuilder builder, Map<String, String> params)
@@ -138,5 +115,57 @@ public abstract class AbstractMvcTest extends AbstractTest
             e.printStackTrace();
             throw new BusinessException("请求失败...");
         }
+    }
+
+    @RequiredArgsConstructor
+    @Getter
+    public enum HttpMethod implements HttpMethodBuilder
+    {
+        GET("get")
+                {
+                    @Override
+                    public MockHttpServletRequestBuilder send(String url)
+                    {
+                        return MockMvcRequestBuilders.get(url);
+                    }
+                },
+        POST("post")
+                {
+                    @Override
+                    public MockHttpServletRequestBuilder send(String url)
+                    {
+                        return MockMvcRequestBuilders.post(url);
+                    }
+                },
+        PUT("put")
+                {
+                    @Override
+                    public MockHttpServletRequestBuilder send(String url)
+                    {
+                        return MockMvcRequestBuilders.put(url);
+                    }
+                },
+        DELETE("delete")
+                {
+                    @Override
+                    public MockHttpServletRequestBuilder send(String url)
+                    {
+                        return MockMvcRequestBuilders.delete(url);
+                    }
+                },
+        ;
+
+        private final String code;
+
+        public static HttpMethod getInstance(String requestMethod)
+        {
+            return Arrays.stream(values()).filter(v -> v.code.equalsIgnoreCase(requestMethod)).findFirst().orElseThrow(RuntimeException::new);
+        }
+
+    }
+
+    interface HttpMethodBuilder
+    {
+        MockHttpServletRequestBuilder send(String url);
     }
 }

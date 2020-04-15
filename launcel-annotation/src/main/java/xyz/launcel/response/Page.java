@@ -1,6 +1,7 @@
 package xyz.launcel.response;
 
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -12,16 +13,17 @@ import java.util.Objects;
  * @param <T>
  * @author launcel
  */
+@Setter
 @NoArgsConstructor
 @ToString
-public class Page<T> implements Serializable
+class Page<T> implements Serializable
 {
     private static final long serialVersionUID = -8522433864030332281L;
 
     private           List<T> list;
-    private           Integer pageNo    = 1;
-    private transient Integer row       = 15;
-    private           Integer totalPage = 0;
+    private           Integer pageNum   = 1;
+    private transient Integer pageSize  = 15;
+    private           Integer pageTotal = 0;
     private           Long    total     = 0L;
 
 
@@ -29,32 +31,7 @@ public class Page<T> implements Serializable
     {
         this.list = list;
         this.total = total;
-        this.row = row;
-    }
-
-    public void setList(List<T> list)
-    {
-        this.list = list;
-    }
-
-    public void setRow(Integer row)
-    {
-        this.row = row;
-    }
-
-    public void setTotal(Long total)
-    {
-        this.total = total;
-    }
-
-    public void setPageNo(Integer pageNo)
-    {
-        this.pageNo = pageNo;
-    }
-
-    public void setTotalPage(Integer totalPage)
-    {
-        this.totalPage = totalPage;
+        this.pageSize = row;
     }
 
     /*************************  getter  ***************************/
@@ -68,19 +45,19 @@ public class Page<T> implements Serializable
         return list;
     }
 
-    public Integer getPageNo()
+    public Integer getPageNum()
     {
-        return (null == pageNo || pageNo < 1) ? 1 : pageNo;
+        return Objects.isNull(pageNum) ? 1 : pageNum;
     }
 
-    public Integer getRow()
+    public Integer getPageSize()
     {
-        return Objects.isNull(row) || row < 0 ? 15 : row;
+        return Objects.isNull(pageSize) ? 15 : pageSize;
     }
 
-    public Integer getTotalPage()
+    public Integer getPageTotal()
     {
-        return (int) Math.ceil(getTotal() * 1.0D / this.getRow());
+        return (int) Math.ceil(getTotal() * 1.0D / this.getPageSize());
     }
 
     public Long getTotal()

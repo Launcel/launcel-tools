@@ -1,9 +1,9 @@
 package xyz.launcel.config;
 
 import xyz.launcel.log.Log;
-import xyz.launcel.utils.CollectionUtils;
-import xyz.launcel.utils.Json;
-import xyz.launcel.utils.StringUtils;
+import xyz.launcel.common.utils.CollectionUtils;
+import xyz.launcel.common.utils.Json;
+import xyz.launcel.common.utils.StringUtils;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;

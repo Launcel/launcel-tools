@@ -7,12 +7,12 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import xyz.launcel.config.SecurityConfig;
-import xyz.launcel.exception.SystemException;
-import xyz.launcel.interceptor.RoleInterceptor;
+import xyz.launcel.common.exception.SystemException;
+import xyz.launcel.jdbc.interceptor.RoleInterceptor;
 import xyz.launcel.jdbc.JdbcRole;
 import xyz.launcel.redis.properties.JdbcRolePropertites;
 import xyz.launcel.redis.properties.SecurityListProperties;
-import xyz.launcel.utils.CollectionUtils;
+import xyz.launcel.common.utils.CollectionUtils;
 
 import java.util.Objects;
 

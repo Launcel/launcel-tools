@@ -2,7 +2,7 @@ package xyz.launcel.dao;
 
 import org.apache.ibatis.annotations.*;
 import xyz.launcel.orm.util.USQLProvider;
-import xyz.launcel.util.Paging;
+import xyz.launcel.webkit.util.Paging;
 
 import java.util.List;
 

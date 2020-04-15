@@ -1,6 +1,6 @@
 package xyz.launcel.jdbc;
 
-import xyz.launcel.bean.SpringBeanUtil;
+import xyz.launcel.common.SpringBeanUtil;
 
 public class SimpleJdbcRole
 {

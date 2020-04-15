@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import xyz.launcel.utils.StringUtils;
+import xyz.launcel.common.utils.StringUtils;
 
 @Getter
 @Setter
