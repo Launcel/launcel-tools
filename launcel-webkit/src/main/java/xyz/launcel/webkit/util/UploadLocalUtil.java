@@ -7,8 +7,8 @@ import xyz.launcel.annotation.ToolsClass;
 import xyz.launcel.common.ensure.Me;
 import xyz.launcel.common.exception.BusinessException;
 import xyz.launcel.common.exception.ExceptionFactory;
-import xyz.launcel.webkit.properties.UploadProperties;
 import xyz.launcel.common.utils.StringUtils;
+import xyz.launcel.webkit.properties.UploadProperties;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * @author Launcel
@@ -26,20 +25,8 @@ import java.util.Objects;
 @ToolsClass
 public class UploadLocalUtil
 {
-
-    private static UploadProperties properties;
-
-    public static void init(@NonNull final UploadProperties properties)
-    {
-        UploadLocalUtil.properties = properties;
-    }
-
     public static String save(@NonNull final File file)
     {
-        if (Objects.isNull(properties))
-        {
-            ExceptionFactory.create("0411");
-        }
         try
         {
             var in = new FileInputStream(file);
@@ -87,8 +74,8 @@ public class UploadLocalUtil
 
     private static void checkSize(Long size)
     {
-        Me.builder(size < (properties.getMinSize())).isTrue("0412");
-        Me.builder(size > properties.getMaxSize()).isTrue("0413");
+        Me.builder(size).lt(UploadProperties.getMinSize()).isTrue("0412");
+        Me.builder(size).gt(UploadProperties.getMaxSize()).isTrue("0413");
     }
 
     /**
@@ -116,7 +103,7 @@ public class UploadLocalUtil
             }
             sb.append(hv);
         }
-        if (properties.getContentType().contains(sb.toString()))
+        if (UploadProperties.getContentType().contains(sb.toString()))
         {
             return;
         }
@@ -126,7 +113,7 @@ public class UploadLocalUtil
     private static String getExt(String originalName)
     {
         int index = originalName.lastIndexOf(".");
-        Me.builder(index <= 0).isTrue("0414");
+        Me.builder(index).ltOrEq(0).isTrue("0414");
         var ext = originalName.substring(index + 1);
         checkFile(ext);
         return ext;
@@ -134,7 +121,7 @@ public class UploadLocalUtil
 
     private static void checkFile(String ext)
     {
-        Me.builder(properties.getFileType().contains(ext.toLowerCase())).isFalse("0415");
+        Me.builder(UploadProperties.getFileType().contains(ext.toLowerCase())).isFalse("0415");
     }
 
     private static String getNewName(String oldName)
@@ -149,12 +136,12 @@ public class UploadLocalUtil
 
     private static String getGenPath(String newName)
     {
-        return properties.getPath() + getSavePath(newName);
+        return UploadProperties.getPath() + getSavePath(newName);
     }
 
     private static String getDomainPath(String newName)
     {
-        return properties.getDomain() + getSavePath(newName);
+        return UploadProperties.getDomain() + getSavePath(newName);
     }
 
     private static String getNewFileName(String ext)

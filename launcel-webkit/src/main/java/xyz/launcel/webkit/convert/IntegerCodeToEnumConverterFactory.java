@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class IntegerCodeToEnumConverterFactory implements ConverterFactory<Integer, BaseEnum>
 {
-    private static final Map<Class, Converter> converterMap = Maps.newHashMap();
+    private static final Map<Class<?>, Converter> converterMap = Maps.newHashMap();
 
     @Override
     public <T extends BaseEnum> Converter<Integer, T> getConverter(Class<T> targetType)

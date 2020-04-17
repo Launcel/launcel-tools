@@ -14,22 +14,22 @@ import java.util.Map;
 public interface CollectionUtils
 {
 
-    static boolean isNotEmpty(Collection coll)
+    static boolean isNotEmpty(Collection<?> coll)
     {
         return !isEmpty(coll);
     }
 
-    static boolean isNotEmpty(Map coll)
+    static boolean isNotEmpty(Map<?, ?> coll)
     {
         return !isEmpty(coll);
     }
 
-    static boolean isEmpty(Map coll)
+    static boolean isEmpty(Map<?, ?> coll)
     {
         return (coll == null || coll.isEmpty());
     }
 
-    static boolean isEmpty(Collection coll)
+    static boolean isEmpty(Collection<?> coll)
     {
         return (coll == null || coll.isEmpty());
     }
@@ -42,11 +42,11 @@ public interface CollectionUtils
         }
         if (object instanceof Collection)
         {
-            return ((Collection) object).isEmpty();
+            return ((Collection<?>) object).isEmpty();
         }
         if (object instanceof Map)
         {
-            return ((Map) object).isEmpty();
+            return ((Map<?, ?>) object).isEmpty();
         }
         if (object instanceof Object[])
         {
@@ -54,11 +54,11 @@ public interface CollectionUtils
         }
         if (object instanceof Iterator)
         {
-            return !((Iterator) object).hasNext();
+            return !((Iterator<?>) object).hasNext();
         }
         if (object instanceof Enumeration)
         {
-            return !((Enumeration) object).hasMoreElements();
+            return !((Enumeration<?>) object).hasMoreElements();
         }
 
         try

@@ -6,8 +6,7 @@ public class PageResponse<T> extends Page<T>
 {
     private static final long serialVersionUID = 2236191649037672435L;
 
-    public PageResponse()
-    { }
+    public PageResponse() { }
 
     public PageResponse(com.github.pagehelper.Page<?> page)
     {

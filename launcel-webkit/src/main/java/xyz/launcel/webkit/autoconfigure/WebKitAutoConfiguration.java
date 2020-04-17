@@ -18,15 +18,15 @@ import org.springframework.web.servlet.config.annotation.ContentNegotiationConfi
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import xyz.launcel.common.utils.json.builder.DateFormat;
+import xyz.launcel.common.utils.json.builder.DefaultGsonBuilder;
+import xyz.launcel.log.Log;
 import xyz.launcel.webkit.convert.IntegerCodeToEnumConverterFactory;
 import xyz.launcel.webkit.handler.GlobalExceptionHandler;
-import xyz.launcel.log.Log;
 import xyz.launcel.webkit.properties.CorsProperties;
 import xyz.launcel.webkit.properties.JsonProperties;
 import xyz.launcel.webkit.properties.UploadProperties;
 import xyz.launcel.webkit.util.UploadLocalUtil;
-import xyz.launcel.common.utils.json.builder.DateFormat;
-import xyz.launcel.common.utils.json.builder.DefaultGsonBuilder;
 
 import javax.servlet.MultipartConfigElement;
 import java.nio.charset.StandardCharsets;
@@ -38,9 +38,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebKitAutoConfiguration implements WebMvcConfigurer
 {
-    private final CorsProperties   corsProperties;
-    private final UploadProperties uploadProperties;
-    private final JsonProperties   jsonPropertie;
+    private final CorsProperties corsProperties;
+    private final JsonProperties jsonPropertie;
 
     /**
      * 用 gson 替换 jackson
@@ -110,11 +109,10 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     @ConditionalOnProperty(prefix = "web.upload", value = "enabled", havingValue = "true")
     public MultipartConfigElement multipartConfigElement()
     {
-        Log.info("inti multipartConfigElement...");
+        Log.info("init multipartConfigElement...");
         var factory = new MultipartConfigFactory();
-        factory.setMaxFileSize(uploadProperties.getMaxSize());
-        factory.setMaxRequestSize(uploadProperties.getMaxSize());
-        UploadLocalUtil.init(uploadProperties);
+        factory.setMaxFileSize(UploadProperties.getMaxSize());
+        factory.setMaxRequestSize(UploadProperties.getMaxSize());
         return factory.createMultipartConfig();
     }
 }

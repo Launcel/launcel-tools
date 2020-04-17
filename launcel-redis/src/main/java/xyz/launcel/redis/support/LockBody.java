@@ -1,8 +1,8 @@
 package xyz.launcel.redis.support;
 
-public interface LockInter
+public interface LockBody
 {
-    default String getValue()
+    default String getBody()
     {
         return "";
     }

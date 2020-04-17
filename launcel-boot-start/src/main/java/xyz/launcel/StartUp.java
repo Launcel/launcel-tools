@@ -33,9 +33,10 @@ public interface StartUp
         {
             bannerMode = Banner.Mode.OFF;
         }
-        var cac  = new SpringApplicationBuilder(appClass).web(type).bannerMode(bannerMode).run(args);
-        var env  = cac.getEnvironment();
-        var port = StringUtils.isEmpty(env.getProperty("server.port")) ? "8080" : env.getProperty("server.port");
+        var cac          = new SpringApplicationBuilder(appClass).web(type).bannerMode(bannerMode).run(args);
+        var env          = cac.getEnvironment();
+        var portProperty = env.getProperty("server.port");
+        var port         = StringUtils.isEmpty(portProperty) ? "8080" : portProperty;
 
         String log = "app port is : \t{} \n\t\turl  is : \thttp://localhost:{}";
         try

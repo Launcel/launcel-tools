@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class IntegerToEnumConverter<T extends BaseEnum> implements Converter<Integer, T>
 {
-    private Map<Integer, T> enumMap = Maps.newHashMap();
+    private final Map<Integer, T> enumMap = Maps.newHashMap();
 
     public IntegerToEnumConverter(Class<T> enumType)
     {

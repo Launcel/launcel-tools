@@ -25,14 +25,14 @@ public class RedisTemplates extends RedisTemplate<String, Object> implements Red
 
     private RedisSerializer<?> defaultSerializer;
 
-    private RedisSerializer keySerializer;
-    private RedisSerializer valueSerializer;
-    private RedisSerializer hashKeySerializer;
-    private RedisSerializer hashValueSerializer;
+    private RedisSerializer<?> keySerializer;
+    private RedisSerializer<?> valueSerializer;
+    private RedisSerializer<?> hashKeySerializer;
+    private RedisSerializer<?> hashValueSerializer;
 
     private final KeyRedisSerializer    defaultKeySerializer     = new KeyRedisSerializer();
     private final StringRedisSerializer defaultHashKeySerializer = new StringRedisSerializer();
-    private final RedisSerializer       defaultValueSerializer   = new JdkSerializationRedisSerializer();
+    private final RedisSerializer<?>    defaultValueSerializer   = new JdkSerializationRedisSerializer();
 
     public RedisTemplates()
     {
@@ -52,26 +52,26 @@ public class RedisTemplates extends RedisTemplate<String, Object> implements Red
         super.setDefaultSerializer(this.defaultSerializer);
     }
 
-    public void setKeySerializer(RedisSerializer keySerializer)
+    public void setKeySerializer(RedisSerializer<?> keySerializer)
     {
         this.keySerializer = Objects.nonNull(keySerializer) ? keySerializer : defaultKeySerializer;
         super.setKeySerializer(this.keySerializer);
     }
 
-    public void setHashKeySerializer(RedisSerializer hashKeySerializer)
+    public void setHashKeySerializer(RedisSerializer<?> hashKeySerializer)
     {
         this.hashKeySerializer = Objects.nonNull(hashKeySerializer) ? hashKeySerializer : defaultHashKeySerializer;
         super.setHashKeySerializer(this.hashKeySerializer);
     }
 
-    public void setValueSerializer(RedisSerializer valueSerializer)
+    public void setValueSerializer(RedisSerializer<?> valueSerializer)
     {
         this.valueSerializer = Objects.nonNull(valueSerializer) ? valueSerializer : defaultValueSerializer;
         super.setValueSerializer(this.valueSerializer);
     }
 
 
-    public void setHashValueSerializer(RedisSerializer hashValueSerializer)
+    public void setHashValueSerializer(RedisSerializer<?> hashValueSerializer)
     {
         this.hashValueSerializer = Objects.nonNull(hashValueSerializer) ? hashValueSerializer : defaultValueSerializer;
         super.setHashValueSerializer(this.hashValueSerializer);

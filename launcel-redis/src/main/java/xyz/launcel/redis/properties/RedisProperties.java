@@ -37,21 +37,36 @@ public class RedisProperties
     private String  modelName;
     private String  hashKeySerializer = "org.springframework.data.redis.serializer.StringRedisSerializer";
 
-
-    private static String prefixKey;
+    public void setExptime(Long exptime)
+    {
+        InnerRedisProperties.exptime = this.exptime = exptime;
+    }
 
     public void setModelName(String modelName)
     {
-        this.modelName = modelName;
-        prefixKey = modelName;
+        InnerRedisProperties.prefixKey = this.modelName = modelName;
     }
 
     public static String getPrefixKey()
     {
-        if (StringUtils.isBlank(prefixKey))
+        if (StringUtils.isBlank(InnerRedisProperties.prefixKey))
         {
             return "";
         }
-        return prefixKey.concat(":");
+        return InnerRedisProperties.prefixKey.concat(":");
+    }
+
+    public static Long getExptime()
+    {
+        return InnerRedisProperties.exptime;
+    }
+
+
+    static class InnerRedisProperties
+    {
+        private static Long   exptime = 600L;
+        private static String prefixKey;
+
+
     }
 }

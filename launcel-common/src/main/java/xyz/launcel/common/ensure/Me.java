@@ -30,7 +30,6 @@ public interface Me
         return new MapAssert(map);
     }
 
-
     static <T> ComparableAssert<T> builder(Comparable<T> t)
     {
         return new ComparableAssert<>(t);

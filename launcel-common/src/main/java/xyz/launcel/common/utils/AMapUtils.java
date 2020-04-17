@@ -52,23 +52,24 @@ public interface AMapUtils
         /**
          * 格式化
          */
-        private static DecimalFormat decimalFormat = new DecimalFormat("0.0000000000", new DecimalFormatSymbols(Locale.US));
+        private static final DecimalFormat decimalFormat = new DecimalFormat("0.0000000000", new DecimalFormatSymbols(Locale.US));
+
         /**
          * 纬度
          */
-        private        double        lat;
+        private double lat;
         /**
          * 经度
          */
-        private        double        lng;
+        private double lng;
         /**
          * 纬度弧度
          */
-        private        double        radLat;
+        private double radLat;
         /**
          * 经度弧度
          */
-        private        double        radLng;
+        private double radLng;
 
         Point(double lat, double lng)
         {

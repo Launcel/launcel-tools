@@ -79,10 +79,6 @@ class MapTypeAdapter extends TypeAdapter<Object>
                 }
                 // 判断数字是否为整数值
                 long lngNum = (long) dbNum;
-                if (dbNum == lngNum)
-                {
-                    return lngNum;
-                }
                 return dbNum;
             case BOOLEAN:
                 return in.nextBoolean();

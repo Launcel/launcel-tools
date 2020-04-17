@@ -15,7 +15,7 @@ import java.util.List;
 public class Json
 {
 
-    private static Gson gson = DefaultGsonBuilder.create();
+    private static final Gson gson = DefaultGsonBuilder.create();
 
     public static String toString(Object object) { return gson.toJson(object); }
 

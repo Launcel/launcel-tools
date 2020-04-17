@@ -5,11 +5,9 @@ import lombok.Getter;
 import lombok.var;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import xyz.launcel.common.ensure.Me;
-import xyz.launcel.common.exception.BusinessException;
 import xyz.launcel.common.exception.ExceptionFactory;
-import xyz.launcel.log.BaseLogger;
-import xyz.launcel.webkit.properties.WebTokenProperties;
 import xyz.launcel.common.utils.StringUtils;
+import xyz.launcel.webkit.properties.WebTokenProperties;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 
 @Getter(value = AccessLevel.PROTECTED)
-public abstract class BaseController extends BaseLogger
+public abstract class BaseController
 {
     @Inject
     private HttpServletRequest  request;
@@ -33,11 +31,14 @@ public abstract class BaseController extends BaseLogger
     protected String getToken()
     {
         var cookies = getRequest().getCookies();
-        if (Objects.isNull(cookies) || cookies.length < 1) {
-            throw new BusinessException("0401");
+        if (Objects.isNull(cookies) || cookies.length < 1)
+        {
+            ExceptionFactory.create("0401");
         }
-        for (var cookie : cookies) {
-            if (WebTokenProperties.getTokenKey().equals(cookie.getName())) {
+        for (var cookie : cookies)
+        {
+            if (WebTokenProperties.getTokenKey().equals(cookie.getName()))
+            {
                 return cookie.getValue();
             }
         }
@@ -46,7 +47,8 @@ public abstract class BaseController extends BaseLogger
 
     protected String getHeaderString(String name)
     {
-        if (StringUtils.isBlank(name)) {
+        if (StringUtils.isBlank(name))
+        {
             ExceptionFactory.create("0402");
         }
         var str = getRequest().getHeader(name);

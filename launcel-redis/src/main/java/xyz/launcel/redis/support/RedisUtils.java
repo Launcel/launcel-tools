@@ -4,17 +4,19 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.var;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.connection.ReturnType;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.types.Expiration;
+import org.springframework.stereotype.Component;
 import xyz.launcel.common.SpringBeanUtil;
-import xyz.launcel.common.exception.SystemException;
-import xyz.launcel.redis.core.RedisOperation;
-import xyz.launcel.redis.properties.RedisProperties;
+import xyz.launcel.common.exception.ExceptionFactory;
 import xyz.launcel.common.utils.CollectionUtils;
 import xyz.launcel.common.utils.Json;
 import xyz.launcel.common.utils.StringUtils;
+import xyz.launcel.redis.core.RedisOperation;
+import xyz.launcel.redis.properties.RedisProperties;
 
 import java.util.Map;
 import java.util.Objects;
@@ -28,10 +30,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class RedisUtils
+@Component
+public final class RedisUtils implements InitializingBean
 {
-    private static RedisOperation template   = SpringBeanUtil.getBean(RedisOperation.class);
-    private static long           expireTime = SpringBeanUtil.getBean(RedisProperties.class).getExptime();
+    private static RedisOperation operation;
+    private static long           expireTime = RedisProperties.getExptime();
 
 
     public static String getNewKey(String key)
@@ -43,7 +46,7 @@ public final class RedisUtils
     {
         if (CollectionUtils.isEmpty(keys))
         {
-            throw new SystemException("_REDIS__ERROR_CODE_011", "redis key is null");
+            ExceptionFactory.create("_REDIS__ERROR_CODE_011", "redis key is null");
         }
         RedisCallback<Void> callback = conn -> {
             conn.openPipeline();
@@ -51,7 +54,7 @@ public final class RedisUtils
             conn.closePipeline();
             return null;
         };
-        template.execute(callback);
+        operation.execute(callback);
     }
 
     public static int batchAdd(final Map<String, Object> map)
@@ -78,7 +81,7 @@ public final class RedisUtils
                 act.set(num);
                 return null;
             };
-            template.executePipelined(callback);
+            operation.executePipelined(callback);
         }
         return act.get();
     }
@@ -86,7 +89,7 @@ public final class RedisUtils
     public static boolean exits(final String key)
     {
         vidate(key);
-        var flat = template.hasKey(getNewKey(key));
+        var flat = operation.hasKey(getNewKey(key));
         return flat != null && flat;
     }
 
@@ -95,7 +98,7 @@ public final class RedisUtils
         vidate(key, value, expTime);
         RedisCallback<Boolean> callback = conn -> conn.set(StringUtils.serializer(getNewKey(key)), StringUtils.serializer(value),
                 Expiration.from(expTime, TimeUnit.NANOSECONDS), RedisStringCommands.SetOption.SET_IF_ABSENT);
-        var flat = template.execute(callback);
+        var flat = operation.execute(callback);
         return flat != null && flat;
     }
 
@@ -106,7 +109,7 @@ public final class RedisUtils
 
     public static boolean del(final String key)
     {
-        var flat = template.delete(getNewKey(key));
+        var flat = operation.delete(getNewKey(key));
         return flat != null && flat;
     }
 
@@ -116,7 +119,7 @@ public final class RedisUtils
         String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
         RedisCallback<Boolean> callback = connection -> connection.scriptingCommands()
                 .eval(script.getBytes(), ReturnType.BOOLEAN, 1, getNewKey(key).getBytes());
-        var flat = template.execute(callback);
+        var flat = operation.execute(callback);
         return flat != null && flat;
     }
 
@@ -134,16 +137,21 @@ public final class RedisUtils
     {
         if (StringUtils.isBlank(key))
         {
-            throw new SystemException("0301");
+            ExceptionFactory.create("0301");
         }
         if (Objects.isNull(value))
         {
-            throw new SystemException("0302");
+            ExceptionFactory.create("0302");
         }
         if (expTime == null || expTime <= 0)
         {
-            throw new SystemException("0303");
+            ExceptionFactory.create("0303");
         }
     }
 
+    @Override
+    public void afterPropertiesSet()
+    {
+        operation = SpringBeanUtil.getBean(RedisOperation.class);
+    }
 }

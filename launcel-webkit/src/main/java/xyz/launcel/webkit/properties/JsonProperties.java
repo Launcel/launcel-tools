@@ -1,11 +1,13 @@
 package xyz.launcel.webkit.properties;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Objects;
 
 @Data
+@NoArgsConstructor
 @ConfigurationProperties(prefix = "web.json-converter")
 public class JsonProperties
 {
@@ -16,7 +18,8 @@ public class JsonProperties
     private Boolean formatPrint        = true;
     private Boolean serializeNull      = true;
 
-    public void setEnabled(Boolean enabled) {
+    public void setEnabled(Boolean enabled)
+    {
         this.enabled = Objects.nonNull(enabled) ? enabled : true;
     }
 }

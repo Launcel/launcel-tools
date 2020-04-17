@@ -66,7 +66,6 @@ public final class BeanCopy
             {
                 throw new SystemException("0022");
             }
-
         });
         return targetList;
     }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GenericsParameterizedType implements ParameterizedType
 {
-    private Class<?> clazz;
+    private final Class<?> clazz;
 
     public GenericsParameterizedType(Class<?> clazz)
     {
