@@ -15,6 +15,14 @@ public class PageResponse<T> extends Page<T>
         super.setTotal(page.getTotal());
     }
 
+    public PageResponse(Page<T> page)
+    {
+        super.setPageNum(page.getPageNum());
+        super.setPageSize(page.getPageSize());
+        super.setList(page.getList());
+        super.setTotal(page.getTotal());
+    }
+
     @Override
     public List<T> getList()
     {

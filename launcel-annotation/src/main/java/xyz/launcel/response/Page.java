@@ -16,7 +16,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @ToString
-class Page<T> implements Serializable
+public class Page<T> implements Serializable
 {
     private static final long serialVersionUID = -8522433864030332281L;
 
@@ -27,11 +27,12 @@ class Page<T> implements Serializable
     private           Long    total     = 0L;
 
 
-    public Page(Long total, List<T> list, Integer row)
+    public Page(Long total, List<T> list, Integer pageNum, Integer row)
     {
         this.list = list;
         this.total = total;
         this.pageSize = row;
+        this.pageNum = pageNum;
     }
 
     /*************************  getter  ***************************/

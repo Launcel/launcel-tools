@@ -1,13 +1,8 @@
 package xyz.launcel.service.impl;
 
-import lombok.var;
-import xyz.launcel.bo.PageQuery;
 import xyz.launcel.dao.BaseDao;
 import xyz.launcel.dao.IdEntity;
-import xyz.launcel.response.Page;
 import xyz.launcel.service.BaseService;
-
-import java.util.List;
 
 /**
  * @author launcel
@@ -54,15 +49,15 @@ public abstract class BaseServiceImpl implements BaseService
         return getMapper().query(o);
     }
 
-    @Override
-    public <T> Page<T> queryPage(Object o, PageQuery pageQuery)
-    {
-        var total = getMapper().count(o);
-        if (total == null || total == 0)
-        {
-            return new Page<>();
-        }
-        List<T> list = getMapper().queryPage(o, pageQuery);
-        return new Page<>(total, list, pageQuery.getRow());
-    }
+    //    @Override
+    //    public <T> Page<T> queryPage(Object o, PageQuery pageQuery)
+    //    {
+    //        var total = getMapper().count(o);
+    //        if (total == null || total == 0)
+    //        {
+    //            return new Page<>();
+    //        }
+    //        List<T> list = getMapper().queryPage(o, pageQuery);
+    //        return new Page<>(total, list, pageQuery.getRow());
+    //    }
 }

@@ -15,8 +15,8 @@ import java.util.Set;
 @AllArgsConstructor
 public class PageQuery
 {
-    private Integer                             pageNo = 1;
-    private Integer                             row    = 15;
+    private Integer                             pageNum  = 1;
+    private Integer                             pageSize = 15;
     private Date                                startTime;
     private Date                                endTime;
     private LinkedHashMap<String, OrderSqlEnum> orderBy;
@@ -27,27 +27,27 @@ public class PageQuery
      */
     public int getOffset()
     {
-        return (this.pageNo - 1) * this.row;
+        return (this.pageNum - 1) * this.pageSize;
     }
 
-    public Integer getPageNo()
+    public Integer getPageNum()
     {
-        return pageNo;
+        return pageNum;
     }
 
-    public void setPageNo(Integer pageNo)
+    public void setPageNum(Integer pageNo)
     {
-        this.pageNo = pageNo;
+        this.pageNum = pageNo;
     }
 
-    public Integer getRow()
+    public Integer getPageSize()
     {
-        return row;
+        return pageSize;
     }
 
-    public void setRow(Integer row)
+    public void setPageSize(Integer row)
     {
-        this.row = row;
+        this.pageSize = row;
     }
 
     public Date getStartTime()
@@ -92,8 +92,8 @@ public class PageQuery
 
     public PageQuery(PageRequest request)
     {
-        this.pageNo = request.getPageNo();
-        this.row = request.getRow();
+        this.pageNum = request.getPageNo();
+        this.pageSize = request.getRow();
         this.startTime = request.getStartTime();
         this.endTime = request.getEndTime();
     }
