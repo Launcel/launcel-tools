@@ -27,6 +27,7 @@ import xyz.launcel.log.Log;
 import xyz.launcel.redis.core.RedisOperation;
 import xyz.launcel.redis.core.RedisTemplates;
 import xyz.launcel.redis.properties.RedisProperties;
+import xyz.launcel.redis.support.RedisUtils;
 import xyz.launcel.redis.support.serializer.KeyRedisSerializer;
 
 import javax.inject.Named;
@@ -107,6 +108,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
         {
             Log.warn("redis value serializer init error, there will be use jdk serializer");
         }
+        RedisUtils.afterPropertiesSet(template);
         return template;
     }
 

@@ -28,6 +28,7 @@ public class GsonRedisSerializer<T> implements RedisSerializer<T>
     }
 
     @Override
+    @Nullable
     public byte[] serialize(@Nullable T t) throws SerializationException
     {
         if (t == null)
@@ -38,6 +39,7 @@ public class GsonRedisSerializer<T> implements RedisSerializer<T>
     }
 
     @Override
+    @Nullable
     public T deserialize(@Nullable byte[] bytes) throws SerializationException
     {
         if (bytes == null || bytes.length == 0)

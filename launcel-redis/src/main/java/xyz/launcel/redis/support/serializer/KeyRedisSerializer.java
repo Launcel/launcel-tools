@@ -3,9 +3,8 @@ package xyz.launcel.redis.support.serializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
-import xyz.launcel.log.Log;
-import xyz.launcel.redis.properties.RedisProperties;
 import xyz.launcel.common.utils.StringUtils;
+import xyz.launcel.redis.properties.RedisProperties;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -40,7 +39,6 @@ public class KeyRedisSerializer implements RedisSerializer<String>
         {
             return null;
         }
-        Log.info(RedisProperties.getPrefixKey().concat(string));
         return RedisProperties.getPrefixKey().concat(string).getBytes(charset);
     }
 

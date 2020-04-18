@@ -4,13 +4,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.var;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.connection.ReturnType;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.types.Expiration;
-import org.springframework.stereotype.Component;
-import xyz.launcel.common.SpringBeanUtil;
 import xyz.launcel.common.exception.ExceptionFactory;
 import xyz.launcel.common.utils.CollectionUtils;
 import xyz.launcel.common.utils.Json;
@@ -30,11 +27,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@Component
-public final class RedisUtils implements InitializingBean
+public final class RedisUtils
 {
-    private static       RedisOperation operation;
-    private static final long           expireTime = RedisProperties.getExpTime();
+    private static RedisOperation operation;
+    private static long           expireTime = RedisProperties.getExpTime();
 
 
     public static String getNewKey(String key)
@@ -149,9 +145,8 @@ public final class RedisUtils implements InitializingBean
         }
     }
 
-    @Override
-    public void afterPropertiesSet()
+    public static void afterPropertiesSet(RedisOperation operation)
     {
-        operation = SpringBeanUtil.getBean(RedisOperation.class);
+        RedisUtils.operation = operation;
     }
 }
