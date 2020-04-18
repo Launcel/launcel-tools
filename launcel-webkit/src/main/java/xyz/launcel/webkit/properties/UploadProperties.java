@@ -1,7 +1,6 @@
 package xyz.launcel.webkit.properties;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import xyz.launcel.common.utils.CollectionUtils;
 import xyz.launcel.common.utils.StringUtils;
@@ -11,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-@Setter
+//@Setter
 @Getter
 @ConfigurationProperties(prefix = "web.upload")
 public class UploadProperties
@@ -27,11 +26,10 @@ public class UploadProperties
     //   private static String[] strings = {"504b0304", "d0cf11e0", "25504446", "ffd8ffe0", "ffd8ffe1", "89504e47", "ffd8ff"};
     private List<String> contentType = Arrays.asList("504b0304", "d0cf11e0", "25504446", "ffd8ffe0", "ffd8ffe1", "89504e47", "ffd8ff");
 
-    public void setEnabled(boolean enabled)
+    public void setEnabled(Boolean enabled)
     {
         this.enabled = enabled;
     }
-
 
     public void setDomain(String domain)
     {
