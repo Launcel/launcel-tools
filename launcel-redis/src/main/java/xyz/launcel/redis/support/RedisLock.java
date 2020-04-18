@@ -1,7 +1,6 @@
 package xyz.launcel.redis.support;
 
 
-import org.springframework.lang.NonNull;
 import xyz.launcel.common.ensure.Me;
 
 import java.lang.reflect.Method;
@@ -18,7 +17,6 @@ public abstract class RedisLock<T>
         return result;
     }
 
-    @NonNull
     public abstract String key();
 
     protected abstract T apply();
@@ -37,8 +35,9 @@ public abstract class RedisLock<T>
             Me.builder(keyMethod).isNull("找不到 body 方法");
             Lock lock = keyMethod.getAnnotation(Lock.class);
             Me.builder(lock).isNull("Lock 加锁注解不存在");
-            Me.builder(lock.body()).isBlank("Lock 加锁的key不存在");
+            Me.builder(lock.body()).isBlank("Lock 加锁的body不存在");
             Me.builder(lock.time()).ltOrEq(0L).isTrue("Lock 加锁的失效时间不能设置为永久或者不能为0");
+            Me.builder(key()).isBlank("加锁的key不存在");
             key = lock.body().concat(key());
             time = lock.time() * 1000000;
             START_TIME = System.nanoTime();

@@ -2,12 +2,15 @@ package xyz.launcel.bo;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.var;
+import org.springframework.util.CollectionUtils;
 import xyz.launcel.annotation.OrderSqlEnum;
 import xyz.launcel.request.PageRequest;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -21,6 +24,8 @@ public class PageQuery
     private Date                                endTime;
     private LinkedHashMap<String, OrderSqlEnum> orderBy;
     private Set<String>                         groupBy;
+    private String                              orderString;
+    private String                              groupString;
 
     /**
      * 普通分页查询，获得偏移量
@@ -116,5 +121,37 @@ public class PageQuery
         }
         groupBy.add(group);
         return this;
+    }
+
+    public String getOrderString()
+    {
+        if (CollectionUtils.isEmpty(getOrderBy()))
+        {
+            return "";
+        }
+        var sb = new StringBuilder();
+        sb.append(" ORDER BY ");
+        for (Map.Entry<String, OrderSqlEnum> entry : orderBy.entrySet())
+        {
+            sb.append(entry.getKey()).append(" ").append(entry.getValue().name()).append(",");
+        }
+        String orderString = sb.toString();
+        return orderString.substring(0, orderString.length() - 1);
+    }
+
+    public String getGroupString()
+    {
+        if (CollectionUtils.isEmpty(getGroupBy()))
+        {
+            return "";
+        }
+        var sb = new StringBuilder();
+        sb.append(" GROUP BY ");
+        for (String s : getGroupBy())
+        {
+            sb.append(s).append(",");
+        }
+        String groupBy = sb.toString();
+        return groupBy.substring(0, groupBy.length() - 1);
     }
 }

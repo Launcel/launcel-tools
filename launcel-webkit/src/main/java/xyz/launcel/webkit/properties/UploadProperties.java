@@ -1,5 +1,6 @@
 package xyz.launcel.webkit.properties;
 
+import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 import xyz.launcel.common.utils.CollectionUtils;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Validated
+@Getter
 @ConfigurationProperties(prefix = "web.upload")
 public class UploadProperties
 {
@@ -76,7 +78,6 @@ public class UploadProperties
         InnerUploadProperties.contentType = this.contentType = CollectionUtils.isEmpty(contentType) ? Arrays.asList("504b0304", "d0cf11e0", "25504446",
                 "ffd8ffe0", "ffd8ffe1", "89504e47", "ffd8ff") : contentType;
     }
-
 
     public static String getDomain()
     {

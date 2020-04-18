@@ -3,10 +3,8 @@ package xyz.launcel.common.utils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.var;
-import xyz.launcel.annotation.OrderSqlEnum;
 import xyz.launcel.bo.PageQuery;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -56,37 +54,20 @@ public class SQLHelp
 
     private static String concatGroupBy(Set<String> group)
     {
+        if (CollectionUtils.isEmpty(group))
+        {
+            return "";
+        }
         var sb = new StringBuilder();
         sb.append(" GROUP BY ");
-        int index = 1;
         for (String s : group)
         {
-            sb.append(s);
-            index++;
-            if (index < group.size())
-            {
-                sb.append(",");
-            }
+            sb.append(s).append(",");
         }
-        return sb.toString();
+        String groupBy = sb.toString();
+        return groupBy.substring(0, groupBy.length() - 1);
     }
 
-    private static String concatOrderBy(LinkedHashMap<String, OrderSqlEnum> orderBy)
-    {
-        var sb = new StringBuilder();
-        sb.append(" ORDER BY ");
-        String headColName = CollectionUtils.MapUtils.getHead(orderBy).getKey();
-        for (Map.Entry<String, OrderSqlEnum> entry : orderBy.entrySet())
-        {
-            if (entry.getKey().equals(headColName))
-            {
-                sb.append(entry.getKey()).append(" ").append(entry.getValue().name());
-                continue;
-            }
-            sb.append(",").append(entry.getKey()).append(" ").append(entry.getValue().name());
-        }
-        return sb.toString();
-    }
 
     private static String concatLimit(Integer row, Integer offset)
     {
@@ -99,23 +80,13 @@ public class SQLHelp
             }
             return sb.append(row).toString();
         }
-        return null;
+        return "";
     }
 
 
     public static String concatSql(String boundSql, PageQuery p)
     {
-        var sb = new StringBuilder(boundSql);
-        if (CollectionUtils.isNotEmpty(p.getGroupBy()))
-        {
-            sb.append(concatGroupBy(p.getGroupBy()));
-        }
-
-        if (CollectionUtils.isNotEmpty(p.getOrderBy()))
-        {
-            sb.append(concatOrderBy(p.getOrderBy()));
-        }
-
-        return sb.append(concatLimit(p.getRow(), p.getOffset())).toString();
+        var sb = new StringBuilder(boundSql).append(p.getGroupString()).append(p.getOrderString());
+        return sb.append(concatLimit(p.getPageNum(), p.getOffset())).toString();
     }
 }
