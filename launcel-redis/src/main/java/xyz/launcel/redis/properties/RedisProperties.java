@@ -39,12 +39,14 @@ public class RedisProperties
 
     public void setExptime(Long exptime)
     {
-        InnerRedisProperties.exptime = this.exptime = exptime;
+        this.exptime = exptime;
+        InnerRedisProperties.exptime = this.exptime;
     }
 
     public void setModelName(String modelName)
     {
-        InnerRedisProperties.prefixKey = this.modelName = modelName;
+        this.modelName = modelName;
+        InnerRedisProperties.prefixKey = this.modelName;
     }
 
     public static String getPrefixKey()
