@@ -66,7 +66,5 @@ public class RedisProperties
     {
         private static Long   exptime = 600L;
         private static String prefixKey;
-
-
     }
 }
