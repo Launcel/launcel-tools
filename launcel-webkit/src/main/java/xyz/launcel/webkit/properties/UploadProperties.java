@@ -2,7 +2,6 @@ package xyz.launcel.webkit.properties;
 
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.validation.annotation.Validated;
 import xyz.launcel.common.utils.CollectionUtils;
 import xyz.launcel.common.utils.StringUtils;
 
@@ -11,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-@Validated
 @Getter
 @ConfigurationProperties(prefix = "web.upload")
 public class UploadProperties
@@ -60,11 +58,11 @@ public class UploadProperties
 
     public void setPath(String path)
     {
-        UploadConfig.path = this.path = StringUtils.isBlank(path) ? File.separator.concat("Users")
+        UploadConfig.path = this.path = StringUtils.isNotBlank(path) ? path : File.separator.concat("Users")
                 .concat(File.separator)
                 .concat("tmp")
                 .concat(File.separator)
-                .concat("upload") : path;
+                .concat("upload");
     }
 
     public void setFileType(List<String> fileType)
