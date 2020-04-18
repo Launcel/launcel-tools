@@ -56,7 +56,7 @@ public class RedisProperties
         return InnerRedisProperties.prefixKey.concat(":");
     }
 
-    public static Long getExptime()
+    public static Long getExpTime()
     {
         return InnerRedisProperties.exptime;
     }

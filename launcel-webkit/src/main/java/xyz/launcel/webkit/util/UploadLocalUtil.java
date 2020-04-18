@@ -25,6 +25,8 @@ import java.util.Date;
 @ToolsClass
 public class UploadLocalUtil
 {
+    private static final UploadProperties.UploadConfig uploadConfig = UploadProperties.getConfig();
+
     public static String save(@NonNull final File file)
     {
         try
@@ -74,8 +76,8 @@ public class UploadLocalUtil
 
     private static void checkSize(Long size)
     {
-        Me.builder(size).lt(UploadProperties.getMinSize()).isTrue("0412");
-        Me.builder(size).gt(UploadProperties.getMaxSize()).isTrue("0413");
+        Me.builder(size).lt(uploadConfig.getMinSize()).isTrue("0412");
+        Me.builder(size).gt(uploadConfig.getMaxSize()).isTrue("0413");
     }
 
     /**
@@ -103,7 +105,7 @@ public class UploadLocalUtil
             }
             sb.append(hv);
         }
-        if (UploadProperties.getContentType().contains(sb.toString()))
+        if (uploadConfig.getContentType().contains(sb.toString()))
         {
             return;
         }
@@ -121,7 +123,7 @@ public class UploadLocalUtil
 
     private static void checkFile(String ext)
     {
-        Me.builder(UploadProperties.getFileType().contains(ext.toLowerCase())).isFalse("0415");
+        Me.builder(uploadConfig.getFileType().contains(ext.toLowerCase())).isFalse("0415");
     }
 
     private static String getNewName(String oldName)
@@ -136,12 +138,12 @@ public class UploadLocalUtil
 
     private static String getGenPath(String newName)
     {
-        return UploadProperties.getPath() + getSavePath(newName);
+        return uploadConfig.getPath() + getSavePath(newName);
     }
 
     private static String getDomainPath(String newName)
     {
-        return UploadProperties.getDomain() + getSavePath(newName);
+        return uploadConfig.getDomain() + getSavePath(newName);
     }
 
     private static String getNewFileName(String ext)

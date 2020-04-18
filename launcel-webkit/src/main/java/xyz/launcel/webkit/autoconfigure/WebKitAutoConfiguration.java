@@ -26,7 +26,6 @@ import xyz.launcel.webkit.handler.GlobalExceptionHandler;
 import xyz.launcel.webkit.properties.CorsProperties;
 import xyz.launcel.webkit.properties.JsonProperties;
 import xyz.launcel.webkit.properties.UploadProperties;
-import xyz.launcel.webkit.util.UploadLocalUtil;
 
 import javax.servlet.MultipartConfigElement;
 import java.nio.charset.StandardCharsets;
@@ -38,8 +37,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebKitAutoConfiguration implements WebMvcConfigurer
 {
-    private final CorsProperties corsProperties;
-    private final JsonProperties jsonPropertie;
+    private final CorsProperties   corsProperties;
+    private final JsonProperties   jsonPropertie;
+    private final UploadProperties uploadProperties;
 
     /**
      * 用 gson 替换 jackson
@@ -111,8 +111,8 @@ public class WebKitAutoConfiguration implements WebMvcConfigurer
     {
         Log.info("init multipartConfigElement...");
         var factory = new MultipartConfigFactory();
-        factory.setMaxFileSize(UploadProperties.getMaxSize());
-        factory.setMaxRequestSize(UploadProperties.getMaxSize());
+        factory.setMaxFileSize(uploadProperties.getMaxSize());
+        factory.setMaxRequestSize(uploadProperties.getMaxSize());
         return factory.createMultipartConfig();
     }
 }

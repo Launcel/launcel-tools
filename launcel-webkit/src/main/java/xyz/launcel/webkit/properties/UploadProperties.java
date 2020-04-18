@@ -29,12 +29,12 @@ public class UploadProperties
 
     public UploadProperties()
     {
-        InnerUploadProperties.domain = domain;
-        InnerUploadProperties.maxSize = maxSize;
-        InnerUploadProperties.minSize = minSize;
-        InnerUploadProperties.path = path;
-        InnerUploadProperties.fileType = fileType;
-        InnerUploadProperties.contentType = contentType;
+        UploadConfig.domain = domain;
+        UploadConfig.maxSize = maxSize;
+        UploadConfig.minSize = minSize;
+        UploadConfig.path = path;
+        UploadConfig.fileType = fileType;
+        UploadConfig.contentType = contentType;
     }
 
     public void setEnabled(boolean enabled)
@@ -45,22 +45,22 @@ public class UploadProperties
 
     public void setDomain(String domain)
     {
-        InnerUploadProperties.domain = this.domain = StringUtils.isBlank(domain) ? "" : domain;
+        UploadConfig.domain = this.domain = StringUtils.isBlank(domain) ? "" : domain;
     }
 
     public void setMaxSize(Long maxSize)
     {
-        InnerUploadProperties.maxSize = this.maxSize = Objects.isNull(maxSize) ? Long.MAX_VALUE : maxSize;
+        UploadConfig.maxSize = this.maxSize = Objects.isNull(maxSize) ? Long.MAX_VALUE : maxSize;
     }
 
     public void setMinSize(Long minSize)
     {
-        InnerUploadProperties.minSize = this.minSize = Objects.isNull(minSize) ? 1024L : minSize;
+        UploadConfig.minSize = this.minSize = Objects.isNull(minSize) ? 1024L : minSize;
     }
 
     public void setPath(String path)
     {
-        InnerUploadProperties.path = this.path = StringUtils.isBlank(path) ? File.separator.concat("Users")
+        UploadConfig.path = this.path = StringUtils.isBlank(path) ? File.separator.concat("Users")
                 .concat(File.separator)
                 .concat("tmp")
                 .concat(File.separator)
@@ -69,47 +69,22 @@ public class UploadProperties
 
     public void setFileType(List<String> fileType)
     {
-        InnerUploadProperties.fileType = this.fileType = CollectionUtils.isEmpty(fileType) ? Arrays.asList("doc", "docx", "pdf", "jpg", "png",
-                "jepg") : fileType;
+        UploadConfig.fileType = this.fileType = CollectionUtils.isEmpty(fileType) ? Arrays.asList("doc", "docx", "pdf", "jpg", "png", "jepg") : fileType;
     }
 
     public void setContentType(List<String> contentType)
     {
-        InnerUploadProperties.contentType = this.contentType = CollectionUtils.isEmpty(contentType) ? Arrays.asList("504b0304", "d0cf11e0", "25504446",
-                "ffd8ffe0", "ffd8ffe1", "89504e47", "ffd8ff") : contentType;
+        UploadConfig.contentType = this.contentType = CollectionUtils.isEmpty(contentType) ? Arrays.asList("504b0304", "d0cf11e0", "25504446", "ffd8ffe0",
+                "ffd8ffe1", "89504e47", "ffd8ff") : contentType;
     }
 
-    public static String getDomain()
+    public static UploadConfig getConfig()
     {
-        return InnerUploadProperties.domain;
+        return new UploadConfig();
     }
 
-    public static Long getMaxSize()
-    {
-        return InnerUploadProperties.maxSize;
-    }
 
-    public static Long getMinSize()
-    {
-        return InnerUploadProperties.minSize;
-    }
-
-    public static String getPath()
-    {
-        return InnerUploadProperties.path;
-    }
-
-    public static List<String> getFileType()
-    {
-        return InnerUploadProperties.fileType;
-    }
-
-    public static List<String> getContentType()
-    {
-        return InnerUploadProperties.contentType;
-    }
-
-    static class InnerUploadProperties
+    public static class UploadConfig
     {
         private static String       domain;
         private static Long         maxSize;
@@ -118,5 +93,34 @@ public class UploadProperties
         private static List<String> fileType;
         private static List<String> contentType;
 
+        public String getDomain()
+        {
+            return UploadConfig.domain;
+        }
+
+        public Long getMaxSize()
+        {
+            return UploadConfig.maxSize;
+        }
+
+        public Long getMinSize()
+        {
+            return UploadConfig.minSize;
+        }
+
+        public String getPath()
+        {
+            return UploadConfig.path;
+        }
+
+        public List<String> getFileType()
+        {
+            return UploadConfig.fileType;
+        }
+
+        public List<String> getContentType()
+        {
+            return UploadConfig.contentType;
+        }
     }
 }

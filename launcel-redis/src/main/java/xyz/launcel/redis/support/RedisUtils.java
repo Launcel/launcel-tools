@@ -33,8 +33,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public final class RedisUtils implements InitializingBean
 {
-    private static RedisOperation operation;
-    private static long           expireTime = RedisProperties.getExptime();
+    private static       RedisOperation operation;
+    private static final long           expireTime = RedisProperties.getExpTime();
 
 
     public static String getNewKey(String key)
