@@ -42,9 +42,7 @@ public class BatchUtils
     private <T> int execute(List<T> list, Class<? extends BaseDao> mapper, BatchType type)
     {
         if (CollectionUtils.isEmpty(list))
-        {
-            return 0;
-        }
+        { return 0; }
         var size    = list.size();
         var result  = 0;
         var session = sqlSessionFactory.openSession(ExecutorType.BATCH, false);

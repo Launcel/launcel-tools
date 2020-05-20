@@ -22,7 +22,8 @@ import java.util.Properties;
 public class DataSourceProperties
 {
 
-    private Boolean             useDynamicDataSource = false;
+    private Boolean useDynamicDataSource = false;
+
     @NonNull
     private DataSourcePropertie main;
 

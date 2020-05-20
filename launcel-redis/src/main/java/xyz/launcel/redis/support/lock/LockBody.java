@@ -1,4 +1,4 @@
-package xyz.launcel.redis.support;
+package xyz.launcel.redis.support.lock;
 
 public interface LockBody
 {

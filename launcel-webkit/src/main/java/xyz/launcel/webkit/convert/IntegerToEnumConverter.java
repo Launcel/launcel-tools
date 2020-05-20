@@ -2,7 +2,7 @@ package xyz.launcel.webkit.convert;
 
 import com.google.common.collect.Maps;
 import org.springframework.core.convert.converter.Converter;
-import xyz.launcel.common.ensure.Me;
+import xyz.launcel.common.ensure.Predict;
 import xyz.launcel.menu.BaseEnum;
 
 import java.util.Map;
@@ -24,7 +24,7 @@ public class IntegerToEnumConverter<T extends BaseEnum> implements Converter<Int
     public T convert(Integer source)
     {
         T t = enumMap.get(source);
-        Me.builder(t).isNull("无法匹配对应的枚举类型");
+        Predict.builder(t).isNull("无法匹配对应的枚举类型");
         return t;
     }
 }

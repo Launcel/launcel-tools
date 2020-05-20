@@ -16,6 +16,15 @@ public final class StringUtils
 
     private static final Random RANDOM = new Random();
 
+    public static String likeString(final String str)
+    {
+        if (isBlank(str))
+        {
+            return null;
+        }
+        return "%".concat(str).concat("%");
+    }
+
     public static int indexOf(final CharSequence cs, final CharSequence searchChar, final int start)
     {
         return cs.toString().indexOf(searchChar.toString(), start);
@@ -106,7 +115,8 @@ public final class StringUtils
         if (count == 0)
         {
             return "";
-        } else if (count < 0)
+        }
+        else if (count < 0)
         {
             throw new SystemException("0028");
         }
@@ -120,18 +130,21 @@ public final class StringUtils
             if (chars != null)
             {
                 end = chars.length;
-            } else
+            }
+            else
             {
                 if (!letters && !numbers)
                 {
                     end = Integer.MAX_VALUE;
-                } else
+                }
+                else
                 {
                     end = 'z' + 1;
                     start = ' ';
                 }
             }
-        } else
+        }
+        else
         {
             if (end <= start)
             {
@@ -148,7 +161,8 @@ public final class StringUtils
             if (chars == null)
             {
                 ch = (char) (random.nextInt(gap) + start);
-            } else
+            }
+            else
             {
                 ch = chars[random.nextInt(gap) + start];
             }
@@ -168,7 +182,8 @@ public final class StringUtils
                 count--;
                 buffer[count] = (char) (55296 + random.nextInt(128));
                 continue;
-            } else if (ch >= 55296 && ch <= 56191)
+            }
+            else if (ch >= 55296 && ch <= 56191)
             {
                 if (count == 0)
                 {
@@ -180,7 +195,8 @@ public final class StringUtils
                 count--;
                 buffer[count] = ch;
                 continue;
-            } else if (ch >= 56192 && ch <= 56319)
+            }
+            else if (ch >= 56192 && ch <= 56319)
             {
                 count++;
                 continue;

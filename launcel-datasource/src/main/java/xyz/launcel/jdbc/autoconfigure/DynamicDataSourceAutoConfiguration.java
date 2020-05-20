@@ -26,14 +26,12 @@ import xyz.launcel.jdbc.aspejct.DataSourceSwitchAspect;
 import xyz.launcel.jdbc.holder.DataSourcePropertiesBinderTool;
 import xyz.launcel.jdbc.holder.DynamicDataSource;
 import xyz.launcel.jdbc.holder.MultipleDataSourceRegistryTool;
-import xyz.launcel.jdbc.interceptor.PageInterceptor;
+import xyz.launcel.jdbc.interceptor.XYZPageInterceptor;
 import xyz.launcel.log.Log;
 
 import javax.inject.Named;
 import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 //import xyz.launcel.aspejct.ServerAspejct;
@@ -45,7 +43,7 @@ import java.util.Map;
 //@EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistryPostProcessor, EnvironmentAware
 {
-    private DataSourcePropertiesBinderTool binderFacory = new DataSourcePropertiesBinderTool();
+    private final DataSourcePropertiesBinderTool binderFacory = new DataSourcePropertiesBinderTool();
 
     @Override
     public void setEnvironment(@NonNull Environment environment)
@@ -98,13 +96,7 @@ public class DynamicDataSourceAutoConfiguration implements BeanDefinitionRegistr
         sqlSessionFactory.setConfigLocation(resourceLoader.getResource("classpath:mybatis/mybatis-config.xml"));
         sqlSessionFactory.setTypeAliasesPackage(binderFacory.getDynamicMybatisPropertie().getAliasesPackage());
         sqlSessionFactory.setMapperLocations(resourceLoader.getResources(binderFacory.getDynamicMybatisPropertie().getMapperResource()));
-        List<Interceptor> interceptors = new ArrayList<>(2);
-        interceptors.add(new PageInterceptor());
-        //        if (binderFacory.debugSql())
-        //        {
-        //            interceptors.add(new ParamInterceptor());
-        //        }
-        sqlSessionFactory.setPlugins((Interceptor[]) interceptors.toArray());
+        sqlSessionFactory.setPlugins(new Interceptor[]{new XYZPageInterceptor()});
         return sqlSessionFactory.getObject();
     }
 

@@ -1,4 +1,4 @@
-package xyz.launcel.redis.support;
+package xyz.launcel.redis.support.lock;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -14,4 +14,6 @@ public @interface Lock
     String body();
 
     long time(); // 毫秒级别
+
+    TimeUnit unit() default TimeUnit.NANO;
 }

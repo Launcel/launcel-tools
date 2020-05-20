@@ -1,11 +1,11 @@
-package xyz.launcel.redis.support;
+package xyz.launcel.redis.support.lock;
 
-
-import xyz.launcel.common.ensure.Me;
+import xyz.launcel.common.ensure.Predict;
+import xyz.launcel.redis.support.RedisUtils;
 
 import java.lang.reflect.Method;
 
-public abstract class RedisLock<T>
+public abstract class RedisSync<T>
 {
     private String key;
     private long   time;
@@ -21,7 +21,7 @@ public abstract class RedisLock<T>
 
     protected abstract T apply();
 
-    public RedisLock()
+    public RedisSync()
     {
         init();
         work();
@@ -32,13 +32,13 @@ public abstract class RedisLock<T>
         try
         {
             Method keyMethod = getClass().getMethod("key");
-            Me.builder(keyMethod).isNull("找不到 body 方法");
+            Predict.builder(keyMethod).isNull("找不到 key 方法");
 
             Lock lock = keyMethod.getAnnotation(Lock.class);
-            Me.builder(lock).isNull("Lock 加锁注解不存在");
-            Me.builder(lock.body()).isBlank("Lock 加锁的body不存在");
-            Me.builder(lock.time()).ltOrEq(0L).isTrue("Lock 加锁的失效时间不能设置为永久或者不能为0");
-            Me.builder(key()).isBlank("加锁的key不存在");
+            Predict.builder(lock).isNull("Lock 加锁注解不存在");
+            Predict.builder(lock.body()).isBlank("Lock 加锁的 body 不存在");
+            Predict.builder(lock.time()).ltOrEq(0L).isTrue("Lock 加锁的失效时间不能设置为永久或者不能为0");
+            Predict.builder(key()).isBlank("加锁的 key 不存在");
 
             key = lock.body().concat(key());
             time = lock.time() * 1000000;

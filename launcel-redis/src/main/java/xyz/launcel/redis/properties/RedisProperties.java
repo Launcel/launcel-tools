@@ -55,6 +55,10 @@ public class RedisProperties
         {
             return "";
         }
+        if (InnerRedisProperties.prefixKey.endsWith(":"))
+        {
+            return InnerRedisProperties.prefixKey;
+        }
         return InnerRedisProperties.prefixKey.concat(":");
     }
 

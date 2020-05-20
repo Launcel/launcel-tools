@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.var;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import xyz.launcel.common.ensure.Me;
+import xyz.launcel.common.ensure.Predict;
 import xyz.launcel.common.exception.ExceptionFactory;
 import xyz.launcel.common.utils.StringUtils;
 import xyz.launcel.webkit.properties.WebTokenProperties;
@@ -52,7 +52,7 @@ public abstract class BaseController
             ExceptionFactory.create("0402");
         }
         var str = getRequest().getHeader(name);
-        Me.builder(str).isEmpty("0403");
+        Predict.builder(str).isEmpty("0403");
         return str;
     }
 }

@@ -32,7 +32,7 @@ public class TimeFormatUtil
         }
         catch (ParseException e)
         {
-            e.printStackTrace();
+            Log.error("error = ", e.getCause());
             throw new SystemException("0029");
         }
     }
@@ -280,11 +280,12 @@ public class TimeFormatUtil
         if (time2 >= time1)
         {
             diff = time1 - time2;
+            diff = diff / 1000;
         }
-        day = diff / (24 * 60 * 60 * 1000);
-        hour = (diff / (60 * 60 * 1000) - day * 24);
-        min = ((diff / (60 * 1000)) - day * 24 * 60 - hour * 60);
-        sec = (diff / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - min * 60);
+        day = diff / (24 * 60 * 60);
+        hour = (diff / (60 * 60) - day * 24);
+        min = ((diff / (60)) - day * 24 * 60 - hour * 60);
+        sec = (diff - day * 24 * 60 * 60 - hour * 60 * 60 - min * 60);
 
         return new long[]{day, hour, min, sec};
     }
@@ -359,7 +360,8 @@ public class TimeFormatUtil
 
         Calendar beginGC;
         Calendar endGC;
-        var      list = new ArrayList<String>();
+
+        var list = new ArrayList<String>();
 
         try
         {
@@ -386,7 +388,7 @@ public class TimeFormatUtil
         }
         catch (Exception e)
         {
-            Log.error("error={}", e.getCause());
+            Log.error("error = ", e.getCause());
         }
         return null;
     }

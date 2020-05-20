@@ -27,9 +27,7 @@ public enum BatchType implements Batch
                 public <T> int execute(T model, BaseDao mapper)
                 {
                     if (!(model instanceof Integer))
-                    {
-                        throw new BusinessException("参数类型错误");
-                    }
+                    { throw new BusinessException("参数类型错误"); }
                     return mapper.delete((Integer) model);
                 }
             }

@@ -4,7 +4,7 @@ import lombok.var;
 import org.springframework.lang.NonNull;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.launcel.annotation.ToolsClass;
-import xyz.launcel.common.ensure.Me;
+import xyz.launcel.common.ensure.Predict;
 import xyz.launcel.common.exception.BusinessException;
 import xyz.launcel.common.exception.ExceptionFactory;
 import xyz.launcel.common.utils.StringUtils;
@@ -76,8 +76,8 @@ public class UploadLocalUtil
 
     private static void checkSize(Long size)
     {
-        Me.builder(size).lt(uploadConfig.getMinSize()).isTrue("0412");
-        Me.builder(size).gt(uploadConfig.getMaxSize()).isTrue("0413");
+        Predict.builder(size).lt(uploadConfig.getMinSize()).isTrue("0412");
+        Predict.builder(size).gt(uploadConfig.getMaxSize()).isTrue("0413");
     }
 
     /**
@@ -89,7 +89,7 @@ public class UploadLocalUtil
     {
         //        InputStream in = file.getInputStream();
         var b = new byte[4];
-        Me.builder(in).isNull("0414");
+        Predict.builder(in).isNull("0414");
         if (in.read(b, 0, b.length) < 4)
         {
             ExceptionFactory.create("0412");
@@ -115,7 +115,7 @@ public class UploadLocalUtil
     private static String getExt(String originalName)
     {
         int index = originalName.lastIndexOf(".");
-        Me.builder(index).ltOrEq(0).isTrue("0414");
+        Predict.builder(index).ltOrEq(0).isTrue("0414");
         var ext = originalName.substring(index + 1);
         checkFile(ext);
         return ext;
@@ -123,7 +123,7 @@ public class UploadLocalUtil
 
     private static void checkFile(String ext)
     {
-        Me.builder(uploadConfig.getFileType().contains(ext.toLowerCase())).isFalse("0415");
+        Predict.builder(uploadConfig.getFileType().contains(ext.toLowerCase())).isFalse("0415");
     }
 
     private static String getNewName(String oldName)

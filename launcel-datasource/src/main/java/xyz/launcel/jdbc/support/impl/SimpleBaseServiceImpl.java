@@ -18,9 +18,7 @@ public abstract class SimpleBaseServiceImpl extends BaseServiceImpl implements S
 
         List<T> list = getMapper().queryPage(o, pageQuery);
         if (page.getTotal() == 0 || CollectionUtils.isEmpty(list))
-        {
-            return new Page<>();
-        }
+        { return new Page<>(); }
         return new Page<>(page.getTotal(), list, pageQuery.getPageNum(), page.getPageSize());
     }
 }

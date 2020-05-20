@@ -6,22 +6,22 @@ import java.util.Objects;
 
 public class MathSet
 {
-    protected Integer set(Integer integer)
+    protected Integer set(final Integer integer)
     {
         return Objects.nonNull(integer) ? integer : 0;
     }
 
-    private BigDecimal set(BigDecimal bigDecimal)
+    private BigDecimal set(final BigDecimal bigDecimal)
     {
         return Objects.nonNull(bigDecimal) ? bigDecimal : BigDecimal.ZERO;
     }
 
-    private BigInteger set(BigInteger bigInteger)
+    private BigInteger set(final BigInteger bigInteger)
     {
         return Objects.nonNull(bigInteger) ? bigInteger : BigInteger.ZERO;
     }
 
-    protected Long set(Long l)
+    protected Long set(final Long l)
     {
         return Objects.nonNull(l) ? l : 0L;
     }

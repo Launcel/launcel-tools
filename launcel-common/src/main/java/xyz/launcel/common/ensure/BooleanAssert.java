@@ -1,6 +1,9 @@
 package xyz.launcel.common.ensure;
 
 import xyz.launcel.common.exception.ExceptionFactory;
+import xyz.launcel.common.utils.StringUtils;
+
+import java.util.Objects;
 
 public class BooleanAssert
 {
@@ -13,7 +16,7 @@ public class BooleanAssert
 
     public void isTrue(String message)
     {
-        if (flat)
+        if (Objects.nonNull(flat) && flat)
         {
             ExceptionFactory.create(message);
         }
@@ -21,7 +24,7 @@ public class BooleanAssert
 
     public void isFalse(String message)
     {
-        if (!flat)
+        if (Objects.nonNull(flat) && !flat)
         {
             ExceptionFactory.create(message);
         }

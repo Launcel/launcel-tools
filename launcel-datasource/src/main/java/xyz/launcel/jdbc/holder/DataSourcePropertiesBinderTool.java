@@ -27,11 +27,12 @@ public class DataSourcePropertiesBinderTool
 {
 
     private Map<String, MybatisProperties.MybatisPropertie> multipleMybatis = Maps.newHashMap();
-    private DataSourceProperties                            dataSourceProperties;
 
+    private DataSourceProperties               dataSourceProperties;
     /**********************************************************************/
     private MybatisProperties.MybatisPropertie dynamicMybatisPropertie;
-    private List<DataSourceConfigMap>          dynamicDataSourceConfigMapList = Lists.newArrayList();
+
+    private List<DataSourceConfigMap> dynamicDataSourceConfigMapList = Lists.newArrayList();
 
     private boolean isDebugSql = false;
 
@@ -39,9 +40,7 @@ public class DataSourcePropertiesBinderTool
     {
         dataSourceProperties = binder.bind(SessionFactoryConstant.dataSourceConfigPrefix, Bindable.of(DataSourceProperties.class)).get();
         if (Objects.nonNull(dataSourceProperties) && dataSourceProperties.getUseDynamicDataSource())
-        {
-            binderDynamicDataSource(dataSourceProperties);
-        }
+        { binderDynamicDataSource(dataSourceProperties); }
     }
 
     private void binderDynamicDataSource(DataSourceProperties dataSourceProperties)
@@ -52,22 +51,16 @@ public class DataSourcePropertiesBinderTool
             var                                      dataSource = new HikariDataSource(main.getHikariConfig());
             dynamicDataSourceConfigMapList.add(new DataSourceConfigMap(main.getName(), main.getEnableTransactal(), main.getRoleDataSource(), dataSource));
             if (main.getRoleDataSource())
-            {
-                RoleDataSourceHolder.setDataSource(dataSource);
-            }
-//            isDebugSql(dataSourceProperties.getMain());
+            { RoleDataSourceHolder.setDataSource(dataSource); }
         }
         if (CollectionUtils.isNotEmpty(dataSourceProperties.getOthers()))
         {
             dataSourceProperties.getOthers().forEach(other -> {
-//                isDebugSql(other);
                 var dataSource = new HikariDataSource(other.getHikariConfig());
                 dynamicDataSourceConfigMapList.add(
                         new DataSourceConfigMap(other.getName(), other.getEnableTransactal(), other.getRoleDataSource(), dataSource));
                 if (other.getRoleDataSource())
-                {
-                    RoleDataSourceHolder.setDataSource(dataSource);
-                }
+                { RoleDataSourceHolder.setDataSource(dataSource); }
             });
         }
     }
@@ -76,9 +69,7 @@ public class DataSourcePropertiesBinderTool
     {
         var mybatisProperties = binder.bind(SessionFactoryConstant.mybatisConfigPrefix, Bindable.of(MybatisProperties.class)).get();
         if (Objects.isNull(mybatisProperties) || Objects.isNull(mybatisProperties.getMain()) || CollectionUtils.isEmpty(mybatisProperties.getOthers()))
-        {
-            System.exit(-1);
-        }
+        { System.exit(-1); }
         if (dataSourceProperties.getUseDynamicDataSource())
         {
             binderDynamicMybatisPropertie(mybatisProperties);
@@ -96,21 +87,7 @@ public class DataSourcePropertiesBinderTool
     {
         multipleMybatis.put(mybatisProperties.getMain().getDataSourceName(), mybatisProperties.getMain());
         if (CollectionUtils.isNotEmpty(mybatisProperties.getOthers()))
-        {
-            mybatisProperties.getOthers().forEach(mybatisPropertie -> multipleMybatis.put(mybatisPropertie.getDataSourceName(), mybatisPropertie));
-        }
+        { mybatisProperties.getOthers().forEach(mybatisPropertie -> multipleMybatis.put(mybatisPropertie.getDataSourceName(), mybatisPropertie)); }
     }
 
-    private void isDebugSql(DataSourceProperties.DataSourcePropertie dataSourcePropertie)
-    {
-        if (!isDebugSql && dataSourcePropertie.getDebugSql())
-        {
-            isDebugSql = true;
-        }
-    }
-
-    public Boolean debugSql()
-    {
-        return isDebugSql;
-    }
 }

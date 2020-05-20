@@ -3,7 +3,7 @@ package xyz.launcel.common.ensure;
 import java.util.Collection;
 import java.util.Map;
 
-public interface Me
+public interface Predict
 {
     static BooleanAssert builder(Boolean flat)
     {
