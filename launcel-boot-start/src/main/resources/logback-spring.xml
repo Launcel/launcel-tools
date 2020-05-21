@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
 
-    <springProfile scope="context" name="filePath" source="log.file.path"/>
-    <springProfile scope="context" name="fileName" source="log.file.name"/>
-    <springProfile scope="context" name="level" source="log.level"/>
+    <springProperty scope="context" name="filePath" source="log.file.path"/>
+    <springProperty scope="context" name="fileName" source="log.file.name"/>
+    <springProperty scope="context" name="level" source="log.level"/>
 
     <!--Console append-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
