@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class RedisUtils
 {
     private static RedisOperation operation;
-    private static long           expireTime = RedisProperties.getExpTime();
+    private static long           expireTime;
 
 
     public static String getNewKey(String key)
@@ -145,8 +145,9 @@ public final class RedisUtils
         }
     }
 
-    public static void afterPropertiesSet(RedisOperation operation)
+    public static void afterPropertiesSet(RedisOperation operation, long expireTime)
     {
         RedisUtils.operation = operation;
+        RedisUtils.expireTime = expireTime;
     }
 }

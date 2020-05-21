@@ -33,12 +33,145 @@ import xyz.launcel.redis.support.serializer.KeyRedisSerializer;
 import javax.inject.Named;
 import java.time.Duration;
 
+//@EnableCaching
+//@Configuration
+//@EnableConfigurationProperties(value = RedisProperties.class)
+//public class RedisAutoConfiguration extends CachingConfigurerSupport
+//{
+//
+//    private final RedisProperties        properties;
+//    private       RedisTemplates         redisTemplates;
+//    private       RedisConnectionFactory redisConnectionFactory;
+//
+//    public RedisAutoConfiguration(RedisProperties redisProperties)
+//    {
+//        Log.info("init RedisAutoConfiguration....");
+//        this.properties = redisProperties;
+//    }
+//
+//    @PostConstruct
+//    public void init()
+//    {
+//        Log.error(properties.toString());
+//        initRedisConnectionFactory();
+//        initRedisTemplates();
+//        RedisUtils.afterPropertiesSet(redisTemplates, properties.getExptime());
+//    }
+//
+//    private void initRedisConnectionFactory()
+//    {
+//        Log.info("init redisConnectionFactory...");
+//        redisConnectionFactory = new LettuceConnectionFactory(sinagleConfiguration(), lettucePoolClient());
+//    }
+//
+//    private void initRedisTemplates()
+//    {
+//        Log.info("init redisTemplate...");
+//        redisTemplates = new RedisTemplates();
+//        redisTemplates.setConnectionFactory(redisConnectionFactory);
+//        try
+//        {
+//            var clazz           = Class.forName(properties.getValueSerializer());
+//            var valueSerializer = (RedisSerializer<?>) clazz.getDeclaredConstructor().newInstance();
+//            redisTemplates.setValueSerializer(valueSerializer);
+//
+//            var hasKeyClazz      = Class.forName(properties.getHashKeySerializer());
+//            var hasKeySerializer = (RedisSerializer<?>) hasKeyClazz.getDeclaredConstructor().newInstance();
+//            redisTemplates.setHashKeySerializer(hasKeySerializer);
+//
+//            var keySerializer = new KeyRedisSerializer();
+//            redisTemplates.setKeySerializer(keySerializer);
+//            redisTemplates.afterPropertiesSet();
+//        }
+//        catch (ReflectiveOperationException e)
+//        {
+//            Log.warn("redis value serializer init error, there will be use jdk serializer");
+//        }
+//    }
+//
+//    private GenericObjectPoolConfig genericObjectPoolConfig()
+//    {
+//        var poolConfig = new GenericObjectPoolConfig();
+//        poolConfig.setMaxIdle(properties.getMaxIdle());
+//        poolConfig.setMaxTotal(properties.getMaxTotal());
+//        poolConfig.setMinIdle(properties.getMinIdle());
+//        poolConfig.setMaxWaitMillis(properties.getMaxWait());
+//        return poolConfig;
+//    }
+//
+//    private RedisStandaloneConfiguration sinagleConfiguration()
+//    {
+//        var redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+//        redisStandaloneConfiguration.setDatabase(properties.getDatabase());
+//        redisStandaloneConfiguration.setHostName(properties.getHost());
+//        redisStandaloneConfiguration.setPassword(RedisPassword.of(Base64.decode(properties.getPassword())));
+//        redisStandaloneConfiguration.setPort(properties.getPort());
+//        return redisStandaloneConfiguration;
+//    }
+//
+//    private LettucePoolingClientConfiguration lettucePoolClient()
+//    {
+//        return LettucePoolingClientConfiguration.builder()
+//                .commandTimeout(Duration.ofMillis(properties.getTimeout()))
+//                .poolConfig(genericObjectPoolConfig())
+//                .build();
+//    }
+//
+//    @Primary
+//    @Bean(name = "redisOperation")
+//    public RedisOperation redisOperation()
+//    {
+//        return redisTemplates;
+//    }
+//
+//    @Primary
+//    @Bean(value = "cacheManager")
+//    public CacheManager cacheManager()
+//    {
+//        Log.info("init cacheManager...");
+//        var redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(1));
+//        return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory)).cacheDefaults(redisCacheConfiguration).build();
+//    }
+//
+//    @Bean(value = "errorHandler")
+//    @Override
+//    public CacheErrorHandler errorHandler()
+//    {
+//        Log.info("init errorHandler...");
+//        return new CacheErrorHandler()
+//        {
+//            @Override
+//            public void handleCacheGetError(@NonNull RuntimeException e, @NonNull Cache cache, @NonNull Object key)
+//            {
+//                Log.error("redis异常：key=[{}]", key.toString());
+//            }
+//
+//            @Override
+//            public void handleCachePutError(@NonNull RuntimeException e, @NonNull Cache cache, @NonNull Object key, Object value)
+//            {
+//                Log.error("redis异常：key=[{}]", key.toString());
+//            }
+//
+//            @Override
+//            public void handleCacheEvictError(@NonNull RuntimeException e, @NonNull Cache cache, @NonNull Object key)
+//            {
+//                Log.error("redis异常：key=[{}]", key.toString());
+//            }
+//
+//            @Override
+//            public void handleCacheClearError(@NonNull RuntimeException e, @NonNull Cache cache)
+//            {
+//                Log.error("redis异常：", e.getMessage());
+//            }
+//        };
+//    }
+//}
+
 @EnableCaching
 @Configuration
 @EnableConfigurationProperties(value = RedisProperties.class)
 public class RedisAutoConfiguration extends CachingConfigurerSupport
 {
-
     private final RedisProperties properties;
 
     public RedisAutoConfiguration(RedisProperties redisProperties)
@@ -108,12 +241,13 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport
         {
             Log.warn("redis value serializer init error, there will be use jdk serializer");
         }
-        RedisUtils.afterPropertiesSet(template);
+        RedisUtils.afterPropertiesSet(template, properties.getExptime());
         return template;
     }
 
     @Primary
     @Bean(value = "cacheManager")
+    @ConditionalOnBean(name = "redisConnectionFactory")
     public CacheManager cacheManager(@NonNull @Named("redisConnectionFactory") final RedisConnectionFactory redisConnectionFactory)
     {
         Log.info("init cacheManager...");

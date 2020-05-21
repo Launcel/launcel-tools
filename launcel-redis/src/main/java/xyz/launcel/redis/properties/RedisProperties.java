@@ -37,12 +37,6 @@ public class RedisProperties
     private String  modelName;
     private String  hashKeySerializer = "org.springframework.data.redis.serializer.StringRedisSerializer";
 
-    public void setExptime(Long exptime)
-    {
-        this.exptime = exptime;
-        InnerRedisProperties.exptime = this.exptime;
-    }
-
     public void setModelName(String modelName)
     {
         this.modelName = modelName;
@@ -62,15 +56,14 @@ public class RedisProperties
         return InnerRedisProperties.prefixKey.concat(":");
     }
 
-    public static Long getExpTime()
+    @Override
+    public String toString()
     {
-        return InnerRedisProperties.exptime;
+        return "RedisProperties{" + "host='" + host + '\'' + ", password='" + password + '\'' + ", port=" + port + ", database=" + database + ", minIdle=" + minIdle + ", maxIdle=" + maxIdle + ", maxTotal=" + maxTotal + ", maxActive=" + maxActive + ", maxWait=" + maxWait + ", exptime=" + exptime + ", timeout=" + timeout + ", valueSerializer='" + valueSerializer + '\'' + ", modelName='" + modelName + '\'' + ", hashKeySerializer='" + hashKeySerializer + '\'' + '}';
     }
-
 
     static class InnerRedisProperties
     {
-        private static Long   exptime = 600L;
         private static String prefixKey;
     }
 }
