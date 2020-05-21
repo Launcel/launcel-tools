@@ -66,6 +66,18 @@
         <appender-ref ref="console"/>
     </logger>
 
+    <logger name="org" additivity="false" level="ERROR">
+        <appender-ref ref="infoFile"/>
+        <appender-ref ref="errorFile"/>
+        <appender-ref ref="console"/>
+    </logger>
+
+    <logger name="io" additivity="false" level="ERROR">
+        <appender-ref ref="infoFile"/>
+        <appender-ref ref="errorFile"/>
+        <appender-ref ref="console"/>
+    </logger>
+
     <!--springProfile-->
     <springProfile name="dev,qa,loacl">
         <root level="DEBUG">

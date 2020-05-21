@@ -44,7 +44,7 @@ public interface StartUp
             var addr = InetAddress.getLocalHost();
             var ip   = addr.getHostAddress();
             log += "\n\treal url is : \thttp://{}";
-            Log.error(log, port, port, ip + ":" + port);
+            Log.warn(log, port, port, ip + ":" + port);
         }
         catch (UnknownHostException e)
         {
