@@ -1,10 +1,7 @@
 package xyz.launcel.jdbc.properties;
 
-import lombok.Getter;
-import lombok.Setter;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-@Getter
-@Setter
-//@ConfigurationProperties(prefix = "use.dynamic.data-source")
+@EnableConfigurationProperties(value = {DataSourceProperties.class, MybatisProperties.class})
 public class DynamicDataSourceSwitchProperties
 {}
