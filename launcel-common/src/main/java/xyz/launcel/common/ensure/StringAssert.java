@@ -51,7 +51,7 @@ public class StringAssert
         }
     }
 
-    public BooleanAssert equal(String str)
+    public BooleanAssert eq(String str)
     {
         return new BooleanAssert(org.apache.commons.lang3.StringUtils.equals(flat, str));
     }

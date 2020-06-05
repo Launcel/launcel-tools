@@ -3,16 +3,17 @@ package xyz.launcel.common.support;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ApplicationContextEvent;
 import org.springframework.lang.NonNull;
+import xyz.launcel.common.exception.ExceptionFactory;
 import xyz.launcel.common.utils.CollectionUtils;
 import xyz.launcel.log.Log;
 
 import java.util.Collections;
 import java.util.List;
 
-public abstract class BeanAfterExecuteEvent implements ApplicationListener<ApplicationContextEvent>
+public interface BeanAfterExecuteEvent extends ApplicationListener<ApplicationContextEvent>
 {
     @Override
-    public void onApplicationEvent(@NonNull ApplicationContextEvent event)
+    default void onApplicationEvent(@NonNull ApplicationContextEvent event)
     {
         List<String> beanList = getDependBean();
         try
@@ -26,7 +27,7 @@ public abstract class BeanAfterExecuteEvent implements ApplicationListener<Appli
             {
                 if (!event.getApplicationContext().containsBean(s))
                 {
-                    return;
+                    ExceptionFactory.create(s + " bean is not found!!!");
                 }
             }
             afterExecute();
@@ -37,10 +38,10 @@ public abstract class BeanAfterExecuteEvent implements ApplicationListener<Appli
         }
     }
 
-    protected List<String> getDependBean()
+    default List<String> getDependBean()
     {
         return Collections.emptyList();
     }
 
-    public abstract void afterExecute() throws Exception;
+    void afterExecute() throws Exception;
 }

@@ -4,13 +4,12 @@ import xyz.launcel.common.exception.ExceptionFactory;
 
 import java.util.Objects;
 
-public class ComparableAssert<T> extends ObjectAssert
+public class ComparableAssert<T>
 {
     private final Comparable<T> comparable;
 
     ComparableAssert(Comparable<T> comparable)
     {
-        super(comparable);
         this.comparable = comparable;
     }
 

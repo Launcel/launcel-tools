@@ -30,7 +30,7 @@ public class ObjectAssert
         }
     }
 
-    public BooleanAssert eaual(Object o)
+    public BooleanAssert eq(Object o)
     {
         return new BooleanAssert(Objects.equals(o, flat));
     }
