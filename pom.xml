@@ -2,20 +2,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>xyz.launcel</groupId>
-    <artifactId>launcel-parent</artifactId>
+    <groupId>xyz.x</groupId>
+    <artifactId>x-parent</artifactId>
     <version>1.4</version>
     <packaging>pom</packaging>
     <modules>
-        <!--<module>launcel-annotation</module>-->
-        <module>launcel-webkit</module>
-        <module>launcel-datasource</module>
-        <module>launcel-redis</module>
-        <module>launcel-boot-start</module>
-        <module>launcel-security</module>
-        <module>launcel-test</module>
-        <module>launcel-common</module>
-        <module>launcel-dependences</module>
+        <module>x-annotation</module>
+        <module>x-webkit</module>
+        <module>x-datasource</module>
+        <module>x-redis</module>
+        <module>x-boot-start</module>
+        <module>x-security</module>
+        <module>x-test</module>
+        <module>x-common</module>
+        <module>x-dependences</module>
     </modules>
 
 
@@ -46,8 +46,8 @@
 
         <dependencies>
             <dependency>
-                <groupId>xyz.launcel</groupId>
-                <artifactId>launcel-dependences</artifactId>
+                <groupId>xyz.x</groupId>
+                <artifactId>x-dependences</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>

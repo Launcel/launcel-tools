@@ -1,13 +1,13 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>launcel-parent</artifactId>
-        <groupId>xyz.launcel</groupId>
+        <artifactId>x-parent</artifactId>
+        <groupId>xyz.x</groupId>
         <version>1.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>launcel-security</artifactId>
+    <artifactId>x-security</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -43,8 +43,8 @@
             <artifactId>mybatis</artifactId>
         </dependency>
         <dependency>
-            <groupId>xyz.launcel</groupId>
-            <artifactId>launcel-datasource</artifactId>
+            <groupId>xyz.x</groupId>
+            <artifactId>x-datasource</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>

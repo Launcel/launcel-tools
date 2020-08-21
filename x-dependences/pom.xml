@@ -3,8 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>xyz.launcel</groupId>
-    <artifactId>launcel-dependences</artifactId>
+    <groupId>xyz.x</groupId>
+    <artifactId>x-dependences</artifactId>
     <version>1.4</version>
     <packaging>pom</packaging>
 
@@ -30,9 +30,9 @@
         <dependencies>
 
             <dependency>
-                <groupId>xyz.launcel</groupId>
-                <artifactId>launcel-annotation</artifactId>
-                <version>1.3</version>
+                <groupId>xyz.x</groupId>
+                <artifactId>x-annotation</artifactId>
+                <version>1.4</version>
             </dependency>
 
             <dependency>
